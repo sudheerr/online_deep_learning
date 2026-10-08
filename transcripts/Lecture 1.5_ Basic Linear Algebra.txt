@@ -1,0 +1,223 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So in this segment we'll talk about the basics of linear algebra.
+
+Um, I'm sure many of you have taken a linear algebra class. Uh, you have learned a lot about the two metric interpretations of, uh, linear algebra.
+
+Um, you might have even sort of learned a little bit about sort of the, the basics of sort of notation, the computation behind it.
+
+Um, now, linear algebra for deep learning, uh, serves one very simple purpose.
+
+And it is linear algebra. Uh, linear algebra is used to sort of express many mathematical operations all at once.
+
+Uh, at its, at its very core, it's just linear algebra as use in deep learning.
+
+It's a language that allows us to sort of very compactly write both in code and in mathematical notation.
+
+Lots of computation all at once.
+
+And in this segment we'll simply just look at sort of what is the basic notation that we'll use to express all of these operations.
+
+And we'll start with, uh, the vector. Uh, a vector you can think of is just a one dimensional array of numbers.
+
+Um, if you're familiar with Python, it's just a list of numbers.
+
+Um, and the basic notation of a vector is a bold lowercase letter.
+
+In this case, it's v and the elements of a vector are enumerated.
+
+V1 to vn uh vn. And so what we can do with this basic vector is we can start to sort of add them together.
+
+And so adding two vectors of the same size together will result in a vector where each element is the addition of the first and the second element.
+
+The same works for subtraction here. Uh, for multiplication and for division.
+
+Now, one word under notation. In this class, we will always denote elementwise multiplication by the dot.
+
+And then if we look at matrix matrix matrix vector multiplication we will denote this without a dot.
+
+Um we'll also have sometimes we'll need division.
+
+And there we'll either use the division sign or we'll just use uh fractional notation to denote division of vectors.
+
+And again that's always refers to Elementwise division.
+
+Now here you can already see this is a great example that shows you how you can express many mathematical operations in a very compact notation.
+
+So we can have sort of n values where n can be thousands, it can be millions of values.
+
+We can subtract sort of millions of values from millions of values with just a very, very simple notation here.
+
+We want v minus w. Right now.
+
+The other basic concept I will use is we'll use matrices.
+
+And so you can think of the matrix just as a 2D array of numbers.
+
+Um, so the vector is one dimensional. The matrix is two dimensional.
+
+And we'll often refer to sort of an entry like this.
+
+This is a row. And then this here is a column.
+
+The basic operation we can do with matrices is we can transpose them, and transposing a matrix simply just mirrors it along its diagonal.
+
+And so it will take elements up here. Maritime.
+
+So down here we'll swap these two elements here.
+
+And so on. Now we can also transpose a vector.
+
+Now transpose in a vector will essentially convert, uh, column vector.
+
+So this here looks like an ancient Greek column.
+
+That's why it's called a column vector into a row vector, where the numbers are sort of arranged one behind the other.
+
+Now, this will become important later when we talk about, uh, gradients.
+
+Um, because gradient notation often times uses, uh, row vectors.
+
+Um, and that makes sort of computation and, and sort of the notation behind uh gradients a lot easier.
+
+Now that we have sort of the basics cleared, let's look at some operations.
+
+The first one we'll look at is matrix multiplication.
+
+And so in matrix multiplication we given. Two input matrices A.
+
+And be. And we're trying to produce an output.
+
+See now, one very important, uh, detail here is that.
+
+The number of rows in B needs to match the number of columns in A.
+
+And then what we do is we'll take each row in a.
+
+And then multiply all elements with each column of B and sum them together.
+
+And this is what's expressed here. So for a specific output in C.
+
+We'll take a row in a, we take a column in B and then we'll sum them.
+
+We'll multiply each pair of elements and sum them up all together.
+
+Now here's a simple example of this. Um.
+
+We can take a two by, uh, four matrix, a four by three matrix, and then the result will be a two by three matrix because.
+
+We have. Two input rows.
+
+And three sort of, uh, columns in the, in the second input.
+
+And then the four here is the one that needs to match. And so the two goes to the output here, the three goes to the output over here.
+
+And then for each element. We'll take.
+
+A row in a and a column in B.
+
+Do elementwise multiplication and sum it all up. Now we can do the same thing.
+
+Um, weight matrices and vectors. So if we have a matrix M.
+
+And a vector. V, and by default vectors are column vectors.
+
+We can multiply them and we'll get another vector.
+
+As an output. We can do the same thing with, um, if we look at row vectors.
+
+But now the row vector. Needs to be multiplied in front.
+
+So we transpose. It's a common front and the output is again.
+
+Uh, comic hero Victor. Right.
+
+So let's basic matrix matrix multiplication. Uh, a special case of this is, uh, the dot product or the inner product where we are taking.
+
+Zero vector and we're multiplying it.
+
+With a column vector. W and the output is just a scalar.
+
+So it's sort of a one by one matrix, um, which is just a scalar.
+
+All right. Um, we can do the opposite so we can take.
+
+Uh column. Vector v, multiply it by.
+
+A row vector W transpose. And now the output is no longer just a single value.
+
+It is actually a matrix. That is sort of to say it has the dimensions after two vectors.
+
+Now, other things we'll do in class, uh, is we'll use Euclidean norms or norms of vectors and matrices.
+
+Um, so for vectors the norm is usually the Euclidean norm, which is the sum of its squares.
+
+And then the square root of it. Um, it has a very nice geometric interpretation if you think of vectors as sort of directions in space.
+
+Um, then sort of the norm is just the length of this vector in space.
+
+Um, but for most of this class will not look at the geometric interpretation.
+
+We'll really just focus on the computation and what, uh, um, sort of what the computation implies.
+
+And we can also take norms of matrices, uh, that is sometimes, uh, um,
+
+meaningful to look at sort of the inner workings and the weights of neural networks in this case,
+
+um, the norm of a matrix is again, just the sum of its squares, of its elements.
+
+Um, we just sum over both dimensions, both row and column dimensions.
+
+Now, finally, an example, um, of sort of how linear algebra makes our life easier.
+
+And here I have both sort of the mathematical example on the side.
+
+And I'll show you a little bit on the computation that it saves sort of computation to code
+
+that it sort of nicely shortens if you write everything using linear algebra notations.
+
+And we'll start with a very, very basic example. What we do is we'll get as an input a bunch of values a1 to a through n, and then we'll compute.
+
+B, which is A minus the average of all the A's.
+
+All right. So here mu is the mean. So just the average of all the A's.
+
+And we simply just compute p as sort of a minus the mean.
+
+Now if you had to write this down in basic Python, what you will do is you will start to first sort of sum up all the elements which is done here.
+
+There's a for loop over all elements in a. Then to compute the mean, we'll divide this sum by the length of the uh odd number of elements.
+
+And now to construct P we'll simply just go and take the input values from a.
+
+And subtract a mean and construct a vector B out of it. Now in raw Python.
+
+This is actually both pretty annoying to write.
+
+It's also very annoying to read because it's a lot of lines for something that's actually very, very simple.
+
+Um, so if you write this in sort of basic linear algebra notation, uh, we can express the same, uh, the same uh function by taking p.
+
+As a minus the dot product between a and a vector of ones,
+
+and so the dot product between A and a vector of ones is the sum of all the of all the a's, and then divide that sum by the number of elements.
+
+Now does still looks a little bit complicated. Um, so in PyTorch itself, uh, this can be done even easier by simply just calling B.
+
+As a minus a dot mean and a mean will compute the average or the mean of all values,
+
+and we'll just subtract and subtract this from uh from A to get b.
+
+And so this hopefully shows you that the linear algebra, both in terms of coding and in terms such a notation,
+
+really simplifies a lot of, a lot of sort of the computation that is underlying, uh, sort of deep networks.
+
+And so this allows us to write very complex big models with essentially very simple function calls.
+
+And so that's what sort of linear algebra is for deep learning.
+
+Linear algebra is a language to express many operations all at once,
+
+to express very complex computation in very simple code and very simple notation mathematically.
+
+That's it.
+

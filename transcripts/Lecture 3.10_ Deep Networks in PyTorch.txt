@@ -1,0 +1,115 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So we've looked at what a deep network is. We have looked at activation functions that could sort of go into these deep networks.
+
+And in this segment we'll just look at how do we actually code this up in PyTorch.
+
+And so we'll start by importing torch. And any deep network is going to be uh class.
+
+You can call it whatever you want. Uh, the important thing is it needs to inherit from torch and module.
+
+All right. Um, I'll press tab here real quick to to to autocompletion, uh, by copilot.
+
+And I'll go through what each of these lines means. So the very first thing you need to do is you need to call.
+
+Super in it. And so the reason why you call super init is that the torch module internally in its class has certain things it keeps track of.
+
+So whenever you sort of assign, uh, variable of self, the torch and in module will actually do a lot of bookkeeping in the background.
+
+Figure out well is this variable another deep network or another module of this deep network.
+
+And then it will keep track of its parameters. It will keep track of all sorts of other things for you automatically.
+
+And so you always, always need to start.
+
+Your first line in init code is going to be calling super init.
+
+Such a PyTorch can sort of start wrapping all of the other stuff you do, uh, appropriately.
+
+Now the first thing, and the second thing you do is you can start to define your components of your of your network.
+
+Oftentimes you'll define any component that has a parameter inside of in it.
+
+So if your deep network has two linear layers, uh, which is the case here, um, these are defined inside of the init function.
+
+Right. You should never define modules or variables outside of init.
+
+It should always just be all defined in in it. And sometimes you can even define an activation function in here.
+
+Here. We'll do the ReLU activation for now. For linear layers, we'll just use torch and then linear for really we can use torch and then ReLU.
+
+And then we implement in this module. Here we have to implement one more functions will implement in it and will implement forward.
+
+Now forward usually gets sort of an input tensor uh x.
+
+Let's actually annotators. And oftentimes your network will actually output.
+
+A tensor, which you can also annotate. And then inside a Ford.
+
+We'll start to do stuff to this X. We can first feed it sort of first fully connected layer.
+
+We can then feed it through the activation and then through the second, uh, fully connected layer.
+
+And then set off will return it. And so this is a simple network that is linear ReLU linear.
+
+Let's call this real quick. So we'll create a network.
+
+And we can call it with a torch tensor of.
+
+Say one. Right and outcomes.
+
+Another tensor. That's just the transformation of our first fully connected or linear layer that went from one dimension to ten,
+
+then, uh, non-linearity and then one that went down from 10 to 1 again.
+
+Right. The nice thing about all of this is you don't actually need to worry about backward passes.
+
+You don't need to worry about any of the bookkeeping inside of the network.
+
+PyTorch does everything for you. You just define this module.
+
+You define all the components that you want in this module in your init function.
+
+And then we'll define how some of these components sort of interact and and sort of sort of.
+
+Come together. We could modify this.
+
+We could. Half a network.
+
+That takes two inputs x and y. Instead of just having.
+
+One first layer, we'll say it. We'll have one for x, one for y.
+
+And we could run this. For two variables.
+
+And then the output let's say is f c2 of x plus y.
+
+Now if we want to call this network we can give it two parameters.
+
+And again, all we needed to do is we needed to define sort of what happens when we feed data through the network, which is we're going to take X,
+
+we're going to feed it to the first linear layer, then an activation, we'll take Y, feed it to our linear layer and activation.
+
+Then we'll add them together and then sort of feed them through another linear layer to get our result.
+
+If you want to compute. Let's say this is the result of this.
+
+If you want to compute gradients of any of your tensor tensors or any of your, uh, network parameters, you would simply just call or dot backward.
+
+And it automatically computes all the gradients inside of your network,
+
+so it will compute all the gradients of all the parameters of your network itself.
+
+There's no bookkeeping, uh, that you need to do. You just need to call in it.
+
+Define your module. Define your sort of computation graph as you would sort of compute values in any other sort of library.
+
+And then backward is as simple as the backward call of just the linear networks that we looked at in the previous, uh, section.
+
+All right. So that's pretty much it. This is how you define deep networks.
+
+Uh, it's simple computations.
+
+It'll define all your layers up here, and then you'll define you all sort of bring them together in the forward pass in a computation graph.
+
+That's it.
+

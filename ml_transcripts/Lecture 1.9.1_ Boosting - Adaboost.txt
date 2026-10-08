@@ -1,0 +1,654 @@
+♪ (jazz music) ♪
+
+Okay, so let me show you AdaBoost,
+
+sort of a simplified version.
+
+Okay so let's assume that we
+have a training set of size M.
+
+And as I said, we're going to
+put some weights on the points
+
+so that we have a
+distribution corresponding
+
+to our training set.
+
+So initially,
+
+the first distribution, D zero,
+
+is going to be the uniform distribution,
+
+and this corresponds
+
+to weight I equaling one for all I.
+
+So each point is going
+to have a weight, WI,
+
+and we're going to start with
+the uniform distribution,
+
+that corresponds to giving each
+point the same weight, one.
+
+And the distribution is obtained
+
+by dividing
+
+by capital W, which is equal
+to the sum of the weights.
+
+Okay.
+
+Let's set up some notation.
+
+I'm going to let E
+correspond to the error rate.
+
+I'm going to let A
+correspond to the accuracy,
+
+so this is equal to one minus E.
+
+And then I'm going to let
+an important update factor
+
+called beta, this is going to be E over A.
+
+Okay, so concretely,
+
+let's assume that the
+error, E, at every iteration
+
+is 1/2 minus gamma.
+
+Okay, so every time we call A
+and it outputs a classifier,
+
+its error is going to be
+exactly one minus gamma.
+
+It's going to equal one
+minus gamma each time.
+
+This means that beta is
+going to be 1/2 minus gamma
+
+divided by 1/2 plus gamma.
+
+Okay, so all I have left to tell you
+
+is how to update the weights.
+
+So at iteration T,
+
+run A
+
+to obtain
+
+H sub T.
+
+Okay, so we're at the Tth
+iteration of this process,
+
+we run A, we get classifier H sub T,
+
+then what do we do?
+
+Well, for each XI,
+
+such that HT of XI is correct,
+
+we're going to set WI
+new, so the new weight
+
+for point XI is going to be
+beta times the old weight.
+
+Okay, so the weight is going to shrink.
+
+So for points that you get
+correct, that HT gets correct,
+
+its weight is going to go
+down, beta is less than one.
+
+And if HT on XI is incorrect,
+
+we do nothing.
+
+So we'll repeat
+
+for T steps
+
+and output the majority vote
+
+of H one,
+
+H capital T.
+
+So all things being equal,
+
+it's a relatively simple algorithm.
+
+At iteration T, we get hypothesis HT.
+
+For every point where HT is correct,
+
+we decrease its weight
+by a factor of beta,
+
+and for every point where HT is incorrect,
+
+we just leave the weight the same.
+
+So that corresponds to a new distribution
+
+by just dividing by the
+new sum of the weights.
+
+And we do this for capital T steps
+
+and output the majority
+of H one through HT
+
+as our final classifier.
+
+That's the algorithm.
+
+Are there any questions
+about the algorithm
+
+before we analyze it?
+
+Okay.
+
+So the main claim
+
+is that after capital T iterations,
+
+the error of H of a final
+hypothesis, which is the majority,
+
+which equals the majority,
+H one through HT,
+
+is at most E to the minus
+two T gamma squared.
+
+Okay, that's going to be our bound.
+
+So the error of the final hypothesis
+
+is going to go down pretty quickly,
+
+and this implies that if we choose T
+
+to be equal to roughly
+one over gamma squared
+
+log one over epsilon,
+
+then the error
+
+of H final
+
+is going to be at most epsilon.
+
+Okay, so we only need to
+run this boosting procedure,
+
+this AdaBoost procedure,
+for one over gamma squared
+
+log one over epsilon iterations,
+
+and then the error of the final hypothesis
+
+will be at most epsilon.
+
+So this is the main claim,
+
+and this claim is sort of the heart
+
+of the analysis of the boosting algorithm.
+
+Any questions about the
+statement of the claim?
+
+Okay.
+
+Shall we prove it?
+
+Okay, so let's look at the
+weight, the total weight,
+
+after an iteration of our procedure.
+
+So I think the,
+
+the weight of the correct points,
+
+so I'll call this W
+correct, so the total weight
+
+on all of the correct points,
+
+new is going to be equal
+to, okay you guys tell me.
+
+In terms of the old sum of the weights
+
+of the correct points, what's
+the new sum of the weights
+
+of the correct points going to be?
+
+So after we multiply
+through everything by beta?
+
+Or let me just say it this way.
+
+Let's say,
+
+let's say that W is the
+weight of all points
+
+before iteration T.
+
+What is the weight of the correct points
+
+after iteration T?
+
+So before iteration T,
+
+the W is the sum of the total weights.
+
+We get a classifier, some of the points
+
+are correctly classified
+by this classifier,
+
+what's their new weight going to be?
+
+Yes.
+
+>> Just beta
+times the old weight.
+
+>> Okay, well what fraction of the points
+
+are labeled correctly?
+
+>> .5 plus gamma.
+
+>> Yeah, so a 1/2 plus gamma
+fraction of the points
+
+are labeled correctly,
+
+and they're going to
+be multiplied by beta.
+
+And then we had the original W weight.
+
+Okay so the weight of the
+correct points after iteration T
+
+is going to be 1/2 plus
+gamma of the old weights,
+
+because those are the points
+where the algorithm is correct,
+
+and then those points
+get multiplied by beta.
+
+Everybody okay with that?
+
+Okay, what's the weight
+of the incorrect points?
+
+Yes, go ahead, question.
+
+>> E times W, so
+1/2 minus gamma times W.
+
+>> Right, so the weight
+of the incorrect points
+
+after iteration T is going
+to be 1/2 minus gamma
+
+times W.
+
+And this is because for those points,
+
+we don't update their weights at all.
+
+And just recall that
+
+beta is 1/2 minus gamma
+divided 1/2 plus gamma.
+
+Okay, so what's the sum
+of the total weight?
+
+So what's the new sum,
+
+what's the new sum of all weights?
+
+Yes.
+
+>> Is it two times
+1/2 minus gamma times W?
+
+>> I think the new sum of all the weights
+
+is just going to be the sum
+of these two quantities.
+
+>> Well it is,
+but I multiplied beta
+
+times 1/2 plus gamma, and
+that's 1/2 minus gamma.
+
+>> Oh yes, okay good.
+
+So I think you're correct.
+
+Let's just go through it.
+
+So if I add up these two,
+the sum of the total weights
+
+is certainly, you know, I have to add up
+
+these two quantities, so I
+get 1/2 times W times 1/2 beta
+
+plus gamma beta, plus 1/2 minus gamma,
+
+and then this is equal to W
+times 1/2 plus gamma times beta,
+
+plus 1/2 minus gamma.
+
+And then remember, beta
+was 1/2 minus gamma
+
+divided by 1/2 plus
+gamma, so it cancels this,
+
+and I get W times one minus two gamma,
+
+and I think this is exactly what you said.
+
+>> I multiplied
+by two, that's what I did.
+
+>> Right, okay good, so I'll do that, too.
+
+So we could call this W times
+two times 1/2 minus gamma.
+
+I'm pretty certain this
+exactly what you said.
+
+>> That's what I said.
+
+>> Yes, okay, you are 100% correct.
+
+Good job.
+
+Okay good.
+
+So what you can see is that if
+W was the sum of the weights
+
+before this iteration, then
+the new sum of the weights
+
+is W times two times 1/2 minus gamma.
+
+What about after I iterations?
+
+What's the sum of the weights
+in terms of the original W?
+
+So if W is the original sum of the weights
+
+after I iterations, what is the sum
+
+of the weights going to be?
+
+Yes.
+
+>> W times two to the power I
+
+times 1/2 minus gamma to the power I.
+
+>> I'll just put that
+whole thing like that.
+
+Yeah exactly.
+
+So after I iterations, you can see
+
+that the sum of the weights is equal
+
+to the original sum of the weights
+
+times this simple quantity
+raised to the power I.
+
+Okay, so this implies
+that after T iterations,
+
+the sum of all the weights
+
+is at most two times 1/2 minus gamma
+
+raised to the power T, times W zero,
+
+which was the initial sum of the weights.
+
+Okay, so this is an upper bound
+
+on the final sum of the weights.
+
+Good, now let's consider
+
+a point, XI,
+
+that our final hypothesis
+
+gets wrong or misclassifies.
+
+So consider a point X, so we've run this
+
+for capital T iterations, consider a point
+
+that H final actually gets wrong.
+
+What can we then conclude
+about the weight of XI?
+
+So remember, H final takes a
+majority of H one through HT,
+
+and I'm saying XI is a point
+that H final gets wrong.
+
+What does that mean about the weight?
+
+Yes.
+
+>> So majority of iterations,
+
+the point was labeled incorrectly,
+
+so the weight stayed the same.
+
+>> Good.
+
+>> So it must
+be less than that thing
+
+but T over two instead of just T.
+
+>> Yeah, right.
+
+So what you meant to
+say is that the weight
+
+is at least beta to the T over two.
+
+Okay since, if H final gets it wrong,
+
+it means that it was wrong
+
+on at least T over two iterations,
+
+so for T over two iterations,
+we didn't multiply it by beta.
+
+That means its weight has to be at least
+
+beta to the T over two.
+
+This implies that if H final
+
+has error epsilon,
+
+so if it has error rate epsilon,
+
+then the weight
+
+of points H final misclassifies
+
+is at least epsilon times M
+times beta to the T over two.
+
+If the error rate of the final hypothesis
+
+is at least epsilon, it means it's getting
+
+epsilon times M points wrong.
+
+We said that any one of those points
+
+that it gets wrong has weight at least
+
+beta to the T over two, so certainly
+
+the weight of points that it misclassifies
+
+is at least epsilon M
+beta to the T over two.
+
+Okay, good?
+
+So here we have an upper bound
+
+on the sum of all the weights,
+
+and here we have a lower bound
+
+on the sum of the weights of
+the points that we get wrong.
+
+So a very easy inequality
+is that epsilon times M
+
+times beta to the T over two
+must be less than or equal to
+
+two times 1/2 minus gamma
+raised to the T times M,
+
+because this is the sum
+of the final weights
+
+and this is the sum of the weights
+
+that we classify incorrectly.
+
+So their sum must be less than or equal to
+
+the sum of all the weights.
+
+Now what should we do?
+
+I was hoping for someone
+to say do some algebra.
+
+(class chuckles)
+
+That's what we're going to do.
+
+So we cancel these Ms.
+
+And remember that,
+
+well, this 1/2 minus gamma,
+this is equal to the error.
+
+So we can say that epsilon
+is less than or equal to
+
+four times error squared over beta,
+
+all raised to the power T over two.
+
+I'm claiming that with just some algebra,
+
+dividing by beta to the
+T over two on both sides,
+
+this is the inequality that we get.
+
+Okay, this implies that
+epsilon is less than
+
+or equal to one minus four
+gamma squared to the T over two.
+
+This is just using the fact that beta
+
+is 1/2 minus gamma over 1/2 plus gamma.
+
+And then this means that the error epsilon
+
+is less than or equal
+to E to the minus two
+
+gamma squared times T,
+
+using the fact that one plus
+X is approximately E to the X.
+
+And this proves the main claim.
+
+So the error rate after
+capital T iterations
+
+is at most E to the
+minus two gamma squared
+
+times capital T.
+
+I think if we look back at
+what our main claim was,
+
+yeah, it was that after T iterations,
+
+the error of the final hypothesis
+
+is at most E to the minus
+two T gamma squared.
+

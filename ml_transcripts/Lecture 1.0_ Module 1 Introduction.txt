@@ -1,0 +1,188 @@
+♪ (music) ♪
+
+Hi, I'm Professor Adam Klivans
+here in the Computer Science Department
+
+at the University of Texas
+at Austin.
+
+I wanted to give you an overview
+of the first part of this
+
+Machine Learning course
+subtitled algorithms.
+
+This part of the course is roughly
+divided into three major topics.
+
+First are models--mathematical
+models of learning.
+
+For example, we'll address questions
+like what does it mean to
+
+formally learn function?
+
+What does it mean to learn a
+function online if you're given examples
+
+or training data that comes at you
+example by example.
+
+How do we evaluate whether
+one of classifier that your
+
+model has generated is better
+than another?
+
+And how do we know if your
+algorithm is over fitting to your data?
+
+How do we know that it's
+going to have predictive power
+
+when you get examples that
+your algorithm hasn't seen before?
+
+This will have a strong mathematical
+component to it.
+
+We'll actually prove when certain
+algorithms work well
+
+in particular models and we'll
+be able to prove when your
+
+classifier is actually going to
+have predictive power
+
+or whether it's sort of over fit
+to your training set.
+
+So once we've defined and
+analyzed some of these
+
+foundational models of learning,
+we'll be able to move on and
+
+study actual algorithms that are
+used in practice.
+
+For example, we'll look at
+algorithms for building decision trees.
+
+We'll look at algorithms for
+learning half spaces,
+
+and fundamental algorithms
+for doing regression.
+
+If you're familiar with machine
+learning packages that are
+
+used in practice,
+
+for example the sidekick learn
+package that's in python,
+
+you'll see many of the algorithms
+that we talk about in class
+
+have already been implemented
+and you can use them in an
+
+off the shelf manner.
+
+Now one thing you could do
+when you're using these
+
+algorithms is you could simply
+read the documentation
+
+that's provided to you in these
+software packages
+
+and use them as sort of
+black boxes.
+
+The point of this class is to show
+you how these algorithms work
+
+on the inside and to give you
+the mathematical tools that you
+
+need to really understand what
+they're actually doing.
+
+That way you're much more
+prepared when you need to work
+
+on problems that come up in
+industry or problems
+
+that arise in practice that may not
+exactly fit the sort of algorithm
+
+that you have at your disposal
+from some software package
+
+and so you need to modify it or
+change it a little bit on your own.
+
+It'll also give you some tools that
+you can use to understand
+
+why a particular algorithm is or
+is not working
+
+and that's really invaluable
+information.
+
+Then sort of the third topic
+of the course is going to be
+
+taking these algorithms and
+applying them to problems
+
+that arise frequently in practice.
+
+For example, as I mentioned
+linear regression is a common theme
+
+that we'll be looking at.
+
+Algorithms for regression are used
+all the time in practice.
+
+We'll also look at some basic
+dimensionality reduction problems,
+
+including random projection and
+principle component analysis
+
+that has been used all over the
+place in many applications
+
+for dramatically reducing the
+complexity and the number of
+
+features that come with very very
+complicated massive data sets.
+
+So those are the rough three topics
+that we'll be looking at in this class.
+
+There'll be as I mentioned
+heavy emphasis on algorithms
+
+and not just on how those
+algorithms are applied,
+
+but also sort of the mathematics
+behind how those algorithms work.
+
+In the second part of the course
+there will be more of an emphasis
+
+on statistical methods.
+

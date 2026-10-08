@@ -1,0 +1,159 @@
+♪ (jazz music) ♪
+
+Okay, so what's the application
+to matrix completion?
+
+Well, given your matrix A that
+has a lot of question marks
+
+in it, the first thing
+you're going to do is,
+
+so let's matrix completion,
+
+so A, the first step will be replace
+
+question marks
+
+with either, there are many
+things you can do here,
+
+you could replace it with a zero,
+
+you could replace it
+with the average value
+
+of the known entries,
+
+or you could replace it
+with the average value
+
+in that column or row.
+
+Okay, so there are many
+ways that people sort of
+
+naively fill in question marks.
+
+Yes, question?
+
+>> If you subtracted off the mean
+
+before you do this would
+those all be equivalent?
+
+>> If you subtracted off the mean.
+
+Do you mean of the known entries?
+
+Well, it's not equivalent to
+just replacing it with zero.
+
+>> Well, if you subtract the mean
+
+of all the known values
+from all the known values,
+
+then the mean of those
+should be zero, right?
+
+>> If we subtract the average value,
+
+if we subtract the average
+value of all the known entries
+
+from each entry?
+>> From the known entries.
+
+>> Okay, but then if I replace
+the question mark with zero?
+
+>> I'm saying before you
+
+replace the question marks.
+
+>> Right, but I still have question marks.
+
+So now I've subtracted the
+mean from each entry, okay.
+
+>> And then I'm saying if you're replacing
+
+each of the question marks.
+>> Well, now, okay.
+
+Well, now I know that the, I know
+
+that the mean value is now zero.
+
+>> So all I was saying
+that is if you replace
+
+each of the question marks with zero,
+
+that's now the same as
+replacing them with the mean
+
+of the known entries because that's zero.
+
+>> Yeah, okay, agreed, yep.
+
+>> I don't think it's
+
+the same as the third one though.
+
+>> The average value in the column or row?
+
+>> Probably not.
+>> Yeah, probably not.
+
+So, anyway there are
+many things you can do
+
+to replace the question marks.
+
+Then the next step is to
+
+find the best
+
+rank K
+
+approximation to A
+
+after filling in the question marks.
+
+Output this best rank K approximation.
+
+Okay, so the intuition is that even though
+
+you have this giant matrix
+that you need to complete,
+
+maybe it's not so totally unstructured.
+
+Maybe it actually has low rank.
+
+Maybe there is some structure there,
+
+and so by sort of naively
+filling in the question marks
+
+and computing the best
+rank K approximation,
+
+you could hope that there
+was enough information
+
+in the entries that you did observe
+
+so that this best rank K
+approximation is actually
+
+a good approximation to
+the rest of those values.
+
+Okay, so it's one kind
+of simple, commonly-used
+
+technique for doing matrix completion.
+

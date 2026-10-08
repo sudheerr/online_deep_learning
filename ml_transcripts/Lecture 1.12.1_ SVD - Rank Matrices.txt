@@ -1,0 +1,125 @@
+♪ (jazz music) ♪
+
+Now let's consider the case
+
+where A is a rank two matrix.
+
+What does this mean?
+
+Well, it means,
+
+as it turns out, that A is the
+sum of two rank one matrices
+
+and, in parenthesis,
+and A is not rank one.
+
+Okay, so for example, A could
+be U outer product V transpose
+
+plus W outer product Z transpose.
+
+This would be a rank two matrix.
+
+Okay, so what are the rows
+of this rank two matrix?
+
+What do they look like?
+
+Well, U1 times V transpose,
+sorry times V transpose,
+
+plus W1 times Z transpose,
+that's the first row,
+
+and all the way down to the Mth row UM
+
+times V transpose plus
+WM times Z transpose.
+
+So that's one way of writing
+A as a rank two matrix.
+
+Let's do the column form just for fun.
+
+So this is going to be V1
+times U plus Z1 times W.
+
+That's the first column.
+
+I'll give myself some more room here.
+
+And the last column is going to be
+
+VN times U plus ZN times W.
+
+Okay, so this is how I'd write it,
+
+you know, in terms of rows.
+
+This is, you know, on the right hand side
+
+is how I would write the
+matrix in terms of columns.
+
+Everybody okay with this?
+
+Okay, good, so then yet
+another way of writing A
+
+would be to say okay, I'm
+going to consider the following
+
+matrix, this is going to
+be an M by two matrix,
+
+and the first column is going to be U,
+
+the second column is going to be W,
+
+and then I'm going to multiply
+this by a two by N matrix
+
+where the first row is
+going to be V transpose
+
+and the second row is
+going to be Z transpose.
+
+Okay, when I multiply these two together,
+
+of course I'm going to
+get an M by N matrix,
+
+and let's just look at the
+very first entry of this matrix
+
+is going to be U1 V1 plus W1 Z1.
+
+Okay, why is that?
+
+Well, I'm taking the first
+row here, that's U1 W1,
+
+and I'm taking its inner
+product with the first column,
+
+that's V1 Z1, and so I
+get U1 V1 and plus W1 Z1.
+
+Okay, and that's going
+to be my first entry.
+
+So I'm a little sorry to belabor this
+
+but I just want us to
+all be on the same page
+
+with how we can write, say,
+
+rank one, two, three, four matrices.
+
+We can write them as these products
+
+or outer products of these vectors.
+

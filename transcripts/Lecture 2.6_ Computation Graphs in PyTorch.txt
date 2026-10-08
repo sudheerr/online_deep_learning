@@ -1,0 +1,177 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So let's look a little bit under the hood how PyTorch constructs these compute.
+
+Computation graphs and how we can use them to compute gradients.
+
+And we'll start by sort of just importing torch as our standard start.
+
+And let's create a tensor. Um. Let's create a tensor of ten random numbers.
+
+And print it real quick. Now here, this is sort of just a tensor of ten numbers, nothing special.
+
+What we can do, though is we can add requires grad. We'll say requires grad equals true.
+
+And see how this tensor changes. Now this we took we created a tensor.
+
+That has the required grad flags set to true.
+
+Let's let's actually create both. Let's create one with and one without.
+
+So let's create y without requires grad.
+
+And what? Now if we do some computation on Y.
+
+So let's say we'll sort of. Take the square of each element.
+
+Compute the mean. This will again just produce a regular old tensor.
+
+So we'll just produce a tensor that just is a single value.
+
+Nothing special about it. Well, what if we do the same thing for X?
+
+This creates a twin tensor that has something attached to it.
+
+And so this is, uh, this great fun. Here is the function that PyTorch internally uses to do back propagation.
+
+And so as soon as there is at least one tensor.
+
+That has a required grad. The output of any computation will now be a tensor that has this grad function attached to it.
+
+And as long as the grad function is attached to it, that means that we can compute gradients.
+
+We can. We can call backwards on it. So let's say let's create uh, let's call this the value p.
+
+We'll print P real quick. And now we can call p dot backward.
+
+That's actually print B again real quick. All right.
+
+Now, what that backward did is it ran back propagation.
+
+It ran back propagation through the main function here and then through the square function here.
+
+And what backward date is it populated? X dot grad.
+
+All right, so this is now. The gradient of X itself.
+
+Just to verify that this is. This is, uh.
+
+This is indeed the case. We can. See that?
+
+The gradient of the mean function is one over ten because we ever told ten elements,
+
+and then the gradient of the square here is two times x, and so the gradient of x should just be.
+
+X divided by ten because of the mean times, two because of the square.
+
+And indeed this is the case. All right. And so PyTorch, as soon as it gets sort of this input that has requires grad equals true,
+
+it will start building up a computation graph in the background.
+
+Once we're ready to sort of compute the gradient, we can take a scalar and just call backward on it.
+
+And this will compute the gradient of this scalar.
+
+We cannot call backward. Twice.
+
+So if we would call Beiderbecke Court here. PyTorch would complain.
+
+He will tell you that you already called backward and you cannot do it twice.
+
+And so in order to compute backward again we would need to redefine P.
+
+And then we could go backward again. Now, one thing to note is that if we called backward multiple times, it will actually sum up the gradient at x.
+
+So instead of resetting it, setting it to zero, it will sum up this gradient.
+
+So we can call it again and again and again.
+
+It let's just start to sum up this gradient term.
+
+And the reason for this is that parameters in the network can be reused multiple times, and the right behavior is if you called backpropagation.
+
+To sum up the gradients, if the if the parameters are used multiple times.
+
+And so we'll later look at how to deal with this.
+
+When we run gradient descent, we'll have to reset these to scratch terms in the computation graph every now and then,
+
+such that we don't have gradients that sort of accumulate everything we have done during training.
+
+Another thing to be aware off is that. Building up a computation graph in the background.
+
+Thus actually require does actually costs a memory.
+
+And so we can do this. We can look at this. By sort of looking at the memory used.
+
+If we have set off a computation graph on Cuda itself.
+
+So if you use a GPU, we can measure how much memory is allocated on this GPU.
+
+PyTorch doesn't have a very good way to do the same for the CPU. So we'll look at this example on a GPU real quick.
+
+And so to create a tensor on the GPU. Well, again, sort of requires grad equals two and then we'll just do device.
+
+Cuda. And so this will require this will create a tensor of.
+
+Let's so more than ten elements. Let's actually do so now.
+
+A million elements. And see.
+
+How many mics are allocated.
+
+So if we sort of create this tensor, uh, of sort of, uh, million elements on a GPU, we will allocate four megabytes of data.
+
+Now, I'd like you to take a moment and sort of think of all we allocated a million elements.
+
+Why is there 4 million? Uh, why is there four Max used?
+
+The answer is that each element is a floating point number which has four, uh, bytes.
+
+And so that's why four times a million is four megabytes.
+
+Now, if you build up the computation graph, let's do let's build up a computation graph by sort of calling a nonlinear function on this.
+
+Let's say p is equal to torch dot ReLU, which is a function that we'll look at in class later.
+
+Now, if you look at. How much memory is used.
+
+Adding sort of one additional node in this computation graph now required us to add sort of another four megabytes.
+
+Let me can repeat this a bunch of times so we can sort of put a for loop around it.
+
+And sort of feed the input through 100 values, which will allocate sort of 404MB on the GPU.
+
+Now, finally, we can sum this all up and called backward.
+
+On it. What this will do is it will collapse the entire computation graph.
+
+So all the memory that was allocated here for us to compute gradients is now collapsed.
+
+It's now deallocated. And what we're left with is.
+
+12MB of memory. Four of them are used to store B, so this is the output of this 100 values.
+
+Four is used to store the input and four max is used to store.
+
+The gradient. All right.
+
+And so the fact that once you called backwards, the entire computation graph sort of collapses, and all the memory that was allocated,
+
+sort of to compute it, to sort of build up this graph is now gone, means that we can not ever, never call backwards on a graph twice.
+
+All right.
+
+Because PyTorch aggressively sort of frees up memory, as you call backwards, to sort of reuse it later when you build the next computation graph.
+
+All right. So this is more or less how computation graphs in PyTorch are built up and how backpropagation is called in.
+
+I hope this showed you this is actually super simple computation.
+
+Graphs are built as you just do ordinary computation.
+
+Once you end up with a scalar, you can just call dot backward and you don't need to do anything.
+
+You will just sort of say almost magically compute a gradient for you.
+
+That's it.
+

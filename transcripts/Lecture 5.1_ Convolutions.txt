@@ -1,0 +1,535 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So in this segment we'll look at convolutions.
+
+Uh convolutions were an operator that was originally designed to sort of process images or image like data very very efficiently.
+
+And so to understand convolutions let's look at images first. So an image is a tensor that has three dimensions.
+
+It has a channel dimension. Uh in most cases this is just going to be red green and blue channels.
+
+Um sometimes you'll see red green and blue and alpha uh, and in rare cases, uh, you would see red,
+
+green, blue and a bunch of also, uh, other channels, they're usually called hyperspectral channels.
+
+Uh, and this is often true for a set of overhead, uh, images like, uh,
+
+satellite images or high altitude, uh, plane images that are used in agriculture.
+
+Oftentimes, especially for this class, we'll deal with three channels.
+
+So we'll have. Red, green and blue channels as inputs,
+
+and an image has a certain height and a certain with and each element in the image is just going to be one value that goes from 0 to 255.
+
+And so that sort of zero means it's black.
+
+255 means it's full color and can either be full red, full green, full blue, or all of the all of them together.
+
+Then it's white. Right.
+
+Now, one thing that you might have noticed is if you have worked with images before, is that the format we're having here is sort of a bit weird.
+
+Uh, it's channels first, then height and then width.
+
+Uh, most often, if you're used to dealing with images outside of deep learning, uh, you would deal with images that are height, width and channel.
+
+Um, and the reason why PyTorch does channels first, uh, instead of sort of height, width and ten channels, um, has sort of it's a traditional design.
+
+Uh, traditional reason PyTorch was written by sort of, uh, a subset of the people that wrote torch, the original Lua torch library.
+
+And they're sort of it was channel's first, uh, that was a decision they made, and they carried this decision over.
+
+Um, in my opinion, this was actually a big mistake.
+
+Uh, and it's starting to unravel sort of in the last five or so years.
+
+And the reason why it's a big mistake is that. Deep networks.
+
+Convolutional networks that use channel last are faster.
+
+Um, there's a very, uh, sort of simple reason for this.
+
+Uh, it is that if we look at operations that need to happen in a deep network,
+
+they're usually go like operations are applied to an entire channel all at once.
+
+And in this format where channel is first and then height and then with the different elements,
+
+uh, for one spatial location are spread out across very different locations in memory.
+
+And so that makes it slightly inefficient to gather all of these, all of these pixel values together.
+
+Um, and so in theory, height with channel is a lot faster.
+
+PyTorch does allow for it. It's a nonstandard setting.
+
+Uh, by sort of choosing memory format, uh equals towards towards the channel last, we will not do this in this class.
+
+Uh, optimization is not the or like speed, uh, if your network is not that important and 10% sort of might not warrant the code getting a lot messier.
+
+It's also the, uh, the case that most of the networks inside of the PyTorch library, if they use images, they will expect channel first.
+
+All right. And so for class we'll try to keep the notation of channel first.
+
+Um, and we'll sort of look at channel first in the code itself.
+
+All right. Now let's go back to images. Um, one really interesting property of about images is that they are very, very large.
+
+Um, it's probably sort of one of the well, it's probably the second largest data that they might deal with.
+
+Uh,
+
+videos are the largest and images are probably the second largest data that you will deal with just from perspective for like the raw input values,
+
+um, an image that's sort of. 1024 by 1024 pixels has three channels.
+
+Well that has. 3 million input values.
+
+And I literally these just sort of think this, uh, let us think in a little bit.
+
+Um, if you think of sort of sentences, uh,
+
+if you look at sort of regular documents and would look at sort of how long are documents in terms of characters,
+
+most documents that we'll look at or like these slides. If you look at them, there may be thousands or tens of thousands of characters long.
+
+And now all of a sudden, you're dealing with something that's sort of orders of magnitude larger.
+
+And images completely break.
+
+Fully connected networks. Uh, and so if we sort of build a fully connected network that takes in the raw
+
+pixels of an image and then sort of feed it through a bunch of linear layers.
+
+The first linear layer is going to almost certainly break your network.
+
+Um, and so if you want to do this, if you would want to sort of feed into image,
+
+what do you first need to do is you need to flatten it out into this long vector.
+
+Of height by width by channel. And so it's just a long sequence of values.
+
+And then we'll feed it through the layer, through the fully connected layer.
+
+Now let's make some design choices.
+
+Let's say we go from this channel by height, by width to a certain number of channels.
+
+Well, how many values do you think? How many soft channels should we output?
+
+Here, how many channels should we output here, and so on. If you imagine sort of well, an image contains probably a lot of information.
+
+Right.
+
+Um, if we think of reasoning about just elementary classes, like if there's only one object in the image, sort of elementary sort of object classes,
+
+there's a thousand that people usually care about, and there's about 20,000 or more that people have labeled and categorized.
+
+And these are just nouns in image. These are just sort of if there's one object in an image, one one, uh,
+
+one sort of thing that we care about now, there's probably going to be a lot more things that we care about.
+
+So the outputs that we would expect here's you would expect an output is able to reason about.
+
+Tens of thousands of different things. Right.
+
+And so making that much smaller than tens of thousands of channels is probably going to lose information.
+
+But let's actually sort of just go through this. Let's say we'll output just sort of 4000 classes.
+
+Right. So let's look at the first linear layer where the input is an image.
+
+And we say okay well we'll conserve some uh, some memory and, and some computation and just output about 4000 values out of the first layer.
+
+And then we'll process it further later on, but we'll condense.
+
+All the pixels in the image down to 4000 values.
+
+Well, how large would the first linear layer need to be in order to do this?
+
+Well, we can do the math. And the first linear layer would have about 13 billion parameters.
+
+Now, to put this in context, um, if some of you played with large language models,
+
+these are sort of some of the biggest deep networks that we, that we currently build.
+
+Um, sort of a moderately sized large language model has sort of 13 billion parameters.
+
+So now we are in a situation where just one layer of, uh, of a network is as large as, like the largest models that we are training,
+
+and we're training them on multiple GPUs with sort of hitting all sorts of limitations in terms of memory, compute and so on.
+
+And now we've just built this one layer that does that. It already hits this.
+
+So this is clearly not workable. So feeding an image.
+
+As it is sort of unrolled through a linear layer, is just not going to work.
+
+This is way too big. Um, there's also another issue with this, which is if we feed an image through the linear layer,
+
+just as is we, the network will only learn to look at images that are of a fixed size.
+
+So we could only train a network that can look at sort of 1024 by 1024 images, and all other images would need to be resized.
+
+That's a main, a minor thing. We can sort of just do a resizing before we feed it into the network.
+
+It's still a little bit of a restriction though. All right.
+
+So plan number one. Option number one are flattening out the image and feeding it through.
+
+Uh uh a linear layer is not going to work.
+
+Well let's look look at plan number two, which is.
+
+Well, instead of feeding the entire image through, maybe we can cut up the image first.
+
+So let's see what's happening. Uh, if we do this, if we cut up the image into patches.
+
+Each patch has sort of a size of k by k by three, uh, where three is the color channels and then feed that through.
+
+A linear, uh, a linear network here. Well, now we're actually going to save a little bit of memory.
+
+Um, and we can go through this math step by step.
+
+So. We now have a separate linear layer that goes from number of channels times k squared, because the patch is k by k two.
+
+Some output dimension divided by m, where m is just the number of patches.
+
+So we just defined M to be the number of patches each patches size k by k.
+
+And so for each patch we sort of condense it down to part of the representation.
+
+All right. So we'll take this function that goes from sort of the full image.
+
+Two, uh, dimensional, uh, representation of this image.
+
+And we say, well, now we just look at patches and treat each patch independently.
+
+There's not going to be any communication between the different patches.
+
+Uh, all the pixels within one patch will represent, well, will sort of can be condensed together in one feature representation.
+
+And that does save, uh, both memory in terms of number of parameters and also saves us a little bit of computation.
+
+And so the total number of parameters.
+
+If we take this approach, it's just going to be so if the parameters that we had originally, which is channels, width,
+
+height, times output parameters, but now we can divide the number of parameters by m where m is the number of patches.
+
+This is a trick to save a little bit of memory. Um, we lose some information when we do this.
+
+Uh, we no longer have the ability to sort of have communication between different.
+
+Outputs of. Patches and sort of inputs of different patches.
+
+So there's no communication between the patches.
+
+That would need to be another layer after that would then sort of communicate any information between the patches.
+
+Right. So this saved a little bit of memory. Um, now there is a further version that we could do is we could again split the image into M patches.
+
+But now instead of, uh, processing each patch with an independent network, we can now just have the same network process each patch.
+
+So we have to fix size patches. We cut the image up into fixed size patches and then we'll feed it to the same linear network.
+
+Now that saves a lot more parameters than before. So the total number of parameters here is going to be.
+
+Sort of. If you compare this to before. Um, we had channel with height times, uh, times output dimensions divided by m, and now we now did.
+
+Our total number of parameters is just going to be channels times patch size times.
+
+The number of, uh, output dimensions divided by m.
+
+All right. And so this here. It's roughly equal.
+
+Two. The original size, which is channel.
+
+With height. Times.
+
+T. Divided.
+
+Buy em. Squared. Okay.
+
+And another fun fact about this number here is it no longer depends sort of on the number of um,
+
+it's no longer linearly dependent on the number of patches. All right.
+
+Good. So let's save a little bit of memory. Uh, this is actually a very compact representation.
+
+Now, one issue with this representation is that it cuts off,
+
+cuts up our sort of image content into these discrete chunks that cannot communicate with one another.
+
+So if you look at this image of the, uh, the cats here.
+
+Well, if we choose K to be just the height and width of the image, we didn't save anything.
+
+Uh, so we didn't really, uh, gain any memory improvement.
+
+As soon as we start to cut it up. We'll start to cut up individual objects.
+
+And they will now be sort of distributed across different patches, which might make it a lot harder for the network to learn.
+
+Now, the solution for this is sort of to make these patches slightly larger, make them overlapping.
+
+Right. And so the final sort of solution to cutting up the image.
+
+So to make the computation efficient is to instead of using sort of.
+
+A fixed set of small patches that are mutually exclusive.
+
+We now look at sort of larger patches that over that overlap.
+
+So this would be one patch. This would be.
+
+The other patch here. That overlaps.
+
+At this operation is known as convolution. So convolution is the operation of taking a patch out of an image.
+
+Then applying a linear transformation to that patch, moving slightly over, taking the next patch out, applying a linear transformation to that patch.
+
+And every time we do this, we output.
+
+We put the output at a specific spatial location.
+
+And then we'll move on to the next location. Now, mathematically, the way this is defined is sort of.
+
+We have, uh. Notation.
+
+For the input image. We now have.
+
+Of a for loop over all the pixels in this patch.
+
+We have a for loop over all the channels here. And now what we do is we multiply the input at location x y shifted by where in the patch we are.
+
+Multiply it by the weight. And the weight now has sort of four entries here, which is the location within the patch.
+
+These are the first two coordinates. And then we have input channel and output channel.
+
+And so you can think of this weight is a matrix. The first part of the matrix.
+
+Is location and input channel, and in the second part of the matrix is the output channel.
+
+What output do we want to produce? All right.
+
+Now. Let's look at sort of what convolution take takes as an input.
+
+Convolution takes as an input an image like input which has sort of channels by height by width.
+
+And it produces something that channels by height by with.
+
+Okay. Now, depending on how big our convolution is, how big our patch sizes for the convolution, it will shrink the image a little bit.
+
+And so the patch size is also known as sort of the kernel size,
+
+which is the size of the weights of the matrix that we multiply uh multiply with in this linear operator.
+
+And so that is height by width. Antennas, input channels and output channels.
+
+And so the output of convolution has a certain number of output channels,
+
+and the height and the width just shrinks with the size of the convolutional kernel.
+
+And the reason for this is fairly simple. If you have if you look at this.
+
+Input here. Let's say these are just three pixels as an input.
+
+If we now have convolution with a kernel size of two, we can fit it in there twice.
+
+If you had a convolution with a kernel size of one set of. If our convolutional kernel was just.
+
+This big hair. We could fit it in three times.
+
+On the other hand, if you have a convolutional kernel that size three, uh, then we could only fit it into the image once.
+
+So that's convolution.
+
+Uh, it's a mathematical operation of sort of just taking a patch out of an image or later on out of sort of, uh, c dimensional image like tensor.
+
+Multiplying it with a linear transformation. This is called multiplying with the kernel, which is uh w here, and then adding a bias to it.
+
+Now convolution is generally quite fast.
+
+Um, the reason for this is that the operation is relatively local, and for a fixed number of sort of input,
+
+uh, data and a fixed number of output sort of channels and dimensions.
+
+Convolution does operations very, very locally.
+
+Um, the other nice thing is parameter number of parameters or the actual weight matrix is independent of the image resolution.
+
+So oftentimes this actually helps accelerate, uh, computation on the GPU because the weights are shared across many different locations in the image.
+
+And then finally convolution is very memory, uh, memory efficient.
+
+Um, if you look at the number of parameters that you would need if we had, again,
+
+this linear example where we just looked at this original image and feed it to a linear layer.
+
+That was about. Um, I guess for 124 by 124.
+
+And input channels and output channels equals to exactly three. That's sort of five to the ten to the 13, which is already extremely large.
+
+If you do the same thing with convolution, you can get away with less than 500 parameters.
+
+Just because convolution is sort of this local operation here,
+
+that sort of reuse its weights over and over again and never really has to model connections between all inputs and all outputs.
+
+Right. Now what do we lose when we apply convolution?
+
+I clearly like this reduction from five to the five times ten to the 13 to 500.
+
+There must be something that we clearly, absolutely throw away.
+
+And what we throw away is we no longer have the ability.
+
+For every output to see every single input.
+
+All operations are local now. They have sort of, uh, they are anchored in some spatial location to only see.
+
+What's around them. If you look at this output here for convolution.
+
+It only sees. Oops. So it will only see.
+
+These inputs. The same for another output the next to it.
+
+It will not see the entire image, you will only see part of the image.
+
+We can actually formalize this a bit more, uh, in what is known as the receptive field.
+
+So convolutional networks. They are more efficient because they only see local patterns.
+
+And the way we can characterize these local patterns is through the receptive field.
+
+So what the receptive field does is it says for a specific output.
+
+Of any layer in our ConvNet. Right now, what is sort of the number of inputs that we see, like what is which inputs influence this specific output?
+
+So that's what sort of the receptive field sets is for a convolutional network.
+
+A specific output here. We'll see.
+
+Information in layers in between, and then it will see a certain patch into input image.
+
+And so that's known as the receptive field. Anything a certain output sees.
+
+Now, if we move one over the receptive field of this convolutional network, it's going to move one over together with the, uh, the output.
+
+Okay. And so it is possible to compute for a specific, uh, convolution network is possible to compute this receptive field.
+
+Uh, you can do a lot of math.
+
+Uh, you can look at the parameters of the convolution. You can figure it out analytically.
+
+Um, the other option is we also actually in a hands on segment, you can compute this fairly easily computationally.
+
+Um, there is a super easy way to do it, uh, that has some caveats, which is we can use the backward function of a network to compute gradients.
+
+Um, we can back propagate a value of Nan, not a number.
+
+And that will then sort of show us, uh, what parts of the input influence what output.
+
+Um, another sort of more stable way of doing, doing this is using a probe where we change certain inputs to Nan,
+
+not a number, and then see which outputs influence, uh, that specific input.
+
+Um, we'll look at both of them in the hands on segment on how to code this up.
+
+But we can look at sort of we can computationally figure out how far does a convolutional network see.
+
+And so what do we lose? Well, in Cumberland County, convolutional networks, uh, the receptive field is sort of local.
+
+Computation is local. Um, and networks can no longer see infinitely far away.
+
+Now, for modern convolutional networks, this is not an issue.
+
+Uh, they are built in a way such that the receptive field is always much larger than the image itself.
+
+The networks are deep enough. Then our networks have sort of an off sort of structure in them that.
+
+The receptive field is always larger than the image, and so we don't actually lose that much in practice.
+
+You really gain a lot of efficiency in terms of sort of memory computation and also sort of, um, data efficiency.
+
+During training when we use convolutional networks. Another thing that sort of is special about, uh,
+
+convolution and about images is that convolution actually preserves some spatial properties of images.
+
+Um, if the input in convolution is shifted, the output will be shifted by the same amount.
+
+Uh, if the input is cropped, the output will also be cropped by the same amount.
+
+So we can sort of we can see this 1 to 1 relation between the input of a convolutional network and the output of a convolutional network.
+
+And that sort of gives us the ability to anchor specific outputs directly in image locations.
+
+And so this is actually is a really good fit for images just because images have sort of a bunch of invariances and some of them,
+
+uh, convolutions can capture well. And linear layers for example, wouldn't.
+
+Um, rotation invariance is something that images have to a certain degree.
+
+And it turns out convolutions are relatively robust to rotation invariance,
+
+not by necessarily like in part by construction, but also just in part by the way these networks are trained.
+
+Um, images are slightly scale invariant.
+
+The same is true for convolutional networks. That's again in part due to the training, not as much to due to construction.
+
+And then finally images are shift invariant and their convolutional networks are really shift invariant by construction,
+
+by the fact that we take patches out of the image and apply linear transformations to each individual patch.
+
+And so if you move everything over by a certain amount, well, all the output patches will just move with it.
+
+I. Finally, there's a third way to think about convolutions.
+
+Uh, if you have a background in signal processing, um, convolutions can be thought of as image filters or in general,
+
+like sort of filters of, uh, high dimensional input signal.
+
+Um, one example here is the box filter. Uh, you could express a convolutional, uh, convolution that has sort of just this.
+
+Averaging operator in there where we have the same value everywhere. This is known as a box filter in signal processing.
+
+And so convolution can be thought of sort of an extension to this box filter.
+
+Um, if you look at what this box filter would do here, it would just blur out the image.
+
+And so convolution has the ability to compute this blurring operation.
+
+But it can compute anything else. You can for example also compute an edge filter.
+
+Uh it could look at sort of is the left side.
+
+Uh is there sort of an increasing uh, increase in color values from left to right, or is it sort of a decrease in color, uh, value from left to right?
+
+And so that's what this that's what this edge filter could, uh,
+
+could model and you can think of any other like any other sort of image filtering operation,
+
+um, many of which can be expressed in this nice convolutional pattern of sort of just having a bunch of weights that we slide over the image.
+
+And so really convolution at a high level, it's three things.
+
+If you don't care about images into structure, it's just a very efficient way to process images.
+
+It's a very compact way to sort of process spatial signals.
+
+It's also sort of a, uh, operation that adapts to the content in the image.
+
+Uh, it preserves interesting properties of images or image like inputs.
+
+Um, and then finally, images can also be thought of the signal processing, uh,
+
+interpretation where we sort of filter images or the input signal over and over and over again.
+
+And so what I wanted to to take away from this is that convolutions are very fast.
+
+They're very memory efficient. And to some degree to preserve the structure of images.
+
+And that's why we like to use them to process images. That's it.
+

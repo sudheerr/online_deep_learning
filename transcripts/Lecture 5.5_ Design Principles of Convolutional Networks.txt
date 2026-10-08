@@ -1,0 +1,219 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+Think. All right.
+
+So we've looked at what convolution is. And we've looked at sort of that it's a very memory efficient and fast operation to process images.
+
+And we also looked a little bit in how it preserves the structure of images.
+
+And that's why it's a very suitable operation for images.
+
+We've looked at sort of how to build these, uh, these networks, that is convolutional networks.
+
+We've looked at sort of how to build up sort of convolution, non-linearity, normalization in sort of larger residual blocks.
+
+We've looked at sort of. Striding.
+
+We've looked at how striding changes, uh, the, uh, the sort of.
+
+Changes the resolution and how you can change resolution for a number of channels when you stride in a convolutional network.
+
+Now. The one thing that is that might be, uh, unclear here is sort of.
+
+When do we stride and what do we do when we build up these networks?
+
+Right. How should we start building bigger and bigger convolutional networks?
+
+And so one thing is the decision we need to make is when do we stride and how do we build these networks?
+
+Everything else seems more or less predetermined. Kernel size.
+
+Small kernel sizes are good, like three by three is good, um, number of output channels and number of input channels.
+
+That's more or less fixed. Um, sort of.
+
+Unless you strike. You often want to keep the number of inputs and outputs the same.
+
+The first layer is different, but for all others you want to keep it more or less the same.
+
+Padding is just half the kernel size. Most other parameters don't really have a lot of wiggle room to tune.
+
+But where to strident in network. Uh matters.
+
+And one thing we should look at is what happens when we stride.
+
+So when we stride in a network, what we'll do is we'll sort of skip every other output.
+
+Uh, oftentimes you stride with a factor of two. It's very rare that you don't stride with a factor of two.
+
+Um, and so you skip every other output.
+
+And so that will make the network lower resolution.
+
+And at the same time, because we want to preserve the amount of computation that happens inside of the network.
+
+Will double the channel size. All right. So doubling the channel size and reducing the width and height by a factor of two.
+
+Well, what what does this do to our activations?
+
+It will, in effect, sort of shrink the number of activations by two.
+
+So every single time we stride will cut the number of activations that we deal with in half.
+
+That is because originally we started out with sort of channel by height by width,
+
+and now we have width divided by two, height divided by two, and only two times the number of channels.
+
+And so that means that every time we stride, we'll actually shrink the number of activations.
+
+And so that's a good idea. So if we start out with an image that has three by width, by height, um, uh, channels,
+
+is it actually a good idea to always reduce the number of, uh, activations?
+
+The short answer is no. Like it's not a good idea because you will lose information every time you stride.
+
+Now, there is a trick on how we can sort of avoid losing a lot of information, which is we'll make the first layer special.
+
+So the first layer in a convolutional network is always going to be a special layer.
+
+And its job is to sort of. Take.
+
+The input instead of blow up the number of channels, right?
+
+And so for the first layer, the first layer will take red, green and blue channel inputs.
+
+So three channel inputs and it will blow it up to about sort of.
+
+60 to 90 channels. Now this is going to be, uh, the first layer is also often a fairly large kernel.
+
+Uh, it's about 7 to 16, because if we want to blow up a single pixel value, you don't actually gain much.
+
+Uh, so you want to look at a lot of values in around the current pixel and sort of find a projection into a higher dimensional space.
+
+But since this is going to cause sort of make the activation very, very large.
+
+So if you start out with an image that's sort of a thousand by a thousand by three, well, now we have 3 million in pixels as an input.
+
+And this will blow it up to about 60 to 90 million if we don't do anything.
+
+And so that's why in the first layer we also stride at least with a factor of two.
+
+Oftentimes it's more. And so in modern networks the first layer is often close to sort of the the high end in the kernel size.
+
+But it is also close to the high end on the striding.
+
+And so we'll take this network and we'll take this image.
+
+We'll apply very large kernels with relatively, uh, large number of channels as an output.
+
+And we'll place this as the first layer.
+
+And then after that, once we blow up this image onto this, uh, large number of channels, we'll start to apply regular convolutions.
+
+And every now and then, we'll stride, shrink and shrink the image and explore and and grow the channels.
+
+But the other thing to, uh, to, to sort of take note of is that oftentimes inside of the network, it is a good idea to use small kernels.
+
+Um, you will most often use three by 3 or 1 by even one cross one convolutions.
+
+You should avoid using kernel sizes like five by 5 or 11 by 11, mainly because they're oftentimes a waste of computation.
+
+Uh, you can get. Sort of a similar effect to an 11 by 11 kernel by applying three consecutive three cross three convolutions.
+
+And sort of. 233.
+
+Constrained convolutions use a lot fewer parameters,
+
+and they can do a lot more interesting computations because they will have real use and they will have non-linearities in between them.
+
+Right now. Exception is the first layer. The first layer can use large, uh, large kernel sizes.
+
+And that is um, that is often desirable.
+
+Right. And again, so the reason why I use small kernels is it saves you computation and a lot more smaller layers in sequence.
+
+Uh, work works better than one large kernel size.
+
+Now, the final thing is you should start to develop basic patterns, sort of basic blocks of convolutions.
+
+That is maybe convolution, ReLU, maybe convolution really one cross, one convolution, ReLU convolution.
+
+And then maybe a normalization and some skip connection.
+
+But once you've found a block that works well you will just repeat this block in your network.
+
+You're not expected to design a convolutional network and have all layers have arbitrary parameters.
+
+You'll find one pattern that works well enough, and then you'll repeat this pattern over and over and over again.
+
+And again, the exception is the first layer. In the first layer, you'll just have one convolution that sort of blows up the number of channels.
+
+And then after that we will apply these blocks.
+
+And then every now and then you will allow the first layer of a block to stride and sort of reduce the input dimension.
+
+Or you can also allow the last layer to stride.
+
+It doesn't necessarily matter, but do you allow one of the layers of stride to sort of reduce the input dimension and increase the number of channels?
+
+Now, why do we, uh, use plaques? Mainly because it just saves time.
+
+Um, it saves time developing the network. Uh, you don't have to tune all the layers.
+
+It helps. Helps, uh, save time debugging.
+
+Um, if you reuse the same block over and over again, uh, you only need to fix any bugs you have in there at once.
+
+And then finally, it's also a lot easier to tune these, uh, these layers, uh, if they sort of have a repeatable structure.
+
+And the final thing, uh, you should always try to make the network all convolutional.
+
+That is, you should not have any linear layers inside of the network.
+
+Uh, linear layers just have too many parameters. Um, and you should only average in the very, very end.
+
+So you can have a network that is all convolutional.
+
+And then in the very end, right before you were about to sort of decide what this image is,
+
+you will sort of average all the spatial dimensions together.
+
+And what you're left with is just the number of channels.
+
+So you can even put a classifier before the average pooling so you can classify what do you think this image is before you average.
+
+And you can do this using like one cross, one convolution.
+
+The nice thing of putting the classifier before the average pooling is it makes it more interpretable.
+
+So if you would want to train a network that protects if this is a cat or a dog,
+
+you can then go look at the image itself or at your output itself and say,
+
+well, in this region here, sort of the classifiers for this region decided this is really an image of a cat.
+
+And maybe if you look down here, this part of the image down here thinks more that it's a dog.
+
+Right. Now, the final, uh, reason why you sort of should make the networks all convolutional is that just to train much better.
+
+So networks that are all convolutional get a lot more training signals for the parameters in their kernels,
+
+uh, because they're repeated over and over again. And so that will lead to, to better training.
+
+All right. So to put everything together, what we'll do is when we design a network, the first layer is special.
+
+The first layer in a convolutional network is special. It has a lot of chance.
+
+It blows up the number of channels.
+
+It has a fairly large kernel size, and it is almost always tried to sort of reduce the input size, uh, from the start.
+
+And then afterwards we have repeating blocks of sort of at most three cross three convolutions, that sort of.
+
+Repeatedly compute or, uh, evaluate what's in the image itself.
+
+The network should always be all convolutional, uh, and then in the very end, after the classifier, you can average together all different outputs.
+
+All right. That's pretty much it. Increase channels, decrease spatial dimensions using striding.
+
+Keep kernel small and repeat patterns. That's it.
+

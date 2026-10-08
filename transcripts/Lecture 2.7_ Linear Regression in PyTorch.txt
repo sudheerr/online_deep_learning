@@ -1,0 +1,281 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+Think. So we've covered pretty much everything there is to know, uh, for linear models.
+
+Um, except for we haven't really put all the pieces back, uh, together.
+
+Sort of. We have looked at data sets, we've looked at losses, we have looked at sort of models,
+
+we have looked at training algorithms, but we haven't really combined all of this into one, uh, one single training setup.
+
+That's what we're going what we're going to do in this hands on segment.
+
+Uh, we'll start with the code we've written for the models, uh, in the introduction, and we'll sort of load the same data sets.
+
+It's the flowers data set, um, that we sort of convert into emitters of 128 by 128 pixels.
+
+Um, here, this is sort of, uh, an example of one of these images I've already loaded.
+
+The data set here is sort of a visualization of the first, uh, 40 images in the data set.
+
+And above is the label. Now, the very first thing we'll need to do is we'll need to take the set of.
+
+Images, which is this data set, and we'll need to convert it into PyTorch tensors.
+
+And so let's first look at the very first data element in our training set.
+
+And so this data element has a tensor. And a single value in it.
+
+So it's a tuple with two elements. The first is a tensor. The second is a label.
+
+And so if you look at the type of just tuple.
+
+The here we go. The type of the label is and. And the type of the first element of the tuple is a torch tensor.
+
+All right. Now for the torch tensor.
+
+We could also look at its shape. So it's an image that is of size three by 128 by 128.
+
+Three is the number of channels red, green and blue. 128 by 128 is the size of each of these images.
+
+In order to convert this into a format on which we can run gradient descent,
+
+we'll need to first concatenate all images into one gigantic tensor, and we'll do this here.
+
+We'll define training images to be. So iterate over the entire training data set.
+
+This is an iteration over images and labels will ignore.
+
+The labels will take out the images, and then we'll concatenate them using the torch dot stack function.
+
+And we'll concatenate them along the very first dimension.
+
+So the very first dimension is often called the batch or data set dimension.
+
+And it is sort of. It is enumerating all the data elements you have.
+
+Let's call this training images. We can briefly look at the shape of the training images.
+
+And so these are 1020 images, each one of which has three dimensions along the color channels.
+
+And then 128 by 128 which is the width and the height of the image.
+
+Now we'll do the same for the labels. Training labels.
+
+Now here we can not just, uh, call torch, uh, stack, because the labels themselves are not torch tensors, so they cannot be stacked.
+
+But we can just call to torch tensor function that will take a list of labels,
+
+which are all a list is a list of integers, and it will create a tensor out of it.
+
+And so if you look at this, this is now a tensor of just a 1020 individual integers.
+
+The datatype is in 64, which is what PyTorch by default uses.
+
+If you feed it in as as elements of a tensor.
+
+All right. So this is it for the data processing pre-processing.
+
+The other thing we need is we need a model. Now our model is.
+
+A linear model. It takes as an input all the pixels in the image, which is 128 by 128 by three, and it will output.
+
+We'll regress to a single value for now. We'll look at classification later.
+
+And we'll also look at binary classification later.
+
+For now, we'll simply just do regular regression will regress to is an image closer to um, to label zero or the closer to label one?
+
+Right. The other thing we'll need is a loss function.
+
+And we'll use the mean squared error loss here. And then the final thing we need is we need an optimizer.
+
+So gradient descent or strictly speaking, stochastic gradient descent is already implemented inside of PyTorch.
+
+So you will not have to implement, uh, the gradient, uh, sort of the gradient descent algorithm yourself.
+
+You just have to call it and sort of call a function that's called step.
+
+That tells PyTorch to sort of take a step in stochastic gradient descent or in gradient descent.
+
+Now here it takes an argument for learning rate. Um, we can set this to 0.01 for now, which is a good value for training deep networks.
+
+For linear models we can later go and set this much higher. All right.
+
+So these are sort of the three components that we need. Uh 2 or 4 components that we need.
+
+We need to data the model the loss and the optimizer.
+
+Once we have that, we can now go and train for a few epochs.
+
+And let's just start with ten epochs. Um, and what we'll do is we'll first.
+
+Uh. All right. Cool. Uh, copilot already suggested something.
+
+I'll rearrange this a little bit. So the very first thing we do is.
+
+We'll get the predictions for our model.
+
+Let's call it predicted label. Then we'll evaluate the loss of our model.
+
+I like to call this loss value.
+
+So we'll call the loss of we'll compute the loss of the predicted labels, which is a tensor of the size number of images times one.
+
+Now the loss function itself actually the MSE loss expects a tensor.
+
+That's just the number of labels. That's why there's this view minus one here which will sort of flatten out this
+
+predictions that half you'll just get rid of the dimension size one at the end,
+
+which I can show you real quick. All right.
+
+Then we'll use the training labels for the MSE loss.
+
+The training labels have to be floating point values. So we'll convert them to float and then we'll run this for now.
+
+And look at the rest later. We'll break out of this as well. All right.
+
+So you can see we feed in the training images into the model.
+
+It will produce predictions. One for each training image here.
+
+Then it will. Produce.
+
+Uh. Uh, it will compete will compare this to the training labels, which are a shape just number of images.
+
+This view here, we'll get rid of this one dimension here.
+
+And then we can compare the loss between this and this. Uh, these two predictions.
+
+Right. Now, to finish this training loop, we'll remove the print statements here.
+
+I'll click. Put some comments. Okay.
+
+Compute model predictions. Compute loss.
+
+Now. This optimizer zero grad.
+
+Does. Take all of our computation graph, and he makes sure all the gradient values in it are set to zero.
+
+And the reason for this is that the backwards call will not override gradient terms.
+
+They will only add gradients to what's already in there.
+
+And so if we do a loss val thought backward, it will add the new gradient to whatever else was there.
+
+And so the optimizer needs to go in and first reset all the gradient values to zero.
+
+And then once we add the gradients which uh in the backward call, then we will have to correct gradients.
+
+Otherwise you will start to build up gradients as you go during training.
+
+And eventually your training loop will most likely explode because gradients get too large.
+
+Once we're done here. We'll call optimize it a step, which will then optimize the objective.
+
+Or just take one step in gradient descent. And we can print how this looks like.
+
+All right. Oh, Interés no I don't.
+
+All right, here we go. This is Los. Well.
+
+All right. So here's what happened. We started out with a loss of about.
+
+Um. 3000, then went to a loss of a few million.
+
+Went further and further and further. At some point it went to a loss of infinity.
+
+So what was going on here? Well, what happened is that our labels that we feed in.
+
+Are these image labels from 0 to 1000.
+
+We were just want to regress two values from 0 to 1000. Now by default the model will output something that's close to zero.
+
+And so if it should have predicted 1000, the mean squared error loss here will penalize it heavily for predicting something that's very far off.
+
+There's two issues here. A our data set here.
+
+We should have processed it slightly differently. If you want to do a regression, we shouldn't just regress to the raw values.
+
+Maybe we should have regressed to label one versus label two. And we can do this right now.
+
+And then the second thing we should do is we either have to change our loss the way we compute our loss or change the learning rate,
+
+if that still doesn't help. And so.
+
+Down here. We'll do. Training images zero one.
+
+Will only use the training images where the labels are smaller, equal to one.
+
+And then we'll do the same for labels. We'll only use labels.
+
+That are smaller, equal to one. And we'll run this entire optimization again on just these labels and images.
+
+All right. Now, this time the law started out, uh, smaller, but it's still sort of to, uh, grow and eventually explode.
+
+This is because our learning rate is slightly too high. All right.
+
+So if we make our learning rate slightly smaller, also remove another term that's called momentum.
+
+Um. Which. We can then sort of see that once the learning rate is small enough, gradient descent will still slowly start to slow start to converge.
+
+Right. We could play with the learning rate a little bit more to see if we get faster convergence.
+
+We can increase it now it blows up and decrease it again.
+
+Maybe make it 0.0 put uh two still blows up.
+
+So maybe 0.001 is the right learning rate. We could train for a little bit longer.
+
+And see that eventually the linear model will actually fit the data quite well.
+
+Right. So this is more or less how the training loop looks like.
+
+We first prepare the data. In our case we took the entire data set.
+
+We only wanted to train on labels zero and one. So we take the subset here.
+
+Then we set up the model. We set up the loss function.
+
+We'll create the optimizer. In this case this is gradient descent or stochastic gradient descent, which we'll look at later in class.
+
+The optimizer needs one parameter which is what is it actually optimizing which is the model parameters.
+
+It needs a learning rate. And for now we'll set the momentum term which we'll also cover later in class.
+
+What this is we'll set this to zero and then we iterate over training.
+
+In the iteration itself. We'll take the model will predict the value from the model.
+
+We'll compute the loss which shows how far off this value is from the predicted from the predicted from oh,
+
+how far our prediction is from the ground truth label. And then we'll use the optimizer to take a gradient step and improve the loss function.
+
+Now the final thing we can do is we can see how well this model works on our test data.
+
+So we'll take our test images. And our test labels.
+
+We'll load them real quick. We'll again just get the subset that has labels 0 or 1.
+
+All right. And now we can just predict how far off or how close is our prediction.
+
+Again using maybe the mean squared error loss. So we'll take the model.
+
+We'll apply it to the test images. In the right shape.
+
+And then we'll just compute the loss of our predicted labels and the ground truth.
+
+And you can see our predictions are actually better than random here.
+
+So if we regress to a value between 0 and 1, our mean squared error is it about 0.23 where we can look at if we sort of flip this around,
+
+if we flip the labels it would be about the around 4.4.5.
+
+So our predictions right now are clearly much better than random in terms of regression.
+
+Then in next segment we'll look at how to take this and actually make this into an actual classification problem.
+
+How to change the model to set up both binary. And then later on multiclass classification which will give us true accuracy numbers.
+
+All right. This wraps up this segment.
+

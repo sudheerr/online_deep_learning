@@ -1,0 +1,826 @@
+♪ (jazz music) ♪
+
+Hey everybody, welcome
+back to Machine Learning.
+
+Today, I'm super excited to tell you
+
+about a technique in machine
+learning called boosting.
+
+Boosting is an algorithm where you take
+
+a bunch of classifiers that
+are only sort of weakly,
+
+let's say 51% accurate on a training set,
+
+and you're able to
+combine them in such a way
+
+that you end up with a classifier
+
+that's extremely accurate
+on your training set.
+
+So it's a technique that
+really changed the way
+
+people did machine learning,
+and it made the problem
+
+of coming up with high accuracy
+classifiers much easier
+
+because instead of coming up
+with one single classifier
+
+that had really high accuracy,
+
+sort of what boosting algorithms do
+
+is they tell you that it suffices
+
+to come up with a classifier
+that is just doing
+
+a little bit better than random guessing.
+
+And typically in a lot of applications,
+
+this is much easier to achieve.
+
+In practice, if you've run
+several different types
+
+of classifiers in various
+software packages,
+
+you'll see the word
+boosting appear everywhere,
+
+and that's because it's easy to apply
+
+as sort of a meta-algorithm or a wrapper
+
+on top of other types of classifiers.
+
+So in today's lecture,
+we're going to talk about
+
+the origins of boosting,
+and I'm going to show you
+
+a very simple boosting
+algorithm, and we'll analyze it.
+
+Okay.
+
+I think that the best
+way, or an excellent way
+
+of introducing the notion of boosting
+
+is to go back to PAC learning.
+
+And if you recall, there were two
+
+sort of key parameters in PAC learning.
+
+One was the delta parameter,
+
+and one was the epsilon parameter.
+
+And the delta parameter
+corresponds to the probability
+
+of failure.
+
+So in PAC learning,
+there's some algorithm A
+
+and there's some chance
+that your algorithm A
+
+fails to output a good hypothesis,
+
+and we called this failure probability,
+
+we said it was delta.
+
+And epsilon is typically referred to
+
+as the accuracy parameter.
+
+And this epsilon parameter
+we want to make small,
+
+and that means that the
+classifier output by A
+
+is going to have small error.
+
+So in PAC learning, the requirement
+
+was as follows.
+
+For any
+
+choice of epsilon and delta,
+
+A should output
+
+with probability
+
+at least one minus delta,
+
+an epsilon-accurate
+
+classifier.
+
+Okay, and A is allowed to run
+
+in time polynomial in one over epsilon
+
+and one over delta, and
+it's also allowed to take
+
+a number of samples
+
+that's polynomial in one over
+epsilon and one over delta.
+
+And the reason for this is that
+
+as we make epsilon and delta smaller,
+
+we're being more demanding on A,
+
+we're asking for a more
+accurate hypothesis
+
+and we're asking for a lower
+probability of failure.
+
+So we should allow A to run longer.
+
+In particular, the running time
+
+should be polynomial in one over epsilon
+
+and one over delta, and we should give it
+
+that many more draws
+from the distribution.
+
+Okay.
+
+Any questions about that?
+
+Good, so a natural question is
+
+what if
+
+we have an algorithm,
+
+let's say A,
+
+that
+
+with probability,
+
+say 5%,
+
+outputs an epsilon-accurate
+
+classifier?
+
+So that means we have an algorithm A
+
+that sort of looks like a PAC learner.
+
+You can give it epsilon as an input
+
+and it will produce an
+epsilon-accurate hypothesis.
+
+You can make epsilon small,
+but it doesn't really have
+
+a delta parameter as an input.
+
+So no matter what you set delta to be,
+
+it's only going to output
+with probability 5%,
+
+an epsilon-accurate hypothesis.
+
+And the question is,
+
+how can we use A
+
+to obtain a standard
+
+PAC learner,
+
+one that we can give it a
+very small value of delta
+
+and it will succeed with that probability?
+
+So we want to
+
+increase
+
+that 5% probability of success
+
+to something very large.
+
+So we'd like an algorithm
+that instead of outputting
+
+with just probability 5%,
+an accurate hypothesis
+
+actually is going to output
+an algorithm classifier
+
+with probability one minus delta.
+
+And we've seen something like this before.
+
+So the solution
+
+is to run A
+
+a large number of times,
+
+say T.
+
+Then the probability that
+
+A fails to output
+
+an epsilon-accurate classifier,
+
+well, the probability that it outputs,
+
+the probability that it
+fails each time is .95.
+
+So the probability that
+it fails every single time
+
+is at most .95 to the T,
+
+this is if we run A T times.
+
+So the probability that we run A T times
+
+and every single time it fails to output
+
+an epsilon-accurate classifier
+is at most .95 to the T.
+
+This is because we said
+the probability of failure
+
+was at most 95%.
+
+So we can make
+
+.95T very small
+
+by choosing T
+
+to be approximately
+order log one over delta.
+
+And then we can test
+
+each classifier
+
+generated
+
+during these T trials
+
+to see if any of them
+
+are good classifiers.
+
+So I think at least the
+high level idea is clear.
+
+We have an algorithm that only
+succeeds with probability 5%.
+
+If we run it T times, the
+probability that it fails
+
+to output a good classifier
+in all of those T times
+
+is at most .95 to the T.
+
+So we can take T to be, say,
+order log one over delta,
+
+and then the probability
+that it fails to output
+
+an accurate hypothesis over these T trials
+
+is going to be smaller than delta.
+
+So with reasonable probability,
+one of these classifiers
+
+is actually going to be epsilon-accurate,
+
+and then we can simply take fresh data
+
+and test every single
+classifier that we've generated
+
+and see which one was the good one.
+
+Now, there'll be some
+probability of failure
+
+as we test to see how
+accurate each classifier is,
+
+but again, we can make that quite small
+
+by taking sufficiently many examples.
+
+Any questions about this strategy?
+
+Okay, so good.
+
+So the bottom line is
+
+amplifying
+
+the probability of success
+
+is not too difficult.
+
+This is because, as I said,
+we can just run the algorithm
+
+T times, take new samples each time,
+
+and with T not too large,
+with higher probability,
+
+one of those classifiers
+is going to be good.
+
+So we can amplify that
+5% to one minus delta
+
+just by running the algorithm
+many times consecutively.
+
+Now the trickier question,
+
+what if epsilon is fixed
+
+to say .49?
+
+Okay, so this means that,
+so imagine a scenario,
+
+imagine A
+
+with probability
+
+at least one minus delta
+
+outputs a classifier
+
+with epsilon equals .49.
+
+So this means that every
+time that you run A,
+
+it's only going to output a classifier
+
+that has accuracy 51%.
+
+So no matter what epsilon you give A,
+
+it's just going to output a classifier
+
+that's doing a little bit
+better than random guessing.
+
+Its error is going to be .49.
+
+Now, we can still make the
+delta parameter very small.
+
+So with high probability, A is definitely
+
+going to output a classifier,
+
+but its accuracy is going to be, say, .49.
+
+So you know, sorry, its
+error is going to be .49
+
+so its accuracy is going to be about 51%.
+
+Okay, and the natural question is
+
+how do we amplify
+
+slash improve
+
+the accuracy parameter?
+
+So just to summarize, we
+have this algorithm A,
+
+it's outputting a classifier H,
+
+and the error of H is always equal to .49,
+
+and what we want is an algorithm A prime
+
+that is using A as a subroutine,
+
+and it's able to output H prime
+
+such that the error of H
+prime is at most epsilon.
+
+Okay, so we're given this scenario,
+
+the error of our classifier is always .49,
+
+and what we'd like to do
+is use A as a subroutine
+
+and come up with an algorithm A prime
+
+that outputs a classifier
+whose error is at most epsilon.
+
+Is the question clear?
+
+Okay, so why don't we just, you know,
+
+here's an attempted solution.
+
+Try running A many times,
+
+let's say T times.
+
+We'll get classifiers H one through HT.
+
+And then take the majority
+
+of H one through HT.
+
+Somehow, taking the majority
+of these classifiers
+
+should, it seems at least
+intuitively, improve our accuracy.
+
+So what do you guys think, will this work
+
+or will this not work?
+
+Yes.
+
+>> Well, isn't
+one major assumption
+
+that all the Hs are
+independent of each other?
+
+And so if some of the Hs are dependent,
+
+then this wouldn't work out?
+
+>> Good, so your point is
+that if the hypotheses
+
+are dependent on each other,
+
+then taking the majority might
+not work, and that's right.
+
+So imagine a scenario
+where we keep running A,
+
+Okay, and it keeps outputting
+the same classifier
+
+over and over again.
+
+Then when we take the
+majority of H one through HT,
+
+it's just the same as any one of them,
+
+we haven't gained any power.
+
+So running A T times may
+not necessarily help us,
+
+it may just give us the same
+classifier over and over again,
+
+and certainly it doesn't really make sense
+
+to take the majority over classifiers
+
+that are all identical.
+
+Okay?
+
+So this question
+
+was posed
+
+by Valiant in one of his
+original papers on PAC learning,
+
+and it was originally
+solved by Rob Schapire,
+
+and today I'm going to show you a solution
+
+due to Freund and Schapire,
+
+and these solutions are
+called boosting algorithms.
+
+And the word boosting comes from the fact
+
+that you're boosting
+the accuracy parameter,
+
+you're coming up with an algorithm
+
+that's making your weak learner,
+
+the one that's outputting
+just these classifiers
+
+that are only 51% accurate,
+
+you're boosting their
+accuracy to one minus epsilon.
+
+You're making them much more accurate.
+
+And so the algorithm
+
+that we'll be presenting
+
+is called AdaBoost.
+
+And I'll give a sort of
+simplified version of AdaBoost,
+
+and we'll see that the analysis follows
+
+from some techniques
+that we've seen before.
+
+The high level idea,
+
+well, let me give you the high level idea.
+
+So imagine that we've
+taken a training set,
+
+so here are all the
+points in my training set,
+
+okay, and we run,
+
+we run A on the uniform distribution
+
+on points in the training set.
+
+Okay so remember, A is supposed to work
+
+for any distribution,
+
+so in particular, I'm going to give it
+
+all of these points in the training set,
+
+and each one is going
+to have the same weight,
+
+the same probability of being selected,
+
+so I'm going to run A on
+the uniform distribution
+
+on this training set.
+
+And remember, let's assume that A outputs
+
+a classifier H, with epsilon equal to .49.
+
+Okay, so
+
+let's assume that H does
+something like this,
+
+so
+
+let's say that these are the
+points that H gets correct,
+
+and on the other side, let's
+say these are incorrect.
+
+So the fraction
+
+of correct points
+
+is .51.
+
+Okay, so in this picture,
+
+inside this box, the classifier is getting
+
+a little more than half
+of the points correct
+
+and 49% of the points incorrect.
+
+So now what do we want to do?
+
+Well, these points that
+were labeled incorrectly,
+
+they seem like harder points.
+
+So a natural thing to try
+
+is to come up with a new
+distribution on these points,
+
+remember, we started with
+the uniform distribution
+
+on these points, we gave
+each point equal weight.
+
+We're going to put a little more weight,
+
+we're going to put a little more weight
+
+on the points that we got wrong
+
+and a little less weight
+
+on the points that we got right.
+
+And then we'll divide by
+the sum of the total weights
+
+so that we get a new
+probability distribution
+
+on the points in this training set.
+
+And the nice property of
+this probability distribution
+
+is that it's going to
+have a little bit more
+
+probability mass on points
+that we got wrong last time,
+
+and it's going to have a little
+bit less probability mass
+
+on the points that we got right last time.
+
+So now when I call A on
+this new distribution
+
+that's been re-weighted,
+it's going to force A
+
+to do a little bit better
+
+on the points we got wrong last time.
+
+Let me say that again.
+
+We've given a new distribution
+to our training set,
+
+it's putting a little bit more weight
+
+on the points we got wrong,
+
+so when we run A on this new distribution
+
+that's been re-weighted
+towards points we got wrong,
+
+it still has to be 51% accurate
+
+with respect to this new distribution,
+
+and that's going to force
+it to do a little bit better
+
+on those points we got wrong.
+
+And because we're only putting
+a little bit less weight
+
+on these points we got right,
+
+it's not going to do too much,
+it's not going to do too bad
+
+on the points that we
+were still getting right.
+
+Okay so the core idea,
+
+re-weight
+
+points
+
+we get wrong
+
+to have more weight,
+
+points we get right
+
+will have less weight.
+
+And we'll run A again
+
+to obtain classifier
+
+with respect to the new weighting.
+
+And then we'll take, at the very end,
+
+we'll take the majority of classifiers
+
+generated
+
+during this process.
+
+Any questions about the high level idea
+
+for what we're going to do here?
+
+Yes.
+
+>> Is the fact that
+this works mainly driven
+
+by the nature of a PAC learner,
+
+it needs to do
+epsilon-accurate every time,
+
+no matter the training set?
+
+>> Good question.
+
+So the reason why this works
+
+is that we do have this assumption
+
+that no matter what distribution
+you give your learner,
+
+it will be 51% accurate.
+
+So for any distribution, it
+needs to be 51% accurate.
+
+So right, so that assumption,
+which at first glance
+
+may seem sort of weak, oh, you can only do
+
+a little bit better than random guessing,
+
+actually turns out to be quite strong
+
+because of this sort of
+re-weighting procedure.
+

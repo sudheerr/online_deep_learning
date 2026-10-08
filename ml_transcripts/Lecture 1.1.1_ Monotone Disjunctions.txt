@@ -1,0 +1,111 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+Yes. Go ahead. So one thing you could do, I guess, is like, uh, you could start, like, every time you get one and you get it wrong.
+
+Well, like, you could basically keep trying to generate, like, different, uh,
+
+distinct monotone disjunctions and see if they fit all the, like, all the given data points you have,
+
+like those would say you're given an X, you guess and you get it wrong or something,
+
+and you and you say you think it's this, it's this margin, this function you got and it's.
+
+And if that doesn't fit that, then you can like rule that out two classes of information.
+
+That's the correct idea. So what we want to do is start with some say monitoring disjunction is our initial state.
+
+And every time we get a we have a mistake. We want to be able to update our monotone disjunction so that it's consistent with what we've seen.
+
+And hopefully we don't have to make too many updates. That's the right idea.
+
+So let me elaborate on that approach. So our learner.
+
+We'll start. With the monotone disjunction.
+
+X1 or x2 or dagger dot or x n.
+
+So this is not a super interesting monotone disjunction.
+
+It's basically true on every string except the all zeros string.
+
+Okay. But that's going to be its initial state. That's what it's going to think that the the unknown monitoring disjunction is.
+
+So we'll start with. So our initial I'll call it initial state.
+
+Equals x one or x n.
+
+So here we go. Let's let's assume now that the learner receives a challenge.
+
+Let's say the string that it receives is 0110010.
+
+Okay. And what should we reply if this is the challenge that we received given our initial state?
+
+Why yes, we should. We should respond with one. Why should we respond with one?
+
+Well, I see a one in the second position, a one in the third position, and we have X1 sitting inside our monitor in disjunction.
+
+We also have x2, we have x3. So x2 and x3 are one.
+
+So we should say one because that's what we currently think the monotone disjunction is.
+
+So we say one. And let's say that the teacher responds with.
+
+Mistake. Then what have we learned?
+
+Well, we've learned that x2. This implies that x2 cannot be in the unknown.
+
+Disjunction. Why is that?
+
+Yes. Because if um. If x two were one, or if x two were ordered in the actual monotone disjunction,
+
+then the bitstream that they gave you would be true, because x2 is in there, right?
+
+If x2 were in the true monotone disjunction, then replying with one would have been the correct answer.
+
+But it's not. Therefore, x2 cannot be in the unknown disjunction.
+
+What? Yes. Question. So here do you also know that X3 and x6 are not in the monotone?
+
+Good. So we also know that x3 cannot be in the monotone disjunction because x3 was set to one.
+
+And let's see. X1 x2 x3 x4 x5 x6.
+
+This also implies that x6 cannot be in the unknown disjunction.
+
+So we can eliminate. So if this if our initial state I'm going to rewrite my initial state here.
+
+So x1, x2 or x2 or x3 or dot dot dot x6.
+
+Or. X n. Given this sequence of events, I can now eliminate x2.
+
+I can eliminate x3 and I can eliminate x6.
+
+Question. Uh, so, I mean, this is just kind of moving on to like, how you get from here to the next or like back to the previous question, I think.
+
+Yes. Uh, so with this, for every mistake, you know, you can eliminate at least one, uh, element from the initial.
+
+Good, good. Yes, that's the exact observation. So what did we learn here?
+
+Well, every time we made a mistake, we're going to be able to eliminate at least one literal from our monitoring disjunction.
+
+Because if we say because if we say zero.
+
+And we're sorry if we don't make a mistake. We don't really need.
+
+That's fine. We don't make a mistake. We don't increment our mistake bound.
+
+But every time, the only way we can make a mistake is if we say that the answer is one.
+
+But the actual answer is zero. One literal.
+
+Is eliminated. And there are most.
+
+And literals. Because we said it's a monotone disjunction over and literals.
+
+This implies that the number of mistakes.
+
+Is it most? And. Okay, so that's how we came up with a learner whose mistake bound was at most end.
+
+Because every time the learner makes a mistake, it eliminates a literal there at most end literals, we can make a most n mistakes.
+
+So even though we could be presented with two to the n different challenges, this algorithm actually makes it most and mistakes.
+

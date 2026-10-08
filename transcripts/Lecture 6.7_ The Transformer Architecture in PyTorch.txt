@@ -1,0 +1,117 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So in this Henson segment, uh,
+
+we'll look at how to implement the transformer layer and then how to combine them into a much bigger transformer architecture.
+
+Now PyTorch itself has layers that have sort of our arbitrary customizable transformer layers.
+
+Um, and we'll leave it up to you to sort of figure out how to implement these.
+
+What I really want to show you here is how the inner workings of the transformer looks like.
+
+And we'll start with sort of importing torch. And now we'll have our own transformer layer.
+
+Transformer layer.
+
+It's a torch and a module.
+
+And now copilot actually thinks we should just use the entirety of the internal PyTorch model, um, or internal to PyTorch layer.
+
+If you're using this for a model that you want to train, you should definitely do that.
+
+Um, to understand what's going on inside of, uh, transformer layer, I actually just want to code to stop myself.
+
+Right. And so we have an embedding. Dimension for the transformer, and then we'll have sort of the number of heads for multi-head attention.
+
+Then practice. Transformers also have dropout in them and all sorts of other things.
+
+Um, which we'll will ignore here. All right.
+
+Now, Transformers really have sort of. A very simple structure.
+
+Uh, we have a self-attention. And self-attention is sort of embedding dimensions and number of heads.
+
+And we'll need to specify at first that the first dimension is the batch dimension.
+
+Right. And then there's an MLP. We'll go from embedding dimension to embedding dimension ReLU.
+
+And we can if we want, we can blow this up a little bit.
+
+And then projected down again, which will make the MLP slightly more powerful.
+
+And then there's two normalizations. There is a normalization of the input.
+
+And then there is a normalization of, uh, close to the output. Now the input to the transformer layer is just, uh, tensor X.
+
+And all the transformer is. It's a normalization of the inputs.
+
+Call this ex norm. Then we'll take self-attention.
+
+Will feed everything through self-attention. Here. Now self-attention will determine that.
+
+Uh, attention. Uh, layer here will output two things.
+
+It will output. The actual result of the attention operator and it will output the attention weights.
+
+We only want the result of the attention layer.
+
+We don't want attention weights. And so that's why this index zero is here.
+
+Now this is the residual connection. We have an MLP.
+
+Which we also use. Sort of. Maybe you should have called us MLP norm.
+
+Which we also normalize the input for. And then there is not a residual connection.
+
+That's it. That's the vanilla transformer layer.
+
+If you wanted to add in cross attention in this transformer layer, you could do this right here.
+
+So in here you could add in across the tension layer.
+
+That would then sort of go and cross attend to different, uh, to different inputs.
+
+Uh, this is optional. This is, uh, this is if you want to build encoder decoder architectures or if you would want to build sort of encoder,
+
+uh, only architectures, they might have cross attention.
+
+The decoder only architecture does not. Right.
+
+And now if you build the actual transformer. We'll just have embedding.
+
+Dimension. Number of heads. Number of layers. And all there really is, is we going to create.
+
+A transformer layer. NUM layers.
+
+Times. Okay. That's pretty much it.
+
+So we'll just have transformer layer after transformer layer after transformer layer.
+
+This is one way of writing this. Uh, there is a much more compact way.
+
+We'll just use sequential.
+
+All right. That is the transformer.
+
+We can create a transformer with an embedding dimension, let's say of 128, uh, number of heads.
+
+We'll do eight every single time, and we'll create four layers for now.
+
+You can look at this. This is just sort of.
+
+Attention, followed by MLP, attention, followed by MLPs, and so on.
+
+And we can feed in some inputs here. Here.
+
+This is the batch size. This is the number of tokens.
+
+And this is the dimension of the tokens. And a transformer.
+
+Well, just take this and. Output the same number of tokens, the same batch size and the same dimension as an output.
+
+So the same dimension goes in the same direction, comes out and all there is it goes to a bunch of transformer layers.
+
+That's really is the transformer architecture, right?
+
+And that's pretty much it.
+

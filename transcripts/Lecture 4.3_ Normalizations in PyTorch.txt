@@ -1,0 +1,145 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So we've just learned about Normalizations and how to sort of how they can help us
+
+train deeper networks and how they help regularize internal activations of the network.
+
+What we're doing is hands on a hands on segment, as we'll just look at how do we implement them in our network in PyTorch.
+
+And I've pulled up the set of the deep network that we have used in a previous exercise.
+
+Here is this PyTorch model. Um, we have sort of called.
+
+The init after module to initialize the module, and then we add layers specified by this sort of layer size list here.
+
+This here initializes or does here creates a four layer network.
+
+If we count the output layer or the classification layer in the end, um, sort of three hidden layers.
+
+And then in the end it adds one linear layer as a classifier.
+
+And then. Um. Now we can run this model real quick, and we can run it for various sort of inputs, uh, and various sizes of the network.
+
+So down here, I created an instance of this model.
+
+We create some random inputs here. These are ten random inputs and we can just look at the outputs this model produces.
+
+Now. We can do this for various sizes of our model.
+
+We can do a one layer network, which would just be an empty list.
+
+We'd call this net zero. And we can do this for two layer network.
+
+Call at one. Then we can do this for a three layer network and so on and so forth.
+
+Now the one thing you'll notice is that every time we increase the number of layers, the outputs will get slightly smaller.
+
+Add another layer. Outputs again got slightly smaller every single call.
+
+We can even measure this if you would want to. And complete the norm here.
+
+Instead of initially for the one layer network, the norm was 18, then it went down to eight, it went down to three.
+
+And we can just repeat this over and over and over again.
+
+Sort of we'll do for. And in range from.
+
+It's like ten. We'll do net.
+
+N is equal to my model of 512 layers times n, which is n layers deep network or n plus one layer deep network.
+
+And. We'll now just print the norm of that then.
+
+And we'll also sort of print and just for reference.
+
+And delete the rest of the code here. And as we go through sort of, the activations get smaller and smaller and smaller.
+
+At some point they stop getting smaller.
+
+Um, think for a moment why this might be, uh, we have covered this in class, so at some point they don't get smaller because of the bias.
+
+Um, if we would want to see them get smaller, we can make the model here.
+
+We can create this. Without a bias layer.
+
+Utopias equals false. And we'll also do this for the final layer.
+
+No bias. We'll rename this real quick to my model.
+
+No bias. And this should make the activations get smaller and smaller and smaller.
+
+And this is really the concept of vanishing activations as we go through the network.
+
+The inputs sort of have less and less of an effect on our activations.
+
+And here is this is sort of they have less of an effect on the actual output.
+
+All right. Now, one way to fix this is to add Normalizations into the network.
+
+And so we could add a normalization right after the linear layer.
+
+And before. The value. And.
+
+Let's do batch normalization for now. It's a number of features here.
+
+Should be one. Sorry.
+
+The one number of feature should be, uh, should be s.
+
+Right. And now.
+
+Call this my model batchnorm. We can look at these activations off the batch normalize model.
+
+You can see all throughout because we run batch normalization, the activation of the model actually stays relatively high.
+
+And so we no longer have this vanishing input. We can even disable the bias here.
+
+And you'll still see the same. And we can also disable the bias in the linear layer here.
+
+And still sees the same. The activation sort of propagates through the entire network.
+
+Now. One factor a nice little factor is for batch normalization enabling disabling the buy.
+
+The bias here does not make a difference. Uh, if you learn a bias, batch normalization will just subtract this bias right after.
+
+Um, so oftentimes you can just disable it. And we can do the same thing.
+
+With other norms so we could add layer norm here.
+
+Let's call this my model layer norm. And again, plot the activations.
+
+As we make the model deeper and deeper. And again, you can see that sort of none of the activations vanish.
+
+We can even make the model like we can go wild, make the models 30 layers deep.
+
+And the activations would still survive through so about through 30 layers of a network.
+
+Now almost the same will happen to the gradients. Uh, it's a little bit harder to show that it's, uh, it's happening to the gradients.
+
+Would have to call backward and then penalize the inputs.
+
+Um, but. For this exercise of hands on segment, I just want to show you that activations survive through a long, long time.
+
+If we start to normalize. Um, if you add normalization layers.
+
+Now this is one place to put the normalization layer. Uh, the other place to put the normalization layer here.
+
+Would we write before the layer norm.
+
+And then we should not disable the bias here right before the linear layer.
+
+And we should not disable the bias. Um we could.
+
+Make sure that. Fine. Um. That's sort of a side bias here.
+
+Is false. Um, because the affine transform, the linear layer can learn the bias in here.
+
+So we can trade off where we learn the bias. We should always learn a bias right before the rally though, otherwise it will wipe.
+
+The really will sort of make half of our activations zero, which is not always desirable.
+
+All right. So that's pretty much it. This is how you add normalization to your network.
+
+And sort of a nice illustration how if you add normalizations your activations will survive all the way through your network.
+
+That's it.
+

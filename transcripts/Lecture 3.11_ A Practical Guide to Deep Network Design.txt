@@ -1,0 +1,125 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. We have now covered sort of everything there is to train, uh, to training.
+
+Very simple deep networks.
+
+Um, we'll now look inside of a rough summary or a little guideline on what you need to consider when you want to train your own network.
+
+All right. The very first thing you should consider is, well, what task are you solving?
+
+And the first question you will ask yourself as well,
+
+am I expected to get sort of outputs that are continuous or are my outputs sort of discrete classes that I want to that I want to predict?
+
+Are these continuous quantities or very discrete buckets or classes?
+
+Well, if it's if the if the output is going to be continuous, then what you're going to be doing is a regression.
+
+And for regression there's really two loss functions that that we usually consider an L1 or an L2 loss uh, also called MSE loss.
+
+And in practice there's really not that big of a difference.
+
+Uh, if somebody ever comes up to you and tells you, you know, like L2 losses are really this big thing,
+
+L1 is like, so yesterday, you should probably take this with a little grain of salt in practice.
+
+L1 and L2 often work almost the same. All right.
+
+So let's say we don't want to do, uh, continuous outputs. Let's say we want to do discrete outputs.
+
+That is classification. Now.
+
+There is a question you would ask yourself as well. How many classes am I going to be considering?
+
+Um. Am I going to be considering just two classes, which is sort of true or false?
+
+Or am I considering a lot of different options that are all mutually exclusive?
+
+If it's two classes, you're going to use the binary cross-entropy with logits.
+
+If it's more than two classes, you should use the cross entropy loss.
+
+A fun fact, actually, if you're ever want to use cross entropy loss with two classes, it's perfectly fine.
+
+You can use it. You just have to output two outputs instead of one output, which WC like with logits expects.
+
+Now, one uh, slight nuance here is that you can.
+
+Two class binary classifications with multiple outputs.
+
+That's often known as tagging, uh, where you want to understand if each output is either true or false.
+
+And so it is possible to use more than two classes with peak loss with logits.
+
+But these classes will not be mutually exclusive.
+
+So the cross entropy will ensure its mutually exclusive PK loss with logits will not make it mutually exclusive if you have multiple outputs.
+
+All right. But in general, two classes PC.
+
+More than two classes. Cross entropy. Next thing you need to pick is activation function.
+
+You should almost always start with ReLU. Um, there is a reason why torch that ReLU exists.
+
+And for all the other activations, you actually have to find them somewhere else.
+
+ReLU is the default activation. It often just is good enough.
+
+It can happen that if you design your custom network, uh, that rarely you will fail, um, that you will have what's known as dead values,
+
+that you optimization will make certain values always zero, and there is no way to recover from it.
+
+You can then switch to like here earlier parameterized really if you really want to.
+
+Um, there's also more sophisticated, um, sort of non-linearities that might help you optimize slightly better.
+
+But if you design your own network, try value first.
+
+If you don't design your own network, if you sort of use somebody else's architecture, use just whatever the whatever else they did.
+
+And then finally you just need an optimizer. Um, for stochastic gradient descent, you should usually select the largest possible batch size.
+
+Um, if it's sort of the batch size is as large as the entire data set, it's often actually fine.
+
+Um, you just select the largest batch size that fits onto your GPU.
+
+You should remember to always put momentum in the momentum of 0.9, and then you're going to tune your learning rate depending on the network.
+
+As we've seen in some of the hands on segments, uh, the learning rate as actually can vary quite drastically.
+
+Sometimes linear networks will require a very small learning rate. Sometimes sort of deeper networks will require small or even like, uh,
+
+sometimes they will require a bit larger learning rate to actually get off the ground.
+
+And so you'll always just sit down and sort of try learning rates.
+
+The easiest way to do this is you sort of start increasing it, and at some point you will see the loss sort of jump around.
+
+And when you see the loss, sort of jump around pretty drastically, then, you know, well, I probably set the learning rate to last too high.
+
+If you then would go even higher,
+
+what would happen is at some point you will go towards infinity and your network would sort of what's known as explode, um,
+
+meaning that the weights will get larger and larger,
+
+the gradients will get larger and larger because of this, and then everything will fly off the rails.
+
+That's when you know the learning rate is too high and you sort of start to decrease it.
+
+Right. And it takes a little bit of practice to do this, but it's not.
+
+It's one parameter. It's not that hard to tune. That's pretty much all you need to know for basic deep networks.
+
+Now, for the rest of the class,
+
+we'll sort of show you various tricks and architectural innovations that will help you make your network sort of more performant.
+
+That will help you build deeper networks, that will help you build networks that are more accustomed,
+
+more or more tailored to the structure of the data that you're looking at.
+
+And then we'll also look at sort of a big bag of tricks that will help you sort of train better and better networks.
+
+All right. That's it for the segment.
+

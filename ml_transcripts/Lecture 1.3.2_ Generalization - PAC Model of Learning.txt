@@ -1,0 +1,1790 @@
+♪ (jazz music) ♪
+
+Okay, and that's going to lead us,
+
+I guess I'll define it
+now, to something called
+
+the PAC model of learning.
+
+So, in this model
+
+there's a distribution D
+
+on let's say, our domain.
+
+For simplicity, let's
+assume that for today,
+
+our domain is zero, one, to the n.
+
+It could be Euclidean space,
+n dimensional Euclidean space,
+
+but let's just stick with bits
+
+for right now, for simplicity.
+
+Okay, so there's a distribution
+D on zero, one, to the n.
+
+And again, just like in
+mistake-bounded learning,
+
+we're going to have a
+function class, script C.
+
+And we could think of
+script C as the class of
+
+decision trees
+
+of size S, let's say, since
+we're fond of decision trees
+
+and we've studied them for a while.
+
+Okay, then we have a learner
+
+that say, runs in polynomial time.
+
+And the learner receives,
+
+oh, I guess I should say...
+
+Let's fix some little c in script C.
+
+So, little c
+
+is the unknown decision tree
+
+we want to learn.
+
+Okay, so we don't know little
+c, but we want to learn it,
+
+just like in mistake-bounded learning.
+
+There was some unknown function.
+
+Here, we're going to call that little c.
+
+And then the learner receives
+
+an example, x, y,
+
+where x is drawn according to
+
+the probability distribution script D,
+
+and y is equal to c(x).
+
+Okay, so the learner
+can just push a button
+
+and receive a draw like that,
+
+so let's call it x one, y one.
+
+And at any time, it's allowed to request
+
+one of these draws from the distribution.
+
+So, it might request
+another one, x two, y two.
+
+So on and so forth.
+
+X m, y m.
+
+So, it gets all of these examples
+
+where x is chosen according to
+
+this probability distribution
+D that it doesn't know,
+
+and the label y is equal to c(x).
+
+So, y i is always equal to c(x) i.
+
+Okay, any questions
+about the setup so far?
+
+So, the goal
+
+is for the learner to output h,
+
+and for right now, let's assume that
+
+it's supposed to output an h
+
+that's actually in your script C class.
+
+So, it should actually
+output a decision tree,
+
+with the following property.
+
+The probability when I draw x a new x
+
+from the distribution script D,
+
+but h(x) does not equal c(x),
+
+should be at most epsilon.
+
+Think of epsilon as being
+something small like .01.
+
+And as I mentioned, the learner
+
+should be efficient.
+
+So, we had a parameter n,
+and we had a parameter s.
+
+We're working over zero, one, to the n.
+
+The decision tree is of size s,
+
+so the learner should always run
+
+in time polynomial in n and s.
+
+That also means that the
+number of samples or draws
+
+from the distribution that
+the learner can request
+
+should also be bounded by
+a polynomial in n and s
+
+because it takes one
+time step to take a draw
+
+from the distribution.
+
+Okay, so as you can see,
+the real goal here is,
+
+and I think this properly captures
+
+sort of the goal of many
+tasks in machine learning,
+
+is to just output some
+hypothesis, some classifier h,
+
+whose true error is at
+most epsilon is small.
+
+Now, you notice this is
+slightly different from
+
+mistake-bounded model.
+
+In the mistake-bounded model of learning,
+
+the criterion was very simple.
+
+We just had to make a
+bounded number of mistakes
+
+given any sequence we were presented with.
+
+Here, we start to have to talk about
+
+probabilities and we have
+a probability distribution,
+
+so it's a little more complicated.
+
+Actually, let me expand
+on what I just wrote.
+
+So, with probability
+
+at least one minus delta,
+
+the learner should output
+
+a hypothesis
+
+h such that
+
+h is accurate.
+
+And the running time which
+includes the number of draws that
+
+it might take from the distribution
+
+should be some polynomial
+
+in one over epsilon,
+
+one over delta, n, and s.
+
+Okay, so this is the
+most formal statement of
+
+the goal of the learner.
+
+It's with probability at
+least one minus delta,
+
+and what is the probability over here?
+
+What are we taking the probability over?
+
+So it's with probability
+
+over the draws of the distribution.
+
+So, with probability at
+least one minus delta,
+
+and the probability is over the
+draws from the distribution,
+
+the learner should output
+hypothesis h that's accurate.
+
+Its error is at most epsilon.
+
+Why do we need this with probability
+
+at least one minus delta at the top here?
+
+Well, consider the following example.
+
+Imagine that the learner requests,
+
+it keeps requesting new draws
+
+from your distribution,
+so it requests x one,
+
+and so forth, and x m,
+
+and it gets really unlucky, and x one
+
+actually equals, they're all equal.
+
+So, it keeps asking for
+draws, labeled draws
+
+from this distribution, and unfortunately,
+
+it just gets the same example over,
+
+and over, and over, and over again.
+
+Well, there's no way we can
+expect the learner in that case
+
+to actually output a classifier
+that has small error.
+
+It's only been able to
+look at one example.
+
+So, we have to allow for some
+probability of failure, okay?
+
+Now, the nice thing is
+that the probability that
+
+you actually see the same
+example over and over again
+
+drawn from D, extraordinarily small.
+
+So, the probability
+that something like that
+
+is actually going to happen
+is going to be small.
+
+But we do need to allow for
+some probability of failure
+
+just because we are drawing things
+
+from some unknown
+probability distribution.
+
+Any questions about that?
+
+Does that make sense?
+
+Yes, question.
+
+>> Yes, can you go back
+to the previous slide?
+
+>> Sure.
+
+(mumbling)
+
+Good, so I was going to get to that.
+
+Yeah. Great.
+
+Okay, so PAC learning.
+
+P is probably,
+
+approximately,
+
+correct.
+
+So, here's the probably with probability
+
+at least one minus delta,
+
+and approximately correct means that
+
+you're correct up to some epsilon fraction
+
+where you're allowed to make mistakes.
+
+And it was introduced by Les Valiant
+
+in 1984.
+
+Okay, so this is the probably
+approximately correct
+
+model of learning, and another
+thing to notice is that
+
+as you demand more accuracy
+as epsilon gets smaller,
+
+if you want a hypothesis
+that's more accurate,
+
+then you're allowed to run in more time
+
+and take more samples
+because your running time
+
+depends on one over epsilon.
+
+Here's delta.
+
+That's your failure probability.
+
+And as delta gets smaller and smaller,
+
+if you want an algorithm that has
+
+smaller and smaller failure probability,
+
+again, you get to run and use samples.
+
+You get to run in more time and
+you get to take more samples
+
+because you're allowed
+to run in time polynomial
+
+and one over delta.
+
+Okay, so as delta and epsilon get smaller,
+
+as you're more demanding of your learner,
+
+you allow the learner to take more samples
+
+and to run in more time.
+
+So, that's sort of the game that
+
+the learner gets to play here.
+
+Question?
+
+>> Also, could this be applied to
+
+any class of functions other than
+
+the class of all decision trees?
+
+>> Sure, this would
+work as I've defined it,
+
+this would work for any class of function
+
+that outputs boolean values, zero, one.
+
+>> Okay.
+
+>> So, it's for any
+classification problem.
+
+Now, we will get into sort
+of real valued learning
+
+later on in the class, but for right now,
+
+we're sticking with classification.
+
+It just makes life simpler.
+
+Okay, so we have delta, we have epsilon,
+
+n was the number of variables,
+
+s was the size of the unknown tree.
+
+Now you can see why I started
+with the mistake-bounded model
+
+because at least we had fewer
+parameters to worry about.
+
+Okay.
+
+So, I guess the next question is,
+
+when can we learn,
+
+I guess I should say PAC
+learn, a function class?
+
+Or what function classes
+
+can we PAC learn?
+
+Okay, so we're going to
+study these two questions.
+
+I am going to look at a simplified setting
+
+to sort of clarify certain issues.
+
+So, I'm going to give the learner
+
+an algorithm A.
+
+So, I'm going to give it some help.
+
+And A is going to take its input,
+
+so it's going to map training sets
+
+to decision trees,
+
+and A is pretty powerful,
+so A on a training set S
+
+will output a tree T
+
+that is consistent
+
+with S.
+
+Okay, so it's A(S) is
+going to output a tree T
+
+that's consistent with S, and
+furthermore, the size of T
+
+is going to be at most, little s.
+
+Okay, so I'm giving you an algorithm
+
+that can actually perform consistency
+
+on a training set of your choosing.
+
+It can take a training set of any size,
+
+and it can output a tree T
+
+that's consistent with that training set.
+
+And furthermore, the size of tree,
+
+the size of T is going
+to be at most, little s.
+
+So, remember the function class
+that we were interested in
+
+were these decision trees of size s.
+
+So, I'm just going to
+give you an algorithm
+
+so A always outputs
+
+a consistent
+
+hypothesis
+
+from script C,
+
+given any training set.
+
+Okay, so pretty powerful
+algorithm that I'm giving you.
+
+So, my question for you
+is given algorithm A,
+
+how can we PAC learn script C?
+
+Does the question make sense?
+
+So, remember I want to PAC learn
+
+this function class script C,
+
+and now I'm giving you this algorithm.
+
+I'm giving the learner this algorithm A.
+
+It could take in a training set,
+
+and output a tree that's in script C
+
+that's totally consistent
+with that training set.
+
+I should say outputs a
+consistent hypothesis from C
+
+given any training set,
+assuming there is one.
+
+So, you have to give it a training set
+
+that's actually been labeled according to
+
+some function from script C.
+
+Otherwise, if there's no
+decision tree that's consistent,
+
+then it'll just say fail.
+
+So, any ideas for how we
+should use this algorithm
+
+to pack learn script C?
+
+Yes.
+
+>> So, can we just draw
+
+as many examples as we
+want from the distribution
+
+until our training set is large enough
+
+for us to be confident that
+our bound is going to be small?
+
+>> That's exactly right.
+
+So, what we're going to do,
+the high level algorithm
+
+is going to be draw sufficiently
+
+many training points.
+
+Use a, let's right it this way.
+
+Use A to find
+
+a function in our script C, our
+function class consistent...
+
+So, we'll draw sufficiently
+many training points,
+
+and we'll call this S.
+
+And then we'll use A to
+find a function script C
+
+in script C that's consistent with S.
+
+And then we'll output little c.
+
+So, that is the correct algorithm.
+
+What's the only thing
+we need to determine?
+
+Yes.
+
+>> How big our training
+sets should be to--
+
+>> Right.
+
+The only question is how large
+
+should S the training set be?
+
+If we have to pick, if we have to take
+
+exponentially many draws
+from our distribution,
+
+we're in trouble.
+
+That won't satisfy the conditions of,
+
+that won't satisfy the PAC learning model.
+
+The PAC learning model says that
+
+you have to run in polynomial time
+
+in all of the relevant parameters.
+
+Okay, so if we have to draw
+
+exponentially many training
+points, it's no good.
+
+So, the real question is how do we analyze
+
+how large S should be?
+
+So, I have a question here.
+
+How is this different
+from memorizing the data?
+
+Good question.
+
+So, what we're able to do here is,
+
+and what we're going to have to do is
+
+we're going to draw a training set
+
+that's going to be much
+larger than the size of
+
+the classifier that we output.
+
+Okay, so that's why the
+classifier that we're outputting
+
+isn't just memorizing our training set
+
+because its size is going to be
+
+quite a bit smaller than our training set.
+
+Question.
+
+>> Well then we also have to assume that
+
+A runs in polynomial time.
+
+>> Good point. Yes.
+
+For right now, I'm assuming
+that A runs in one time step.
+
+It's sort of a magic algorithm.
+
+Yeah.
+
+It's a simplified setting.
+
+Question.
+
+>> To be totally clear,
+
+is the algorithm A given
+the correct outputs
+
+for the given inputs, or...
+
+>> We're going to draw sufficiently
+many training points S.
+
+Those training points include a label.
+
+>> Okay.
+
+>> Okay, so remember, so S has points x,
+
+and it also has labels y.
+
+So, that's going to be S.
+
+We're going to feed that to A.
+
+It's going to output
+some little c in script C
+
+that's consistent with S,
+
+and then we're going to output little c.
+
+Question.
+
+>> Sort of responding to
+what you asked earlier
+
+about how big S should be,
+
+it seems like how big
+your tree is compared to
+
+how big your training set is
+
+should tell you something about how well
+
+the training points you're
+drawing are modeling the big C.
+
+>> That's true.
+
+The size of your tree is going
+to play an important role.
+
+Yes.
+
+Question.
+
+>> Wouldn't the size just be
+
+one minus delta times the
+set of possible inputs,
+
+so two to the n?
+
+>> If the size of the tree
+is, sorry, say that again?
+
+>> If A returns something
+that's consistent with
+
+our training set, and we want it to learn
+
+or to output something with probability
+
+at least one minus delta,
+
+then the only way to guarantee that
+
+would be to make sure that what A outputs
+
+is consistent with at
+least one minus delta
+
+times the set of all possible inputs.
+
+>> Sort of.
+
+Let's hone in on that question, okay?
+
+So, let me introduce something
+called the marble game.
+
+Okay, so imagine that I
+give you there are two jars.
+
+Jar one has all blue marbles,
+
+and jar two has 90%
+
+red marbles
+
+and 10% blue marbles.
+
+And the jars are sealed and opaque,
+
+so I hand you one but you
+don't know which is which.
+
+And your goal is figure out
+
+if you've been given
+
+jar one or jar two.
+
+What information do you get?
+
+You receive
+
+a random element
+
+from the jar any time you want.
+
+So, at any time you can say
+
+give me a random marble from the jar.
+
+You get to see whether it's red or blue,
+
+and then it's returned to the jar, okay?
+
+And so you can keep asking
+for marbles from these jars.
+
+Okay, so if we want to figure out
+
+whether we have jar one or jar two,
+
+what should our algorithm be?
+
+Yes.
+
+>> You just take out one item,
+
+and if it's blue, then
+you just guess jar one
+
+because that's most likely what it is.
+
+>> Right. So, okay.
+
+Let's look at a simpler case first.
+
+So, we'll pick random marble from the jar.
+
+Okay, so case one.
+
+The marble is red.
+
+Then what do we know?
+
+We have jar two, there's no doubt, okay?
+
+Case two, the marble is blue.
+
+Then what can we conclude?
+
+Yes.
+
+>> Probably jar one, but
+we don't know for sure.
+
+>> It's probably jar one, but
+we don't know for sure, okay?
+
+So, if it's blue, let's
+pick another marble, okay?
+
+And do the same thing.
+
+If it's blue again,
+we'll pick another one,
+
+pick another one, pick another one.
+
+Okay, let's say that we pick at most,
+
+100 marbles.
+
+Okay, so if we see red
+we know to say jar two.
+
+If we see blue every
+time, we just say jar one.
+
+Seems like a reasonable thing to do.
+
+The big question is
+
+what is the probability
+
+of failure?
+
+There is some probability that
+
+our algorithm is going to fail.
+
+What is that probability?
+
+Yes.
+
+>> 1/10 to the 1/100?
+
+>> Good, so the probability of failure
+
+is .1 to the 100th.
+
+Why is it .1 to the 100th?
+
+Well, the only way we can fail
+is if we were given jar two,
+
+but we keep drawing
+from that 10% of the jar
+
+that has blue marbles in it.
+
+And if we take 100 draws
+and they're all independent,
+
+then the probability of failure
+is .1 raised to the 100.
+
+Okay, so this is going to
+be our failure probability,
+
+and this corresponds to the
+delta parameter in PAC learning.
+
+Okay, so
+
+let's return to PAC learning.
+
+So, we know what our algorithm was.
+
+It was draw many samples,
+
+run A,
+
+output the classifier
+
+C
+
+that is to form S.
+
+Output the classifier C
+that is consistent with S,
+
+given from A.
+
+What is the probability
+
+this algorithm or this procedure,
+
+let's call it a procedure,
+
+fails?
+
+And what do we want the probability that
+
+this procedure fails to be less than?
+
+Yes.
+
+>> Delta parameter.
+
+>> We want this probability
+to be less than delta.
+
+Okay?
+
+So, let me ask you,
+here's a good question.
+
+What is the failure,
+what is the bad event?
+
+What is the failure event that
+
+could occur in this algorithm?
+
+What could go wrong?
+
+Yes.
+
+>> We could not draw enough examples
+
+or get unlucky with the
+examples that we draw.
+
+So in the marbles case,
+
+if we happen to draw
+a lot of blue marbles,
+
+even though we had jar two, that would be
+
+what we're trying to avoid.
+
+>> Okay, so translate it back
+to the PAC learning scenario.
+
+What's the-- what would happen 
+that would be
+
+bad for us in this algorithm?
+
+>> If we had a training
+set that was so small
+
+that it wasn't representative
+of the whole set of examples.
+
+>> Sure, if we drew a training
+set that was too small,
+
+but how about the case when we do draw
+
+a large enough training set?
+
+What's the bad event there?
+
+We end up with a classifier that what?
+
+>> (inaudible)
+
+Like all the examples are similar.
+
+They're the same.
+
+>> Right.
+
+Let's just hold on one second here...
+
+We're having technical difficulties,
+and I need to have my microphone replaced.
+
+Okay, so we're trying to analyze
+
+what's the probability of failure?
+
+What's the bad event that could occur?
+
+So, yes, several examples
+
+all could be the same.
+
+That could be one bad failure event,
+
+but I want to claim that
+
+there's really only one
+thing that could occur
+
+that would really be a bad event here.
+
+I think this summarizes the bad event.
+
+We output c in script C
+
+that is consistent with S,
+
+but the true error
+
+of c is greater than epsilon.
+
+Let me just write this
+again on the next page.
+
+So, the bad event
+
+is that we output C that is consistent
+
+with S, but has true error
+
+greater than epsilon.
+
+Remember, we wanted a classifier
+
+that had error less than epsilon.
+
+So, really, the only way
+this algorithm can go wrong
+
+is if A works, A is always
+going to work correctly.
+
+It's always going to
+give us some classifier C
+
+that's consistent with our training set S,
+
+but it's going to have true
+error greater than epsilon.
+
+That's the only really way that we fail.
+
+So, we want to understand,
+what is the probability
+
+of this bad event?
+
+Any ideas?
+
+Yes.
+
+>> Your hope is that
+
+it's less than or equal to delta.
+
+>> Yes, good point.
+
+We want to try and make sure that
+
+the probability of this bad event
+
+is less than or equal to delta.
+
+Well, let's imagine that we've enumerated
+
+all the functions in C.
+
+The learner's not going to do this,
+
+but let's imagine that
+we have an enumeration
+
+c one through c capital N.
+
+So, let's fix c one, for example.
+
+The first function in the function class.
+
+Could say, what's the probability
+
+over a draw from over our
+choice of our training set?
+
+The probability is the random event is
+
+we draw a bunch of examples from D.
+
+What's the probability
+that c one is consistent...
+
+Actually, let me redo this really quickly.
+
+So, let's fix c one.
+
+Assume that c one has true
+
+error greater than epsilon.
+
+So, c one is a classifier that
+
+we definitely don't want to output.
+
+What is the probability
+draws from the distribution
+
+that c one is consistent
+
+with S?
+
+This is very similar to the
+marbles in the jar problem.
+
+So, we fixed some c one.
+
+C one has true error greater than epsilon.
+
+I'm telling you, it disagrees
+with the unknown function
+
+on at least an epsilon
+fraction of the points,
+
+and I want to know, what's the probability
+
+when I take random draws from S,
+
+when I take random draws from D and form S
+
+that c one is actually consistent with S?
+
+Yes.
+
+>> I think it's one minus epsilon
+
+to the power of the size of S.
+
+>> Excellent.
+
+It's at most, one minus epsilon
+
+to the size of S.
+
+Okay, it's similar to
+you were given that jar
+
+that had some red marbles,
+had 10% red marbles,
+
+and you kept picking the red marble.
+
+Sorry, you were given the jar
+that had 10% blue marbles,
+
+and you kept picking blue marbles over,
+
+and over, and over again.
+
+Okay, so here we have a function c one.
+
+It has true error greater than epsilon.
+
+What's the probability
+that we keep drawing
+
+the few points that it
+happens to be correct on?
+
+That it happens to agree
+with the unknown function on?
+
+Well, it's at most, one
+minus epsilon because
+
+it's wrong on at least
+an epsilon fraction,
+
+so it's consistent on at most,
+a one minus epsilon fraction
+
+raised to the power size
+of your training set.
+
+Okay, what if we fix c two,
+
+and we assume that c two
+
+has true error greater than epsilon?
+
+What's the probability if we were to
+
+draw from a random training
+set that c two is consistent
+
+with S?
+
+This is also a one minus epsilon
+
+raised to the power S.
+
+Okay, so for every
+
+c i with whose error
+
+greater than epsilon,
+
+the probability that c i is consistent
+
+on S is at most one minus
+epsilon raised to the size of S.
+
+Okay, so now here's the question,
+
+randomly form S just as before,
+
+what is the probability there exists,
+
+there even exists a function 'cause
+
+c in script C, whose error is greater than
+
+epsilon and is consistent
+
+with S?
+
+So, we computed the probability that c one
+
+was consistent or that
+c two was consistent.
+
+What's the probability
+that there even exists
+
+a function c in script C
+
+whose error is greater than epsilon
+
+and is consistent with S?
+
+Yes.
+
+>> That raised to the m, one minus m?
+
+>> I don't think we need
+to raise that quantity
+
+to any further power.
+
+We need to do something else.
+
+Are you familiar with the union bound?
+
+If you have two events A and B,
+
+the probability that A occurs or B occurs
+
+is at most the probability that A occurs
+
+plus the probability that B occurs.
+
+How can we use that here?
+
+Yes.
+
+>> It's not a tight bound.
+
+I wrote something with
+an exponent that's close.
+
+I think it might be closer,
+
+but it's at most what we got last time
+
+times the size of C.
+
+>> That's right.
+
+So, the probability...
+
+Let's...
+
+Let's call this bad event.
+
+The probability that this bad event occurs
+
+is at most, the probability that
+
+well, just as you said,
+
+it's the size of C times one minus epsilon
+
+raised to the power S.
+
+This is because they're at most,
+
+size of script C functions
+that we could even consider,
+
+and for any one of them,
+
+the probability if they have
+error greater than epsilon
+
+that they can be consistent on S.
+
+It's at most, one minus epsilon
+
+raised to the power S.
+
+So, by using this union bound
+
+we're computing the probability of bad
+
+by saying, well, it's the probability that
+
+c one could be bad, or c two could be bad,
+
+or c three could be bad,
+and so on and so forth.
+
+And there are at most script
+C functions to consider
+
+for all of these bad events,
+
+so we can just add up their
+failure probabilities.
+
+Make sense?
+
+Okay, so let's assume that
+bad does not occur, okay?
+
+I'm claiming the only way
+that our algorithm fails
+
+is if bad occurs.
+
+If bad doesn't occur, then
+A can't find a function
+
+that's consistent and has large error
+
+because they don't exist.
+
+Let me say that one more time.
+
+So, this is the bad event that there is
+
+some function in my function class
+
+that's consistent with my training set,
+
+but actually has true
+error greater than epsilon.
+
+And if this bad event doesn't happen,
+
+then whatever we output
+is actually going to be
+
+an accurate classifier.
+
+So, the only probability
+we need to bound here,
+
+the only event the probability,
+
+the event we need whose
+probability we need to bound
+
+is just this that I've put into a box.
+
+And we just said, this is script C
+
+times one minus epsilon
+raised to the size of S.
+
+Now, let me ask you, what did
+we want this to be less than?
+
+>> Delta.
+
+>> Delta. Good.
+
+Okay, now we have an inequality
+and it has variables in it.
+
+So, now the fun part is
+we get to just solve.
+
+What are we trying to solve for?
+
+>> Size of S.
+
+>> Good. Solve for size of S.
+
+How should we do that?
+
+Well, first I'm going to use the fact that
+
+one minus x is approximately
+
+e to the minus x.
+
+And so, I'm going to change this.
+
+So actually, let me just rewrite this.
+
+So, we had size of C
+times one minus epsilon
+
+raised to the power S,
+and we wanted to be this
+
+less than or equal to delta.
+
+I'm going to use the fact that one plus x
+
+is approximately e to the x,
+
+and I'll get script size of script C
+
+times e to the minus epsilon S
+
+is less than or equal to delta.
+
+Here I use this little
+approximation to one plus x.
+
+Then I'm going to divide by script C.
+
+Now what should I do?
+
+>> Take logs.
+
+>> Good. Take logs.
+
+So, I get minus epsilon S
+is less than or equal to log
+
+delta over script C.
+
+Then what should I do?
+
+Divide by minus epsilon.
+
+So, I get, I think what
+you end up getting is that
+
+the size of S should be greater than
+
+log size of script C over delta
+
+divided by epsilon.
+
+So, let's just take a
+second to digest this.
+
+What it's saying is the following.
+
+If you choose
+
+number of training points
+
+larger, at random, larger than
+
+log size of script C
+over delta over epsilon,
+
+then with probability
+at least one minus delta
+
+the function output little c
+
+is one minus epsilon accurate.
+
+Okay, so here we've exactly computed
+
+the size of the training set S.
+
+We've exactly computed the
+size of the training set S
+
+that we need in order to get
+
+a high probability bound
+that our function C
+
+is one minus epsilon accurate.
+
+Okay, so if we choose the
+number of training points
+
+to be this large
+
+then with probability
+at least one minus delta
+
+we know that the function
+that we get out C
+
+is at least one minus epsilon accurate.
+
+Okay, so this is what we
+were referring to earlier
+
+in the lecture when we said,
+
+oh, all we have to do is figure out
+
+how large do we need to
+make S, the training set?
+
+How large should we
+choose the training set
+
+before we're confident
+that it's very accurate?
+
+And what we did was we did
+the probability calculation,
+
+and we figured out, well, this is exactly
+
+how large we need to take S to be
+
+so that with at least this probability
+
+it is one minus epsilon accurate.
+
+Question.
+
+>> In practice, how do you know
+
+how large the size of script C is?
+
+>> Well, you're worried about
+
+how large the size of script C is, okay?
+
+Good question.
+
+One really nice thing to notice is that
+
+okay, first of all, if C is
+infinite, we're in trouble,
+
+but we can actually address that,
+
+and we will later in class.
+
+But notice that the dependents
+on the number of points
+
+that we need to choose
+is actually logarithmic
+
+in the size of script C.
+
+So, your function class
+could be exponentially large,
+
+and we get to take a
+log when we're computing
+
+the number of training points
+that we need to choose.
+
+So, for example, if we wanted
+to look at decision trees
+
+of size S, okay yes, there are
+
+an exponential number of decision trees.
+
+There are exponentially
+many in the size of S, in S.
+
+But in terms of the
+number of training points
+
+we need to take it's only logarithmic
+
+in the size of the function class.
+
+So, we'll actually get
+polynomial size bounds.
+
+So, taking a log for the sample of
+
+the function class is very powerful.
+
+It means we can have exponentially
+large function classes
+
+and still hope for polynomial size
+
+run time and sample complexity.
+
+>> So it's not bad as it seems?
+
+>> No, it's actually really good.
+
+The really powerful
+assumption that we made here
+
+was that we had this
+algorithm that gives us
+
+a consistent function with respect to
+
+the entire training set.
+
+Okay, that's going to be a
+difficult thing to implement
+
+for real function for
+actual function classes.
+
+It's going to be difficult
+to get such an algorithm.
+
+A common error that is sometimes made
+
+in doing this analysis is that
+
+people say, okay,
+
+people often ask me,
+well, why did you need to
+
+do this union bound?
+
+A is an algorithm.
+
+It returns to you a function C.
+
+Why did you have to sum up all
+
+the failure of probability events
+
+over all the functions
+in your function class?
+
+Why wasn't the probability
+of this bad event...
+
+Why did we need this C here?
+
+Why couldn't we just say,
+oh, the probability of
+
+your bad event is one minus
+epsilon raised to the power S?
+
+Because hey, whatever function
+the algorithm gives you,
+
+the probability that it was consistent
+
+with those training points is at most,
+
+one minus epsilon raised to the power S.
+
+And the reason why we have
+to take the union bound
+
+is that your algorithm
+A outputs a classifier
+
+that depends on S, okay?
+
+So, in our random experiment, we drew S.
+
+Now the algorithm A is going
+to form find a function C
+
+that's consistent with S,
+
+so it's doing it after the choice of S.
+
+That means C might depend on S.
+
+And remember, the only
+way that we got this
+
+one minus epsilon raised
+to the power S bound
+
+was that all our draws
+were independent, okay?
+
+But if the function that
+your algorithm A outputs
+
+is dependent on your training set S,
+
+then we can't get this one minus epsilon
+
+raised to the power S bound.
+
+So, that's why we need to
+do this worst case analysis,
+
+and we actually need to account for
+
+all possible functions that might come up.
+
+Okay, so now we know how to
+bound the sample complexity
+
+for PAC learning for an arbitrary
+discreet function class,
+
+assuming we had this algorithm,
+
+this kind of magical algorithm A
+
+that gave us a consistent hypothesis.
+

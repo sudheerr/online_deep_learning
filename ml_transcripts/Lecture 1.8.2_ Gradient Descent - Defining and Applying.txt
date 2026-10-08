@@ -1,0 +1,792 @@
+♪ (jazz music) ♪
+
+So now we're finally ready,
+
+we've built up some intuition
+
+about using derivative information
+to minimize a function.
+
+We've done some examples
+
+where we've taken partial derivatives.
+
+We're finally ready to define
+
+gradient descent.
+
+Whoops.
+
+Okay, so initially
+
+we'll choose w.
+
+So imagine we're trying to minimize
+
+f of w.
+
+So initially we'll choose w.
+
+We could choose w to
+be an arbitrary point.
+
+There's a little bit of an art
+to this, less of a science,
+
+but oftentimes we can choose w randomly.
+
+We could choose it to
+be zero if we wanted,
+
+but let's assume that
+we've chosen it randomly,
+
+and so it's some arbitrary starting value.
+
+And then if, so we'll
+compute the gradient.
+
+We have to be able to
+compute the gradient.
+
+We'll compute the gradient
+of f at the point w.
+
+And if the two norm is less than epsilon,
+
+some very small parameter,
+we'll stop and output w,
+
+otherwise,
+
+w-new is going to equal w-old
+
+minus eta times the
+gradient at the point w.
+
+Okay, so we're going to take our new
+
+guess for the minimizer
+to be the old guess
+
+minus some eta parameter
+times the gradient of f of w.
+
+This is referred to as the step-size
+
+parameter.
+
+We could do this
+coordinate-wise and we'd have
+
+wj-new
+
+is equal to wj-old minus eta
+
+times the partial derivative
+of f with respect to wj
+
+evaluated at w.
+
+So this is how we would do
+the update coordinate-wise.
+
+This is appears using vector notation.
+
+Okay, so the step-size
+parameter is usually set,
+
+we'll talk about how to set it later,
+
+but it's usually set
+to be relatively small.
+
+Why do we need to set
+the step-size parameter
+
+to be relatively small?
+
+Well, as we discussed at the
+beginning of this lecture,
+
+our linear approximation of
+these very complicated functions
+
+only holds locally or in
+some small neighborhood.
+
+So if you really are going
+to treat the function
+
+as though it's linear and
+use the gradient information,
+
+then you shouldn't move
+too far from where you are,
+
+because all bets are off if you decide
+
+to move really far from
+where you currently are.
+
+We only have guarantees
+
+that locally the function looks linear.
+
+So that's usually why we
+set the step-size parameter
+
+to be pretty small.
+
+But this is the algorithm,
+it's pretty simple.
+
+It's also powerful
+because of its simplicity
+
+in the sense that it only
+really requires information
+
+about the gradient of the function.
+
+It's very general.
+
+And you can see the
+subtraction here occurs
+
+because we're moving in
+the opposite direction
+
+of the gradient, the
+gradient is the direction
+
+that maximizes the function.
+
+We've done several examples
+where, or for linear functions
+
+where we want to move
+
+in the opposite direction
+of that gradient,
+
+and that's why we're subtracting
+off eta times the gradient.
+
+Okay, so let's apply
+
+gradient descent
+
+to a real live optimization problem.
+
+We're going to apply it
+to our favorite problem,
+
+linear regression.
+
+Whoops.
+
+I'm not sure what happened there.
+
+Okay so remember that
+in linear regression,
+
+we're searching for some function h of x
+
+which is equal to w transpose x plus b,
+
+searching
+
+for this function.
+
+And recall that our notion of
+loss was mean squared error.
+
+And so we have mean squared error.
+
+Oh, I guess I should say, let
+me back up just a little bit.
+
+I'm assuming we have as usual,
+as we've discussed before,
+
+a training set
+
+of size m, and we're trying
+to find a linear function
+
+that best fits this training set.
+
+And our notion of best
+fit, as I just said,
+
+is mean squared error at some vector w.
+
+Remember we're trying to find a good w.
+
+It's going to be equal to
+one over m times the sum
+
+from j equals one to m
+of w transpose x plus b,
+
+I guess j here,
+
+minus yj quantity squared.
+
+So this is the quantity that
+we're trying to minimize.
+
+So we're not going to do gradient
+descent on the function h.
+
+We're going to do gradient
+descent on this function,
+
+mean squared error of w.
+
+This is going to be the f function
+
+that we're trying to minimize.
+
+Okay, gradient descent
+is performed on a loss.
+
+The loss function here is
+mean squared error of w.
+
+So just a notation, I'm going
+to call this quantity gj.
+
+So we need to compute the gradient
+
+of the mean squared error at the point w.
+
+So our first step should be to compute
+
+the partial derivative
+of gj with respect to wi.
+
+Why am I doing this?
+
+Well, as you recall,
+
+the derivative operator is linear.
+
+So if I want to compute the derivative
+
+of say h-one plus h-two
+
+with respect to some variable z,
+
+this is equal to the
+partial derivative of h-one
+
+with respect to z plus the
+partial derivative of h-two
+
+with respect to z.
+
+So if I want to compute
+the partial derivative
+
+of this mean squared error of w,
+
+all I have to do are compute
+the partial derivatives
+
+of these gjs, then I can take their sums
+
+and I can multiply by one over m.
+
+Okay.
+
+So you guys tell me, what is
+the partial derivative of gj
+
+with respect to the ith variable wi here?
+
+Yes.
+
+>> So you have to use the chain rule,
+
+so you take the derivative of the inside
+
+with respect to wi or wi which would mean
+
+that you get the corresponding xi elements
+
+that gets multiplied in the inner product.
+
+And then you drop the two down
+
+to be two xi on the outside times gj.
+
+>> Good, so as you mentioned,
+
+we need to apply the chain rule.
+
+So this, as you said, this
+two is going to drop down,
+
+and we'll multiply it by this quantity gj
+
+and then we'll take the derivative
+
+of this inner quantity here
+by applying the chain rule.
+
+So we'll get two times w transpose xj
+
+plus b minus yj times xi.
+
+I guess this is xji.
+
+Everybody agree with this?
+
+This is exactly what you said, right?
+
+Good, okay.
+
+This is,
+
+this looks totally fine to me.
+
+So now we can compute
+the gradient of gj at w.
+
+Just now I can eliminate these subscripts.
+
+So I'm going to get two.
+
+This time I'll just have xj,
+
+because we're getting an
+xi for every coordinate,
+
+so when I look at this as a gradient,
+
+I'm just going to have
+it multiplied by xj.
+
+Okay so now if we want the gradient
+
+of the mean squared error,
+
+which is what we're really
+looking for at the point w,
+
+it's simply two over m times the sum
+
+from j equals one to m
+of w transpose xj plus b
+
+minus yj times xj.
+
+So now that we've computed the gradient,
+
+we've totally specified how
+to perform gradient descent
+
+to solve this problem.
+
+Another nice thing to notice,
+
+actually it's not too hard to prove is
+
+that mean squared error
+w is a convex function.
+
+Intuitively the reason
+why this is true is,
+
+well, we have a linear function in here,
+
+so squaring it is only going
+to make it more convex,
+
+we know that parabolas are convex.
+
+And then I'm taking positive
+sums of these convex functions,
+
+that's going to result
+in a convex function.
+
+So if we do gradient descent
+on the mean squared error
+
+and we choose our step
+size to be small enough,
+
+then we're guaranteed to
+find something very close
+
+to the global minimum.
+
+And every time we need to compute,
+
+so every time we need to
+compute a gradient update step,
+
+we just need to compute
+this particular, sorry,
+
+we just need to compute this quantity
+
+that I'm going to put in a rectangle.
+
+Now imagine you are
+actually building a model,
+
+imagine you actually wanted
+to solve linear regression
+
+and you wanted to run gradient descent,
+
+notice that xs and ys are known to us,
+
+they're the elements of our training set,
+
+w is also known to us,
+it's out current estimate
+
+for what our linear function should be.
+
+We know m.
+
+So we can actually compute,
+
+we can compute all of these quantities,
+
+and we can compute the
+gradient quite easily.
+
+So the running time
+
+for computing this gradient,
+
+what would it be in using big O notation?
+
+Yes.
+
+>> Just O of M, the number of samples.
+
+>> Almost, it's order M,
+
+remember that each
+sample is M-dimensional,
+
+so it's M times n.
+
+So if you recall from
+when we discussed methods
+
+for solving linear regression
+using the normal equations,
+
+there we had to do matrix inverses,
+
+and the running time was
+much more complicated
+
+than order M times n.
+
+So this is a much, much faster algorithm.
+
+Another nice feature of this
+update and this algorithm
+
+is that it's easily parallelizable.
+
+We could send each one of these gjs
+
+to a different processor to be computed.
+
+So if we had an enormous training set,
+
+we don't have to sequentially
+compute the gradient
+
+by sequentially computing
+with respect to every point.
+
+We could really massively
+parallelize that,
+
+and that's one reason why,
+
+it's another reason why people prefer
+
+to use gradient descent
+
+and why it's such a fast solution
+
+to solving many types of
+optimization problems.
+
+It can be massively parallelized.
+
+Each point in your training
+set is actually giving
+
+some sort of vote as to
+which direction it thinks
+
+that you should move in.
+
+Some points are giving
+positive contributions,
+
+some points are giving
+negative contributions,
+
+and the gradient is sort
+of taking an average,
+
+or a weighted average of all those votes.
+
+Okay, let me talk about
+a very popular variant
+
+of gradient descent.
+
+This is called stochastic
+gradient descent.
+
+So previously,
+
+in the linear regression example,
+
+we summed
+
+over all points in the training set.
+
+We used every point in our training set
+
+to compete the gradient and rightly so.
+
+The gradient is the sum
+of those partial gjs,
+
+we have to sum them all up in order to get
+
+the proper gradient.
+
+It is the sum over n points.
+
+So one trick is to choose
+
+an index j at random,
+
+and compute
+
+the gradient
+
+with respect to this point only.
+
+Okay so in particular
+for linear regression,
+
+it would result in the
+following update rule:
+
+we'd have w-new is equal to w-old
+
+plus two times eta
+
+times w transpose xj
+plus b minus yj times xj.
+
+So remember in our previous,
+
+when we previously talked
+about what the update was,
+
+we said it was going to
+use this gradient here,
+
+and we have this sum
+from j equals one to m
+
+of w transpose xj.
+
+We're summing over all the points.
+
+And so this entire sum is
+what's going to be added,
+
+all right, I guess, so we'll have
+
+w-new is equal to w-old
+
+minus eta times this gradient
+n mean squared error w.
+
+So this is going to be how we
+update our weight factor w.
+
+We include all points.
+
+Now our update, if we just
+pick one point at random,
+
+is going to be w-new equals
+w-old plus two times eta,
+
+w-transpose xj plus b minus yj times xj.
+
+How could this possibly work?
+
+Why can we only look at one example?
+
+Why does this make
+sense as an update rule?
+
+Yes.
+
+>> You're asserting that
+the partial derivative
+
+with respect to that variable
+
+is you're moving in the direction
+
+where that function goes down
+
+even though you're only moving in one,
+
+you're only changing the
+value of one dimension.
+
+It's the value, your
+function is still going down.
+
+>> Well not necessarily.
+
+I mean, some depends on,
+
+for example, if this quantity
+can be zero for some points,
+
+in which case you're not moving at all.
+
+There's something about the
+randomness of this point
+
+that's going to help us out.
+
+Yes.
+
+>> I guess we might not think
+
+the fastest way to get to the minimum,
+
+but it's another way
+to get to the minimum,
+
+but it's like not the fastest way.
+
+>> Well,
+
+right, so the question
+is why is it even a way,
+
+in what sense is it a way,
+
+another way to get to the minimum?
+
+More concretely, what is the
+expected value of our update?
+
+In expectation, what will our update be?
+
+Yes.
+
+>> In expectation, yeah,
+our update should be
+
+represented of the whole training set.
+
+>> Right, in expectation,
+
+our update will use the entire gradient,
+
+because each point is going to be chosen,
+
+let's say, with equal probability.
+
+So in expectation we'll have
+
+w-old, w-new equals w-old plus eta.
+
+Now we choose each point
+with probability one over m.
+
+We have this two, whoops sorry,
+
+we had this two sitting here,
+two eta times one over m,
+
+sum from j equals one to m,
+
+w transpose xj plus b minus yj xj.
+
+See, because we made the
+choice uniformly at random,
+
+the expected value of the update
+
+actually is the entire gradient.
+
+So in expectation, we are
+just doing gradient descent.
+
+Now of course, there is the issue
+
+of what does the variance look like.
+
+That's a more complicated issue.
+
+But basically we have
+sort of two extremes.
+
+One is gradient descent
+
+where we use the entire training set,
+
+the other is pure
+stochastic gradient descent
+
+where we choose one example at random.
+
+And then we could do something in between
+
+these batches
+
+to interpolate
+
+between
+
+gradient descent
+
+and pure stochastic gradient descent,
+
+which I'll abbreviate S.G.D.,
+
+or sometimes just SGD.
+
+Using batches can be helpful
+
+because it will reduce the
+variance of the random variable
+
+corresponding to what the update,
+
+of the random variable corresponding
+
+to the weight vectors
+that you are obtaining
+
+through this process.
+

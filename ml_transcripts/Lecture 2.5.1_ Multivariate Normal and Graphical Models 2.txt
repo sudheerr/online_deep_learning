@@ -1,0 +1,2459 @@
+♪ (jazz music) ♪
+
+>> Welcome to Machine Learning.
+
+Today, we are going to continue
+to talk about multivariate
+
+normal distribution, and
+highlight its connection
+
+to graphical models.
+
+So let's review what we learned last time.
+
+So these are very basic
+facts about multivariate
+
+normal distributions.
+
+So last time we mentioned distribution is
+
+multinormal distribution
+if the probability density
+
+function can be wrote in this way.
+
+So you know, the probability density is
+
+proportional to exponential
+of this quadratic function.
+
+So x minus mu.
+
+Mu is the mean parameter,
+
+which is the expectation
+of the random variable,
+
+and then times sigma inverse.
+
+The sigma is the covalence matrix
+
+of the random variable,
+which is x minus mu
+
+minus x minus mu transposed right?
+
+So if the random variable
+is, let's say if X
+
+is in the dimensional Euclidean space,
+
+then the pairwise, this covalence matrix
+
+is going to be again, a D by D matrix,
+
+where each element, let's see, sigma IG,
+
+measures the covalence between XI and XG.
+
+So sigma IG equals the
+covalence of XI and XG.
+
+And if we put all the XIG together we get
+
+this covalence matrix.
+
+And here Z is a normalization constant.
+
+You know in many cases we
+don't really keep track
+
+of the normalization constant.
+
+What's important is understanding the row
+
+of mu and sigma.
+
+Okay, and then we mentioned
+that if we partitioned
+
+the vector into blocks,
+let's say in this case
+
+the vector is partitioned into two parts,
+
+XY and X2, correspondingly,
+the mean vector
+
+is partitioned to two parts,
+
+and the covalence matrix,
+because it's pairwise,
+
+is partitioned into four parts, right?
+
+We have sigma one one
+which is the covalence
+
+matrix of X1, sigma two
+two which is the covalence
+
+matrix of X2, and then we
+also have sigma one two,
+
+which is the covalence between X1 and X2,
+
+and also sigma two one
+which is really just
+
+the transpose of X sigma one two.
+
+And then in this case, we can
+show that it's very obvious
+
+that the marginal distribution of X1,
+
+meaning that if we just
+look at X1 and discard X2,
+
+what's the distribution of X1?
+
+In this case, the distribution of X1
+
+is also a Gaussian distribution.
+
+Because the mean of X1 is equal to mu 1,
+
+and the covalence of X1
+equals to sigma one one,
+
+we know that the
+distribution of X1 is normal,
+
+where mu one and sigma
+one one has parameters.
+
+This is a very simple and elegant result.
+
+And then we can also sort of
+understand the correlation
+
+between these random variables by looking
+
+at the covalence matrix.
+
+So if the sigma one two equals zero,
+
+then it means that X1
+and X2 are independent.
+
+Basically in this case,
+the covalence matrix
+
+is blockwise diagonal matrix.
+
+In this case we have sigma one one,
+
+sigma two two.
+
+If the off diagonals are zero,
+
+it means that X1 and X2
+have zero correlation.
+
+And because it's Gaussian, the correlation
+
+is actually equivalent to independence.
+
+Okay, so these are some
+sort of basic facts.
+
+Now in this lecture, we
+are going to talk about
+
+some new properties and
+important results about
+
+multivariate normal distribution.
+
+So we called the formula
+that we have been mentioning,
+
+the standard formula for the
+probability density function,
+
+but another way to rewrite
+the same density function
+
+is something called a
+natural or information form.
+
+So in this form, instead of writing
+
+this density using mu and sigma,
+
+we can just rewrite this
+log density function
+
+as a standard quadratic function, right?
+
+So here, if we expand
+this quadratic function,
+
+we can collect the coefficient
+of the quadratic term
+
+and leading term, and we just denote these
+
+corresponding terms as
+two parameters, Q and B,
+
+and this formula is simply
+called the natural form
+
+of multinormal distribution.
+
+So let's just expand it
+to see how these two forms
+
+transform from each other.
+
+So we have this quadratic
+form represented by
+
+mean and covalence.
+
+Now if we expand this
+formula, we have one over two,
+
+X transpose, sigma inverse X.
+
+So this is the quadratic term, right?
+
+And then we have the linear term,
+
+which is crossing term.
+
+We have mu transpose sigma inverse X.
+
+So this is going to be the linear term,
+
+and plus the constant
+term which is mu transpose
+
+sigma inverse mu.
+
+So now in many times we
+feel convenient to simply
+
+rewrite this sigma inverse as Q, as Q,
+
+so in this case we sort of
+rewrite the leading coefficient,
+
+the coefficient of the
+quadratic term as Q, right?
+
+So Q equal to the inverse of sigma.
+
+So people call Q to be the
+inverse covalence matrix.
+
+It's the inverse of the covalence matrix.
+
+But sometimes people also
+call it the precision matrix.
+
+This is actually a very important quantity
+
+being multi varied Gaussian distribution.
+
+So the reason it's called
+precision because it's
+
+the inverse of the covalence, right?
+
+So the covalence measures the uncertainty.
+
+Now if you take the inverse,
+
+it measures the kind of precision.
+
+That's why it's also
+called precision matrix.
+
+So this is the quadratic term.
+
+So if you look at the linear term,
+
+if we map this linear term
+into the natural form,
+
+we'd find that the
+coefficient of linear term B
+
+simply equals to the
+sigma inverse mu, right?
+
+So again this is a very simple form.
+
+So in this case it's simply mu,
+
+the mean vector, multiplied by the inverse
+
+of the covalence matrix, right?
+
+And then we have the constant term,
+
+in this case we just put all
+the constant term into C,
+
+and then it's easy to
+see that C equals to,
+
+you can sort of rewrite this mu and sigma
+
+in terms of B and Q, and then just combine
+
+when the Z constant, you will
+derive the formula for C.
+
+C, again in this case it's
+a normalization constant.
+
+It's a different normalization constant,
+
+but in many cases we
+actually don't need to
+
+exactly calculate the
+normalization constant,
+
+and in fact, many times
+we write the formula
+
+for normal distributions, we
+simply just use a proportional
+
+notation.
+
+So we simply say that PX is
+proportional to exponential
+
+minus transpose Q, X plus B transpose X.
+
+And here we use the proportional notation
+
+to represent that that's a fixed constant
+
+that we're not writing down explicitly.
+
+Okay, so and here Q and
+B, people often call
+
+the natural parameters,
+because it's in contrast
+
+with the moment parameters.
+
+So the mean and the covalence matrix
+
+and the variance are called
+the moment parameters,
+
+whereas Q and B are
+called natural parameters.
+
+Now why is this new formulation useful?
+
+Well turns out, this new
+formulation, this natural form,
+
+is very useful if we
+want to derive and handle
+
+the conditional distributions
+
+related to the Gaussian distribution.
+
+And we will show later that
+it's actually very important
+
+for characterizing the
+conditional independence
+
+inside the multivariate
+normal distribution.
+
+So let's sort of talk about
+the conditional distributions
+
+and why the natural form is useful.
+
+You know again, think
+about the blocking case,
+
+where we have a random variable X.
+
+We partitioned into two blocks,
+
+and we showed earlier,
+this gives a partition
+
+on the mu vector and the
+covalence matrix, right?
+
+Now correspondingly, we can also partition
+
+the natural parameters.
+
+So B can be partitioned to two parts,
+
+and Q again can be partitioned
+into four parts, right?
+
+So note that so here, we
+have sigma inverse equal
+
+to Q, right?
+
+So that's actually a
+formula that transforms
+
+between sigma and Q.
+
+And then in this case we can show that
+
+the conditional distribution of X,
+
+given X, the condition distribution of X1
+
+given a face the value of X2,
+
+so this is talking about
+if I observe a particular
+
+value of X2, what's
+the distribution of X1.
+
+So this is actually
+different from the marginal
+
+distribution of X1 which
+is the distribution of X1
+
+will be don't observe
+any information of X2.
+
+Remember for the marginal
+distribution we showed
+
+the marginal distribution
+can be easily captured
+
+by the mean mu one, which is mean vector
+
+and sigma one one.
+
+So the standard form is
+a very convenient way to
+
+capture the marginal distributions right?
+
+So if we want to talk about
+conditional distribution,
+
+then it turns out it's easier
+to use the natural form.
+
+So we can show that the
+conditional distribution
+
+of X1 given X2, so I
+use this n bar notation,
+
+I use this bar to represent that it's the
+
+normal distribution represented
+using the natural form.
+
+So turns out in this
+case, the natural form
+
+of the conditional
+distribution can be categorized
+
+by Q11 which is the
+position matrix of this
+
+condition distribution,
+and B1 minus Q12 and QX2,
+
+which represents kind of the first order
+
+natural parameter.
+
+So in this case, note
+that the position matrix
+
+of X1, given X2, only depends on Q11.
+
+It's really just the sub matrix of Q,
+
+versus the covalence matrix
+of X1, conditioning on nothing
+
+is actually the sub matrix of sigma.
+
+So in this case, both of
+them are taking sub matrices,
+
+but they are taken from
+a different matrix.
+
+For the marginal covalence matrix,
+
+we need to take some
+matrix of sigma one one.
+
+For the conditional
+distribution and the precision
+
+matrix is taken from Q11,
+which is some matrix of Q.
+
+Then, here, the B vector of X1 given X2
+
+actually also depends on X2.
+
+That's because if you have different X2,
+
+the mean of X1 will
+actually change, right?
+
+Which is the covalence matrix X1 given X2,
+
+actually doesn't depend on
+X2, it only depends on Q.
+
+So another way to specify this result,
+
+I can sort of rewrite it in this way.
+
+Covalence matrix of X1 given X2.
+
+So this is saying that
+what's the covalence matrix
+
+of X1 given that I observe X2.
+
+So this formula is
+equivalent saying that it's
+
+equal the inverse of Q11.
+
+Versus the earlier formula
+is equivalent to say
+
+that the covalence of X1,
+conditioning on nothing,
+
+equal to sigma one one.
+
+And note that Q11 inverse actually doesn't
+
+equal to sigma one one.
+
+They actually have a
+connection which is represented
+
+using this formula.
+
+So this is for matrix calculus.
+
+It's some formula you can
+always check in Wikipedia
+
+or any resources, and we
+don't actually require
+
+you to do the derivation.
+
+So it turns out the Q11
+inverse equals to sigma one one
+
+minus this whole bunch of products.
+
+And similarly, so here
+sigma one two represents,
+
+so we use sigma one two to represent
+
+the conditional covalence of X1 given X2.
+
+Similarly, here we use mu one two
+
+to represent mu one two to represent
+
+the expectation of X1 given X2.
+
+And we can use the formula
+to transform the B vector
+
+into the mu vector, and we
+can derive this formula.
+
+So just to sigma one
+two equals to covalence
+
+X1 given X2.
+
+We can sort of see when
+we write the mu and sigma,
+
+the formula is actually quite complicated.
+
+But if represent them using Q And B,
+
+the formula is much easier.
+
+Okay, so now let's actually
+try to prove this result.
+
+So more specifically, I want
+to show that the conditional
+
+part beta XY, X2, can be
+represented using this
+
+particular form.
+
+So we want to prove this result.
+
+But it's actually a simple thing to do
+
+if we use the natural form.
+
+So for simplicity, let's
+just assume X1 and X2
+
+are variables, are numbers, right?
+
+We only have two dimensional each.
+
+X1 and X2 are not scalar variables.
+
+So in this case we can rewrite P,
+
+let's say assume we only have X1 X2.
+
+And using the natural form,
+
+it's exponential proportional to,
+
+I'm just rewriting the natural form.
+
+This is just reminding
+you the natural form.
+
+So here, X, so here X
+equals to the vector formed
+
+by X1 and X2.
+
+And then let's say if we
+just have two variables,
+
+we can explicitly write
+expand this matrix forms.
+
+So you will be proportional
+to exponential one over two.
+
+If we write down the quadratic term,
+
+it's actually equal to Q11, X1 squared.
+
+Plus two times Q1.
+
+Two times Q12, X1, X2,
+plus 2Q2, X2 squared.
+
+So this is the quadratic term.
+
+And then we have the linear term.
+
+B1, X1 plus B2 X2, right?
+
+Right?
+
+Okay, so now if we want to derive the
+
+conditional probability,
+so the goal we want to do
+
+is to derive, what's the probability of X1
+
+given X2, right?
+
+This is what you should see
+in the conditional part.
+
+Now we are interested
+in the probability of X1
+
+given any fixed X2.
+
+Then in this case we are
+treating X2 as a constant,
+
+and we only care about
+the probability of X1.
+
+So if we read from this
+joint distribution,
+
+what we need to do is
+simply collect all the terms
+
+that is related to X1
+and just drop the forms,
+
+the terms that are only related to X2.
+
+So let's say in this case,
+this term related to X1,
+
+so we need to keep it.
+
+This term related to X1 and X2.
+
+Because it's related to
+X1 we need to keep it,
+
+and this term actually relates to X2.
+
+It's a constant if we talk
+about conditional probability,
+
+so we can simply drop it, right?
+
+And similarly, this term we can drop it.
+
+And this term, relates to X1
+so we should keep it, right?
+
+So following this, we can
+sort of see that again
+
+we use proportional
+notation to just represent
+
+all the constants that are
+not relevant to X1, right?
+
+In this case, just dropping
+these constant terms,
+
+we have Q11, X1 squared.
+
+This is the quadratic term.
+
+And then we just need to
+find all the linear terms.
+
+So we have this linear term, which is B1,
+
+and then we have this linear
+term which contributes
+
+from the crossing term.
+
+So it's minus Q12, X2, times X1.
+
+Again, the other terms,
+this term and this term are
+
+dropped because they're
+viewed as constant.
+
+Okay, so in this case, we can now actually
+
+read from this formula to sort of see that
+
+actually the top term,
+
+the quadratic term of this
+conditional probabilities
+
+Q11, and the linear term of
+this conditional probability
+
+is this, that's why we
+can sort of say that
+
+this is a, using the natural form,
+
+write down the conditional term.
+
+Write down the position matrix
+
+and the first order moments, right?
+
+So now this is exactly what we have here,
+
+except here Q is a matrix,
+
+but the derivation is exactly the same.
+
+So this allows you to divide
+conditional probabilities
+
+very conveniently.
+
+Okay, so basically here
+is showing that using
+
+natural form allows us
+to derive conditional
+
+distributions very conveniently.
+
+Now but why is this actually useful.
+
+So going back and summarize,
+
+we realize that the covalence matrix
+
+and the precision matrix are
+capturing different information
+
+about the dependency between
+the different coordinates
+
+of the random variable.
+
+So we already know that,
+let's say if you take
+
+the covalence matrix,
+if you find the element
+
+of the covalence matrix equals to zero,
+
+because sigma IG equals
+to the covalence between
+
+XI and XG, right, and because
+XI and XG are Gaussian,
+
+then you know, sigma
+equals zero means that XI
+
+and XG have zero covalence, and that means
+
+XY and XG are independent.
+
+Recall that independent XI conditionally
+
+independent with X2 is
+equivalent to say that
+
+the joints of probability
+of X1, XI, and XG.
+
+The joints of distribution of XI and XG,
+
+it equals to XI, the marginal
+distribution of XI and XG.
+
+So this shows that if I
+just look at XI and XG,
+
+then these two random
+variables are independent
+
+if the sigma IG equals zero.
+
+Now if we look at the position matrix,
+
+it turns out the position matrix captures
+
+very different thing.
+
+It actually captures what's
+called conditional independence.
+
+So conditional independence
+means that so basically
+
+here, use a different color.
+
+So here, if QIG equals to zero, right?
+
+And it turns out that's
+actually equivalent
+
+to XI and XG, are independent conditioning
+
+on all the other variables.
+
+So here I'm using X,
+negative IG to represent
+
+all the other variables.
+
+That means X, all the variables,
+
+which I represent by bracket D,
+
+except I and G.
+
+So if I have three
+variables, I equals to one,
+
+G equals to two, then
+all the other variables
+
+is simply three.
+
+Okay, so now the conditional
+independence more precisely,
+
+the definition is the following.
+
+So let's say I have XI, XG.
+
+They are conditionally
+independent when you fix
+
+what other variables, XI and XG.
+
+This is equivalent to
+by definition, XI, XG.
+
+Right?
+
+So what I'm saying is that
+given let's say all the
+
+other variables, the joint probability,
+
+the joint conditional
+probability of X1 and XG
+
+equals to the product of the
+
+individual conditional probabilities.
+
+So this defines conditional independence.
+
+Conceptually, conditional independence,
+
+marginal independence, are
+very different from each other.
+
+So let me give you an example.
+
+Let's say I have three random variables.
+
+Maybe I have X1, I have X2.
+
+Here I'm sort of conceptually
+representing each of the
+
+random variables using a note.
+
+Let's say X1 could represent
+the weather condition.
+
+Let's say X1 represents if it rains today.
+
+And X2 may represent traffic.
+
+Traffic conditions for example.
+
+And then X3 may represent the delay.
+
+So if that's traffic, then
+I will get to campus late.
+
+If there's no traffic, I
+will arrive earlier, right?
+
+So if we look at the dependency
+of these three variables,
+
+one scenario could be that if it rains,
+
+then the traffic will delay.
+
+There will be heavy traffic.
+
+So the rain causes heavy traffic,
+
+and the heavy traffic will cause delay.
+
+Now in our model we may think each of them
+
+as random variables, so
+every day you can sort of
+
+view it as joining a random variable
+
+from a joint distribution
+of these three variables.
+
+So some of the day, the rain is heavy
+
+so we will have heavy
+traffic which causes delay.
+
+The other days there's no rain.
+
+And then we have light traffic
+and there's no delay, right?
+
+Okay, so now let's say look
+at covalence of X1 and X3.
+
+So let's say sigma one, sigma three.
+
+Is there a correlation or
+dependency between X1 and three?
+
+Yes, there is a correlation
+because if it rains,
+
+it causes traffic, and cause delay.
+
+So if I sort of plot the amount of rain
+
+and the amount of delay.
+
+I can sort of see kind of
+you may expect positive
+
+correlation.
+
+So that is a correlation
+and you can match it.
+
+So in this case if you actually estimate
+
+the covalence matrix, the
+sigma IG wouldn't be zero.
+
+On the other hand, if we measure
+the conditional covalence,
+
+given that the traffic is fixed,
+
+then the rain and delay
+may not be dependent
+
+with each other.
+
+So now if we actually think
+about covalence matrix,
+
+the covalence of X1 and X3,
+
+given that X2 is fixed.
+
+So if the traffic is fixed,
+
+then the delay may not
+actually relevant to rain.
+
+Because the traffic is the only factor
+
+that decides, that sort of without delay.
+
+So obvious this is a
+simplified assumption.
+
+In practice, there will be
+some other facts that might
+
+influence delay, but in
+this simplified case,
+
+if we assume delay is solely
+caused by heavy traffic,
+
+then fixing a particular
+sort of condition of traffic,
+
+then the delay is fixed.
+
+So and then the delay
+wouldn't depend on the rain
+
+anymore because the
+traffic condition is fixed.
+
+So in other words, if I fix
+particular value of traffic
+
+X2, then the covalence
+between X1 and three
+
+may equal to zero.
+
+That's because somehow if
+you conditioning on X2,
+
+somehow you are blocking,
+you are somehow blocking
+
+sort of the dependency
+structure between X1 and X2.
+
+And that's actually so
+the captures some sort of
+
+sparse structure, some
+independent structure
+
+between X1 and X3.
+
+So this is a you know, a
+very important notation.
+
+So basically we need to sort
+of understand the difference
+
+between the marginal independence
+
+and conditional independence.
+
+So this example we show
+that so they are obviously
+
+not equivalent.
+
+So in this example we show that if X1
+
+conditioning X independent
+with X3 conditioning with X2,
+
+this doesn't imply X1, X3.
+
+Right, so meaning that
+conditional independence
+
+doesn't imply sort of
+marginal independence.
+
+In fact, you can also show the opposite,
+
+which is if some two
+variables are independent,
+
+they are not necessarily
+conditional independent.
+
+So let me give you example for this.
+
+So let's say instead of
+this traffic example,
+
+let's say I have some X1, and I have X3.
+
+And then X2, again I have X2.
+
+So in this case let's assume
+X2, X3 actually equals to
+
+X1 plus X3.
+
+So in this case, just thinking X1 and X3
+
+are two random numbers, and
+I define X2 to be the sum
+
+of these two random numbers.
+
+And assume X1 and X3 are sort
+of generated independently.
+
+So in this case, X1 and X3,
+
+they are independent of each other.
+
+Because literally I just
+generated two arbitrary
+
+random variables independently.
+
+So X1 and X3 is by definition
+independent with each other.
+
+However, if we assume that
+X2 equals to the sum of X1
+
+and X3, then if we conditional
+on a particular value
+
+of X2, we can actually
+infer X1 from X3 directly.
+
+That's because if we
+know X2 equals to the sum
+
+of X1 and X3, and if I know X2,
+
+then X3 is going to equal to X2 minus X1.
+
+So in this case, conditionally
+on a particular value
+
+of X2, X1 and X3 actually
+has a negative correlation.
+
+So you can sort of think in this way.
+
+So this gives you an
+example that conditional,
+
+the marginal independence
+doesn't imply a conditional
+
+independence.
+
+So in general, there are
+really just different notions
+
+and we should definitely
+distinguish between them.
+
+So I talked about the difference
+of these two concepts.
+
+Now why this is true,
+why the position matrix
+
+actually reflects the
+conditional independence?
+
+Let's actually prove it.
+
+It's a very simple proof based
+on conditional distribution
+
+that we just divide.
+
+So let's just sort of
+go through it very fast.
+
+So let me change the color.
+
+So proof.
+
+So what I want to prove is
+again that if QIG equals
+
+to zero, I want to show that XI and XG are
+
+conditional independent,
+given all the other variables.
+
+So let's assume we only
+have three variables.
+
+Let's say we have X1, X2, X3.
+
+And I want to show that
+X1 and X2 are independent
+
+given X3, so to do that,
+I need to calculate
+
+the conditional probability of X1 and X2,
+
+given X3.
+
+So again, it's easier to
+think about the natural form.
+
+So let's say we assume
+the joint distribution
+
+has a natural form of B and Q.
+
+And then we want to sort
+of derive the conditional
+
+probability right?
+
+Now we already know this
+conditional probability
+
+is a Gaussian.
+
+We already know that from the
+derivation we had earlier,
+
+we kind of know that it is,
+
+it's B1, two.
+
+One and two is the first
+block of the matrix,
+
+of the vector, minus Q123.
+
+So this is the sum matrix
+of one and two with three.
+
+So X3 and up.
+
+So this part is not important.
+
+We actually don't need to write this part.
+
+But what's important is that Q12, Q12.
+
+What's important is that conditional X3,
+
+the position, the inverse covalent matrix
+
+of X1 and X2 is exactly the sum matrix
+
+of Q on the first two columns and rows.
+
+To be specific, so if
+we write this matrix.
+
+So we have Q11, Q12, Q13, Q21, Q22, Q23,
+
+Q31, Q32, Q33.
+
+If we explicitly write
+down the position matrix,
+
+then the covalence X1, X2, X3,
+
+the inverse covalence matrix
+of these two variables
+
+are actually this block matrix.
+
+Equal to.
+
+So this is what I wrote as Q12.
+
+Q12, one two, right?
+
+Right, and then, so if this is the case,
+
+we can actually rewrite the
+conditional probability.
+
+So basically denote this
+whole thing to be let's say,
+
+this is PB tilde, and this
+whole thing is Q tilde, right?
+
+Then what we have is that
+the conditional probability
+
+of X1 and X2 given X3.
+
+I'm going to just expand
+this natural form.
+
+Since exponential.
+
+So I'm going to write this.
+
+X1, Q11, X1.
+
+So I'm just rewriting
+this whole natural form.
+
+So this is the quadratic term.
+
+And then I'm writing down the linear term.
+
+Because I'm denoting this
+whole vector as B tilde,
+
+so I'll simply write as B tilde two, X2.
+
+So now if we have Q12
+equals to zero, right?
+
+Then what's happening is
+that we don't have this
+
+crossing term.
+
+XY and X2 are so this crossing
+term equal to zero, right?
+
+And we only have the terms
+that are independently
+
+related to each other.
+
+So we only have this term
+that is the quadratic
+
+of X1, we have this term
+which is the quadratic for X2.
+
+We have the linear terms of
+X1 and the linear terms of X2.
+
+And we don't have the crossing term,
+
+so this is the important part.
+
+And so if we, separate the
+terms that involve XY and X1.
+
+Separately, we will have.
+
+Q of one, X1, plus B1 tilde X1.
+
+Times the term related to X2.
+
+So X2, Q22, X2, this
+is the quadratic term,
+
+plus B tilde X2.
+
+So now in this case we
+actually write down the joint
+
+conditional probability
+of X1 and X2 given X3,
+
+to a product of two parts.
+
+The first time only depends on X1,
+
+the second term only depends on X2.
+
+Obviously both of them will depend on X3,
+
+and the dependency is
+actually built through
+
+by the B tilde, B tilde
+one and B tilde two.
+
+Which is defined in the formula here,
+
+which depends on X3.
+
+But because X3 in this case is constant,
+
+we don't actually explicitly
+write down the dependency
+
+structure, right?
+
+Now we can actually further
+show that the first term here
+
+which depends on X1, is
+exactly the conditional
+
+distribution.
+
+So turns out this is proportional.
+
+The first term is exactly X1 given X3.
+
+And the way to look at
+it is to directly use the
+
+formula that we had
+earlier directly derived
+
+conditional probability XY and X3,
+
+and you will find it's exactly this term.
+
+And the second term is going to be exactly
+
+X2 given X3.
+
+So in this way, we are
+factorizing the joint
+
+conditional distribution
+into a product of two
+
+individual conditional distributions,
+
+and this is actually equivalent
+to following the definition
+
+is equivalent to that X1
+and X3 are independent.
+
+X1 and X2 are independent given X3.
+
+Right, so just to review
+what we talked about.
+
+So covalence matrix
+and the position matrix
+
+captures the marginal independence
+
+and conditional independence respectively.
+
+So if QIG equals to zero,
+
+we have the conditional independence.
+
+And sigma IG equals to zero,
+
+we have the marginal independence,
+
+and they are very different concepts.
+
+So now having you know,
+talked about the conditional
+
+independence, we are ready
+to start talking about
+
+what's called graphical models.
+
+So it's actually simply in this case,
+
+in the case of Gaussian,
+
+so we have Gaussian graphical models.
+
+Sometimes it's also called
+Gaussian random fields,
+
+it's simply the multivariate
+Gaussian distribution
+
+who's inverse covalence
+matrix is a sparse matrix.
+
+So what that means is
+that let's say this matrix
+
+equals to Q, right?
+
+So it's sparse.
+
+So in this case, we are
+assuming let's say you have
+
+this matrix has a bunch
+of zero elements, right?
+
+So if a multivariate Gaussian,
+
+it's position matrix is sparse,
+
+then it's sometimes called Gaussian Markov
+
+random field, or Gaussian graphical model,
+
+and in this case, we can
+actually represent the
+
+dependency structure,
+conditional dependency structure
+
+of the random variable using a graph.
+
+This is why it's called a graphical model.
+
+It's using graph to represent
+the dependency structure
+
+inside a random variable.
+
+So more specifically,
+let's say in this case
+
+the Q matrix here, we have X1 to X2.
+
+We have five random variables.
+
+And then what we can do
+is we can represent each
+
+random variable using a note in a graph.
+
+So in this case, the
+note X1 represents X1.
+
+X2 represents X2.
+
+So we already sort of
+done this in this example
+
+we had here, but here is a
+more kind of formal definition.
+
+So X2 is represented by another node,
+
+and similarly X3, X4, X5, right?
+
+And then, we add an
+edge between two nodes,
+
+if and only if the position
+matrix has a non zero element
+
+between these two nodes,
+these two random variables.
+
+So in this case we have
+an edge between X1 and X2,
+
+and that's because if
+we look at the Q matrix,
+
+and if we read the Q12,
+Q12, which is this element,
+
+it equals to.
+
+So here, white represents zero,
+
+and the blue and black
+represent positive numbers
+
+for example, or negative numbers.
+
+So Q12 doesn't equal to zero,
+so we connect them together.
+
+That means X1 and X2 are sort
+of conditionally independent.
+
+So they have some direct
+dependency between them.
+
+And then similarly just look at five one,
+
+they are also connected because
+they have a nonzero element.
+
+And then if we look at
+let's say two and three,
+
+two and three, if we look at
+two and three in this case,
+
+it's actually zero.
+
+So that's why two and
+three is not connected.
+
+So basically we just
+construct a graph by taking
+
+Q as sort of the adjacent
+matrix of this graph.
+
+So we connected two nodes if and only if
+
+there's a nonzero covalence
+conditional covalence.
+
+So this graph, sometimes
+people call it Markov graph.
+
+It includes kind of important
+conditional independence
+
+structures between the random variables.
+
+So when people talk about Markov,
+
+it's often related to some notion
+
+of conditional independence.
+
+So we can actually once
+we have this graph,
+
+we actually can directly sort
+of conditional independence
+
+structures between the random variables
+
+directly from the graph.
+
+So depends on the
+connectively between two nodes
+
+are sort of directly related
+
+to the conditional independence.
+
+In particular we can imply
+the following properties.
+
+So if two nodes are, so
+this is directly from
+
+the definition right.
+
+So if two nodes are disconnected,
+
+let's say X2 and X3, they are
+not connected from the graph,
+
+then we can directly say that I and G
+
+are disconnected.
+
+They are not directly connected.
+
+Then that means XI conditioning
+XG is independent with
+
+XG given all the other variables.
+
+So this is the definition
+of conditional independence
+
+we showed earlier, right?
+
+So this is one property that we can read.
+
+We can also claim the following
+conditional independence
+
+structure, which is.
+
+We can claim that let's
+say look at X1, right?
+
+If I conditioning on all
+the neighborhood of X1,
+
+in this case the neighborhood
+of X1 is two and five,
+
+then X1 is conditionally independent when
+
+all the other variables, given
+it's neighborhood is fixed.
+
+So what that means is
+in this case I can claim
+
+the following.
+
+X1 is independent when X3 and X4,
+
+given X2 and X5 is fixed, right?
+
+So this is another sort of
+property that we can claim.
+
+Basically giving a
+neighborhood of the node
+
+the node is independent with
+all the other variables,
+
+outside of the neighborhood.
+
+So in this case the
+neighborhood of this node
+
+is something called Markov blanket.
+
+So X2 and X3 is called Markov blanket.
+
+So this is another sort of
+statement that we can make,
+
+just looking at the graph and
+looking at the neighborhood,
+
+we can claim the independence of a node
+
+with all the other nodes.
+
+Okay, so and then we
+can claim another thing,
+
+which is to do that let's erase.
+
+Which is the following.
+
+Let's say take a look at X2 and X3.
+
+Obviously we already
+know that conditioning
+
+on all the other variables in this case,
+
+one, five, four, X2
+and X3 are independent.
+
+But we can actually
+claim something stronger
+
+just by reading this graph.
+
+We can claim the following.
+
+X2 conditioning on X3 giving just X4.
+
+So actually X4 is enough
+to blow up the dependency
+
+between X2 and X3.
+
+And the reason is because if I block X2,
+
+if I fix X4, that's actually
+equivalent to just remove
+
+this entire node of X4,
+
+meaning that I will cut
+all the connections that go
+
+through X4.
+
+So if I cut the connection,
+then X2 and X3 are no longer
+
+connected.
+
+So then in this case, I
+can claim the condition
+
+of independence, right.
+
+So the general result is that if two nodes
+
+are connected to each
+other through some path,
+
+if I can find a set of bottleneck,
+
+which is if I remove the bottleneck,
+
+then the two nodes are disconnected,
+
+then I can claim the independence.
+
+So more generally I can show
+that if I have two parts,
+
+if I have two groups of labels,
+
+A and B, the independent,
+conditional independence
+
+given C, if C is a bottleneck.
+
+Between A and B.
+
+So in general, this
+Markov graph reviews very
+
+important information about
+the dependency structure
+
+between the random variables.
+
+Now you may wonder so in this case,
+
+so the Markov graph is
+defined as the using
+
+inverse covalence matrix Q, right?
+
+You may wonder what if
+you also plot the graph
+
+that is related to the covalence matrix?
+
+You can suddenly do it and you will get
+
+some kind of covalence graph.
+
+Unfortunately that graph
+sometimes doesn't really
+
+reveal lots of information, and sometimes
+
+it's boring to look at that graph, right?
+
+And that's because exactly,
+that's because in many times,
+
+so two nodes could be
+correlated with each other
+
+through the other nodes, right?
+
+So in this case for example,
+for example X2 and X3,
+
+even though they are
+conditionally independent,
+
+they are still sort of
+marginally dependent
+
+because they have correlation
+going through X5 and X4.
+
+So in this case if we
+actually plot the joint,
+
+you know the covalence graph,
+
+we will actually get a
+fully connected graph.
+
+Everyone is correlated with each other.
+
+Because either you know
+they are direct correlation
+
+or that's a correlation
+through the other variables,
+
+if you just look at this graph,
+
+define it by the covalence matrix,
+
+it doesn't really reveal
+which part of the dependency
+
+is direct, which part of of
+the dependency is indirect.
+
+Versus if you look at the Markov graph,
+
+it reveals much sort of clear
+information about dependency.
+
+Okay, so now how is this useful?
+
+Well turns out it's, this
+kind of graph structure
+
+can be very useful in
+lots of applications.
+
+So here in practice obviously
+we wouldn't actually
+
+observe the true parameters,
+
+so in practice we actually
+observe a bunch of data points,
+
+and what we can do is
+we can try to infer the
+
+inverse, the position matrix
+Q as well as graph structure.
+
+And that graph structure
+actually allows us to sort of
+
+reasoning about the
+dependency and the relations
+
+between different variables.
+
+This has lots of
+applications in many areas.
+
+For example, let's say in biology, right?
+
+In biology, we may measure
+the expression data of
+
+different genes.
+
+Let's say here each of
+the row could represent
+
+the expression of a particular gene,
+
+and then we can view
+the joint distribution
+
+of all the genes as a
+multivariate normal distribution.
+
+We can try to estimate
+the structure of the
+
+inverse covalence matrix
+that allows us to kind
+
+of reasoning about the
+regulation relations
+
+between different genes.
+
+Maybe also in some other cases,
+
+let's say in finance, we have stock,
+
+we have the price of different stocks.
+
+And they are obviously
+correlated in some way, right?
+
+So let's say Apple and
+Google, the price could be
+
+correlated with each other.
+
+And then in this case again,
+
+we can sort of view the stock prices
+
+as multivariate normal distribution
+
+and try to estimate the
+inverse covalence matrix
+
+and to sort of recover
+the dependency structure
+
+between the price of different companies.
+
+Many other applications.
+
+So this is a very useful
+tool in lots of applications.
+
+Now the problem is how could you actually
+
+estimate covalence matrix.
+
+Well turns out this is actually
+a very important problem.
+
+That's a huge literature
+talking about this.
+
+So once again, let's say
+you observe a bunch of data.
+
+In this case the data is a data matrix.
+
+So you will have D, the data matrix.
+
+Each of the corner represents
+a particular observation.
+
+So this is X1 which represents
+a particular observation
+
+of this matrix, this vector.
+
+And then we have many such observations.
+
+So in this case, this will be a D by,
+
+D by let's say N matrix.
+
+Here's D, the dimension, here's N.
+
+And then we are giving
+sort of observation,
+
+we want to estimate, assume
+it's drawn from some mu
+
+and some multinormal distribution.
+
+And we want to estimate the
+inverse covalence matrix.
+
+We're actually more
+interested in the inverse
+
+covalence matrix instead
+of covalence matrix.
+
+And assumption is that
+we hope Q to be sparse.
+
+Meaning that lots of
+these elements are zero
+
+and that will correspond
+to a sparse graph.
+
+And then if we have some
+element that is nonzero,
+
+that means two variables
+have direct relation.
+
+So turns out this problem
+is actually a very important
+
+problem.
+
+Lots of literature has
+been talking about this,
+
+and that's a simple way
+to solve this problem,
+
+which is graphical lasso.
+
+So the idea is that we
+can simply just maximize
+
+the likelihood for
+estimating mu and sigma,
+
+but with a sparse penalty
+through kind of encouraging
+
+the sparsity of the
+inverse covalence matrix.
+
+So let's go over this very briefly.
+
+Right, so for simplicity
+I would just assume the mu
+
+equals to zero, because if not,
+
+I can simply centralize the
+data so that it has zero.
+
+So assume mu equals to zero.
+
+If not, centralize the data.
+
+Okay, and then we just want
+to estimate sigma and Q,
+
+and also want to make sure Q is sparse.
+
+So the idea is that we
+can simply just maximize
+
+the likelihood, because
+this is always the way
+
+we estimate the parameters.
+
+So in order to do that, you
+want to find the optimal Q
+
+to maximize the likelihood.
+
+The likelihood of the data set D,
+
+giving the particular parameter Q,
+
+Q is the inverse covalence matrix,
+
+obviously this is not
+enough because if we simply
+
+maximize the likelihood,
+we will actually just get
+
+the empirical covalence
+matrix that we divide earlier,
+
+and we don't particularly
+enforce sparsity.
+
+That's why we actually
+sometimes add a penalty here.
+
+So here is some penalty
+that encourages the sparsity
+
+for the Q matrix.
+
+Now let's look at these
+two terms separately.
+
+So this term, the likelihood
+term is simply just
+
+the standard likelihood function.
+
+We can explicitly write on it.
+
+Now for the sparsity, by
+definition it can just mean
+
+that the number of non zero
+elements in the Q matrix.
+
+So we may just define let's see.
+
+Q equals to sum over IG.
+
+Maybe I doesn't equal to
+G, for all the elements.
+
+I will use indicator
+function to represent QIJ
+
+doesn't equal zero.
+
+Basically if IG doesn't equal to zero,
+
+I will contribute an indicator function,
+
+and I will sum over all the notes.
+
+So this basically equal
+to the number of notes,
+
+number of edges.
+
+And I want to make sure
+that this is actually
+
+as small as possible.
+
+So actually I should have
+a negative sign here.
+
+So I want to maximize the likelihood
+
+and minimize the number of edges.
+
+Unfortunately, this is
+actually very difficult
+
+to optimize.
+
+That's because this function
+is actually not a continuous
+
+function.
+
+So sometimes people call
+this the L zero norm of Q,
+
+and that's because if you sort of,
+
+you can sort of rewrite
+this indicator function
+
+as the zeros power of the QIG.
+
+So basically if we plot the QIG, right?
+
+So if QIG equals to zero,
+
+this whole indicator
+function equals to zero.
+
+And if QIG doesn't equal to zero,
+
+it will equal to one.
+
+And this can be sort
+of viewed as the zeros
+
+power of Q, because zero
+power of zero equals to zero,
+
+and any number, let's say
+X power zero equals to one
+
+if X doesn't equal to zero.
+
+So that's why people also
+call the number of nonzero
+
+elements the zero norm.
+
+And correspondingly this
+problem is called the
+
+L zero regularized maximum likelihood.
+
+Right, unfortunately this
+is a very difficult problem.
+
+It's not a continuous function.
+
+It's very difficult to
+optimize it using things
+
+like gradient descent.
+
+Instead, people can sort
+of relax this problem
+
+and approximate it using
+what's called a L1 norm.
+
+Different color.
+
+So L1 norm can be viewed as
+an approximation of L0 norm,
+
+so the definition is that.
+
+Absolute value.
+
+And this is defined to be Q L1 norm.
+
+So earlier this can be
+defined by as Q L0 norm.
+
+So basically we just replaced
+the indicator function
+
+with the absolute value of the element.
+
+Now if we plot this
+function, it will be sort of
+
+approximating this
+discontinuous indicator function
+
+using a piecewise linear function, right?
+
+And a nice property of this regularization
+
+is that it's actually a convex function.
+
+And it can be optimized
+much more efficiency.
+
+So this is actually something that people
+
+often use in practice.
+
+So in practice, people
+often use the minimize,
+
+the L1 norm to encourage sparsity.
+
+So more specifically in this case,
+
+we are interested in
+maximizing Q log probability
+
+of D given Q, minus
+lambda L1 regularization.
+
+If you do this, this is a graphical lasso.
+
+This is called a graphical lasso.
+
+So just to get into a
+little bit more details,
+
+if we write down the law of probability,
+
+we can show that this
+term actually equals to,
+
+this is what we have done
+before if you remember,
+
+still remember the formulas.
+
+Sum over K.
+
+Let's see, I have N of them.
+
+And each of the likelihood,
+this term equals to
+
+that's K, given Q.
+
+And then.
+
+Sum of K equals to N.
+
+If you expand it again it
+will be something like X,
+
+assuming we already have the zero.
+
+Plus one half of the determinate Q.
+
+So this is the likelihood function.
+
+Now basically we have
+this function plus this L1
+
+regularization, and if we optimize it,
+
+we will get an estimation
+of Q that is sparse.
+
+And then this allows
+us to sort of estimate
+
+a nice graphical structure that captures
+
+the dependently structure,
+dependency relation
+
+between different variables.
+
+So the actual algorithm that
+optimizes the graph lasso
+
+actually requires further
+more kind of mathematical
+
+derivations.
+
+One can use sub gradient
+algorithm minimize,
+
+maximum this auxiliary
+function using gradient ascent.
+
+We can also use coordinate
+descent which is basically
+
+each relatively update
+different coordinates
+
+of the Q function, and you
+can derive the algorithm
+
+carefully, and that gives us
+some efficient algorithms.
+
+But if your are interested,
+we can simply just look
+
+at graphical lasso and
+their are many different
+
+implementations, many different
+algorithms which we don't
+
+cover in this class.
+
+Thank you very much.
+

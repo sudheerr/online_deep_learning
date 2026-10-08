@@ -1,0 +1,1782 @@
+♪ (jazz music) ♪
+
+Welcome to Machine Learning.
+
+Today we are going to
+go over more examples
+
+of Bayesian inference.
+
+so let's start with a very quick review
+
+of what is Bayesian inference.
+
+So in Bayesian inference, we
+use this very simple formula
+
+of Bayes' Rule, where the goal
+
+is to ask me some parameter theta.
+
+So here theta is a parameter, right?
+
+And we have some observation of theta.
+
+So P here, represents the data.
+
+And then, the Bayesian inference really
+
+relies on this very simple
+Bayes' rule, where we want
+
+to estimate the posterior
+distribution of theta,
+
+given the observation of theta,
+
+and this is equal to the likelihood,
+
+which is the probability
+of the data given theta.
+
+So this is the probability
+of data, given theta.
+
+And then times a prior
+information about theta.
+
+So here P, theta, represents the prior.
+
+So the prior is the
+distribution that we have
+
+about theta when we
+observe nothing, right.
+
+When we don't have, observe, any data,
+
+so the prior is a default distribution
+
+about the unknown theta.
+
+And then the posterior is really the
+
+likelihood multiplied the prior, right.
+
+The likelihood multiplied the prior.
+
+So we went through a very
+simple example last time,
+
+and today we are going
+to go over more examples.
+
+So, let's start with this example
+
+of estimating commute time.
+
+Let's say you move to a new apartment,
+
+and then you want to decide
+what's the commute time.
+
+So you ask around,
+
+your friends told you that
+the typical commute time
+
+is about 30 minutes plus
+or minus 10 minutes,
+
+because they are unsure
+about the actual time.
+
+So, this is something you can think about
+
+as prior knowledge, or prior information
+
+about the true commute time
+when you observe nothing,
+
+but you have some prior knowledge
+
+about the time, right?
+
+And then you actually drove
+a few number of times,
+
+and you test yourself and get a bunch of
+
+actual commute time that
+you sort of observed.
+
+So you get a bunch of observation, right.
+
+As you get more and more observation,
+
+you are expected to estimate
+the time more accurately,
+
+but let's say you only
+drove a few number of times,
+
+the question is how could you combine
+
+this prior information,
+which is what you get
+
+from your friends, with
+your own experiments, right?
+
+So Bayes' inference
+provides a perfect framework
+
+for combining these
+two kinds of knowledge.
+
+So let's go over this example and tell,
+
+let's see, sort of see
+how Bayesian inference
+
+can be applied here.
+
+So, here, let's start from setting up
+
+the parameter, right?
+
+So, theta here is the time.
+
+It is the unknown parameter
+that we are interested, right?
+
+And then we have some prior information.
+
+So P, theta, right,
+
+so, in this case your prior
+
+is about average 30
+minutes and plus/minus 10.
+
+We may just use a Gaussian
+to capture this prior.
+
+This is really an approximation
+but maybe its fine.
+
+So let's say we set up the prior to be
+
+a Gaussian distribution,
+whose mean is mu zero,
+
+and variance is sigma zero squared, right?
+
+So here mu zero could equal to 30 minutes,
+
+sigma zero, sigma zero should equal to,
+
+let's say 10, 10 minutes right?
+
+So you can, you can sort
+of adjust this prior,
+
+based on your knowledge.
+
+But assuming these are
+given to you, right?
+
+And then you have observations,
+
+so, you observe, a bunch of actual time,
+
+which we denote as X1 to XN, right,
+
+and we need to make some assumption here,
+
+and the assumption could be
+
+that every time when do the test drive,
+
+the actual time we get
+is some noisy observation
+
+of the, sort of, expected average time.
+
+So we can assume that X-I equals to theta,
+
+which is kind of the ground choose,
+
+plus some noise, right,
+
+so we can assume we have
+sigma-one times (muttering) I.
+
+Well, (muttering) I is a standard Gaussian
+
+when zero means N and the unit variant.
+
+And sigma-one is some variance, right?
+
+So, again we assume
+that sigma-one is known,
+
+but in practice you
+can estimate it, right?
+
+So, sigma-one could be, just for example,
+
+let's say five or something you came up.
+
+And, in practice you can
+estimate these things.
+
+But now let's assume we all
+know, we know sigma-one,
+
+we know mu-zero and the sigma-zero,
+
+and the goal is to estimate theta, right?
+
+Now, based on this assumption,
+
+we can actually write down
+the likelihood function.
+
+So, the probability of x-i, given theta,
+
+it's actually a Gaussian
+distribution, right,
+
+so this is actually a
+Gaussian distribution,
+
+whose mean is theta,
+
+whose variance is sigma-one square.
+
+So this is really just
+based on our assumption.
+
+And then given these assumptions,
+
+including the assumption of prior,
+
+assumption of observation,
+
+and we want to estimate
+the posterior distribution
+
+of theta, right?
+
+So, then we want to
+estimate the posterior.
+
+Let's just apply the formula then, right?
+
+So, let's denote the set of observation
+
+to be your information or
+your data distribution,
+
+which is D.
+
+Then your posterior distribution of theta,
+
+give the collection for
+all the observation,
+
+from the Bayes' rule that we had earlier,
+
+it equals to the probability of theta,
+
+given theta times the prior information
+
+about theta, right.
+
+And then divide it by the
+normalization constant,
+
+which is the probability of theta
+
+as you marginalize over theta, right?
+
+And as we mentioned earlier,
+
+this probability of theta
+really doesn't matter that much,
+
+because it doesn't depend on D.
+
+So, for simplicity, we'll just write
+
+this as proportional to
+the theta and P, theta.
+
+So here, probability of D
+is treated as a constant,
+
+because what we really
+care is theta, right?
+
+D, which is the data,
+is always fixed, right?
+
+Now we can calculate this likelihood times
+
+(muttering) expressly, right?
+
+Let's do it.
+
+So this equals to,
+
+we need to calculate the likelihood,
+
+which is the probability
+of the data, right,
+
+but the data actually consists of the set
+
+of observations, which we
+assume to be independent
+
+to each other.
+
+So, this is basically the same thing
+
+we did for likelihood.
+
+We can make some likelihood estimation,
+
+so we can rewrite the
+probability of seeing
+
+the whole data set to be the product
+
+of probability of individual data points.
+
+Which is P, X-I,
+
+given theta, right?
+
+So this whole thing equals
+to probability of data,
+
+given theta, right?
+
+It's a very simple product
+rule of probability.
+
+And then we need to
+times the prior, right?
+
+And then we need to
+calculate this whole thing
+
+using the formula, the
+assumption that we had earlier,
+
+so you know, for each of
+the probability of X-I,
+
+given theta, this is a Gaussian, right?
+
+This is a Gaussian, so that's,
+we can explicitly write down
+
+the formula of Gaussian,
+so let's just recall
+
+what's the probability of Gaussian.
+
+Right, so, you know, let's
+just think about this
+
+probability of theta,
+you know, the Gaussian,
+
+whose mean is theta, and
+variance is sigma, sigma-one.
+
+So the probability, if we remember,
+
+of theta-I, X-I given theta,
+is going to be equal to
+
+the square root two pi, sigma-one,
+
+times exponential minus, so,
+
+so we have this exponential
+
+of a negative quadratic function, right?
+
+So it will be X-I minus theta square,
+
+times, divided by two
+sigma-one squared, right?
+
+So, this is the formula for
+a Gaussian distribution.
+
+And here, because we are
+calculating the posterior of theta,
+
+right, everything else
+assumed to be constant.
+
+So in this case, we actually don't care
+
+about this normalization constant,
+
+which is the square root
+of two pi time sigma-one.
+
+And we can simply ignore that.
+
+So in this case, we can
+rewrite, we can write
+
+the probability of Gaussian
+to be proportional to
+
+exponential minus X-I theta square,
+
+two, divided by two
+times sigma-one square.
+
+So, sort of we use this
+proportional notation
+
+to drop these constants that
+we don't really care about,
+
+when we want to calculate
+the posterior, see, right?
+
+So using this formula,
+we can now write down
+
+the likelihood and the posterior, right?
+
+So, it will be product over N, right?
+
+Now, each of the probability
+is going to be proportional
+
+to P-X, so I'm going to
+use a proportional here.
+
+X-I, which is the variable,
+minus theta, which is the mean
+
+in this case, square, divided
+by two sigma-one square.
+
+Right?
+
+So this is the likelihood.
+
+And then we need to write
+down the prior, which is P,
+
+P-theta, right?
+
+We assume that the prior
+is actually a Gaussian
+
+whose mean is mu-zero,
+variance is sigma-zero square,
+
+so it will be exponential minus,
+
+I need to erase this thing.
+
+Okay.
+
+So, exponential theta,
+minus mu-zero squared,
+
+divide by two sigma-zero square.
+
+Right, so this is going to be
+the, sort of the posterior.
+
+Then we have a bunch of products,
+a bunch of exponentials,
+
+we need to sort of simplify
+this to see clearly
+
+what the posterior
+distribution actually is,
+
+so we can sort of simplify
+this proportional to,
+
+we can move this product
+into the exponential,
+
+and then we'll have exponential, ah,
+
+and the product becomes sum, right?
+
+And then we need to
+sum with all the terms,
+
+which is going to be theta X-I, right,
+
+divided by two sigma-one square,
+
+minus two sigma-zero square,
+
+theta minus mu-zero.
+
+Right?
+
+Okay, so we need to decide what this is.
+
+If you observe it, you
+will find this posterior
+
+is exponential of some
+quadratic function about theta.
+
+And we can further simplify
+this by explicitly writing down
+
+this whole thing, as a function of, ah,
+
+as a quadratic function of theta.
+
+So we can write down this as
+equal to exponential, minus.
+
+We can sort of, you know, what
+we want to do is to simplify
+
+this formula to write it as a
+quadratic function of theta.
+
+So I'm going to assume the
+leading coefficient is A.
+
+We're going to assume
+the following, which is:
+
+two B theta,
+
+plus C.
+
+So I'm going to assume this
+whole quadratic function
+
+can be wrote as sum A,
+which is a coefficient,
+
+times theta square,
+minus two B theta plus C.
+
+And the question is, we need to decide
+
+what's the actual value of A, B, and C?
+
+And this can be easily decided
+
+by just looking at this formula.
+
+So, we can sort of calculate,
+decide the actual value
+
+of these A, B, C.
+
+So the A, if we want to
+decide the value of A,
+
+we just look at all the coefficients
+
+that is related to theta squared, right?
+
+So if you look at it
+carefully, we will find
+
+it's actually sum over
+I equal to one to N,
+
+and then sigma-one square,
+
+one over sigma square.
+
+Sum over all N.
+
+This is because if you
+expand this quadratic term,
+
+that's what you get, right?
+
+And then we have another
+sigma square here,
+
+so we're going to pass sigma-zero.
+
+So this comes from the second term.
+
+The sum of N pieces of sigma-one square,
+
+comes from the first term, right?
+
+So this actually equals to
+N divide by sigma square,
+
+plus sigma-zero square, right?
+
+So this is going to be the
+leading coefficient, A,
+
+for this quadratic function, right?
+
+And then we also need to
+decide the coefficient
+
+before theta; again, we
+can just look at this
+
+formula and decide what's the coefficient.
+
+It turns out B, if you again
+expand this quadratic term,
+
+that's actually explicit to it.
+
+So this quadratic term is actually equal
+
+to theta square minus two,
+X-I theta plus X-I square.
+
+So again, if we expand it, we will find
+
+that this B should equal
+to, again, sum over I,
+
+I from one to N, and then
+we are going to have X-I,
+
+divided by sigma-one
+square, and then plus,
+
+mu-zero divided by
+sigma-zero square, right?
+
+Again, mu-zero divided by sigma-zero comes
+
+from the second term,
+which is from the prior.
+
+And then C is a constant.
+
+Which we actually don't need to calculate.
+
+That's because it doesn't depend on theta.
+
+And it's just treated as
+a constant in this case.
+
+So, we don't need to care about it, right?
+
+So now if we write down this,
+
+we can sort of further
+simplify this formula
+
+to be equal to exponential.
+
+We can have A here, we can sort of, ah,
+
+rewrite this whole thing as theta minus B
+
+divided by A square, plus
+some constant, right?
+
+This constant is going to
+be decided by A, B and C,
+
+but because it's a constant,
+we don't care, right?
+
+So from here, we can
+sort of see that this,
+
+this is an exponential of
+some quadratic function.
+
+And if you compare when
+is the likelihood function
+
+for a Gaussian, you can sort of realize
+
+that this is really the likelihood
+
+of a Gaussian distribution
+whose mean is B divide by A,
+
+whose variance is one over A, right?
+
+And that's because B divided
+by A is exactly what's
+
+centralizing, what we use
+to centralize A, right?
+
+And then A here is really a
+scanning factor for theta.
+
+That's why it's the variance.
+
+And then using the formula we have here,
+
+we can exactly calculate, right?
+
+So exactly calculate the value
+of the mean and the variance.
+
+So it turns out the mean, posterior mean,
+
+which is equal to B divide by A,
+
+equals to A, B divide by
+A, which is going to be sum
+
+over I, from one to N,
+X-I sigma-one square,
+
+plus mu-zero, sigma-zero square.
+
+This is divided by, ah,
+
+so, N times N divided by sigma-one square,
+
+plus sigma-zero square, right?
+
+And then we have the
+variance, posterior variance,
+
+which is going to be one
+over A, which is, ah,
+
+which is going to be N sigma square,
+
+plus sigma-zero square.
+
+(muttering)
+
+So, let me sort of rewrite
+this in a better form.
+
+So, now let's just recap
+what we have got, right?
+
+So, we want to calculate
+the posterior distribution
+
+of theta, given D, and then
+from all this derivation,
+
+we find that this posterior probability
+
+is actually proportional to exponential
+
+of some quadratic function,
+and then by rearranging
+
+this quadratic function, we
+find that this is actually,
+
+can be viewed as a likelihood
+of a Gaussian distribution,
+
+whose mean is B divide by A,
+
+and variance is one over A, right?
+
+Now what this means is that
+the posterior distribution
+
+is actually a Gaussian whose
+mean is B divided by A,
+
+which is this whole thing, right?
+
+Whose variance is one over
+A, which is this whole thing.
+
+Now, in this way, we
+actually exactly calculate
+
+the posterior distribution.
+
+And now we can actually check this formula
+
+to see if it makes sense, right?
+
+So let's say looking at
+the posterior mean, right?
+
+So let's see if we only
+have the prior information,
+
+without any observation,
+
+then we wouldn't have the first term.
+
+The first term, sum over
+X-I is going to be zero,
+
+and then we will only have
+mu-zero divided by sigma zero.
+
+And then in that case, let's
+just write down exactly.
+
+So, if N equal to zero,
+
+which means no data, right?
+
+Right, then we can sort of say that mu-P,
+
+which is the posterior mean of the theta,
+
+actually exactly equal to
+mu-zero divided by sigma-one,
+
+sigma zero, right, and then
+divided by one over sigma-zero,
+
+square, because N equals zero,
+and then equal to mu-zero.
+
+Right, so what it means is
+that if I don't have any data,
+
+my posterior mean is going
+to be exactly equal to
+
+the prior mean, which is mu-zero.
+
+Right, this makes a lot of sense.
+
+If I don't have any data,
+my posterior is going to
+
+be exactly equal to my prior, right?
+
+And then similarly, in
+this case, we can calculate
+
+the posterior variance.
+
+Again, in this case, if I don't have data,
+
+N equal to zero, so my posterior variance
+
+is going to be exactly
+equal to the prior variance,
+
+which is sigma-zero square, right?
+
+Again, makes a lot of sense.
+
+Now, if we have, if N larger than zero,
+
+then we have data, right?
+
+And in this case, we have data,
+
+then what's happening is
+that the posterior mean
+
+is going to be a weighted sum
+of the data and the prior.
+
+Right?
+
+And the weight is actually
+exactly equal to one over sigma,
+
+meaning that, you know,
+each of the data, X-I,
+
+is weighted by one over sigma-one square,
+
+because sigma-one square is the noise,
+
+the magnitude of noise of
+the observation X-I, right?
+
+It measures the importance
+of the observation
+
+from X-I, right?
+
+And similarly, mu-zero is weighted by one
+
+over sigma-zero square that, again,
+
+measures how important the prior is.
+
+Which is proportional to the inverse
+
+of the prior variance, right?
+
+That makes sense a lot, right?
+
+Now, let's consider the case
+when N equal to infinite.
+
+So what's happening is
+that we have lots of data,
+
+we have an infinite number of data.
+
+Right?
+
+So now, in this case, what's happening is,
+
+if we look at this case,
+right, if N goes to infinite,
+
+we are going to sum over
+lots of data terms, right?
+
+But we only have one
+single prior information.
+
+Then, in this case, the
+importance of the prior
+
+is going to be decreasing, right?
+
+And if we have an infinite number of N,
+
+the posterior mean is going
+to be approximately equal
+
+to sum over I, equal to one to N,
+
+X-I, sigma-one square.
+
+And the prior information, the importance
+
+of the prior information
+is going to be much smaller
+
+than the data term, so it is
+considered to be very small.
+
+Now in this case, if we,
+
+right here, we are
+approximating the prior mean,
+
+and the variance, using zero.
+
+That's because N is infinite, right?
+
+So in this case, we're
+approximately equal to...
+
+Right?
+
+So in this case, actually,
+the posterior mean
+
+is actually approximately
+equal to the empirical mean
+
+if the data, which is sum
+of X-I divided by N, right?
+
+That means the importance
+of prior, in this case,
+
+is actually decreasing, and is
+increasingly less important,
+
+as we have more data, right?
+
+Now in this case, if we calculate sigma P,
+
+which is the posterior variance,
+
+it will approximately equal
+to one over sigma-one square,
+
+minus inverse, which equal
+to sigma-one square N.
+
+What this means is that
+the posterior variance
+
+will actually decrease with N.
+
+As we have increase in more
+data, the posterior data
+
+will actually decrease, with
+the rate of one over N, right?
+
+So this is, this example where
+we sort of assume a prior
+
+information, in this case,
+we assume it's a Gaussian,
+
+and then we have a posterior information,
+
+which then is, again, Gaussian,
+
+in this case we can sort
+of, we are lucky enough
+
+so that we can exactly
+calculate the posterior mean
+
+and the posterior variance,
+and then we can sort of say
+
+that Bayesian inference, in this case,
+
+provides a very nice
+framework for combining
+
+the prior information and
+posterior information.
+
+So, let's go over another example.
+
+So this is sort of another example,
+
+a little bit more complicated,
+but have very similar idea.
+
+In this example, the goal
+is to use Bayesian inference
+
+to solve linear regression.
+
+So linear regression is the
+sort of very basic idea,
+
+very basic problem that we typically solve
+
+using least squares estimation, right?
+
+But if you solve it
+using Bayesian inference,
+
+it has the advantage of
+providing a very consistent
+
+and coherent way for
+quantifying the uncertainty
+
+in the data and the prompt estimation.
+
+So, let's go over this example again.
+
+So, in the setting we have here,
+
+we have a pair of data
+points, X-I are some feature
+
+or covariant variables, and
+then Y-I are some variables
+
+that we want to predict, so
+we observe a bunch of X-I
+
+and Y-I, and the goal is to
+find the linear function,
+
+which is X transpose theta,
+so that it's approximately
+
+equal to Y, right, so
+basically think about a case
+
+where you would have a one-D feature,
+
+let's say this is X, this is Y,
+
+we observe a bunch of data points, right?
+
+Data points; what we want
+to do here is to find
+
+the linear curve, linear line,
+
+which is in this case,
+because we only have one,
+
+a single X, so the Y will
+equal to X times theta, right?
+
+Now in practice, we may have a bias term,
+
+B, right, which we didn't
+write in this formula.
+
+That's because we can
+incorporate B into theta, right?
+
+So this is a typical check
+that we often do in practice.
+
+We can write down this
+general form as X and one,
+
+transpose theta B.
+
+Right, and then so here
+what's happening is we can
+
+augment the feature, X, with
+another constant feature,
+
+which is one, and then
+we can augment theta,
+
+with the bias variable, B,
+
+and then we can net this
+whole thing to be X-tilde,
+
+this while thing to be theta-tilde, right?
+
+So we can augment the
+constant feature and, ah,
+
+so that we don't need to worry
+about a baseline variable, B.
+
+It's just going to be equal to X-tilde,
+
+transpose theta-tilde.
+
+That's why it's actually
+sufficient to just assume
+
+Y equal to X transpose theta, right?
+
+Okay, so the problem is
+then how to estimate theta.
+
+Right, how to estimate theta.
+
+Now, the typical approach
+for linear regression
+
+is obviously the least
+square method, right?
+
+So, least square.
+
+In this case, we are
+estimating the optimal theta,
+
+using, by minimizing,
+
+the,
+
+square difference, right,
+which is going to be Y-I,
+
+minus X-I, transpose theta square.
+
+All right.
+
+So this is the typical way
+for solving linear regression.
+
+Now, in this case we can
+sort of say that we only get
+
+a deterministic estimation about theta.
+
+Now, in some sense, sometimes,
+we may not only want
+
+to get a deterministic estimation.
+
+Sometimes we also want to
+get an uncertainty estimation
+
+about how accurate our
+estimate about theta might be.
+
+Now this is what the Bayesian
+inference can provide.
+
+So now let's talk about how
+to use Bayesian inference
+
+to solve the same problem.
+
+So, in Bayesian inference, again,
+
+we follow the procedure we had earlier.
+
+We're going to treat theta
+as a random variable.
+
+So treat,
+
+theta as a random variable.
+
+Right?
+
+And then we are going to
+impose a prior information
+
+on theta, so we need to
+assume a prior information.
+
+So this is something
+you figure out yourself.
+
+You well, sort of decide what
+kind of prior you want to use.
+
+Now typically we can assume
+a Gaussian prior, right?
+
+So this is a typical choice.
+
+Let's say, assume the prior information.
+
+Let's say, assume it's
+a Gaussian distribution.
+
+So the mu has a Gaussian
+distribution whose mean
+
+is mu-zero, whose variance
+is sigma-zero square.
+
+Now mu-zero and sigma-zero
+is something that you,
+
+as a user, need to provide, right?
+
+So this could come from some
+prior information, right?
+
+Let's say you had some, you're
+solving a particular problem,
+
+you may have some knowledge
+about what the value of theta
+
+is likely to be, right?
+
+But if you don't have
+a lot of information,
+
+you can just set some default prior.
+
+Let's say if you don't have,
+really have lots of information
+
+what you can do is that you can
+just assume mu equal to zero
+
+and sigma-zero equal to
+some very large number.
+
+So in this way, you
+have a very kind of, ah,
+
+uninformative prior; it
+doesn't really provide
+
+a strong constraint about what
+the value of theta might be.
+
+So just to visualize, let's
+say this is theta, right?
+
+So let's say if you have
+some strong information
+
+about theta, you may just
+provide a very sharp prior.
+
+So in this case, it says that, you know,
+
+theta is very likely to
+concentrate on some mu-zero
+
+that you can sort of provide, right?
+
+On the other hand, if you
+don't really have lots
+
+of information about
+theta, what you can do is
+
+that you can sort of set your
+prior such that it's a very
+
+wide prior, right, so this can
+be done by making sigma-zero
+
+to be a very large number.
+
+What this means is that
+you don't really have
+
+lots of prior information about theta,
+
+so it could be go anywhere.
+
+In this case, you just
+set mu-zero to be zero
+
+and sigma-zero to be
+some very large number,
+
+so that you essentially impose very little
+
+prior information to your problem.
+
+So, after you decide
+your prior distribution,
+
+you will decide what's
+the likelihood, right?
+
+So in this case,
+
+so in this case, it's natural to, again,
+
+assume a Gaussian model.
+
+So, we're going to assume data.
+
+So in this case, it's actually, ah,
+
+let's say assume likelihood.
+
+So in this case, we can
+assume, let's say, ah,
+
+Y-I, which is the label,
+
+is generated from this
+linear function, right?
+
+But when some noisy observation,
+so Y-I equal to this
+
+linear function, plus some
+Gaussian noise, right?
+
+So this is very similar to
+the example we had earlier,
+
+except that we now have this
+linear function as the mean.
+
+So here, again, sigma-one
+is going to be some variance
+
+that you can decide by yourself.
+
+Or learn from data.
+
+And sigma-I is some, you
+know, standard Gaussian noise.
+
+With zero mean and variance of one.
+
+So this is a reasonable
+assumption to make.
+
+And then, based on this, you
+can write down the likelihood,
+
+the likelihood of Y-I, observing this, ah,
+
+Y-I and X-I,
+
+given theta, right?
+
+So Y-I and X-I are the data points.
+
+And theta is the prompter.
+
+So we are interested in calculating
+this likelihood function
+
+and in this case, you can sort
+of write this join likelihood
+
+of X-I and Y-I to use chain
+rule, so it decompose into
+
+Y-I conditional on X-I,
+and theta times the,
+
+the probability of X-I, right?
+
+Now the probability of X-I,
+which is the probability,
+
+how you generate the feature,
+is actually relevant to theta.
+
+Because theta is deciding
+how you generate Y.
+
+It's not deciding how you generate X-I.
+
+So that's why this likelihood
+of X-I could be a constant.
+
+With respect to theta.
+
+We can sort of ignore it when we
+
+calculate the posterior distribution.
+
+And then this likelihood,
+the conditional likelihood,
+
+Y-I conditional X-I, is
+going to be a Gaussian,
+
+following our likelihood assumption.
+
+So let's just write down the, ah,
+
+the posterior distribution now.
+
+So the posterior distribution of theta,
+
+given the data set, D, right?
+
+Let's say in this case D
+equals to this whole data set.
+
+So the data, again, it's
+proportional to probability
+
+of seeing the data given
+theta, times the prior, right?
+
+And then, you know, we can
+write down this probability
+
+of the data, to be the product
+of all the data points,
+
+P, Y-I, X-I,
+
+given theta, right?
+
+This is because the
+data points are assumed
+
+to be generated independently.
+
+Times the prior, right?
+
+And then we can use this
+chain rule to expand
+
+the joint probability of X-I and Y-I.
+
+So this is going to be equal
+to the probability of Y-I,
+
+conditional X-I and theta,
+
+times the probability of X-I, right?
+
+Times the prior information P, theta.
+
+So now because we only care
+about the posterior distribution
+
+of theta, and the probability
+of X-I doesn't depend
+
+on theta, so we can simply
+write this as proportional to
+
+product I equal to one to N, P Y-I,
+
+X-I, theta,
+
+P, theta, right?
+
+Now this is actually something
+that we can use in practice.
+
+And it's very simple.
+
+Basically, it turns out in this case,
+
+which is a regression problem,
+
+or a supervised learning
+problem, the posterior of theta
+
+given the data set is
+actually proportional to
+
+the product of the conditional likelihood,
+
+which is Y-I, given X-I and theta,
+
+times the prior information P, theta.
+
+And then having this, we
+can use the information,
+
+the assumption we had earlier,
+which is a Gaussian prior,
+
+and a Gaussian likelihood.
+
+So in this case, we can
+again just plug in the,
+
+the likelihood of Gaussian.
+
+In this case, it's a
+probability of Y-I, given X-I
+
+and theta, following the
+assumption we had earlier,
+
+this is proportional to exponential
+
+Y-I minus X-I theta square,
+
+divided by two sigma-one square.
+
+So sigma one square is
+the variance of Y-I,
+
+given X-I and theta, right?
+
+And then we need to times
+the prior information,
+
+which is exponential
+two sigma-zero square,
+
+theta minus mu-zero square, right?
+
+You know, basically we
+just follow the derivation
+
+we had earlier; this is going
+to be equal to exponential,
+
+pushing the product
+inside the exponential,
+
+so it becomes sum, Y-I
+minus X-I theta square.
+
+We should have a transpose here.
+
+Right?
+
+Okay, so we get this.
+
+Similar to the example we had earlier,
+
+this is, again, going to be a
+quadratic function of theta.
+
+And we are showing that
+the posterior is, again,
+
+proportion to the exponential
+of some quadratic function
+
+of theta, and this means the posterior
+
+is going to be a Gaussian, right?
+
+And then, we can again write,
+simplify this notation,
+
+and write this quadratic
+function as one over,
+
+one over two is really just a factor,
+
+and then if we can write
+down this quadratic function
+
+as theta transpose A, theta
+minus some B transpose theta,
+
+plus some constant, ah,
+
+two, right?
+
+So if we can write, we can
+find the coefficient A and B
+
+such that this holds, then
+we can show that this is
+
+going to be a Gaussian
+whose mean is, again,
+
+A inverse B and the
+variance is A inverse A.
+
+And then we can sort of
+decide the posterior mean
+
+and the variance of the theta, right?
+
+So once again, this will
+just require some derivation
+
+about quadratic functions.
+
+We can do it very quickly.
+
+So it turns out, if you
+expand this complicated
+
+quadratic function, we
+can find that the leading
+
+coefficient A actually equals
+to, just looking at this term,
+
+should equal to, I equal to one to N, ah,
+
+X-I, X-I transpose,
+
+divide by two, that's a little
+two, because two is over,
+
+we have already included
+two, sigma-one square,
+
+plus, ah,
+
+identity matrix sigma zero square.
+
+So in this case, A is actually a matrix.
+
+That's because theta is
+going to be a vector,
+
+and A, let's say theta is a, ah,
+
+so in this case, let's say theta,
+
+if we assume theta is
+a D times one vector,
+
+then A is going to be a D times D matrix.
+
+And then we can write down B,
+which is going to equal to,
+
+again, just looking at the formula,
+
+you need to do the derivation yourself.
+
+But it's not difficult to
+show that B actually equals
+
+to Y-I times X-I divided
+by sigma-one square,
+
+plus mu-zero, sigma-zero square, right?
+
+Now, again, we can use
+this formula to calculate
+
+the posterior mean and
+the posterior variance
+
+of theta, right, so the posterior mean
+
+is going to be A inverse B,
+
+which again, you can sort
+of apply this formula
+
+to get those, to get
+something that is very similar
+
+to what we had earlier, and then we have,
+
+we can calculate the
+variance, which is A inverse.
+
+Again, it's really just
+applying this formula, right?
+
+So, now to just recap this example,
+
+so basically, the idea is
+that we can actually use
+
+Bayesian inference to solve
+the linear regression problem.
+
+So the problem is that we
+want to estimate the posterior
+
+distribution of a coefficient theta,
+
+given a set of observations,
+X-I and Y-I, right?
+
+So we basically just practiced
+the standard procedure
+
+of Bayesian inference, we
+set up our prior information
+
+about theta, we write down
+the likelihood function
+
+and it turns out the
+posterior distribution
+
+is actually a Gaussian distribution,
+
+and we can exactly calculate
+its mean and variance, right?
+
+So once we get, we can,
+once we get all the exact
+
+calculations of mean and variance,
+
+we can then use it to
+estimate the posterior mean
+
+and the posterior variance that allows us
+
+to make optimal prediction,
+as well as quantifying
+
+the uncertainty, using
+the variance, right?
+
+Okay, so, thank you very much.
+

@@ -1,0 +1,386 @@
+♪ (jazz music) ♪
+
+So the last topic for today on linear
+regression is going to be something...
+
+called maximum likelihood.
+
+In this scenario, so we're going to make
+an assumption.
+
+We're going to be back in the
+simple linear regression case.
+
+So we're going to have a random
+variable X, scalar.
+
+And we're going to
+assume that Y is equal to,
+
+so in this case it's equal to beta zero
+plus beta one X,
+
+plus a random variable epsilon.
+
+And we're going to assume, so this
+is going to be a random noise variable.
+
+And epsilon is always going to be chosen
+independently from a Gaussian distribution
+
+with mean zero and variance sigma
+squared. So every time you see a point X,
+
+you're going to see a label Y that's equal
+to beta zero plus beta one X,
+
+it's actually a linear function of X, plus
+epsilon, which is some mean zero,
+
+variance sigma squared Gaussian.
+So that's going to be the setup here.
+
+Okay, and what we'd like to do. So
+again, here's sort of an alternate way
+
+of thinking about the solution for
+beta zero and beta one.
+
+So what we'd like to do is choose....
+
+Okay, so imagine that we've drawn...
+
+So imagine that we've drawn X1
+through X^m.
+
+And so we have Y1 through Y^m.
+
+And we want to understand...
+
+for a fixed choice...
+
+of beta zero and beta one.
+
+What, and let's also assume that sigma
+squared is known to us.
+
+What is the probability...
+
+So for a choice of beta zero and beta
+one, what's the probability that we see...
+
+X1, Y1, X^m, Y^m?
+
+Okay, so we have a training set and we
+want to know, for a fixed beta zero and
+
+beta one, what is the probability that we
+see X1, Y1 through X^m Y^m?
+
+There are some choices of beta zero and
+beta one, for example, that are
+
+ridiculously large. That we would say,
+well imagine that the, so for example,
+
+imagine that the labels Y1 through Y^m's
+are all pretty small. And that the
+
+X1 through X^m's are all reasonably small.
+
+Now imagine that we chose beta zero
+and beta one to be super large.
+
+Okay in that case I think the probability
+
+that we see this training set is going to
+be pretty small, because we know that
+
+Y equals beta zero plus beta one X,
+if I choose, if I assume that beta--
+
+if I fix beta zero and beta one to be
+super large, then the probability of this
+
+training set occurring is pretty small.
+Because all the values we said for X
+
+and Y were small. So as we vary the values
+of beta zero and beta one, we're going to
+
+get different probabilities, we're going
+to have a different probability that these
+
+values actually occur.
+
+So we're going to we're going to write
+down something called the...
+
+So let's write down...
+
+the likelihood function.
+
+So it's the probability...
+
+of seeing training set...
+
+given a choice beta zero and beta one...
+
+of our parameters.
+
+And so it's going to be the product,
+we're going to assume that all of our
+
+points are chosen independently. It's
+going to be the product from i equals
+
+one to m of the probability that we
+see Y^i given X^i and the
+
+parameters beta zero and beta one.
+
+Any questions about this?
+
+Okay, so for a fixed beta zero and beta
+one, and X, what is the probability
+
+that we see some value Y^i?
+
+What is this quantity equal to? Let me
+remind you that we assume that
+
+Y was equal to beta zero plus beta one X
+plus epsilon.
+
+Yes?
+
+>> Is it just the value of the normal
+distribution when you input the difference
+
+of Y^i minus, basically f of X^i?
+
+>> It's, so your answer is it's the value
+of the normal distribution when you put
+
+into it the difference Y^i minus beta zero
+plus beta one X. Yes, that's--
+
+>> The square difference.
+
+>> Right. Why is that? Why do you say?
+Yes, that's correct. Why?
+
+>> It's because the-- if you think of it,
+position and normal distribution
+
+centered at zero, if the difference is
+zero, then you got it exactly right.
+
+>> Right. Yeah, exactly. Consider a
+normal distribution that's centered at...
+
+you know, zero because Y minus beta
+zero plus beta one X is equal to epsilon.
+
+And epsilon is normally distributed.
+
+So given beta zero, beta one, and X,
+
+we would expect that to be the value
+for Y. That's the expected value of Y.
+
+It's equal to beta zero plus beta one X.
+So any value that moves away from
+
+beta zero plus beta one X,
+that value is epsilon,
+
+and as we said, that value
+is normally distributed.
+
+Okay, so the actual probability here
+is going to be, if you remember the PDF
+
+of the Gaussian, one over root two
+pi sigma squared times E to the minus
+
+Y^i minus beta zero plus beta one X.
+Let me write the i's here.
+
+Squared over two sigma squared.
+
+Okay, so this is the value for one--
+
+this is the probability of Y^i given X^i
+and all the model parameters.
+
+And then we're just going to take the
+product from i equals one to m.
+
+Okay, so this is the likelihood...
+
+of our training set.
+
+And what would we like to do, we'd like
+to choose beta zero and beta one...
+
+that maximizes this likelihood.
+
+Okay, so we want to maximize this
+likelihood.
+
+So instead...
+
+of directly maximizing...
+
+likelihood...
+
+we will maximize it's equivalent
+to maximize the log likelihood.
+
+Because we have a product, it's often
+convenient to take the log.
+
+So let's call this quantity...
+
+L of b zero, b one.
+
+So we're going to maximize log of
+L of b zero, b one.
+
+And this is going to
+
+be equal to the log, as we said, the
+product from i equals one to m of
+
+the probability we see Y^i given
+X^i, beta zero, and beta one.
+
+So this is going to become a sum. We take
+the log of the product, we get sum of
+
+logs, sum of i equals one to m of the log
+p Y^i given X^i, beta zero, and beta one.
+
+Okay, now we have to actually
+compute this quantity.
+
+Anyone see how to actually
+compute this?
+
+What the expression is?
+
+>> The exponent comes down
+because it's a log.
+
+>> Right, when we take logs, all of the
+garbage as you say, your words,
+
+and the exponent comes down.
+That's definitely true.
+
+Yes, it's a fairly straightforward
+calculation.
+
+And what you get is minus m over two
+log two pi minus m log sigma.
+
+And then minus one over two sigma squared.
+
+Sum from i equals one to m. Y^i minus beta
+zero plus beta one X^i quantity squared.
+
+Now remember, we wanted to maximize
+this quantity.
+
+We want to maximize the likelihood
+that we see this training set over
+
+our choices of beta zero and beta one.
+
+But notice that this quantity is negative.
+So to maximize this negative quantity,
+
+we want it to be as close to zero
+as possible.
+
+No no matter how we choose beta zero or
+beta one, it's not going to affect
+
+it's not going to effect this term. It's
+not going to affect this term.
+
+The only term that we can affect by
+choosing beta zero and beta one,
+
+is going to be this term.
+
+What does this term remind you of?
+
+Yes?
+
+>> (inaudible)
+
+>> It's the same thing that we minimized
+earlier, it's the least squares estimate
+
+for a linear regression, I should say, for
+simple linear regression.
+
+Okay, so now you have two ways to
+to interpret the coefficients for solving
+
+the, for solving, for doing linear
+regression. One is...
+
+one is geometric.
+
+So it's just the coefficients...
+
+of the line...
+
+that minimizes...
+
+squared distance...
+
+from the line...
+
+to our labels.
+
+And the other is sort of probabilistic,
+or statistic,
+
+statistical, maybe I should say.
+
+It's the coefficients...
+
+give you...
+
+the maximum likelihood...
+
+estimator...
+
+for a training set...
+
+generated...
+
+per the assumption, so we had, Y was
+actually generated according to a normal
+
+distribution with mean beta one plus,
+beta zero plus beta one X...
+
+and variance epsilon.
+
+Sorry, I guess I switched a little bit
+from-- or no, no, this is correct.
+
+So it was a normal distribution with this
+mean and this variance, I guess I switched
+
+a little bit between epsilon and sigma
+squared. Sorry for that.
+
+Okay, so two different ways to interpret
+the coefficients for linear regression.
+

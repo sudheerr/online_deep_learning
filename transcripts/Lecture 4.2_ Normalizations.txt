@@ -1,0 +1,447 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So we've just looked at vanishing and exploding gradients.
+
+Uh, it turns out that sort of. Exploding gradients are sort of a major problem that sort of networks cannot train, but they're easy to fix.
+
+You just reduce the learning rate. Uh. And we can manage this.
+
+The bigger problem is vanishing gradients.
+
+And so vanishing gradients really prevent us from training deep like really deep networks, uh, networks that are sort of deeper than,
+
+let's say, 10 to 12 layers cannot be trained because the input activation cannot survive all the way to the output.
+
+And at the same time, the gradient cannot survive all the way back to the input.
+
+And so if they're in the activations and the gradients never really meet there,
+
+there's not going to be an interesting signal for the network to learn from.
+
+Uh, if activations are meaningless, uh, then that means that part of the gradient of a layer is is sort of meaningless.
+
+If the gradient doesn't get through, then there is also no signal to sort of update the other part of the gradient of a linear layer.
+
+We've looked at this, um, the simplest possible example, um, on sort of just these linear, uh, networks without any non-linearities.
+
+And we have been able to show that sort of. Yeah.
+
+As we make the network deeper, it either explodes because we made the weights too large or the learning rate too large,
+
+um, or we will have vanishing gradients. Now.
+
+Luckily, there is an easy fix for vanishing gradients and that is normalization.
+
+So normalization at uh at a high level.
+
+What normalization does is it takes activations which are the outputs of specific layers.
+
+So activations is whatever layer outputs here.
+
+It will take them.
+
+It will subtract the average activation that comes out of this layer, and then normalizes by the standard deviation of the activation.
+
+And so what this does is if the sort of the activation starts to vanish,
+
+it will always make sure it's zero mean, which doesn't do anything to the vanishing.
+
+It just sort of shifts the activation a little bit, but then it normalizes it by the standard deviation.
+
+So if all activations are small, what this normalization will do, it will just scale it up.
+
+And so it really is sort of this band aid to the vanishing activation problem.
+
+It sort of. But activations get smaller and we just artificially inflate them again by dividing by the standard deviation of the activation.
+
+And so if you look at sort of exploding gradients of gradients growing.
+
+So the network, what this will do is, well, if activations start to get very, very large,
+
+the standard deviation of these activations is going to grow proportionally to the activations.
+
+And then when we divide. By the standard deviation, we'll get projected down again to something that's close to one.
+
+So it could, in theory, fix the the exploding, uh, activations.
+
+It cannot really fix exploding gradients because of the training dynamics.
+
+Um, so for exploding gradients, you would still need to really reduce your learning rate.
+
+But what it does is it fixes vanishing activations. And so if an activation as we go sort of deeper into the network gets smaller and smaller.
+
+What normalizations do is every time the activation would get slightly smaller, they will just project them back up into a larger value.
+
+Now, the biggest question for Normalizations is where do this mean and the standard deviation come from?
+
+I previously refer to this as sort of the mean activation and standard deviation of activations out of a specific layer,
+
+but we don't actually notice when we put data through a network.
+
+We don't actually know what the mean activation is.
+
+We don't know what the standard deviation of activations are for all possible inputs that could come from it could come through, right?
+
+We could go and feed our entire data set through compute the mean and the standard deviation, then normalize.
+
+But that would be horribly inefficient because now every single time we take a forward pass through our network,
+
+we now need to go and calibrate these means and standard deviations on the entire data set.
+
+So that's not workable.
+
+What is possible is that since we are training on batches, we can estimate these means and certain deviations on the fly on a batch of data.
+
+That is, if we start with a certain batch of data.
+
+We feed it through the network until it arrives at the normalization.
+
+And now what we do is we'll compute the mean activation of just this batch that we're we're looking at.
+
+We're computing the standard deviation of just this batch that we're looking at,
+
+and using DS as a proxy for the mean and standard deviation of what the entire data set would look like.
+
+And then we're going to normalize.
+
+We're going to feed the batch through the rest of the network, and every single time we sort of hit the normalization,
+
+we compute the mean and standard deviation over an entire batch.
+
+Now, what this means in more detail is that if we're given a batch, it has oftentimes sort of a batch dimension.
+
+We'll draw this real quick. So let's say the batch has multiple data elements.
+
+It has multiple channels here. Let's say this is channels this here.
+
+Let's say it's sort of an image like data structure or image like input.
+
+So it has some width and height. Sometimes there's only a width or sometimes there's only a height depending on what the input is.
+
+And then we have multiple of these data elements per batch.
+
+So we have this is like element one. Just element two.
+
+And so on. And so what batch normalization does is it looks at all dimensions except for the channel dimension.
+
+It fixes the channel dimension and says for this batch I'm looking at all the values for a specific channel.
+
+So if it's an image it's all the elements that are sort of spread out over the X and the wide or
+
+the the width and the height dimension of the image and all the images that are in the batch.
+
+So it will look at all of these to compute the mean.
+
+You will look at all of these to compute the variance and then the standard deviation.
+
+And that's what it will multiply. That's what it will use for normalization.
+
+And so pictorially. What the. What it looks like is if this here.
+
+It is the channel dimension again. Then what the network does is it will sort of regularize everything for one single channel.
+
+It will use the maximum amount of information it has in the batch to compute the mean and the standard deviation.
+
+And it's really nice. It handles sort of very sort of bad initializations quite well.
+
+We don't need to worry about our initial network structure.
+
+Batch normalization will always compute the mean and standard deviation and then project
+
+everything back onto sort of something that's nicely normalized and easy to train with.
+
+The slightly ugly part about batch normalization is that.
+
+It does sort of mix gradients together.
+
+And so what that means is that. The gradient from one sample can go through the normalization through the mean and the standard deviation.
+
+The gradient of sort of one input. Can inadvertently effect other inputs.
+
+And so you can think of if in your batch you were unlucky and one of the data elements in your batch had extremely large activations.
+
+Now all the other elements in this batch will be scaled down.
+
+Activations will be scaled down because this one element, this one input had very high activations.
+
+Now. In general, networks don't care that much about this, but this is an effect that sort of that, sort of that happens.
+
+And so that's why in general, it's better to use large batch sizes.
+
+Sort of the larger the batch size the less.
+
+Sort of an outlier that has high activations will affect batch norm.
+
+Um, and also it gives you more stable sort of mean and standard deviation estimates.
+
+Uh, from batch to batch to batch. Now, one thing that's a bit unclear about batch normalization is what do we do at test time?
+
+Um, because there is actually an issue at test time, we don't have a batch at test time.
+
+We have one single image. And the mean and standard deviation estimate from a single immature single data element is quite noisy.
+
+And so there is no good way to run batch normalization out of the box at test time.
+
+There is a solution which is during training. We don't just use BatchNorm.
+
+Uh, we also keep track of what was the mean and standard deviation of each layer, sort of in a running average fashion.
+
+So during training, what we'll do is we'll start to collect mean and standard deviation of each individual layer in, uh, running in a running average.
+
+And then we'll use these running averages of minutes in our deviation at test time.
+
+So we'll not compute the batch mean and the batch standard deviation.
+
+We'll just use whatever training told us the average mean.
+
+And then every standard deviation was. That's BatchNorm.
+
+Now, BatchNorm is generally a little bit like it's it's it's very it's for large enough batches.
+
+It performs extremely well. It's slightly annoying to use um, because of this growing, um, uh, because of the,
+
+the sort of the discrepancy between training and testing and also because BatchNorm
+
+does require the dominance and activation to be synced across an entire batch.
+
+And so if you're ever going to train on multiple GPUs or multiple nodes,
+
+if you train an extremely large network on multiple nodes, BatchNorm is required to synchronize means and center deviations,
+
+which will occur a significant overhead in terms of training performance, uh,
+
+or training performance in terms of training time because of the synchronization.
+
+There is an alternative to BatchNorm, which is to normalize slightly differently.
+
+Uh, that is layer normalization. And so what layer normalization does is it computes the mean and the standard deviation not.
+
+For a single channel. It it computes them for all channels.
+
+For as individual data element. So we just compute the average output of layer.
+
+For one individual input. So for one image or one data element.
+
+We compute the mean and the standard deviation of that particular data element.
+
+For each individual layer and will average across all channels.
+
+That's what layer normalization does. So mathematically, what this, uh, looks like is that we.
+
+Now, even if we have multiple images in a batch, we can compute.
+
+Mean and standard deviation for each input separately.
+
+But will average over all channels. And the reason why we average over all channels is just because it's numerically more stable or, uh,
+
+or a sort of we get a more stable estimate of mean as a deviation if we just average all the channels together.
+
+This is how it looks like, sort of pictorially. Um, we average over all channels, but we don't average across batches.
+
+And so to solve sort of the ugly issues in batch norm. This also doesn't require synchronization across large GPUs or GPU clusters.
+
+Um, and generally it's sort of it gets rid of a lot of the ugliness of batch norm, but it does average statistics across channels.
+
+So if for some reason one of your outputs is much larger, one channel is much larger than the others.
+
+This will have adverse effects during training, but that rarely actually happens for most networks.
+
+Um, and this is sort of the default sort of layer norm is the default normalization
+
+that is used in a lot of large sequence large models or large language models.
+
+Um. All right.
+
+There's other sort of minor tweaks on, uh, Leonore, uh, that help sort of make it more stable in certain and certain, uh, settings.
+
+One is group normalization, where instead of sort of running averaging all the channels together, we now average together sort of groups of channels.
+
+And so that can help with different channels being sort of scaled slightly differently,
+
+or different groups of channels being scaled slightly differently.
+
+Um, mathematically, it really is sort of one additional index here and a slightly different averaging, uh, in sort of the same style as layer norm.
+
+Pictorially, what it looks like is instead of averaging all the channels, we'll just ever to subset.
+
+Um. Now. Oftentimes, uh layer norm is preferred.
+
+Nowadays, group norm still exists, but you will have to tune an additional group parameter.
+
+Um, and it is sort of unit or diffusion layer.
+
+Layer style architectures still use it to some extent.
+
+Um, if somebody sort of went in and tuned this well enough, uh, it can give you a slight performance boost.
+
+The group normalization is one of the most recent normalization of the bunch.
+
+Um, and is actually quite closely related to the oldest normalization ever used, um, which is local response normalization,
+
+um, which has been used in the original AlexNet paper that sort of showed that deep networks work well in computer vision.
+
+And what local response normalization does is it sort of divides all activations.
+
+By sort of this constant.
+
+Plus the average score to the average magnitude of squared magnitude of activations in sort of a local window around the current activation.
+
+And then we sort of normalize by one, uh, by sort of.
+
+One over. This entire thing squared to a raise to the square of beta.
+
+Now, if beta is a half, um, and sort of gamma here is close to zero.
+
+Will, will it will result in something similar to group norm.
+
+Uh, except that sort of group normalization can deal with a bias while layer normally a local response normalization does not.
+
+So the difference here is really that group normalization, since it's sort of the most recent one,
+
+it learned from other previous normalization that just subtracting a bias is a good idea.
+
+Local response normalization does not.
+
+Local response normalization also has additional parameters in here that really sort of are probably not needed.
+
+Um, so that's sort of the big difference. And so this is sort of it came full circle when sort of we went from local response normalization to normal.
+
+No normalization. Then we went to batch norm layer norm group norm.
+
+And they group norm is again very similar to sort of the very first normalization proposed.
+
+Now, one question you would have to answer if you want to add normalization is where do you want to add it?
+
+And there's two places where it makes sense to add normalization.
+
+And that is either right after a linear layer.
+
+So we take the output of a linear layer and normalize that. Or we'll do it right after an activation.
+
+And so the difference really is that we either normalize what goes into the non-linearity, or we normalize what goes into the linear layer.
+
+And the two have slightly different trade offs.
+
+So if you look at option A where we normalize what goes up, what comes out of the linear layer right before the non-linearity.
+
+But what that means is that. If we have a linear layer, we add a bias to the linear layer.
+
+Normalization, we'll subtract the mean and it will subtract this bias.
+
+And so oftentimes this is especially true for batch normalization.
+
+It's less true for layer normalization. But oftentimes you actually don't need a bias in your linear layer if you add normalization right after it.
+
+There is an issue, however, so if you normalize the output of your linear layer, it will have a mean of zero.
+
+And so if you assume that sort of the outputs are more or less randomly distributed according to some Gaussian like distribution.
+
+If the mean is zero. Half of your activations will be negative.
+
+The other half will be positive, which is. Which means that always half of your activations will be wiped out by the value that comes after.
+
+So the non-linearity will just kill half of your activations if you wanted it or not.
+
+There is no way to prevent this. And so that's why in practice if you add.
+
+Uh, normalization. Right after linear and right before ReLU.
+
+You need to add two parameters here. One is a scale and a bias.
+
+So these are two parameters in your.
+
+Linear in your, in your, uh, normalization where you can learn to rescale what do you normalized with a fixed parameter.
+
+And you learn to sort of add another bias with another parameter.
+
+And so this this normalization will now have parameters that you learn using gradient descent.
+
+All right. Now if you sort of.
+
+Add normalization right after non-linearity before a linear layer.
+
+This is a lot easier. Scale and bias become optional because you can learn the scale and the bias also in the linear layer.
+
+And you don't need to worry about sort of non-linearities sort of causing half of your activations to die out.
+
+Now. P is clearly the easier option.
+
+Now it just turns out, uh, like unfortunately, in practice A often works just epsilon like a little bit better.
+
+And so that's why it's more popular to sort of have take the harder route, learn uh,
+
+scale and the bias parameter in normalization and then disable it optionally in the linear layer.
+
+Um, that just happened to work better. And so A is more popular P is easier.
+
+And so you might ask, so what normalizations should you choose?
+
+I would recommend you. The first normalization you should try is learnable.
+
+Um, just sort of try layer norm, see if you can get activations through the network all the way through.
+
+If that works, I hope you're happy. I wouldn't change it out.
+
+Um, the next thing I'll try, if layer Norm really has some issues and activations are weirdly scaled, sort of.
+
+There's only one channel that's that's always active and all others are suppressed.
+
+Maybe group norm will help. Um, this is something to try.
+
+You can to tune the group size a little bit. Um, if that still doesn't work, you can try batch normalization.
+
+It's most suitable for image like architectures or image like data.
+
+And you should never use batch normalization if you just have vanilla linear layer.
+
+So it's always batch normalization is almost always only used in convolutional networks which we'll cover later in this class.
+
+And so I would always start. Uh, start with layer norm.
+
+Then go to group norm. And then if really. This still doesn't work.
+
+You can try batch normalization. Now, one interesting question is why does normalization work?
+
+Um, we can look at this empirically, and we'll do this later in a hands on segment on how it actually,
+
+empirically, uh, has it has activations sort of survive all the way through the network.
+
+Now, what it does sort of on a more mathematical level, is it just handles these badly scaled initial weights,
+
+and it sort of makes sure that activations will never, ever vanish, and that if you sort of measure something like eigenvalues in the network,
+
+uh, if you measure the eigenvalues of the, uh, sort of the Jacobian of the network,
+
+which will tell you sort of how far back gradients would go or how far forward activations would travel.
+
+Um, these eigenvalues are close to one. And so it means that sort of we are in this setting with normalization,
+
+we're in the setting where the weights are close to one, or the norms of the weights are close to one.
+
+And that's why activations will survive. And normalizations ensure that they will never go close to zero.
+
+They will never go sort of towards infinity as we train,
+
+because they get projected back to something that's close to one through the normalization layers.
+
+The same is also true for gradients. There's a citation down there that sort of studies this phenomena.
+
+It involves quite a bit of math showing that eigenvalues instead of activations
+
+and as eigenvalues and gradients sort of survive all the way through the network.
+
+Now, one interesting question you might have is, well, how deep of a network can you train with activations?
+
+Um, with our activations, we can get to about 10 to 12 layers deep.
+
+Uh, with normalizations, uh, you can get to about 20 to 30 layers.
+
+Um, beyond that, networks will again not train.
+
+Uh, and we'll look at this in the next segment. Uh, on why they will not train further and what's going wrong in the training itself.
+
+But for now, normalization. They really help you handle vanishing gradients.
+
+They also help you handle vanishing activations. And they're really sort of one of the fundamental tools to keep your network in a regime that trains.
+
+Well that's it.
+

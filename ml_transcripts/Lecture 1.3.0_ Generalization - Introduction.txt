@@ -1,0 +1,592 @@
+♪ (jazz music) ♪
+
+Hey, everybody.
+
+Welcome back to machine learning.
+
+I'm Adam Klivans.
+
+Today we're going to touch
+on a super important topic
+
+called generalization, or
+predictive power of a classifier.
+
+So, in the last few lectures
+we've been talking about
+
+building certain classifiers
+given a training set,
+
+and what we'd really like to understand,
+
+or what's crucially important is
+
+how well that classifier's
+going to perform
+
+when it's given data that
+we haven't seen before.
+
+So, you may build a decision
+tree, but you'd like to know,
+
+well, how well is that
+decision tree going to do
+
+on future data that has been unseen?
+
+For all we know, the classifier
+that we've generalized,
+
+excuse me, the classifier
+that we've generated
+
+may or may not do well on new data,
+
+and we'd like to estimate
+its generalization error.
+
+We'd like to understand
+when it's going to have
+
+good generalization error,
+and that's going to lead us
+
+to something called the
+PAC model of learning
+
+that's a foundational and
+important model of learning
+
+that's been around for over 30 years.
+
+So, let's begin, as I
+mentioned, with this question
+
+what is the, I'll put it in quotes,
+
+true error, but I'll
+define it in a second,
+
+or generalization error
+
+of a classifier?
+
+So, for example, in the
+case of decision trees,
+
+let's fix some tree, I'll call it T,
+
+and let's say that we created T
+
+based on one of the rules
+that we looked at last time
+
+for creating decision trees.
+
+And then let's say that we actually have
+
+a probably distribution D on new examples.
+
+Okay, so that means
+that we're going to get
+
+a new challenge.
+
+Think of x again, as being an email,
+
+and a new label, and we want to know
+
+what is the probability when
+we draw this challenge randomly
+
+from some unknown distribution D
+
+that T(x) does not equal y?
+
+We'll call this the true error,
+
+sometimes referred to as
+the generalization error
+
+of T.
+
+And of course, we're hoping that
+
+this quantity that I'll put in a box,
+
+we're hoping that this
+quantity is small, obviously.
+
+So, let me give you an example for
+
+when this quantity might not be small.
+
+So, let's imagine that I've
+given you a training set.
+
+So, here's example x one through x m,
+
+and here's label y one through y m.
+
+So, here's your labeled examples.
+
+This is our S, our training set.
+
+And let's say that a learner is given S,
+
+and then here's what the learner does.
+
+It says okay, you've
+given me a training set
+
+I'm going to give you a classifier,
+
+and here's my classifier.
+
+It takes the training set and
+it hands it right back to you.
+
+So, it started with the training set,
+
+it basically writes down,
+it copies the training set
+
+onto say, a piece of paper,
+and then it hands you that
+
+piece of paper with
+the training set on it.
+
+And it says, here's your training set.
+
+Sorry, it says here's your classifier.
+
+And then you say, well, okay.
+
+What should I do if I get a new point
+
+that's not in my training set?
+
+And the learner says,
+oh, just output zero.
+
+Okay, so this is obviously
+not a smart thing to do.
+
+What the learner is
+doing is just memorizing
+
+your training set and then
+handing it back to you.
+
+So, I think intuitively, no
+real learning has been done here
+
+because we're just
+memorizing the training set
+
+and handing it back to
+you as a classifier,
+
+and so, I don't think we can expect,
+
+I mean, obviously, we can't expect
+
+any sort of low generalization
+error or true error
+
+from a hypothesis that looks like this.
+
+Unless of course, S is the
+entire set of examples that
+
+you'll ever see, in which case
+this is a good classifier.
+
+Okay, so no real learning,
+do we all agree that
+
+no real learning has been done here
+
+if you're just copying
+down the training set
+
+and handing it back as your classifier?
+
+Okay, good.
+
+So now, again, let's
+consider the case that
+
+I have a training set.
+
+Let's try that again.
+
+No, try it again.
+
+There we go.
+
+So, here's x and y, so here's x one
+
+through x n.
+
+Y one through y n.
+
+And remember that each x i
+
+is an element of zero, one,
+let's say zero, one to the n,
+
+so they're n bit strings,
+
+and let's say that each
+y i is also in zero, one.
+
+Now let's build a decision tree.
+
+So, it turns out that you
+can build a decision tree.
+
+So, let's also assume that
+all the x i's are distinct.
+
+Okay, so I have no
+repeats in my table here.
+
+Then you can build a decision tree.
+
+It will be of size at least
+
+the size of the training set, but you can
+
+build a decision tree,
+
+size will be at least the size of S,
+
+that is consistent
+
+with
+
+all the points
+
+in S.
+
+Okay, and it's not too
+difficult to see how to do this,
+
+but take my word for
+it that you can do it.
+
+It's a good exercise to work out
+
+if you don't quite see how to do it,
+
+but trust me that you
+can build a decision tree
+
+that is consistent with
+all the points in S.
+
+Okay, so then the question is
+
+how well
+
+does this tree generalize?
+
+Or what is the true error
+
+of this tree?
+
+Any thoughts on this?
+
+Yes, raise your hand.
+
+Go ahead, go ahead.
+
+Yeah.
+
+>> It would be pretty bad.
+
+>> Right, good.
+
+The qualitative answer that
+I'm looking for is that
+
+it's going to be pretty bad.
+
+Why will it be pretty bad?
+
+Well, this decision tree
+is literally memorizing
+
+every entry in your training set.
+
+So, as we just discussed,
+if you're literally
+
+just memorizing every
+entry in your training set,
+
+really no learning is occurring,
+
+and so we can't expect
+for this decision tree
+
+to have much predictive power.
+
+Okay.
+
+So, in previous lectures
+when we were talking about
+
+building decision trees,
+we sort of assume that
+
+the training set was sitting there
+
+and we were only going to
+work with the training set.
+
+But now we definitely see
+that we have to worry about
+
+not only are we getting
+low training error,
+
+but also, are we getting true
+low generalization error?
+
+Are we getting good predictive power?
+
+And we want some combination
+of those two things.
+
+So, for example,
+
+typically, well the simplest
+way, so we could ask
+
+how can we estimate?
+
+And yes, by the way, I see
+I have a question here.
+
+Does consistent with the training set
+
+mean that the probability
+of error is zero?
+
+It means that the training rate is zero,
+
+so the training error is zero.
+
+How can we estimate the true
+
+error of a classifier?
+
+In this case, a decision tree.
+
+So, one common thing that's done is to use
+
+something called a hold-out
+
+or a validation set.
+
+So, the idea here is that
+
+we'll have S, our training set,
+
+and then we'll have some more data that
+
+we won't let our decision
+tree algorithm look at,
+
+and we'll call it H.
+
+This will be our hold-out.
+
+So, step one will be to use S
+
+to build a decision tree.
+
+And step two, once we've
+built the decision tree,
+
+will be to estimate
+
+tree's true error
+
+via its error on H.
+
+Okay, so the first step will be again,
+
+use S as your training set
+to build your decision tree,
+
+and then we'll look at
+H and we'll figure out
+
+just by counting the
+number of mistakes that
+
+our tree makes on H will
+compute the error rate of
+
+the tree T on H, and we'll use that
+
+as our estimate for the true error.
+
+And as long as H is sufficiently large
+
+for any fixed tree that
+we've built using S,
+
+the estimate of its true error
+
+will be very close to its error on H.
+
+It's something that you can prove.
+
+And we'll talk more about
+that in just a moment
+
+when we get into a more
+formal model of learning.
+
+Any questions about the
+use of the hold-out set?
+
+Okay, so then you might think to yourself,
+
+well, okay, here's what I'm going to do.
+
+I'm going to use S to
+build a decision tree,
+
+then I'll estimate the
+tree's true error using H.
+
+And if it's high, well, then
+I'll make some changes to
+
+my decision tree and I'll go back to S.
+
+Maybe I'll use a different algorithm.
+
+Maybe I'll use a different
+potential function
+
+to build my decision tree.
+
+Or maybe I'll use a
+different type of pruning.
+
+And I'll get a different
+decision tree on S,
+
+and then I'll look at its error on H again
+
+and I'll get another
+estimate for its true error.
+
+If I'm not happy with
+that, I'll go back to S.
+
+I'll tweak my algorithm for
+building a decision tree.
+
+I'll come up with another decision tree.
+
+I'll use H again, and I'll come up with
+
+another estimate for N,
+
+and I'll just keep doing
+this until my estimate for
+
+the true error on H is sufficiently small
+
+so that I'm happy with it.
+
+What do you guys think about
+doing something like that?
+
+(laughing)
+
+Yeah, the audience is not
+happy, and they shouldn't be.
+
+If you do something like that,
+
+what's really going on is that
+
+you're sort of incorporating H then
+
+back into your training set S.
+
+Many people would call this over-fitting.
+
+You're basically taking
+what should've been
+
+a validation set, something you use once
+
+to kind of compute the error of your,
+
+the true error, or estimate
+
+the true error of your decision tree,
+
+and you're iterating over that set.
+
+So, you'll probably
+end up with a tree that
+
+whose true error is much higher than
+
+the error that you've computed on H
+
+because you've looked at
+H multiple times, okay?
+
+So, the hold-out set
+does work for estimating
+
+the true error of a single
+fixed decision tree that
+
+it hasn't looked at, but
+it's also expensive to do
+
+many types of training, or if
+we want to build many models
+
+we may need larger and
+larger hold-out sets,
+
+and oftentimes, it gets expensive
+to hold out a lot of data.
+
+Data can often be very expensive.
+
+So, there is an interesting technique
+
+called cross-validation
+
+to help you sort of reuse
+data that you've held out
+
+into a hold-out set, and
+we'll get back to that
+
+later in the class, but I want
+to keep going on some basic,
+
+I want to continue to
+investigate some basic techniques
+
+for estimating the generalization
+error of your tree.
+

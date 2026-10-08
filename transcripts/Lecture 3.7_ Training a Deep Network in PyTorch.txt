@@ -1,0 +1,355 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So you now know almost everything there is to know about training a basic deep network.
+
+You know about the data sets, you know about, uh, models, you know about optimizers to train these deep networks.
+
+And what we'll do in this segment, we'll just put it all together and we'll go sort of through step by step.
+
+And how do you how do we build, uh, program or uh, Python script that trains a deep networks under flowers 102 data set.
+
+All right with that let's get started. This time we'll start with a very, very basic starter code.
+
+Um, we'll use torch vision. Vision transforms to essentially resize all the images in this flower's data set.
+
+So this image data set might come with variously the very vaguely sized images.
+
+And what this transform here does in the beginning, it will just resize them all to 128 by 128 pixels.
+
+And then there is this transforms to tensor. What this does is images are loaded from the data set as Pil images.
+
+And two tensor will simply just convert them into a PyTorch tensor.
+
+Then here I have the training data set and the test data set. Now let's actually start by looking at what these data sets are.
+
+So these data sets here are objects that are sort of.
+
+Inherently they implement two functions. They implement a Len function.
+
+Which returns the number of data elements in a data set, and then to implement a get item function.
+
+Which will return a single element. And so the single element is an image and a label.
+
+And now what happens when we call get item? The image will be loaded from disk.
+
+It's a pill image. You will be resized through this transform up here.
+
+And then you will look at it will be converted into a PyTorch tensor, which is what is seen printed out here.
+
+The second thing that the data set returns is the label of that image.
+
+Now, obviously in PyTorch we would not call Getitem directly.
+
+If we want to get a certain data set item, you would just index into it.
+
+And to get the length of the data set. We would just use Len of data set.
+
+All right. And so you can think of this data set. It's essentially just a list of transformed images.
+
+Now, the next thing we'll do is we'll code up what's what, what's called a data loader.
+
+Or we'll use a PyTorch data loader to sort of batch multiple of these images together in a mini batch.
+
+And the function to use here is torch dot utils.
+
+That data, that data loader. This first one here.
+
+Let's actually look at the at the manual for this function real quick.
+
+So what this data loader expects is it expects a data set, which is exactly our training or test data set.
+
+Then it expects a batchsize, which by default is one.
+
+It will ask us, well, do we want to shuffle the images or not?
+
+And one important thing about stochastic gradient descent is it works better or all the theory relies on us shuffling the data.
+
+So if you would show the data in the same order every single time, there is a possibility that we end up with some weird optimization artifacts.
+
+In practice, this rarely happens. Um, it's still good.
+
+A good idea to actually shut up, uh, to shuffle your data set. Um, that is, if it's not stored sequentially in disk.
+
+And shuffling would make loading extremely slow. And then further on further down here there is sort of sampler.
+
+Batch sampler is something you will not rarely use. There's one item here that you sometimes will need to use which is non workers,
+
+which is if you're ever loading a data set that's very intensive, sort of disk intensive to load or computationally intensive to load.
+
+You can ask PyTorch to use multiple processes to load your data for you.
+
+And you do this by setting num workers to something other than zero.
+
+NUM workers equals zero means the data set is loaded in the current process that py that Python uses.
+
+If you use anything greater than zero, he will use additional processes to load the data set for you,
+
+and then just sort of import it into the current process. Uh, pin memory down here.
+
+This is something if you use Cuda, it can be faster to use pin memory to load stuff onto the GPU.
+
+You will rarely need this in this class. And then finally drop.
+
+Last is set to. If you have a data set that is not easily divided by the batch size.
+
+So let's say we have a data set of 11 images and our batch size is six.
+
+We have a choice to first use the first six images.
+
+And then afterwards there's only five images left.
+
+And so we have the choice of either using a batch that's smaller, which is when we set drop last to false,
+
+or we just dropped the last batch and say we will not train on it.
+
+Um, oftentimes it's fine to include the last batch.
+
+And so drop last by default is set to false. All right.
+
+So let's see how are we going to use this data loader. We're going to create a, uh, training loader, which is.
+
+The data loader. It takes us the first argument. The training data set.
+
+And then it takes a batch size. Let's say 64 is actually a good batch size and we want to shuffle.
+
+So what does this training loader look like? Now this training loader here is a class that's also an iterator.
+
+So we can use a for loop to loop over this training loader.
+
+Um, you will not be able to index into it, but you will be able.
+
+To loop over it. So let's say we'll do that in training loader.
+
+And let's just break right after. And so what this will do is it will load one batch of data.
+
+There's again, since the data itself is a tuple of.
+
+An image and a label. This batch here is going to be a tuple that first contains a tensor with all the images.
+
+And then the second thing is a tensor with all the labels. We can split this.
+
+We'll do images and labels. We'll look at the images shape and the labels shape.
+
+And so the shape of the images. The first dimension is the batch size, which is how many images we put together.
+
+The next dimension is the channels, the three color channels.
+
+And then 120 811 28. And the reason for this is that up here, when we load the data, we tell PyTorch to essentially resize everything to 128 by 128.
+
+And then the labels itself. These are just 64 sort of batch size long labels, since each label is just one number.
+
+Guests can concatenated. All right. So that's the data loader.
+
+Well what else do we need. To train the model we also need.
+
+A loss function. We'll use the cross entropy loss here.
+
+We'll use an optimizer. We'll use SGD, not Adam.
+
+We'll have a learning rate here. We'll have momentum.
+
+That's it. It will obviously also need a model. So let's design our model real quick.
+
+And what we'll do here is we'll use an argument in the initializer to say how sort of big we want our model to be.
+
+This is an easy trick.
+
+So if you want to sort of play around with different model sizes, you can use a parameter that just says, well, I want I'm going to give you a list.
+
+And this is the sort of the intermediate sizes of the of the layers in the model itself.
+
+So let's say we go to sort of. Five, 12, five, 12 and ten.
+
+Let's do another five. 12. All right. But ugly hair.
+
+Not need to remember this. And now we'll start to build up our layers here.
+
+Now PyTorch has a very special flattened layer that will take any image and sort of make it sort of a vector, uh, which we'll use initially.
+
+In previous examples we'll have that. We have we we did this by hand.
+
+Now we can actually just use the flatten layer if we, if we choose.
+
+So um. Let's not call this self-taught liars.
+
+We'll get to it to why in a second. And so every time we add in another layer.
+
+Well sort of. This is ugly. We'll start to um.
+
+So every time we add in a new layer, we'll also add in a ReLU.
+
+And we'll need to know what the size of the previous layer was. So.
+
+Let's call it C for number of channels. Initially this is 128 by 128 by three.
+
+This is our input size. And so now we'll have a for loop that goes over all.
+
+Channels. So over all of our layer size.
+
+And now each layer will go from C which is our previous number of dimensions, to S which is our new dimension.
+
+Here we'll add a value and we'll update C to be S.
+
+So initially we'll have a linear layer that goes from 128 two by 128 by 3 to 512.
+
+We'll set C to 512. Then we'll go five two from 512 to 512.
+
+We'll leave C at 512. Again go from 512 to 512.
+
+That's our third hidden layer inside. Then finally there is one more layer that we need to do.
+
+We need to add a layer that goes from C to 102, which is our output.
+
+So that's the final layer of the network. We will not add a value.
+
+Uh, the value will be added in the for loop here between the uh linear, the last linear or the second last linear and the output here.
+
+All right. Now that we have all of our layers, what we do is we can use torch and then dot sequential.
+
+And sequential will essentially create a network for us where this layer is called first.
+
+Then the next layer is called the next layer. And then in everything in the for loop is called.
+
+And then in the end this linear layer is called to output 102 outputs.
+
+And so sequential essentially just does create a network where the output from one layer
+
+is fed into it as an input to the next layer until we don't have anything anymore.
+
+Next we'll define the forward function. And forward is really just calling the model here.
+
+All right. So that's it for the model.
+
+Let's create an instance of this model. Let's keep it at the default parameters.
+
+And now. We'll just call forward on this model and see if it works.
+
+Contests. Prediction. We'll again print out the shapes.
+
+All right. So this will now predict for each element in the batch it will have 102 outputs which is a lot.
+
+It or a log probability an unnormalized log probability for each potential class.
+
+All right. This is the prediction. Now we'll compute the loss.
+
+The loss value is the loss. Function of the predictions and the labels.
+
+We'll do optimize it zero grad to re it, to reset all the gradients of all the parameters of our model.
+
+We'll call it backward on the loss and then we'll call step on the optimizer.
+
+And we'll print the loss value from.
+
+All right, let's run this once. I can see the losses sort of going down just a little bit, just a little bit.
+
+So it's not going down massively. It's just sort of slowly, slowly creeping down.
+
+Right. We could run this again. And again, it's just sort of slowly decreasing.
+
+Now this does one epoch over the entire data set.
+
+So one epoch is it goes through the entire data once and then it stops.
+
+Now oftentimes when we train models we do hundreds or thousands of F POCs.
+
+So we'll have another. Loop out here that does multiple epochs of training.
+
+And so you can see sort of the loss slowly, slowly, slowly decreases over multiple epochs.
+
+And the learning rate here is probably too low.
+
+Um, because the model really doesn't make a lot of progress.
+
+So we can stop it real quick. You can see what happens if we sort of make the learning rate slightly smaller, uh, slightly slightly larger.
+
+Still no luck. Let's interrupt it again. Let's go to really high learning rates.
+
+This was likely too large. All right. We'll go down one more.
+
+Another thing we can do is we can try to mess with the model. If things don't train initially, it's a good idea to make the model linear.
+
+Uh, first. So this is a linear model where we don't have any layers in between.
+
+We really just go directly from the input to the output. We'll train this and see if this actually works.
+
+The learning rate is too high. The reason why we can see that the learning rate is too high is because the loss starts increasing and.
+
+Fluctuating. Still too high.
+
+Now it finally starts to decrease. It took a while. It is decreasing order.
+
+Now, one thing that you might have noticed is that. This example here is a lot slower than what we what we looked at last week.
+
+Um, or last last in the last segment. Um, the reason for this is that every single time.
+
+We sort of. Do one of these iterations over the data loader.
+
+The data loader will go to the disk on which this, uh, of the machine that, uh,
+
+where this data set is stored, and it will load 64 images directly from disk.
+
+Now this is relatively inefficient. And then you will sort of start to take these images.
+
+It will put them, uh, it will put them together in a batch.
+
+And then you will start to feed them through a model. Um, data loading is inefficient here.
+
+The other thing that's inefficient is we have images and models right now on the CPU, and we can see if we can make it faster by.
+
+Putting them onto the GPU. All right.
+
+So this made, uh, the model a little bit faster. Forward passes are faster.
+
+It's still not as fast as what we have before simply because of the data loading.
+
+Um, one way around this is to create, uh, different data dot data loader in a different data set, where we would put all the images into the GPU.
+
+This is going to get a bit messy.
+
+Uh, we'll do this probably in one of the homeworks or we'll show you and, uh, we'll show you on the class material online on how to do this.
+
+Will not do this in this in the sense on second.
+
+But what I wanted to show you here is that training a deep network completely from scratch is actually relatively simple.
+
+Below the data set. Then we'll define our model.
+
+We'll define our data loader. We'll give the data loader some batch size when we instantiate the model.
+
+If we want to put it on CPU, we'll call Cuda. We'll set up the loss, we'll set up the optimizer.
+
+And then finally there's going to be two for loops, one for loop over the epochs.
+
+How many times we want to go over the entire data set. And then there's a second for loop in here which is going over all the batches for each batch.
+
+We'll take the images and the labels, put them on a GPU. If one is available, we'll feed.
+
+The images through the network, which were just called by calling model here.
+
+Then we compute the loss function, which again which is called by uh, do by calling loss with the predictions and the labels.
+
+And then we just do the stance of resetting the gradients, calling backwards and stepping the optimizer.
+
+And then in the end we can log or print out the loss value here.
+
+The reason why the loss value here fluctuates a little bit.
+
+So the if you see it doesn't go down, uh, very neatly is primarily because each batch will have different set,
+
+different set of images, and will be slightly differently hard for the network to classify.
+
+Um, and so you can see there is sort of a slight fluctuation from batch to batch, but overall the numbers will go down if trained for long enough.
+
+All right. That's pretty much it. That's how you train a deep network.
+
+Um, this is going to be the foundation for all the training in that we will do in class.
+
+We'll start to sort of choose better, fancier optimizer later.
+
+We might have different loss functions. We'll definitely spend a lot of time making our models better.
+
+But at its core. Training itself is going to be super, super simple.
+
+All right. It's really just a double for loop and then a bunch of function calls inside.
+
+That's it.
+

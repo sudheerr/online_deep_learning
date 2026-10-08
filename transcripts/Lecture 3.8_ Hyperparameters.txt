@@ -1,0 +1,73 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So we've just looked at stochastic gradient descent and how stochastic gradient descent is able to optimize our model parameters.
+
+Um, so is that it like.
+
+Is stochastic. Rain isn't really the answer to everything. Well, turns out it doesn't optimize all the parameters of our network.
+
+Um, so classic gradient descent is able to optimize any parameters that we can compute gradients with respect to.
+
+I can already show you here in stochastic gradient descent,
+
+one parameter for which it is very hard to compute a proper gradient, which is this learning rate epsilon here.
+
+Right. There are other parameters in both the training and our networks themselves.
+
+That's the case. The gradient descent cannot optimize that.
+
+Any gradient descent algorithm cannot optimize. And these parameters are called hyper parameters.
+
+So all parameters that we cannot optimize or not learn by stochastic gradient descent that are not part of our sort of network definition.
+
+Uh, all of these parameters are called hyper parameters.
+
+Examples of these include sort of the number of epochs we train which is in here.
+
+It includes our learning rate. It includes the size of our our model like architectural choices.
+
+It even includes the loss function itself. Um, it might even at some point include variants of the optimizer.
+
+So its variants of, uh, stochastic gradient descent.
+
+And we'll look at all of these are not optimized by our optimization, our optimization algorithms.
+
+And we need a different way to optimize them. I want a certificate.
+
+A different way to optimize. Well, we have to set in my hand.
+
+Uh, there is really no good way around this.
+
+Uh, thread throughout this class. And by working with deep networks for a longer and longer time period,
+
+you will start to sort of develop intuitions on what good hyper parameter settings are,
+
+what you might need to change to train your model more effectively,
+
+maybe to get your model to generalize better to something that it has never seen before.
+
+What architectural training changes you need to make to sort of make your resulting model perform better?
+
+Now, this is a very iterative process. Uh, I've rarely seen people that are able to sort of train one network, and it just works in the first go.
+
+It just ends up being sort of the best network that you could ever design.
+
+It's a very iterative process. You'll start to sort of start.
+
+Maybe from networks that have. Worked in similar tasks.
+
+You will start to apply to your task. You will iterate.
+
+You will start to change these parameters by hand and is often referred to as sort of graduate student descent.
+
+Um, because that's what. The joke is that's what graduate students learn during their PhD or their master's,
+
+is they get really good at training these hyperparameters of networks.
+
+So to sum it up, hyperparameters are parameters that cannot be learned by the optimizer by stochastic gradient descent directly.
+
+These are often tuned by hand. These might either be parameters after learning algorithm itself,
+
+parameters of the network, or other things that are not sort of easily differentiable.
+
+That's it.
+

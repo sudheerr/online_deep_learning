@@ -1,0 +1,370 @@
+♪ (jazz music) ♪
+
+Good, okay, so now I'm ready to define
+
+the singular value
+decomposition of a matrix.
+
+So every matrix
+
+A can be written as U
+times S times V transpose
+
+where U is an M by M
+
+orthogonal matrix,
+
+S is an M by N diagonal matrix,
+
+and V is an N by N orthogonal matrix.
+
+Okay, and the rows of V,
+
+of V transpose,
+
+are called the right
+
+singular vectors.
+
+The columns of U
+
+are the left singular vectors,
+
+and S is a diagonal matrix.
+
+So the entries of S,
+
+we can order them S1,
+they're all positive,
+
+so S1, S2,
+
+greater than or equal to zero,
+
+so some of them could be zero,
+
+but they're all greater
+than or equal to zero,
+
+and algebraically, A can
+be written as the sum
+
+from I equals one to the min of N and M,
+
+of S I, this is the Ith singular value,
+
+times U I, that's the Ith column of U,
+
+times V I transpose, okay?
+
+So this is an outer product.
+
+So just as before when we
+were writing rank two matrices
+
+as sums of outer products of vectors,
+
+what the singular value decomposition says
+
+is that every matrix A
+can be written as the sum
+
+from I equals one to the minimum of NM,
+
+whichever is the smaller dimension,
+
+of this singular value S I times the
+
+outer product of U I times V I transpose.
+
+Okay, this is the definition of
+
+the singular value decomposition.
+
+Any questions about this?
+
+Okay, so I should say
+that these singular values
+
+are unique.
+
+Regardless of how you, if you
+decompose a matrix A this way,
+
+the singular values are unique,
+
+there's only one set of singular values.
+
+The singular vectors
+
+are not unique.
+
+So we can have different
+orthogonal matrices U and V,
+
+and then let me say a bit
+of something about the time
+
+that's required to compute these matrices.
+
+So the SVD
+
+can be computed
+
+in time order M squared
+N or order N squared M,
+
+whichever is smaller,
+
+and so it's good to know this.
+
+We won't be going into the algorithm
+
+that actually computes the SVD.
+
+You might see this in an algorithms class.
+
+We won't be getting into it here,
+
+but it is good to know
+what the time complexity
+
+of computing this decomposition is.
+
+Okay.
+
+So we could just define,
+
+instead of the usual definition
+of rank we could just define
+
+a matrix
+
+to have rank K if
+
+M by N A, which is an M by N matrix,
+
+can be written as a matrix Y that's M by K
+
+times a matrix, let's call it Z transpose,
+
+that's equal to K by N,
+
+and, in parenthesis, and A is not
+
+rank zero through K minus one.
+
+Okay so now that we have
+this tool at our disposal,
+
+given a matrix A,
+
+it would be great
+
+if we could find
+
+a factorization
+
+of the form above, you
+know, Y times Z transpose,
+
+where K
+
+is really small.
+
+Why would this be great?
+
+Well, it would mean that A,
+which has M times N entries,
+
+can be written
+
+using only K times M plus N numbers.
+
+Okay, because imagine that we had
+
+a factorization here like this.
+
+Well, it would mean that A,
+which has M times N entries,
+
+could be written as Y,
+we can represent it as Y,
+
+which is K times M
+entries plus Z transpose,
+
+the entries in Z transpose, and there
+
+are K times N entries in Z transpose.
+
+So first we'd be doing
+a lot of compression.
+
+We'd be able to store A using
+only K times M plus N numbers,
+
+but also somehow it would
+indicate that we've really gotten
+
+to the sort of most
+important entries or values,
+
+numbers, bits of A by
+representing it this way.
+
+Whenever you're compressing something
+
+you're really kind of
+storing the most information,
+
+and so it would mean that
+A is somehow very redundant
+
+and that these sort of entries are really
+
+telling us all we need to know about A.
+
+So it would be really great
+
+if we could do that.
+
+That's not always the case,
+but it would be great.
+
+Here's one way
+
+we could write
+
+A,
+
+or I guess I should say
+
+rewrite A,
+
+maybe a better way to
+say this is represent A.
+
+Okay, we could take A, we
+could look at its singular
+
+value decomposition, so U S V transpose,
+
+and then remember that
+S is an M by N matrix,
+
+okay, it's diagonal,
+
+well, some of these could be zero but,
+
+let's say we have SM here.
+
+So what we could do is we could just say
+
+alright, well, I'm going to zero out
+
+some entries
+
+of S.
+
+You know, imagine that you
+looked at these singular values
+
+and it has a bunch of
+really big singular values
+
+like 100, and 99, and
+98, and then suddenly
+
+the singular values go
+to .4, and .3, and .2,
+
+and so what you decide to do
+
+is just
+
+zero those out.
+
+Okay, so
+
+we could take S, which
+was an M by N matrix,
+
+and we could zero out everything
+
+except for some K by K submatrix
+
+and we could replace it
+with just a K by K matrix
+
+that's diagonal,
+
+and it just keeps the
+first K singular values
+
+in the diagonal and it
+zeros out everything else.
+
+Okay, so if we do this,
+if we decide to zero out
+
+out of many entries of S, then
+it means that we've written A
+
+as U times S times V
+transpose, but now S is K by K
+
+so U is going to be M by K and V
+transpose is going to be K by N.
+
+Okay, so this means, you
+know, what have we done here?
+
+We've
+
+taken
+
+only K columns
+
+from U.
+
+So maybe I should write this as
+
+we've taken K rows
+
+from V transpose,
+
+and this is all because
+we decided to zero out
+
+most of the singular values of S.
+
+So notice here that A, remember
+A was an M by N matrix,
+
+and here, notice that A is
+still an M by an N matrix.
+
+U prime is M by K, S prime is K by K,
+
+and V transpose prime is K by N.
+
+So when you multiply these all together
+
+you still get an M by N
+matrix, but what have we done?
+
+Well, we sort of decided to
+delete a bunch of columns of U
+
+and a bunch of rows of V transpose.
+
+Which ones did we delete?
+
+Well, the ones that corresponded to the,
+
+hopefully smaller, singular values.
+
+So this could be an alternate
+way of representing A.
+

@@ -1,0 +1,587 @@
+Let me just re-write that objective.
+
+So we want a min over V,
+two norm of V equals one,
+
+one over M, sum J equals
+one to M, distance
+
+between XJ and V squared.
+
+So let's draw a picture.
+
+So let's say this is the origin.
+
+Let's say this point is X.
+
+Okay, and here's our line V.
+
+Okay, and this is the distance
+
+from X to V.
+
+So we all agree that
+this dashed vertical line
+
+is the distance between
+from X to V, right?
+
+Okay, what is this distance right here?
+
+Yes.
+
+(student speaking faintly)
+
+Good, yep, it's projection,
+it's X inner product V.
+
+And then how 'about this,
+what's the length of this vector
+
+pointing to X here?
+
+Just the two norm of X, right?
+
+Okay, so what does the
+Pythagorean Theorem tell us?
+
+It tells us that X
+inner product V squared,
+
+plus distance
+
+from X to V squared,
+
+equals norm of X squared, right?
+
+Okay, so notice that this,
+we're searching over Vs here
+
+tryin' to find a V that
+minimizes this quantity.
+
+So this quantity on the
+right hand side is fixed.
+
+No matter what V we
+pick, the right hand side
+
+is always going to norm of X squared.
+
+Think of X as a point
+in your training set.
+
+Okay, so we're looking for
+
+a V to make this quantity small.
+
+But equivalently, we could look for V
+
+to make X inner product V
+quantity squared large, right?
+
+Because this value on the
+right hand side is fixed,
+
+if you make this quantity
+large, it means the distance
+
+from X to V squared is
+going to have to get small.
+
+So it's just an alternate equivalent way
+
+of thinking about the problem.
+
+Okay, so equivalently
+
+we want to find a V
+
+that maximizes
+
+X inner product V squared.
+
+Okay, and so this can
+be written as find V,
+
+two norm of, oops,
+
+two norm of V equals one.
+
+To maximize, one over M,
+sum from J equals one to M,
+
+XJ inner product V squared.
+
+Okay, so this is an equivalent formulation
+
+of what we had originally written up here.
+
+Oops, let me re-write that.
+
+Okay, and this is often referred to
+
+as the direction
+
+of maximal variance.
+
+This quantity, so remember that the mean
+
+of our turning points is zero.
+
+Okay, we zeroed out,
+we subtracted the mean
+
+off of our training set.
+
+Okay, so this quantity
+is actually equal to
+
+the sample variance of our
+data in the direction of V.
+
+Remember variance is roughly
+expectation of X squared,
+
+minus expectation of X quantity squared.
+
+And we've subtracted zero from every,
+
+the mean from everything,
+so we know this is zero,
+
+and what we're left with is
+expectation of X squared.
+
+What is X squared here?
+
+Well it's the projection
+of our training points,
+
+and the direction of V quantity squared,
+
+so that means it's the
+direction of maximal variance.
+
+It's the variance of our
+training set in some direction
+
+corresponding to V,
+
+and that's what we're trying to maximize.
+
+So let me draw a picture
+to give you a feel
+
+for sort of what this means.
+
+Let's say we have a training set,
+
+say it looks like this.
+
+Okay, so
+
+let's consider two different directions
+
+that we might project this set onto.
+
+Here's one direction.
+
+View is a different color.
+
+Could project onto this direction.
+
+What happens when we do that?
+
+Well, these points, a lot of these points
+
+are going to get projected
+all to about here,
+
+so everything on this line
+
+is going to get projected about here,
+
+everything here is going to
+get projected about here,
+
+then everything here will
+be projected about here.
+
+Oops, sorry, let's do that again.
+
+Everything here will be
+projected about here,
+
+everything here about
+here, these get projected
+
+kind of, that wasn't a great drawing.
+
+Let me try that again.
+
+About here.
+
+Okay, and so we're left
+with, what are we left with
+
+after the projection?
+
+We're left with a few points here
+
+right along this direction.
+
+We'll call this V1.
+
+Okay, so we had all these data points,
+
+and they sort of now all overlap,
+
+and they're all very close together,
+
+and they're just a few of them along V1.
+
+Here's another direction we
+might've projected on along.
+
+We could've projected
+along this direction.
+
+If we do that, let's call this
+
+V2, oops,
+
+let's call this V2, .
+
+well this will get projected here,
+
+this will get projected here.
+
+Okay, so the question for
+you, so and here's what our
+
+training points look like.
+
+Okay, so you know
+
+what the original
+training set looked like.
+
+We'd, it was over these
+original black dots.
+
+Which projection sort of preserves
+
+the way the training set
+actually looks like better?
+
+Would you say, is it V1 or V2?
+
+>> V2.
+
+>> V2, yeah, I would agree
+that if we project along V2,
+
+we sort of preserve the
+structure of the training set
+
+more than if we project onto V1.
+
+Why?
+
+If you project onto V1,
+everything gets lumped together.
+
+If you project onto V2, well
+things that were spread out
+
+are still sort of spread out.
+
+Okay and I think just by eyeballing it,
+
+you can see that the direction V2,
+
+if you project along the direction V2,
+
+you end up with much more
+variance in your training set
+
+then if you project with
+respect to direction V1.
+
+You don't have as nearly as much variance
+
+if you project according to V1,
+
+because everything is clumped together.
+
+So this is sort of
+visually or geometrically
+
+why we prefer directions
+that have a lot of variance
+
+in your training set.
+
+You're keeping things that
+were sort of spread out,
+
+or far apart, you're keeping
+them spread out, or far apart.
+
+As soon as all of your training set,
+
+your training data sort
+of collapses into a point,
+
+you haven't, you don't really
+have a good projection.
+
+Okay, so that's the main idea visually.
+
+Okay, so
+
+this was for one vector.
+
+Here, we sort of at least
+have some intuition,
+
+or a geometric understanding of what one,
+
+how should we find one vector?
+
+It should be the vector
+that maximizes the variance
+
+of your training set.
+
+What about finding
+
+K vectors,
+
+often referred to as K components?
+
+Well, it turns out, that
+the optimization problem
+
+is to maximize over all subspaces
+
+S of dimension K,
+
+one over M, sum J equals one to M,
+
+length of XJ
+
+projected onto S squared.
+
+So it's the same objective
+
+for when we were working with one vector,
+
+now we're just going to
+project onto a subspace
+
+of dimension K.
+
+Okay, now a really nice, or preferable
+
+basis
+
+would be an orthonormal basis
+
+V1 through VK.
+
+Let me ask you guys, what's nice about,
+
+why should we prefer an orthonormal basis?
+
+Yes.
+
+>> If it's orthonormal the vectors
+
+are all perpendicular
+to one another, so you,
+
+those different components
+that you're analyzing along
+
+don't interfere with one another.
+
+>> Okay, good, so if I want
+to understand the length of X,
+
+of some point X projected onto S,
+
+and I have an orthonormal basis,
+
+then I can just project my
+point X onto each vector
+
+in my basis, and take the
+sum of the squares directly.
+
+Okay, so that is to say, a distance
+
+from X to S,
+
+assuming that we have an
+orthonormal basis squared,
+
+is equal to X1 V1 squared, plus so on,
+
+and so forth, XK VK squared.
+
+And again, this was
+assuming that V1 through VK
+
+is an orthonormal basis.
+
+So this quantity that we cared about,
+
+the distance from X to S squared,
+
+becomes very simple to compute
+
+if we have an orthonormal basis.
+
+So that's why we prefer
+an orthonormal basis.
+
+And so now I can finally
+write the formal PCA,
+
+what's called the formal PCA objective,
+
+and this is to maximize
+over all V1 through VK
+
+that are orthogonal.
+
+One over M, sum from J equals one to M,
+
+sum from I equals one to K,
+
+XJVI squared.
+
+Okay, so what we're going to do in PCA
+
+is actually look for an
+orthogonal basis, V1 through VK,
+
+that maximizes this,
+
+you know, variance along,
+
+it max, so it maximizes the variance along
+
+all of these directions as
+long as they're orthogonal.
+
+Okay, so this is the PCA objective.
+
+So max over V1 through VK orthogonal,
+
+and then you sum over all the projections
+
+along these directions,
+and take their squares.
+
+Okay, so once,
+
+I'm having trouble here.
+
+There we go.
+
+Okay, so let's assume that we've,
+
+let's assume we haven't talked about
+
+how to compute V1 through VK,
+
+but let's assume we have V1 through VK.
+
+Just assume someone gives it to us.
+
+How do we express X?
+
+How do we rewrite X once
+we have V1 through VK?
+
+What's it, how do we
+express its representation
+
+in terms of V1 through VK?
+
+Yes.
+
+>> A vector of some weights
+
+multiplying each base's vector.
+
+>> Right, and what should the weights be?
+
+>> Well I guess we can find them
+
+by doing the dot product
+we were doing earlier.
+
+>> Yes, we're just going
+to take its projection
+
+onto each base's vector.
+
+So X will be X inner product V1,
+
+that's its projection onto V1, times V1,
+
+plus X inner product V2, times V2, plus,
+
+and so on, and so forth, plus
+X inner product VK, times VK.
+
+So once we've solved PCA,
+and we have V1 through VK,
+
+then our new representation
+for every point X
+
+in our training set is just
+going to be its projection
+
+onto these base's vectors,
+
+and then take their sum.
+
+Okay, so each vector here
+may still be a vector in,
+
+if we were originally in D dimensions,
+
+each vector is also going to
+be a vector in D dimensions,
+
+but I can now represent
+each X as sort of K numbers
+
+and the K numbers
+
+are going to correspond
+to X inner product V1,
+
+X inner product V2, X inner product VK.
+
+So X
+
+can be written as a vector
+
+in RK
+
+corresponding to these projections.
+
+Okay, so I know we haven't
+talked about sort of
+
+how to compute these projections,
+
+but is at least the representation clear?
+

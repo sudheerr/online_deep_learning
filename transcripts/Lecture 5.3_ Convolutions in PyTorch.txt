@@ -1,0 +1,363 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+I. All right.
+
+So in this hands on segment we'll look at how to use convolution in PyTorch.
+
+Um we'll sort of go through the basics of it. We'll build it into a network.
+
+And then we'll also look at how do we figure out receptive fields.
+
+Um, how do we sort of visualize the different, uh, the different receptive fields of different outputs.
+
+So let's get started. Uh, here I have a blank notebook.
+
+I import a torch already. And to use convolution, um, we simply can use.
+
+N n torch n n conf. To t.
+
+Now you'll notice there's a bunch of different convolution functions here.
+
+Um, conv transpose is something we'll look at later in class.
+
+Um conf 1d, 2D and 3D are the ones you'll, you will use most often.
+
+The newest lazy conv 1d, 2d, 3d. These are equivalent to 1d, 2d, 3d.
+
+They just infer how many inputs they they are expected to deal with.
+
+Uh, I would recommend you stick with conv 1d, 2d, 3d for now.
+
+Um, and use lazy confident really only if you if you need.
+
+All right. And so 1D is usually convolution over a time series over some sort of signal.
+
+Conv 2d is if you deal with image data and kind of 3D is if you deal with either
+
+volume data or if you deal with sort of video data that has a third dimension to it.
+
+Uh, for now we'll stick with conv 2d. Now for convolution, um, there's really two channel inputs, uh, two channel parameters.
+
+The first is how many channels go into convolution, and the second is how many channels do we expect convolution to produce?
+
+Now the inputs and outputs of convolution are always channel with, uh, channel height width.
+
+Um, and so the rest of the parameters here sort of.
+
+Tell you what to do with the height and width parameters.
+
+First is the kernel size, which is sort of how large the convolutional kernel is.
+
+Then we have a stride parameter. How many outputs should we skip if we stride convolution.
+
+And then we have padding. And as a rule of thumb you should always just set padding to half the kernel size minus one.
+
+There's other parameters here, such as dilation, uh, grouping.
+
+And just as in the linear, uh, layer, there is a bias parameter, which just means do we want to produce,
+
+uh, a bias term for this layer or you don't want to produce a bias term.
+
+Oftentimes you don't actually change any of the parameters back here.
+
+So let's get started. Let's build a convolution that goes from, uh, one dimensional input.
+
+To a 16 dimensional 16 channel output.
+
+Let's now let's say we use a kernel size of three.
+
+We will not stride here. And since this is a kernel size of three, we'll pad with one which is sort of three minus one divided by two.
+
+All right. And so this defines a network that just as one convolutional layer, we can fit to feed some data through it.
+
+Now for the data. We'll give it a batch size. This batch size is one.
+
+Now this is the number of channels. And then copilot suggests that we'll just use 28 by 28.
+
+And that has very specific reason. There is a very popular data set, mNIST that is uh, size 28 by 28.
+
+All right. We can look at the data itself first.
+
+This is just a bunch of random numbers. Let's just look at the shape.
+
+And now. We'll feed it through the network and again look at its shape.
+
+And you can see what happened here. Convolution did not change the size of the output.
+
+Since we pad it. It did change.
+
+So the number of channels in the output. All right.
+
+Now we can repeat this, uh, by. If we stride here and repeat this entire thing.
+
+Now you can see that output is halved. That's because we skip striding.
+
+We'll skip every other output. We could stride by more.
+
+We could stride by say, for. And again, it's sort of the output size of six divided by four.
+
+All right. So this is kind of illusion just as a single layer. It has four parameters that you will need to work sort of.
+
+Actually it has sort of four parameters that you need to need to set.
+
+One that you can, uh, can infer. And then the rest you should probably leave unchanged.
+
+The first parameter is number of input channels. Number of output channels is a second.
+
+Then this here is the kernel size. And finally the striding.
+
+And then the padding is just kernel sized minus one divided by two.
+
+All right, so let's build this into a larger network. And we'll again just define an init function.
+
+Um, will define a certain number of layers. And we'll just specify the channels of these layers.
+
+So we'll do 16. 32.
+
+And 64. And now we'll define the actual network.
+
+Uh, we'll delete all of the stuff.
+
+Copilot here introduced will say that.
+
+The network itself. So we'll go through each of the layers.
+
+Um we'll do C one is equal to one originally because we'll have one dimensional inputs.
+
+And then c two is going to be the output channel size which is here.
+
+Then we'll add a layer. Which is C1 inputs C2 input outputs.
+
+We can set a kernel size here in the parameter a stride and padding.
+
+We will not set and we'll just copy the kernel size and stride over.
+
+All right. We'll also need non-linearities in between.
+
+And so add a new layer. Then finally the final layer here.
+
+We'll add a classifier. And now there's two ways you can add a classifier.
+
+Well you could take the outputs of the convolutional network.
+
+And you could average pull all of it together and then apply a classifier.
+
+Or you can add a one cross one convolution here sort of just uh, matrix multiplication.
+
+It's applied element wise to all the outputs. And then you would average, um, they're mathematically equivalent.
+
+Um, one is computationally slightly less expensive.
+
+So if you so that it depends a bit on the number of channels.
+
+But if you average first and then go and apply the classifier for almost all channel sizes, this is computationally more, uh, computationally cheaper.
+
+However, it is nicer to apply the classifier first,
+
+because that way you later can actually infer sort of what spatial locations correspond to certain classifications.
+
+And so I would recommend you if you're really if you have to computation I would add.
+
+Uh one cross one convolution here. This is a conv 2d where C1 is the input channels.
+
+Now this here we have a certain number of output channels. Let's make it one and one cross one convolution is a convolution with a kernel size.
+
+Of one. No stride.
+
+Nothing. All right.
+
+That's our network. All right.
+
+Now. Let's create this network and just look at it for now.
+
+You can see this is sort of it has. 1234 con flayers.
+
+And in between all of them is a ReLU. The last con flavor is special.
+
+Um, it. Oh, I just realized there's a bug.
+
+Uh, it takes as an input. It should take as an input to, uh, the number of channels here.
+
+Makes it all one channel. Because let's say this network only output has a single output.
+
+It has kernel size one and no stride. Um, well, we forgot to do up here is we forgot to reset C1 to C2.
+
+Um, here you can see the input channels for all the columns.
+
+Here is one which will not would not work. We could not call forward on this and now is correct.
+
+The input channels of the next layer always match the output channels of the previous layer.
+
+All right. So let's see what happens if we feed some data through it.
+
+And so since none of our convolutional layers were striding here, the output shape is the same as the input shape.
+
+So what will happen is we'll blow up the channels, and then in the end, the classifier will bring it down again to one channel.
+
+But. Since we had.
+
+With, uh, kernel size divided by, uh, by two, and we don't stride.
+
+The output shape is the same. Now, if we would stride all about the last layer.
+
+Say by a factor of two. That will now get the output size down to four.
+
+All right. Now, one more thing I want to show you.
+
+If you want it to average the outputs of the classifier inside of your network.
+
+You could do this with torch .9.
+
+Global average. Poop. Global.
+
+Average pool 2D. I think that's a pretty. You know.
+
+Uh, so it's adaptive. So.
+
+And. Yeah, sorry. Adaptive average pool 2D will sort of pool everything together and average all the outputs together.
+
+Here. The number of the parameter here is the number of channels that we expect in this adaptive average pooling.
+
+Now the adaptive average pooling will still keep um the uh sort of the dimensions for width and height in their, uh, singleton dimensions.
+
+Um. But you could remove them later.
+
+So if you would want to do to grow global average pooling, you've just call adaptive average pool 2D.
+
+And that will do the average pooling for you right. But for now we want all right.
+
+So this is our very simple convolutional network. Now let's look at receptive receptive field of this network.
+
+So we can start by sort of.
+
+Again, producing some sort of input. Now.
+
+We'll first look at the network without any striding and.
+
+Our output. Now. Let's visualize this real quick.
+
+Okay. So now we sort of visualize what we get as an output.
+
+And right now it's just it's just random noise. We feed in random noise.
+
+It all the layers are initialized randomly. So the output is just random noise.
+
+But let's now actually take one element here.
+
+Let's take the. Let's say we'll take element 1010 and make it.
+
+Make it infinity. That's adventurous. Okay.
+
+And what happens now inside of the network since we make this infinity?
+
+Um, after a little bit of computation, infinity will become not a number and an end.
+
+You can see that this one input that started out at 1010 here through multiple convolution, I started to infect convolutions around it.
+
+And in the end all outputs in a certain area here were infected by this.
+
+Any number. And we can do the same with striding.
+
+So if we do, stride equals. Two.
+
+This will get it down to a 4x4.
+
+And just this non a 1010 sort of infected a bunch of convolutional kernels around it such that in the end the center of the output is an n.
+
+But this is not quite the receptive field. The receptive field looks at what output is built by what input.
+
+And right now we're looking at what input changes what outputs.
+
+And so if you would want to compute the receptive field,
+
+the way we would need to do this is we'll need to create a, uh, tensor here that has requires grad equals through.
+
+And then. We'll do the forward pass.
+
+We will now call. Sort of.
+
+We can call y dot some.
+
+Thought backward. And instead of visualizing the output, we'll now visualize the input gradient.
+
+All right. And so if we don't do anything inside of the 2D outputs, if we don't backpropagate and then right now this paragraph propagates a sum,
+
+uh, and then backward, which essentially a back propagates a one at all.
+
+The outputs will get some random noise or some random grade incident.
+
+And that's again because the outputs are random, the inputs were random and all the weights are random.
+
+So we would expect this to be random. Now, if we want to know what the receptive field is for a specific output, what we can do here is we'll.
+
+Create a tensor. Of zeros.
+
+The same, uh, of the same shape.
+
+That's why. All right.
+
+So we'll create a new tensor of zeros, the same shape as. Why.
+
+And here's a trick. Uh, the reason why I wrote y new tensor dot uh,
+
+wider shape really is that this will copy over the type and more importantly, will copy over the device on which y lives.
+
+So if you would if I would call. Torch.
+
+Dot zeros here. This will create a tensor that's on the CPU by default.
+
+Um, if you ever write code where you don't know if a tensor is on the CPU or GPU,
+
+the easiest and tackiest way to sort of create a new tensor is just y dot like some other tensor dot new.
+
+And then there's a bunch of functions that will create a tensor of the same type on the same device.
+
+And you can just give it a shape. All right. And now inside of this tensor we'll set one element to an an.
+
+All right, so this is our probe. This is the, uh, the tensor that we'll use to figure out how big the receptive field of the network is.
+
+Right. Actually, let's do this.
+
+Let's make sure that we create this probe right in the middle of our tensor.
+
+Right. Will not stride for now.
+
+And now instead of. Back propagating, uh, just sort of some will first multiply x and y together and then compute the sum.
+
+And what this will do is the gradient will go backwards through this function.
+
+It will be originally one. So to sum it will be one.
+
+And in here the gradient will be multiplied with either a zero.
+
+If. It's not the selected element or it will be multiplied by Nan.
+
+And so this way we can we can ensure that sort of the probe is zero everywhere except for one element.
+
+And that one element will be Nan. And so if you visualize this, you'll see the gradients for the entire networks.
+
+Since it started out at zero, it's going to be zero almost everywhere except for where the receptive field of the network is.
+
+And that sort of is what's visualized here. Now we can change the stride.
+
+Now all of a sudden we'll get a bigger receptive field. Now we can change.
+
+Just try it again and we'll get an even bigger receptive field.
+
+All right. Now we can also quickly visualize the probe.
+
+To see what is going on here. No.
+
+All right. So the probe here is really just sort of, uh, an image that goes from that has sort of four elements.
+
+We'll set one of them to nine and then it gets proper back propagated.
+
+We make the stride slightly smaller. You can see the probe is right in the center here.
+
+And this is the receptive field. All right.
+
+So that's it more or less for convolutions. We've looked at how to create convolutional networks.
+
+And we've looked at sort of tricks to figure out how big the receptive field of convolutional network is.
+
+That's it.
+

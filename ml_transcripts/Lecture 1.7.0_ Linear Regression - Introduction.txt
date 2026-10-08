@@ -1,0 +1,227 @@
+♪ (jazz music) ♪
+
+Hey everybody, welcome back to
+Machine Learning. Today, we're going to
+
+talk about linear regression. It's a
+problem also known as fitting a line
+
+to data, and it's a core task in multiple
+fields, including statistics,
+
+computer science, and machine learning.
+So today we're going to start with the
+
+basics of linear regression, and then
+we'll, in short order, build up more
+
+sophisticated algorithms, based on some
+core primitives that we learn about
+
+linear regression. So let's begin.
+
+Previously, we've been analyzing
+
+learning algorithms that fit under the
+heading of classification. So we've been
+
+given examples x, f(x), and f(x) in
+previous lectures has taken on values
+
+zero or one. And we've studied learning
+function classes, such as half-spaces,
+
+and also notably decision trees, and we
+looked at various models in which we
+
+could come up with efficient algorithms
+for learning these function classes.
+
+So we're studying regression.
+
+That's always going to indicate where
+one fundamental difference is going
+
+to be that our labels will be real-valued.
+We'll be getting examples (X,Y)
+
+and this time I want you to think about Y
+as being some value in the reals.
+
+Now let's imagine that we
+have two random variables. So X and Y.
+
+Two random variables.
+
+Let's say that we want to predict the
+value Y because it's the label.
+
+And as usual, we get to see X.
+So just as a sort of silly example,
+
+let's say we wanted to predict-- let's say
+that I tell you X and Y are drawn from a
+
+distribution, so X and Y. The tuple is
+
+drawn from some distribution, and we want
+to predict Y, but in this silly scenario,
+
+we don't even get to see X. And it's not
+too difficult to see that in this sort of
+
+silly scenario, where I tell you I've
+drawn X and Y according to some unknown
+
+distribution, and you don't even get
+to see X, that the optimal thing to do,
+
+or the optimal guess for Y is going to
+be just the expected value of Y.
+
+And we're going to measure our loss as
+usual, by square loss.
+
+That means our penalty will be our
+prediction minus Y, quantity squared.
+
+And if you don't know anything else,
+
+if you don't get to see X and
+you don't know anything else about the
+
+distribution and you want to give a
+guess for what Y is going to be,
+
+then as I said, with respect to square
+loss, really the optimal thing to do
+
+is to just guess the average value
+that Y could take on.
+
+After all, you don't have
+any more information.
+
+Now, a more reasonable scenario is that
+we do get to see X,
+
+and using that information,
+we want to predict Y.
+
+So once again, it's not too difficult to
+see that the optimal prediction
+
+is going to be the expected value of Y,
+
+conditioned on the value X
+that we observed.
+
+Now this quantity, the expected
+value of Y, conditioned on X,
+
+is actually a function
+of the random variable X,
+
+and we call this the regression function.
+So really what's going on here is we
+
+see X, I would like to give my guess for
+Y, all things being equal, what I should
+
+predict is the expected value of Y
+conditioned on what I've observed
+
+X to be, and so I should really output
+this function f(x) as my guess for Y.
+
+Any questions about that? Okay,
+what's the problem with this strategy?
+
+Well, a major obstacle is that f(x) could
+be unknown, or very hard to compute.
+
+After all, the distribution could be--
+I mean, we've made no assumptions
+
+about this distribution Script D--
+so this regression function
+
+could be very complicated,
+could be very hard to compute.
+
+If I'm just getting draws
+for my distribution,
+
+and I would like to come up with some
+approximation for f, that'd be great,
+
+but it could be a
+very, very, very difficult task.
+
+So linear regression asks the
+following question:
+
+given X, what linear function of X
+should we use to predict Y?
+
+So we're really restricting
+the class of functions
+
+that the regression function
+could come from.
+
+We're basically saying,
+"Hey, I have no way of approximating
+
+"or guessing some very, very
+complicated regression function, but if
+
+"we were to use a simple function of X,
+namely a linear function, which linear
+
+"function should we use to predict Y?"
+
+Another way, sort of geometrically,
+if we were to draw a picture-
+
+a classical picture-- is that we have
+a bunch of data points.
+
+This is sort of in two dimensions,
+and we'd like to figure out which line-
+
+maybe that wasn't the right line-
+which line best fits the data
+
+with respect to square loss.
+Really, we want to learn coefficients:
+
+beta 0 - let me change my pen -
+
+and beta 1 to minimize
+
+the quantity expectation, and remember X
+and Y again are drawn from
+
+some distribution D
+
+of [(Y-(beta 0+ beta 1 (X))^2].
+
+So we observe X, but we'd like to learn
+our coefficients, beta 0 and beta 1,
+
+such that this expectation, this square
+loss, is minimized. This, our choice of
+
+beta 0 and beta 1, will give rise
+to many different lines. We want the one
+
+that minimizes square loss.
+Any questions about this?
+
+This is going to be our goal
+for right now.
+
+How do we find beta 0
+and beta 1?
+

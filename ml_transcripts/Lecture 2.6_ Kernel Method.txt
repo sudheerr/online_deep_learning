@@ -1,0 +1,3142 @@
+♪ (soft jazz music) ♪
+
+>> Welcome to Machine Learning.
+
+Today we are going to
+talk about kernel method.
+
+So the kernel method is
+a very important class
+
+of algorithms and methods for constructing
+
+very flexible, nonlinear
+functional approximations
+
+in machine learning.
+
+So this method has bee
+popular for the last decades,
+
+and is very important topic to talk about.
+
+So let's get started.
+
+So let's start with reviewing the standard
+
+framework for supervised learning.
+
+But this works for
+unsupervised learning as well.
+
+We will talk about that later on.
+
+So we call that in supervised learning,
+
+we have a training set.
+
+So x-i is some input variable,
+
+y-i is the label that we want to predict.
+
+We have a collection of
+pairs of x-i and y-i.
+
+And the goal is often to
+estimate some function, fx,
+
+which takes and outputs a prediction.
+
+And we hope that the prediction
+matches the label y-i.
+
+So y-i is often some quantity
+that we want to predict,
+
+either the stock prices
+or for classification,
+
+the labels of the images,
+and all kinds of things.
+
+So want to find, basically, want to,
+
+basically think about,
+you have x, you have y,
+
+and you want to find a black box function
+
+that takes x and output y.
+
+So f is obviously the
+mathematical equation
+
+that you can encode into program
+
+and run in computer.
+
+Okay, so the standard way to solve this,
+
+in fact, almost all the algorithms
+
+falls into this framework,
+
+is by empirical risk minimization.
+
+So the idea of this class of algorithm
+
+is that we start with defining
+a function class, capital F.
+
+So the function, so this specify
+
+all the possible functions
+that we want to consider
+
+for our problem.
+
+For example, for the
+linear regression problem,
+
+we may just assume f is a
+class of linear functions.
+
+So let's say, in this case,
+we may have the capital F,
+
+which is the class of functions
+that we want to concede,
+
+is the class of linear functions of x.
+
+So it may have formula like this.
+
+Assuming that x has d dimensions,
+
+because the use the i as the index
+
+of the data instances, so
+I use l here, for example.
+
+And then we have maybe theta l, xl.
+
+So to distinguish the index
+of dimension on the label,
+
+I may use x-i superscript i
+
+to represent the instances instead,
+
+and use l to represent the dimension.
+
+So in this case, so more specifically,
+
+x equals to x one, to xl,
+
+which is the d dimensional vector.
+
+Okay, so in this case, we have theta l
+
+belongs to R.
+
+Maybe we also have biased terms,
+
+so add a theta zero.
+
+So basically, what this says is that
+
+we will consider all the
+possible linear functions
+
+of x, and we want to find
+among set of linear functions,
+
+the best linear function
+that fits with the data.
+
+So this defines the function class.
+
+And then after the
+function class is defined,
+
+we then need to define loss function.
+
+The loss function is often some function
+
+that measures the consistency between
+
+the data and the function.
+
+For example, in this case,
+
+each of the function inside capital F
+
+is indexed by a parameter theta.
+
+So we may just call F theta.
+
+And the question of
+finding a optimal function
+
+inside capital F is equivalent to finding
+
+optimal parameter theta.
+
+So in this case, F is a
+parametric set, or functions.
+
+And then for each theta, we
+can define a loss function.
+
+So the loss function is
+going to be a loss function
+
+of F theta, which also depends
+
+on the data set, D.
+
+You know, in case of linear regression,
+
+we already know what it look like.
+
+Basically, it looks like you need to sum
+
+over all the data points.
+
+And for each data point, you can measure
+
+the difference between the label, y-i.
+
+So again, using the superscript
+
+to represent different instances.
+
+And then we have the data,
+
+the function prediction, x-i,
+
+square, sum over.
+
+So this is example of,
+
+this is example of loss function,
+
+simplest mean square loss function.
+
+Okay, and then the problem
+
+reduces to finding the
+best possible function
+
+that minimize this loss.
+
+So then we want to actually
+minimize this loss function
+
+among all the possible theta.
+
+So this defines the loss function,
+
+defines the optimization.
+
+And then we need to find
+some numerical procedure
+
+to actually solve this
+optimization problem
+
+to find the best possible F.
+
+So in the case of linear regression,
+
+we know that we actually
+have a very simple
+
+and nice formula for solving
+the optimal solution.
+
+If it's more complex cases,
+
+we can use gradient
+descent which starts from
+
+a initial guess and iteratively update
+
+the parameter until it
+converges to a optimum solution.
+
+So this is a overview of how
+supervised learning may work.
+
+And, again, it comes
+when three key elements.
+
+One is specifying the function class.
+
+The function class has
+to be flexible enough
+
+to capture the complexity of the data set.
+
+But it cannot be too large,
+
+otherwise you will overfit.
+
+And then we need to
+define some loss function
+
+to quantify the goodness of each function
+
+inside the function class.
+
+And they want to solve
+the optimization problem.
+
+Okay, so,
+
+now the problem that want
+to consider in this lecture
+
+is regarding the function class,
+
+is regarding the function class,
+
+so function class F.
+
+So in this simple example
+of linear regression,
+
+we are considering, you know,
+
+these linear functions,
+
+linear functions of the input.
+
+But this is obviously very restricted.
+
+So instead, we want to
+consider more general,
+
+more flexible, nonlinear function classes.
+
+And then there are many
+different techniques
+
+for constructing flexible,
+nonlinear function classes.
+
+Kernel method is one of them,
+
+actually one of the most important class
+
+of nonlinear function class approximation.
+
+Another class of nonlinear
+function approximation
+
+is something called neural network,
+
+which is the building
+block of the deep learning
+
+methodology that is
+currently very popular.
+
+So I'll talk about neural
+network in the next time,
+
+and this time we'll
+focus on kernel method.
+
+Okay, so let's just start
+
+with some basic ideas:
+
+how could we possibly build very flexible
+
+and adaptive nonlinear approximation?
+
+So remember that I can, sort of,
+
+remember that linear
+functions is sum over,
+
+is a weighted combination
+of your features.
+
+So let's ignore the bias term for now
+
+because I can just assume one
+
+for the coordinate is
+constant, so the bias term
+
+can be viewed as one of these terms.
+
+And then a obvious way to extend this
+
+to a nonlinear function class
+
+is to replace the feature,
+
+the dimension of x, with some
+general nonlinear functions.
+
+So I can, sort of, so this is linear.
+
+A very basic and perhaps very naive way
+
+to get nonlinear functions
+
+is to perform the following:
+
+so still use l,
+
+theta l.
+
+Now we have d prime, phi lx.
+
+So here what I'm doing is that
+
+I'm constructing a bunch of functions,
+
+nonlinear functions, called phi l
+
+that takes input x and extracts something,
+
+which is some sort of feature.
+
+And then my function is
+defined as a linear function,
+
+linear combination of these features.
+
+So this phi l, these are
+called basis functions.
+
+Um, basis functions.
+
+They can be viewed as extracting
+
+some basic information from the input.
+
+So for example, x could,
+
+this l, xl could be,
+
+could be polynomial functions,
+for example, xl, right?
+
+Starting from zero, if x,
+
+so that will be x; l equal
+to zero is a constant,
+
+and the x, x squared, all the things.
+
+For nonlinear cases, it could
+be even more complicated.
+
+So the idea here is that we can somehow
+
+build some basis function and
+then build a linear regression
+
+on top of it.
+
+Now, because this basis
+functions could be nonlinear,
+
+so overall we get a set of
+nonlinear function approximation.
+
+If I want to view this using a graph,
+
+I can think in this way:
+
+so let's say I have my input x,
+
+which is a vector,
+
+and then I just build a bunch of,
+
+let's say you have,
+
+so this is phi one, which is
+mapping x to some variable,
+
+sort of view as extracting the feature.
+
+And then I can extracting
+a bunch of features.
+
+So maybe this is a phi, phi l.
+
+And then I'm sort of converting
+
+the input space using
+a nonlinear transform
+
+to another input space.
+
+And then I perform a linear regression
+
+on this transformed space to get my f.
+
+So it's a very simple idea,
+
+but turns out this is a
+fundamental and basic idea
+
+that allows us to essentially build
+
+all kinds of flexible,
+nonlinear approximations.
+
+Okay, so now the problem
+with this approach
+
+is that it has to be handcraft,
+
+meaning that you need to manually decide
+
+what kind of basis
+function you want to use.
+
+And sometimes this is
+very problem dependent.
+
+So for this problem, I
+may find that x square
+
+is very useful for other problems,
+
+and we find some other functions useful.
+
+So this is not ideal.
+
+We don't want to handcraft
+different functions
+
+for different problems.
+
+Instead, we hope to
+construct this feature basis,
+
+this basis functions
+in a more adaptive way.
+
+So I have a data set,
+I can have a algorithm
+
+that automatically construct
+a bunch of basis function,
+
+and then I can define a linear regression
+
+on the basis function
+which, correspondingly,
+
+gives you a very flexible
+nonlinear approximation.
+
+If I can construct a
+lot of basis functions,
+
+then I can make the
+approximation even more flexible.
+
+So this is the key idea
+
+that we will talk about.
+
+Basically, we want to do something
+
+called adaptive basis function.
+
+Adaptive basis function.
+
+So what this means is we want to construct
+
+basis function automatically
+from the training data.
+
+And the kernel method is one
+
+of the adaptive basis function approach,
+
+so there are many different approaches
+
+for adaptive basis function.
+
+In this class, we'll
+talk about kernel method.
+
+So another approach that we'll
+talk about is neural network.
+
+So talk about these two methods.
+
+Okay, so let's start with kernel method.
+
+The idea of kernel method
+is actually very simple.
+
+So what I will do is
+
+I will first introduce
+
+what the kernel method
+looks like in practice;
+
+what's the practical
+procedure for kernel methods.
+
+And then I will introduce
+theoretical foundations,
+
+so how could you view these kernel methods
+
+as, in fact, having, theoretically,
+
+infinite number of features.
+
+So let's start with
+the practical procedure
+
+that we will actually use,
+
+so we can actually implement in practice.
+
+So let's say we say set of data points.
+
+Let's say we have data points D
+
+equals to x-i, y-i;
+
+a bunch of data points.
+
+You know, assume this
+input is two dimensional,
+
+so I can plot each of data point,
+
+each of the x-i as dots in the space.
+
+So let's say this is one of the dot, x-i.
+
+The idea of kernel methods,
+at least the practical idea,
+
+is that instead of using
+the original coordinates,
+
+x-i, to represent each of data point,
+
+I can represent each of data points
+
+using its similarity with
+all the other data points.
+
+So for example, let's say
+I have one data point here.
+
+How could I characterize this
+data point, which is star?
+
+So one way is to represent
+it using its coordinate.
+
+So this tells you the
+location of this point,
+
+which carries all the
+information you want.
+
+But if you define a linear
+function on the coordinate,
+
+you will only get linear functions.
+
+But then the idea of a kernel method
+
+is that I can measure the
+similarity from this star point
+
+to all the training data points.
+
+All the training data points.
+
+So let's say this particular star point
+
+is very close to this
+point, close to this point,
+
+sort of close to this point but far away
+
+from the other points, right?
+
+So if I have sufficiently
+manning training data,
+
+I can then just fully
+identify this single point
+
+using its similarity with
+all the other points.
+
+And if I have more and more data,
+
+I could get, have more
+dimensions to represent
+
+this data point, and I
+can get more and more
+
+flexible representation.
+
+To be concrete, in order to do this,
+
+I need to define a similarity function.
+
+A similarity function
+basically just take two inputs,
+
+let's say I have x and x prime,
+
+I have two data points,
+it takes two data points
+
+and calculate a similarity score.
+
+So it's a two-variable function.
+
+Basically it takes two data points,
+
+I will say it takes x product x,
+
+so two, the product of input space,
+
+and then output some similarity
+score which is real number.
+
+So example of similarity
+score which often use
+
+is defined by Gaussian functions.
+
+So example of similarity
+score that I can use
+
+is
+
+similar to the definition
+of Gaussian functions.
+
+So basically here, we have
+two points, x and x prime.
+
+We calculate distance, square distance,
+
+and then scale it by some parameter h.
+
+H is some scaling parameter.
+
+And then take the minus because we want
+
+to measure the similarity
+instead of the distance.
+
+And then we take a exponential.
+
+Just make sure it's scaled to be positive.
+
+So this is something called a Gaussian,
+
+Gaussian radial basis
+
+kernel.
+
+So effect, this k function is also called,
+
+is really just what's
+called a kernel function.
+
+So in fact, more precisely,
+
+a similarity function, a kernel,
+
+is really just a,
+
+is really a function, a
+two-variable function;
+
+is really, in general, mathematically,
+
+it's nothing but a two-variable function
+
+that is symmetric.
+
+In the sense that I have x and x prime,
+
+then it's actually equal to x prime x.
+
+So for example, for this
+Gaussian RBF kernel,
+
+let's use a different color maybe,
+
+Gaussian RBF kernel, it is symmetric.
+
+So if you switch the order of
+x and x prime, it's symmetric.
+
+So in general, a kernel
+function is nothing
+
+but a two-variable
+function that is symmetric.
+
+But we, in general, expect that the kernel
+
+can represent as notion of
+similarity between two points.
+
+So Gaussian RBF kernel is obviously
+
+one example of kernel.
+
+There are many other kernels.
+
+So here I give you a few other examples.
+
+Maybe we have, instead of use,
+
+use the quadratic, I can...
+
+So typically, people don't divide by two.
+
+So in this case,
+
+it's the same as Gaussian RBF kernel,
+
+except there's no square.
+
+So this is the absolute value
+instead of taking the square.
+
+So this kernel is something
+called Laplacian kernel.
+
+Laplace kernel.
+
+You know, there are many other kernels,
+
+so which we not eliminate.
+
+So here in all these two kernels,
+
+that's a parameter called h.
+
+So in here, we have this parameter h,
+
+so in here, we also have this parameter h.
+
+So h is a hyperparameter of the kernel
+
+which defines the scale of the similarity.
+
+So an h is something called the bandwidth.
+
+Typically, this is something
+that we need to decide
+
+in reality, but it's not a difficult job
+
+to calculate the general
+range of the data points
+
+and just decide h to be
+
+aligned with the scale of the data points.
+
+So one way is to calculate the variance
+
+of all the data points and just take h
+
+to be the variance, empirical
+variance of the data.
+
+So this defines the similarity,
+which is the kernel.
+
+And then going back to
+the idea of constructing
+
+features using similarity,
+we can do the following:
+
+we can define, so we can define
+
+a bunch of feature, a feature map,
+
+a bunch of basis function
+using the similarity.
+
+So more precisely, this
+is what I'm going to do.
+
+One.
+
+Xn, k,
+
+x, x-i.
+
+So basically, for each x,
+
+I calculate its similarity
+from all the data points
+
+inside the training data.
+
+So if the data point is
+one of the training data,
+
+then you it be just the
+similarity with itself,
+
+which will be the maximum value.
+
+In the case of RBF, if I
+have x and x within itself,
+
+it will equal to one.
+
+Okay, so this defines a representation
+
+for each of data points.
+
+And then I can just
+use this representation
+
+to construct the linear regression.
+
+So that allows us to
+define a fairly class of,
+
+a class of fairly general
+and flexible functions.
+
+So I can then just
+define my function class
+
+to be a linear combination
+
+of this kernel-based
+feature representation.
+
+If I write it down
+explicitly, this will be...
+
+So here, theta is viewed as a vector
+
+that is of the same size as
+the training data points.
+
+So basically what I'm doing is that,
+
+if I further write it down, it will be
+
+kx, x-i.
+
+So now if you look at this formula,
+
+if you look at this formula,
+
+so what it does is that
+
+it takes a sum over all
+the data points each
+
+and measure the similarity
+from x to each of data point.
+
+And each of data point is
+weighted by some parameter,
+
+theta i, and then we sum them together.
+
+This allows us to
+construct a fairly flexible
+
+class of functions.
+
+So if we go back to example here,
+
+each of data point here is then assigned
+
+with some parameter, theta i,
+
+which measures the importance
+of each of the data points.
+
+And then theta i is going to
+be estimated from the data
+
+by minimizing the loss function.
+
+So let's go over to visualize it
+
+with another example in one dimension.
+
+So let's say, assume x is,
+
+in this case, one dimensional numbers.
+
+Maybe we have a bunch
+of training data points,
+
+which is here; a bunch of them.
+
+Let's say this is x-i.
+
+And then for x-i,
+
+if you calculate this kernel
+function with respect to x-i,
+
+remember, let's say, assuming
+we use Gaussian RBF kernel,
+
+then each of the x-i is going
+to contribute a bell curve
+
+that is centered with x-i.
+
+And then this is x-i,
+
+but then we have many other data points,
+
+so each of data point is
+contributing something different.
+
+So if we have millions of data points,
+
+we then have millions of representations.
+
+And then if you combine these together,
+
+we will get fairly flexible
+and nonlinear functions.
+
+If you sum them together, you will get
+
+highly nonlinear function.
+
+So this is the idea, it's
+really a very simple idea.
+
+But then it has two very nice properties.
+
+One is that this construction
+of basis functions
+
+is adapted with vector training data.
+
+So it always measure the
+similarity with the data itself,
+
+so it allows us to represent the features
+
+in your data adaptive way.
+
+Secondly, if we have more data,
+
+we will simply have more
+features to represent;
+
+we'll introduce more parameters.
+
+It will make the data,
+
+it will make the function
+class more flexible.
+
+So in fact, if you look at here,
+
+the number of parameter
+in this class of function
+
+is exactly equal to size of training data.
+
+So if we have large data set,
+
+we'll have larger parameters
+and we'll be highly flexible.
+
+If we have infinite number
+data, then we ideally
+
+actually have infinite
+number of parameters.
+
+Obviously, that wouldn't
+happen in practice,
+
+but theoretically, it's a good thing
+
+that if we have even number data,
+
+then our function is infinitely large,
+
+because infinite number data means
+
+infinite amount of information.
+
+This case, we may want to
+keep our function class
+
+to be flexible to, in order to capture
+
+all the complex patterns in the data.
+
+So more precisely, in
+fact, I can sort of view
+
+this function class F
+
+to be adaptive
+
+with data D.
+
+So this is a very important idea.
+
+And, in fact, the size
+of the function class,
+
+the dimension of the function class,
+
+obviously use dimension, right?
+
+Actually in this case
+equal to the data size n,
+
+which could actually goes to infinite
+
+if we have infinite number of data.
+
+Now this class of function
+
+are methods in which the
+dimension of function class
+
+grow with the data set
+
+is often, in statistic literature,
+
+called nonparametric method.
+
+Nonparametric method.
+
+Well they are still using parameters,
+
+except that you have infinite
+number of parameter, ideally.
+
+But the idea is that
+the number of parameter
+
+actually grow with the number of data,
+
+and this kind of method is
+called nonparametric method.
+
+So kernel method is a special
+case of nonparametric methods.
+
+Okay, so now we have this representation,
+
+we can then just estimate theta.
+
+So then the problem of,
+
+then the problem becomes, we want to find
+
+the optimal theta to
+minimize the loss function.
+
+In this case, it's sum over,
+
+if it's a linear function,
+
+if it's a regression problem,
+
+so then it becomes sum of i one, two
+
+and theta i kx.
+
+I'm using j here.
+
+Sorry.
+
+So I'm using j here, i here,
+
+xj here, x-i here.
+
+So basically, for each data point xj,
+
+we measure the square
+difference between yj,
+
+and the kernel function evaluate at xj.
+
+Now if we write down this loss function
+
+in your matrix form, we
+can show that this guy
+
+actually equal to, I can
+write it in this way:
+
+k theta square l two norm,
+
+where Y, capital Y,
+
+this is really just
+the standard derivation
+
+we have been doing for linear regression,
+
+except now the features
+are the similarity scores
+
+based on the kernels.
+
+The capital K is defined
+to be the pairwise.
+
+N, kxn, x one,
+
+kxn, xn.
+
+So here, Y is the collection
+of all the labels,
+
+so it's a n by one matrix.
+
+And then K is the collection
+of pairwise similarities,
+
+so K is a matrix, n-by-n matrix,
+
+and then theta is, again, n by one vector.
+
+So we take the difference
+and take the norm,
+
+the square of the norm, l two norm,
+
+and then we want to minimize the square,
+
+so this is a standard
+linear regression problem.
+
+In order to solve it,
+we take the derivative.
+
+And we can show that the
+derivative actually equal
+
+to two times K theta minus Y,
+
+actually times K.
+
+K transpose two.
+
+And then we can solve it.
+
+Theta is going to, if we write down
+
+this formula, it's
+going to be transpose K,
+
+theta equal to K transpose Y.
+
+Okay, so we want to solve this equation.
+
+But in order to solve this equation,
+
+we need to make an assumption
+that K is actually invertible.
+
+So we need to assume, if K's invertible,
+
+so assume
+
+K is invertible.
+
+If K is invertible, then
+we can solve this equation.
+
+It will give you K inverse Y.
+
+That's because if K invertible,
+
+I can solve eliminate the K transpose,
+
+but K transpose equal to K
+because K is a symmetric matrix.
+
+But then we can get a very
+simple solution for theta
+
+which is really Y times the inverse of K.
+
+So that's why we need to
+make sure K is invertible.
+
+In fact, if you look at
+back this linear regression,
+
+it's actually a very
+special linear regression.
+
+So here, the number of parameter,
+
+which is theta, which is n,
+
+is actually equal to
+the number data points.
+
+So in this case, we
+actually can perfectly fit
+
+each of the data point perfectly.
+
+So in some stance, you may
+worry that this will overfit
+
+because you may have too many parameters.
+
+So that's why we can
+actually use a regularization
+
+to enforce that it doesn't overfit.
+
+So instead of doing the
+exact linear regression,
+
+which can always overfit
+with the training data,
+
+that's because we have the
+same number of parameter
+
+as the data size, we can actually solve
+
+a regularized version of this,
+
+which is Y minus K theta square plus.
+
+So here, the norm is always l two norm,
+
+so I can just make sure I'm using,
+
+this is obviously l two norm.
+
+At some, maybe alpha,
+
+some regularization.
+
+So here, phi is some regularization term.
+
+So for linear regression,
+it's typical to use,
+
+let's say, l two norm
+to solve this problem.
+
+Add a l two regularization.
+
+And then we can solve it,
+and if alpha is large,
+
+then we can reduce the
+overfitting problem.
+
+So alpha then is a hyperparameter
+that we can choose.
+
+Now a interesting thing
+about the kernel regression
+
+is that actually turns out
+this l two regularization
+
+is not the most natural
+regularization we should use.
+
+Instead, theoretically, it's often,
+
+people find that it's
+actually better to use
+
+another slightly different regularization.
+
+So this is a standard
+l two regularization.
+
+Instead of using l two regularization,
+
+we can use another version
+of the regularization,
+
+which I denoted by k norm.
+
+Well the standard Euclidean
+norm is filled as l two norm,
+
+l two norm.
+
+And then in the kernel regression
+
+it's actually natural to
+use what's called k norm,
+
+which is defined it as k theta transpose
+
+matrix K theta.
+
+So I remember the l two norm
+is simply theta transpose theta
+
+where that's a identity matrix
+
+in the middle of theta
+transpose and theta,
+
+which is the k norm is
+theta transpose k theta.
+
+Remember, K is the n-by-n kernel matrix.
+
+Now the reason that this regularization
+
+is better is that allows us to capture
+
+the similarity between the data points
+
+inside the regularization.
+
+So let me give you example of why this
+
+actually make more sense.
+
+And theoretically, in
+our theoretic derivation,
+
+we'll also show later that
+this is actually something
+
+that more natural in the
+case of kernel regression.
+
+So why theta
+
+kernel norm versus
+
+the standard l two norm
+
+for regularizing the kernel regression?
+
+Well, so in order to think about that,
+
+it's enough to give you a simple example.
+
+Let's say we have a very small data set
+
+that only have three data points:
+
+so x one, x two, x three.
+
+So it's a very small data set,
+
+and in particular, I will actually assume
+
+x one and x two are equal to each other,
+
+so assume
+
+x one equal to x two.
+
+So meaning that x one and
+x two are duplicate points.
+
+This happens all the time in practice.
+
+Sometimes we record lots of,
+
+the same item many times.
+
+And other times, even the
+points are not exactly the same,
+
+they are very similar to each other,
+
+so they are kind of redundant.
+
+You get lots of points that
+are very similar to each other,
+
+so they carry somewhat
+similar information.
+
+But then we need to
+assume, let's say x three
+
+is very different from x one and x two.
+
+So basically, let's say
+this is x one and x two,
+
+and x three is all the way
+here, which is very different.
+
+Okay, and then in this case,
+
+the kernel representation is going to be
+
+sum over all the points,
+
+all the three points.
+
+So we have theta one kx, x one,
+
+theta kx, x two,
+
+plus theta three kx, x three.
+
+Now because x one and x
+two is actually the same,
+
+so it makes sense to just combine them.
+
+I'm just using x one.
+
+Now what we can see here is that,
+
+in fact, this function depends
+on theta one and theta two
+
+only through the sum of
+theta one plus theta two.
+
+It doesn't depend on the
+individual theta one and theta two.
+
+It's because these two
+points are the same.
+
+In practice, if they are
+similar to each other,
+
+then still theta one and theta,
+
+the difference between
+theta one and theta two
+
+is not that important.
+
+What's important is the sum of them.
+
+So in this case, it makes
+sense to regularize.
+
+Instead of regularizing
+the standard l two norm,
+
+is regularizing each of the individual,
+
+the sum of the individual data points.
+
+Obviously, this doesn't
+make a lot of sense
+
+because x one and x two
+is not distinguishable.
+
+Instead, it's more reasonable to...
+
+Instead, it's more reasonable
+
+to regularize the l two norm,
+
+the square of the theta one plus theta two
+
+and plus theta three.
+
+So here, we want to combine
+theta one and theta two
+
+in the l two norm.
+
+So this something that is more reasonable,
+
+and turns out this is
+actually exactly equal to,
+
+you know, may just happen to,
+
+in fact, turns out the kernel norm
+
+is actually doing
+something similar to this.
+
+Turns out we can show that the kernel norm
+
+is kind of doing this grouping effect.
+
+Now in order to say that, let's say assume
+
+the kernel is Gaussian RBF kernel.
+
+And assume just the
+boundaries is very small,
+
+so meaning that just
+recall that x, x prime
+
+equals to the Gaussian RBF kernel.
+
+So it's...
+
+Right.
+
+And then if x and x prime
+are equal to each other,
+
+then the kernel equal to one.
+
+So if we plot this kernel function,
+
+so obviously on the
+diagonal, everything is one
+
+because if x and x prime
+equal to each other,
+
+then the kernel will equal to one.
+
+And then, because the x one and the x two
+
+are also equal to each other,
+
+so then all the elements in the first
+
+two columns and rows are all equal to one.
+
+And then, because we are assuming x three
+
+and x one and x two are very
+different from each other;
+
+so let's say assume they
+are infinite different
+
+from each other, then the
+distance is very large,
+
+and then the kernel
+actually equal to zero.
+
+So equal to zero, right?
+
+So the kernel matrix look like this,
+
+it's a block diagonal matrix.
+
+And then if we actually calculate
+
+this kernel regularization,
+
+will be exactly the group, the l two norm.
+
+So it's a simple calculation,
+
+but let's just do it very quickly.
+
+Theta one, theta two, theta three.
+
+So this is the theta transpose,
+
+and then we have one, one,
+zero, zero, zero, zero, one.
+
+Then we have theta one,
+theta two, theta three.
+
+Now this actually exactly equals to,
+
+if you do the calculation,
+
+exactly equals to group,
+
+group the l two regularization.
+
+So this sort of justify that
+it's a interesting thing
+
+that, for kernel regression,
+we actually need to use
+
+this kernel regularization.
+
+Just to recap, what we want to do is that
+
+we want to
+
+minimize theta, if we use the kernel.
+
+If we want to use the
+kernel regularization,
+
+this is the optimization
+that we end up with.
+
+And then, obviously, you
+can solve it in close form.
+
+Again, we will take the derivative.
+
+It's easy to show that
+the solution of this guy
+
+is going to be kernel function
+
+plus lambda identity inverse Y.
+
+So this allows to solve the theta,
+
+and then this gives you a
+fairly flexible approximation
+
+for this complex data set.
+
+Okay, so, essentially, to summarize,
+
+in practice, the kernel
+method is very easy.
+
+So the key idea is really
+just using the similarity
+
+as the feature.
+
+So basically, you just assume
+that your function class
+
+is a linear combination of
+this kernel score functions.
+
+And then you define a loss function.
+
+Obviously here, I'm talking
+about the regression case
+
+for l two regularization,
+
+for square loss for which we
+have a closed-form solution.
+
+But for other cases, we can
+use numerical algorithms
+
+to solve theta.
+
+For example, if we, so...
+
+If we are doing classification,
+
+so in the case of classification,
+
+again, we have pairs of data,
+
+where y-i could be just, belongs to,
+
+is a binary label; it either
+plus one or minus one.
+
+In this case, the loss
+function is often defined
+
+to be some kind of
+surrogate loss function.
+
+So typically, the loss
+function in this case
+
+will be some sort of surrogate function.
+
+Could be the hinge loss or logistic loss,
+
+which I just, in general,
+write as sigmoid.
+
+And then we have y-i, and then f x-i, i.
+
+So this is how the general
+loss of classification.
+
+And then we can write down this.
+
+If we want to do kernel,
+we simply just plug in
+
+the representation that we have.
+
+Sum over j equal to one to n;
+
+theta j kernel xj, x-i.
+
+And then we need to solve this numerically
+
+using gradient descent, or
+other numerical algorithm,
+
+but this is definitely doable.
+
+And then we can also use,
+
+again, use a kernel regularization
+
+to kind of control the complexity.
+
+Again, the idea is the same,
+
+except that the loss function changes.
+
+But all the key idea is to use this
+
+score function as features.
+
+Okay, so I believe now
+you can just implement
+
+a kernel function, or kernel methods
+
+for the problems that you have.
+
+The idea is just use the
+similarity as the feature,
+
+and it's simply adaptive
+and convenient to use.
+
+Okay, so now I want to talk about
+
+a more theoretical side of kernel method,
+
+in which we can show that, it turns out
+
+when you use these kernel functions,
+
+it's actually equivalent
+to using infinite number
+
+of features, or using
+some sort of infinite
+
+dimension of features or infinite
+number of basis function.
+
+Infinite basis functions, I would say.
+
+Infinite number of basis functions.
+
+So this actually gives you a
+very powerful theoretical view
+
+that it turns out the kernel
+regression that we just showed,
+
+or kernel classification,
+is actually equivalent
+
+to solving a infinite
+dimensional optimization problem.
+
+So let me just make it
+precise what this means.
+
+So in order to set up,
+
+let's define a set of basis functions,
+
+psi x is,
+
+where l from equal to one to two
+
+all the way to infinite.
+
+So let's define this psi
+l to an infinite sequence
+
+of basis functions.
+
+So for example, psi l could
+be just the polynomial basis.
+
+So for example,
+
+psi lx equal to xl.
+
+Could just be polynomial functions,
+
+and there are infinite many of them.
+
+The idea we have infinite number of them
+
+is to make sure that if
+I do a linear combination
+
+of this infinite things,
+
+I can represent arbitrary functions.
+
+So for example, if I define,
+
+when I have this basis functions,
+
+I can then just use, think about,
+
+let's say assume l start from zero
+
+because l zero equal to constant x,
+
+power zero equal to constant;
+
+that's one, two.
+
+So here, I'm doing a weighted combination
+
+of this infinite basis functions,
+
+where wl is the weight
+on the basis function.
+
+So turns out, using Taylor expansion,
+
+we know that any function can be expanded
+
+into sum of infinite sequence
+of polynomial functions.
+
+So in fact, if you set up your
+function class in this way
+
+to have infinite number
+of basis functions,
+
+which corresponds with infinite
+number of parameters, wl,
+
+then we can guarantee, theoretically,
+
+to closely approximate or
+represent, arbitrarily,
+
+nice, differentiable,
+continuous functions.
+
+So this is infinite
+dimensional representation
+
+is extremely flexible.
+
+It's kind of universal approximation
+
+to arbitrary nonlinear functions.
+
+So this polynomial basis is
+here is just one example,
+
+but there are other basis functions
+
+based on fuy transform,
+or many other functions.
+
+But the idea is to use
+infinite basis functions
+
+to represent arbitrary function,
+
+arbitrary, nonlinear functions.
+
+Okay, and then having this,
+we can actually set up
+
+a crazy, a infinite
+dimensional regression problem.
+
+So let's say you want to decide
+
+all this infinite number of wl.
+
+So then we can do a crazy
+infinite dimensional regression.
+
+Let's say, think about
+the regression problem
+
+using square loss, then we can
+sort of define loss function.
+
+So here w represents the
+infinite sequence of wl
+
+to be all the functions.
+
+Let me, to be convenient,
+
+let me use this to represent
+the average of the data set.
+
+So I'm doing, this is
+a infinite dimensional
+
+linear regression, in some sense.
+
+Obviously, this will overfit,
+
+because you only have
+finite number of data,
+
+but you have infinite
+number of parameters,
+
+so we need to add a regularization term.
+
+Let's just use l two
+regularization, so alpha.
+
+But, because we have
+infinite number of them,
+
+I want to do a little bit twist
+
+on l two regularization,
+and to use some sort
+
+of weighted l two regularization.
+
+So here, I'm summing over
+all the basis functions, l.
+
+And then for each of
+them, the penalty includes
+
+square of wl, this penalizes
+the magnitude of w.
+
+But then I scale each term
+using a parameter lambda l.
+
+So here, lambda l, which is positive,
+
+is a regularization
+
+coefficient for wl.
+
+Its value controls how much
+we want to penalize over wl.
+
+And we will make the following assumption:
+
+that w one is larger than zero,
+
+w two, all the way...
+
+Actually it's the opposite, yeah.
+
+Well actually assume the
+w is actually decreasing.
+
+So the reason is that, if wl,
+
+is w is super large,
+
+sorry, if lambda l is small,
+
+then the penalty is going to be huge.
+
+So then ll is penalized,
+
+l tends to go to zero
+
+to be encouraged to close
+to zero more strongly.
+
+The reason is, if lambda l is small,
+
+then this regularization's very large
+
+because it's one over lambda l.
+
+So I'm strongly penalizing
+the value of wl.
+
+Versus if lambda one,
+
+or lambda il is very large,
+
+then the penalization's smaller.
+
+So because I have infinite number of data,
+
+infinite number of features,
+
+I nee to put a very strong penalty
+
+over this very high-order basis functions.
+
+Let's say, if when we have
+polynomial regression,
+
+we need to actually put a regularization
+
+over this very high-order regularizations
+
+So the idea is that we need to put
+
+a infinitely-strong regularization
+
+over this really
+high-order basis functions
+
+and a smaller regularization on smaller
+
+lower-order magnitudes.
+
+So this is why we hope
+the regularization to be
+
+actually close to zero,
+if it's infinite large.
+
+But we can always set up in this way.
+
+Let's say lambda decreases
+exponentially fast,
+
+so the regularization's
+exponentially strong.
+
+And this is actually
+reason we can actually
+
+still solve this infinite
+dimensional problem,
+
+is because the really high-order terms
+
+are penalized exponentially heavily,
+
+so that we will never actually use them,
+
+really, in practical sense.
+
+So this actually makes us to,
+
+in practice, solve this problem.
+
+So having this problem set up,
+
+we can then show some
+really remarkable results.
+
+We can show that this infinite dimensional
+
+optimization problem,
+where we want to find
+
+the infinite number of wl,
+
+is actually equivalent to
+learning a kernel function
+
+that we just showed earlier.
+
+They are actually totally equivalent,
+
+but the difference is
+that the kernel function
+
+is actually finite dimensional.
+
+And here is infinite dimensional,
+
+so meaning that this
+infinite dimensional thing
+
+is actually equivalent
+to solving this finite
+
+dimensional kernel representation,
+
+which is actually amazing.
+
+And the reason for us
+being able to do this
+
+is that, again, we have
+this strong regularization
+
+that allows us to turn off,
+
+effectively, turn off these
+really high-order terms.
+
+Another thing is that this loss function
+
+only depends on finite number of data.
+
+So even the parameter itself
+is infinite dimensional,
+
+the data is finite.
+
+So turns out, this is a reason
+
+why we actually need to,
+
+the effective number of
+parameters that we need
+
+is actually, at most,
+equal to the size of data.
+
+That's why it's actually
+effectively finite dimensional,
+
+even the problem setup
+is infinite dimensional.
+
+Okay, so let's just show very quickly
+
+how these two are related.
+
+So define w-hat
+
+to be the optimal solution
+
+of this,
+
+this infinite dimensional regularization,
+
+regularized...
+
+Right?
+
+So here, I drop this
+alpha because the alpha
+
+can be merged with lambda l,
+
+so I just have this.
+
+And they define the w-hat
+is actually the solution,
+
+so then, similarly, we
+can define the f-hat
+
+to be the corresponding
+estimated function.
+
+And then we can show
+
+that this estimated f
+
+actually always have a
+kernel representation.
+
+So you can show that x, f, this f-hat
+
+always equal to a kernel representation.
+
+So here, this optimal f that we estimate
+
+always equal to this linear combination
+
+of a kernel, kernel
+function, for sum some theta;
+
+for some theta i that we want to decide.
+
+And her the kernel is
+defined in the following way:
+
+lambda l,
+
+psi lx, psi lx prime.
+
+So here, what's happening is that
+
+we can use this basis functions, psi l,
+
+and its regularization
+magnitude, lambda l,
+
+to define a kernel.
+
+So here, the kernel for x and x prime
+
+equals to sum over all the possible l,
+
+zero from infinite.
+
+And then each of the basis function
+
+is weighted by lambda l which
+is the importance of that,
+
+that basis function.
+
+And then we have psi
+lx times psi lx prime.
+
+So this is,
+
+basically, the basis
+function defines some kernel,
+
+and then we can show that solving
+
+this infinite dimensional optimization
+
+is actually equivalent finding
+a basis representation,
+
+meaning the optimal solution always has
+
+this finite dimensional optimization,
+
+finite dimensional representation.
+
+So instead of searching for
+
+the infinite dimensional parameters,
+
+we can actually (inaudible) to just search
+
+for the optimal kernel representation.
+
+So instead of finding
+wl, we can find theta i,
+
+which is easier and actually current
+
+to the practical
+procedure we find earlier.
+
+And further, we can
+actually show that further.
+
+And we can show that this weighted,
+
+this weighted regularization
+is actually equivalent
+
+to the kernel regularization
+
+that we had earlier.
+
+So earlier we showed
+that why, in practically,
+
+the kernel regularization make more sense
+
+than the l two regularization over theta.
+
+Here we show a theoretical reason.
+
+It turns out this kernel regularization
+
+is exactly equivalent
+to having this weighted
+
+l two regularization over this wl.
+
+Now if you now look at this result,
+
+we are showing that the optimal solution
+
+of this infinite dimensional optimization
+
+always has this linear
+kernel representation,
+
+and the regularization is actually exactly
+
+equal to the kernel loss.
+
+Now this means that
+
+this infinite dimensional optimization
+
+is exactly equivalent to optimizing
+
+the kernel loss that we had earlier,
+
+which is y minus
+
+sum over theta i kx, x-i
+
+square, i equal to zero,
+
+i equal to one to n.
+
+So here we don't need to actually sum
+
+over infinite number terms.
+
+Plus theta transpose k theta.
+
+So turns out these two are equivalent,
+
+which is very interesting.
+
+And then we can just solve this one
+
+which is exactly what we have been doing,
+
+except now it's actually theoretically
+
+equivalent to solving infinite
+dimensional parameters.
+
+So this is a very interesting
+view of kernel methods.
+
+In fact, that's a whole
+theoretical literature
+
+and literature in machine learning
+
+which talks about how to optimizing
+
+different kinds of infinite
+dimensional function spaces,
+
+and then which actually turns out to have
+
+finite dimensional solutions.
+
+In fact, kernel function is exactly one,
+
+this key idea behind
+lots of advanced methods
+
+in machine learning.
+
+So now let's talk about actually
+how to prove this result.
+
+It's actually a very simple idea,
+
+so let's go over it very briefly.
+
+So the idea is that,
+
+if we have this, if we
+optimize this function,
+
+then we actually have,
+
+we can find the zero gradient equation.
+
+And the zero gradient equation
+
+immediately imply this
+relation, so let's do it.
+
+So proof.
+
+So recall that
+
+we want to minimize this
+infinite dimensional problems.
+
+Y minus l equal to zero
+
+to infinite wl psi l
+
+x square plus sum over l
+equal to zero to infinite
+
+wl square lambda l.
+
+And then if we solve this
+optimization problem,
+
+then the gradient has to equal to zero.
+
+So then, which means that we just need
+
+to take the gradient for this whole thing.
+
+Let's say, take the gradient for wl.
+
+Now the gradient will equal to,
+
+if you look at the first term,
+
+it will be...
+
+So actually need to,
+
+I will actually need
+to do some definitions,
+
+so let's see.
+
+Define delta x
+
+equals to
+
+y minus l equal to zero
+
+w, wl psi lx.
+
+So basically, delta x is the residual,
+
+the difference between y and fx.
+
+And then, if we take the gradient,
+
+we can show that, for wl,
+
+actually equal to empirical
+averaging over the data set,
+
+and then we have minus dub x.
+
+If you take the gradient,
+it's easy to show,
+
+it will actually equal to this.
+
+So basically you take the,
+it's a square function.
+
+If you take the gradient,
+you will have delta,
+
+and then you have the gradient (inaudible)
+
+to wl, which then gives you psi lx.
+
+So psi lx.
+
+And then we need to take the gradient
+
+for the regularization term.
+
+Actually we need to have two here,
+
+and then plus the regularization will be
+
+two times wl divided by lambda l.
+
+And we hope this equal to zero,
+
+because we hope to have zero gradient
+
+at the optimal point.
+
+Let's say this is optimal solution.
+
+So we hope the w-hat
+
+should satisfy this equation.
+
+And if we rewrite it, it's
+actually current to w-hat l
+
+equals to empirical averaging
+
+delta x, psi lx times lambda l.
+
+Now if we actually expand it,
+
+it's going to be exactly,
+
+I'm just explicitly writing
+down the empirical averaging.
+
+And it'll be delta i psi lxi.
+
+I should use the superscript.
+
+Okay.
+
+So this actually gives
+you a representation
+
+for the optimal wl.
+
+And then when this is satisfied,
+
+we can actually calculate
+
+the corresponding f function,
+
+which is sum over wl-hat
+
+and psi l.
+
+And then if we substitute
+this whole equation into here,
+
+we'll get infinite wl-hat
+equal to this whole thing,
+
+so it's going to equal
+to lambda l divided by n,
+
+and then sum over i equal to one to n,
+
+delta x-i, psi lxi.
+
+And then we now have two summations.
+
+One is the summation over l,
+
+or all the basis functions.
+
+Another is the summation
+over all the data points.
+
+And then we can switch the summation,
+
+you know, to be more explicitly,
+
+we can first move the summation outside.
+
+So we'll have zero infinite sum
+
+over i equal to one to n lambda ln
+
+delta x-i psi lx.
+
+Actually, that's no x-i here, sorry.
+
+Should be no x-i.
+
+Because x and x comes from here.
+
+And then we can switch the order
+
+between these two sums.
+
+It will become i equal to one to n
+
+sum over l equal to zero infinite
+
+lambda ln delta x-i.
+
+Oh, actually I have, I'm missing a term,
+
+so it'll be...
+
+So basically I'm plugging
+this formula for wl-hat
+
+into the formula for f-hat.
+
+And then this derivation
+carries to be the same,
+
+so we'll have...
+
+Right?
+
+So here, to be more explicit,
+
+we're actually switching the order
+
+between these two sums.
+
+Okay, so now,
+
+the important step is that,
+
+when we look at the summation over these,
+
+over the infinite l,
+
+it actually be equivalent
+to the definition
+
+of the kernel function,
+so meaning that if we;
+
+because here, delta x-i
+
+is independent when l.
+
+We can move it outside of the summation,
+
+meaning that I can move delta i outside.
+
+So this gives you
+
+sum over i equal to one to n,
+
+and then we have delta x-i.
+
+And then we have sum over l equal to zero
+
+infinite lambda l
+
+psi lxi psi lx.
+
+And then we are already there.
+
+Recall that this whole thing
+
+is sum over all the l and lambda l
+
+times psi l, evaluate at x-i,
+
+and then evaluate at x.
+
+This is actually exactly current
+
+to the kernel function, x-i, x.
+
+This is by the definition,
+
+so recall that the result is that
+
+the optimal f-hat is a
+linear combination of kernel,
+
+where the the kernel is exactly defined
+
+as the infinite sum of the, again,
+
+of the lambda l and the
+basis functions there.
+
+Okay, so now this is already there,
+
+so we have,
+
+we have one to n, we have theta i kxi, x.
+
+Well theta i is actually defined to be
+
+delta i to be n.
+
+If we define theta i to
+be delta x-i divide by n,
+
+then we can show that
+this function, f-hat,
+
+actually is equivalent
+to a linear combination
+
+of the kernel functions.
+
+So just to review the derivation,
+
+so basically we just
+follow standard ideas.
+
+Basically, the optimal point,
+
+the optimal wl-hat should satisfy
+
+this equation followed in
+the zero gradient condition.
+
+And then we just plug it, this result,
+
+into the representation for f-hat,
+
+and did some manipulation and get this
+
+kernel representation for f-hat.
+
+So this proves the first
+part of the result.
+
+The second part actually
+follows, again, similarly.
+
+So basically, we wouldn't
+go to the detail,
+
+but the idea is that we have this formula
+
+for w-hat l, which is this whole thing.
+
+And then we'll take the
+square, divide by lambda l sum,
+
+sum over, turns out will just
+
+equal to theta transpose k theta,
+
+if theta is defined in this way.
+
+So as a practice, you can do it
+
+just to make sure that you
+can follow the general ideas.
+
+Now what we are showing
+here is that there are
+
+two equivalent views of kernel methods.
+
+So two views that are equivalent.
+
+One is that f-hat
+
+equal to a kind of linear combination
+
+of the kernel functions
+evaluate at data point,
+
+so kernel serves a similarity measure.
+
+And in this representation, it's finite.
+
+And then the other representation,
+
+which is more for the theoretical purpose,
+
+is that it's actually equivalent to having
+
+potentially infinite
+number of basis functions.
+
+Sort of developing infinite
+number of basis functions.
+
+And these two views are
+connected by this idea,
+
+this formula where the kernel
+
+is represented as the,
+
+as the linear combination,
+
+summing over all the l
+of this kernel functions,
+
+of these basis functions and lambda l.
+
+So here lambda l is a kind
+of regularization coefficient
+
+for inverse regularization coefficient
+
+for the basis functions.
+
+And lambda l here is actually
+larger or equal to zero.
+
+It turns out this representation,
+
+this representation of kernel function,
+
+is actually fairly general.
+
+So turns out any basis
+function can somehow,
+
+any kernel function can
+be somehow represented
+
+using some basis functions.
+
+In particular, we can show
+the following, which is...
+
+There are a few number
+of things we can show.
+
+One is that, if the kernel
+
+is positive definite,
+
+here, by positive definite,
+
+what I mean is that taking a arbitrary
+
+kernel matrix, which is going to be
+
+kx, x-i, xj,
+
+ij equal to one to n;
+
+for arbitrary x-i, xj,
+and for arbitrary n,
+
+this is always positive definite,
+
+for any n,
+
+any size n, so n could be arbitrary large,
+
+and also any data points x-i.
+
+So if a kernel satisfy
+the following condition,
+
+where arbitrary kernel matrix
+is always positive definite,
+
+for arbitrary data points, arbitrary size,
+
+then it's call a positive definite.
+
+So this kernel is called a
+positive definite kernel.
+
+So then we have the following result:
+
+so if the kernel is positive definite,
+
+if and only if following this definition,
+
+if and only if it has this representation;
+
+if and only if there exist
+
+some basis function, not psi l,
+
+and some coefficient lambda l
+
+that is positive or non-negative,
+
+such that this expansion is true.
+
+So this also justify the requirement
+
+that we actually hope to choose our kernel
+
+to be positive definite,
+because that will corresponds
+
+to having positive lambda l
+
+in the corresponding infinite
+dimensional representation
+
+of the problem, which
+is actually important.
+
+If the coefficient is negative,
+
+then it doesn't make sense at all.
+
+Okay, so and it turns
+out the typical kernels
+
+that we use are all positive definites,
+
+so we don't need to worry about that.
+
+In particular, let's go
+back to Gaussian RBF kernel.
+
+So the Gaussian RBF kernel,
+if you still remember,
+
+is exponential minus,
+
+let me use a different, just a gamma,
+
+gamma is the scaling parameter.
+
+So recall that it's equivalent to this.
+
+Turns out this kernel is
+for positive definite.
+
+And a way to show that
+is that we can actually
+
+expand this kernel using this
+
+into this infinite sequence
+
+where psi l are the polynomials.
+
+We can actually show that, let's show it,
+
+it's actually easy to do it.
+
+So we can expand
+
+this x square
+
+plus two gamma x
+
+times x prime transpose
+
+minus gamma x prime squared.
+
+And then what we can do is that
+
+we can, x...
+
+It's equivalent to
+having these three terms.
+
+And then two gamma
+
+x transpose x prime.
+
+So the first term only depends on x.
+
+The second term only depends on x prime.
+
+And the third term is actually couple,
+
+is a coupling of x and x prime.
+
+What we can do is actually we can expand
+
+this exponential function
+using a Taylor expansion,
+
+which then allow us to
+divide with Taylor expansion
+
+for the kernel function,
+
+and that expansion is actually equivalent
+
+to a infinite basis
+representation with a kernel.
+
+So to do it very quickly,
+
+recall that the exponential function,
+
+let's say exponential
+t equal to one plus t,
+
+plus t squared two plus all the way,
+
+if we write down the infinite
+series representation,
+
+it's actually tl, l factorial.
+
+And then if we plug this
+into the kernel function,
+
+we will get this equal to,
+
+so basically exponential two gamma xx
+
+transpose prime equal to sum over l
+
+equal to zero infinite two gamma x
+
+transpose x prime,
+
+l divided by l factorial.
+
+And then we can plug this.
+
+So we can take this whole equation
+
+and then plug into here.
+
+And then this will be, has infinite sum
+
+of basis functions.
+
+Then we can show that, basically,
+
+using this idea, we can show that
+
+the kernel function, the
+Gaussian kernel function,
+
+equals to,
+
+equals to sum over l two zero infinite
+
+lambda l psi lx,
+
+psi lx prime,
+
+where the basis function is defined it
+
+as exponential minus lambda
+
+x square times xl,
+
+a gamma.
+
+So where the l spaces function
+
+is really just the l's polynomials
+
+times the exponential function.
+
+So here, actually I'm
+making a simplification
+
+where x is a scalar.
+
+So here is assume
+
+x belongs to a real number.
+
+If it's multi-dimensional, we
+all get the similar results.
+
+And then lambda l equals to two gamma
+
+l divided by l transpose.
+
+So basically, if we
+define our basis function
+
+as in this way, and lambda l in this way,
+
+we can write the Gaussian RBF kernel
+
+as a infinite dimensional representation,
+
+where lambda l is larger or equal to zero;
+
+in fact, it's strictly larger than zero.
+
+So in this case, we can show
+that Gaussian RBF kernel
+
+is actually positive definite.
+
+So it's safe to use because it has
+
+a valid correspondence
+
+to the infinite dimensional
+optimization problem.
+
+Okay, so thank you very much.
+
+See you next time.
+

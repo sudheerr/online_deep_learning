@@ -1,0 +1,249 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So we have established that sort of deep networks.
+
+Without normalizations, we can make them about 10 to 12 layers deep.
+
+With Normalizations, we can make it about 20 to 30 layers deep.
+
+Now, what happens if we train a network that is normalized?
+
+And it's bigger than sort of ten, ten, 20 layers.
+
+Well, what happens is we can first go and just measure how well does this network perform?
+
+Right. One way is we have sort of training sets.
+
+We have test sets. We could look at what is the performance of this network on our real task, on our real data set.
+
+And. We can just measure. It doesn't do that well.
+
+This is actually an experiment that was performed in 2016, sort of that demonstrated that sort of training.
+
+Deeper and deeper networks will lead to worse performance.
+
+And this is on a respectable data set with respectable architectures, sort of very well done experiments.
+
+Now, the surprising thing is, it's not just that the model doesn't perform well when it's asked to do this task.
+
+Out in the out, in the wild or on a test set. It doesn't even train that well.
+
+We are not able to train a network that is more than 20 layers deep.
+
+Even with Normalizations. Then we can take this even a step further and say, well,
+
+let's make the set up of sort of the 20 layer network almost identical to the 56 layer network.
+
+The way we're going to do this is we're going to take the 50 odd layer network, and we're going to take certain layers out of this network.
+
+And we just replaced them with identity functions. And so one network is now clearly a subset of the other network.
+
+So the 20 layer network is a subset of the 50 layer network.
+
+In the 20 layer network will still have these layers in there. They just don't do anything.
+
+And again, the network that has 20 layers trains better, it trains better and it performs better.
+
+And in a in a new task. Why is that?
+
+This is sort of puzzling. Like we just showed through normalizations activation survive.
+
+And so gradients should survive. So what's going on? What's wrong with the with the 50 layer network?
+
+Well. It's at a very fundamental level.
+
+It has to do with the fact or with the way we initialize our networks.
+
+So the way we initialize weights in networks is we set them to random values.
+
+If we did not set them to random values, things would go horribly wrong.
+
+Um, because we couldn't get started with training.
+
+If you set it to sort of something that's not random, like if you set them all to zero, the network wouldn't train at all.
+
+So that's why you need to set them to sort of small random values.
+
+Now, if we set network weights to small random values, what happens is we're going to take the input.
+
+We're going to multiply it with random Gaussian noise.
+
+Then we're going to normalize, make sure it still has the right magnitude.
+
+We're going to multiply with random noise again.
+
+We normalize, make sure it has the same the right magnitude multiplied by random noise again, and so on and so forth.
+
+The issue is, if you multiply any input vector with random Gaussian sort of noise over and over and over again,
+
+at some point, what comes out of it will be random.
+
+Uh, just sort of a fun property of sort of random Gaussian noise that if you sort of repeat this process often enough,
+
+if you repeat what sort of random noise often enough, what comes out seemingly looks fairly random.
+
+If you do this once, this is a very good idea. This is sort of random projections.
+
+If you do this often enough, uh, like the outputs will start to look more and more random.
+
+The same is true for gradients. And so that's what's happening in these larger networks, is that even if we normalize,
+
+make sure the magnitude of the output is is sort of more or less of the activation is more or less correct.
+
+What's in it? Looks random. Um.
+
+And so the solution to this is really to not multiply by random weights over and over again.
+
+Uh, there's uh, sort of the most elegant solution to this is to reprioritize the network.
+
+So instead of having our sort of activations, um, be multiplied by a weight vector and then.
+
+Adding a bias. What we'll do now is will instead parametrize this linear network, which is multiplying by the weight and adding a bias.
+
+We'll add this to the original activation.
+
+So the original layer now just gets to change our input.
+
+And we'll always have a connection here on the side.
+
+This is known as the residual connection will always have a connection that sort of ensures that whatever we had originally will be added.
+
+And so will change the way the the network is is is parameterized from parameterizing.
+
+So the direct function to the network and updating the activations directly to parameterizing what difference we want.
+
+So we will parameterize how we would want to change the activations.
+
+And so this is known as uh residual connection. This entire thing is known as a residual network.
+
+Now. Fun fact about residual networks. Um, they're actually symmetric if you look at the graph for the gradients.
+
+So if you look at the computation computation graph for the gradients, it's the opposite of the computation graph for the forward pass.
+
+So you will have a path. That will add the gradient back to whatever gradient we had after this linear layer.
+
+And so the gradient will also sort of start to skip certain layers as it goes back through the network.
+
+Now with this trick, we can. We can start to train much deeper networks.
+
+And so this is what's shown here on the bottom. So if we parameterize things as residual networks.
+
+We can now make layer networks deeper and deeper and deeper, and they will start to perform better and better at the task.
+
+There's another thing that's going on here, which is it turns out deeper networks actually work better.
+
+Um, since we can now train networks that are like deeper than 20 layers, we can play with sort of 50 layer networks, 100 layer networks.
+
+It turns out they actually generalize better. They capture the underlying patterns in the data much better, and they perform better on novel tasks.
+
+Now, one thing you might ask. Well, how well do residual connections work?
+
+It turns out they work extremely well. You can train.
+
+We can train models that have up to a thousand layers in them, sort of sequentially, one after the other.
+
+And we can still get a gradient through and optimize it.
+
+Now, oftentimes a thousand layers is complete and utter overkill, and you will never need to be able and you'll never need to,
+
+uh, run gradient descent on a thousand layer network, at least not a thousand sequential layers.
+
+But residual networks make it possible.
+
+Now, one thing about residual networks is that they sort of required input and output of a layer to be the same here.
+
+The dimension of the input, and the dimension of the output of this layer here need to be the same,
+
+otherwise we couldn't add them together in the residual connection.
+
+And so the solution sort of, or what this forces us to do,
+
+is it force us to design networks that have sort of the same shape of activations for a long, long, long, long way through the network.
+
+And if we ever want to change the shape of the network, what we'll have to do is we'll have to add.
+
+A linear layer on the side to sort of change to shape.
+
+This is sort of an ugly hack to sort of allow us to change, to shape the number of channels,
+
+maybe, or the width and the height of, uh, of a specific layer.
+
+And will continues a linear layer to do this.
+
+Now this linear layer will cause a little bit of vanishing activation, will cause a little bit of vanishing, uh, gradients.
+
+But if we don't do this often, if you only do this sort of 4 or 5 times throughout the network, this is acceptable.
+
+Right. And so the way we now design networks is,
+
+will have blocks or activations of the same shape for most of the network will have the same number of channels for most of the network.
+
+And then every now and then, if you want to change the number of channels,
+
+what we'll do is we'll sort of add a linear layer in the residual connection to change the number of channels.
+
+Now, why do residual connections work?
+
+Now there's a practical answer to this, which is the gradient just travels further down the network.
+
+Uh, it prevents it directly by construction, and it prevents vanishing gradients because the gradient has this skip connection to go through.
+
+And so if you have a gradient from the loss it can just skip back through the network as often as it wants.
+
+And it will not die out. Other sort of reasons why, uh,
+
+they work is that they work better because now the network doesn't need to sort of relearn the same pattern is over and over again.
+
+All we need to learn with our parameters is how certain activations should change.
+
+There is no energy that needs to be set of use or no weights, no parameters that need to be used to remember what the previous layer output.
+
+Because we'll always have this option because we add to the previous layers output.
+
+And so we can just learn what sort of what. What is new in this layer instead of learning sort of to completely transform one pattern into the other.
+
+And in fact,
+
+this has it has been shown that residual networks do this because we can take a large residual network and we can just eliminate individual layers,
+
+just have to skip connection in there, nothing else. And the network still works.
+
+We can train a very deep network and just start to remove certain layers.
+
+And the residual network is robust enough that it will still work well in practice.
+
+So this is sort of, uh, uh, work on stochastic depth of networks.
+
+We can also trained these networks. It's a stochastic depth. So they will become more robust.
+
+And really the sort of the core reason why they work is because residual networks only change patterns.
+
+Uh, they don't really have to reproduce them over and over again for each layer.
+
+There's also a thorough theoretical answer on why they work. Uh, turns out that from an optimization standpoint, um,
+
+if we design residual networks that are quite wide with a linear layer or a convolutional layer for a convolutional network is very wide,
+
+has a lot of channels, um, we can show that this under some circumstance can be an invertible function.
+
+Uh, and gradients travel very well through invertible functions.
+
+Um, it also has sort of. A more like a simpler loss scan landscape for stochastic gradient descent on and under some, uh, under some conditions,
+
+we can show that it is actually possible to find global minima in residual networks just because of the way they are constructed.
+
+Now this is a theoretical answer. In practice. What you should remember is really just skip connections, help gradients go back through the network,
+
+and the parameterization of the network is sort of a bit more robust.
+
+So in summary, residual networks allow us to go very deep.
+
+Uh, and residual and normalization fixes, vanishing activations and gradients to a point that we don't have to worry about.
+
+Um, if you have a residual network weight normalizations, you should never have to worry about vanishing activations.
+
+You might still have your network blow up every now and then because you said your learning rate too high,
+
+but you wouldn't have to worry about vanishing gradients as you travel as the signal travels through the network itself.
+
+That's it.
+

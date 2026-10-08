@@ -1,0 +1,273 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+I think. So in this segment we'll look at what happens if we train really deep networks.
+
+Um, and we're look at a simplified network first.
+
+Uh, we'll look at a network that has n linear layers.
+
+Now, I'm well aware that the, uh, the, the network that has n linear layers is still linear.
+
+And we could replace it by a single layer, but we'll just look at what happens to the training dynamics in this one network,
+
+because that will be instructive to understanding what happens to the training dynamics or to gradients of much larger non-linear networks.
+
+Now the other simplification we're going to do is that we're going to say that every single parameter in,
+
+in our network or any layer, any linear layer, has exactly one scalar parameter w and one bias.
+
+So the input is a real value. The output of the network is a real value.
+
+And in between, all we're doing is we're going to scale that real value.
+
+And we're going to add a bias. It's a dumbest possible network that you can imagine,
+
+but it will help us understand what's going to happen if we train this using gradient descent or stochastic gradient descent.
+
+The first thing we're going to look at is we're going to look at the activations of this network.
+
+And so since we chose the network to be extremely simple,
+
+we can now actually just do the math on what the activation, what the output of each individual layer is.
+
+And so an activation here is an output off a layer.
+
+In our case this is just a real valued number. And if we assume that all the weights of all the layers are roughly the same.
+
+So this is another simplifying assumption, but we'll assume they're all roughly the same value.
+
+What will happen is the first layer is just going to be our linear transformation w x plus b.
+
+Now the next layer takes this again multiplies it by w and adds p.
+
+So this is w squared x and then some bias term here.
+
+Then we'll have w to the three of x some bias term here.
+
+And if we go through the math um what we'll see is that there's going to be a term here that's w to the n in the nth layer times x which is our input.
+
+And then we have to sum of all the biased terms here, which here is just one minus w to the n over one minus w times the bias.
+
+Since we assume that all the weights and in this example also all the biases, I have roughly the same value.
+
+Now let's analyze this expression here for a moment. So what's happening if w the weight of our network is smaller than one?
+
+Well as we have more and more layers. If you raise a value that smaller than one to a power of n for a large enough n, this will become zero.
+
+Right. So if the weight is not exactly one.
+
+If we just make our network large enough, what will happen is that.
+
+W times X is going to go towards zero.
+
+Which means that the network will at some point ignore our input.
+
+So that the output of the NS layer will now only depend on the bias inside of the network.
+
+It will no longer depend on the actual input.
+
+Right. And so this is sometimes referred to as a vanishing input.
+
+Sort of the network forgets what the input was just because we multiplied by W enough and W was smaller than one.
+
+Now this is not the case. If W is exactly one, if W is exactly one, then our our network will produce x plus n times the bias.
+
+That's actually the desired out the desired outcome here.
+
+Now, if the weight w is larger than one, what will happen is that over time, as we sort of pass our inputs through layer after layer after layer,
+
+the activation will grow and grow and grow and it will go towards infinity.
+
+And so in here the activation will eventually explode.
+
+It will give us a value that can no longer be represented with floating point values or a floating point numbers.
+
+And he will either get an infinity value or not a number value.
+
+And so this is a really bad case. Number three is bad.
+
+Number two is ideal, but it's extremely hard to hit because it's just it only occurs if w is one.
+
+And then case number one. It's not as bad as exploding.
+
+We still get a value out of it. The network just ignores the input. The very same phenomena happens to gradients as well.
+
+So if you look at gradients of each individual layer.
+
+So if we have our output here. And now we look at gradients.
+
+As they sort of travel back through the network. The gradient of the output here for the very last layer is just the activation of the last layer.
+
+As you go back, gradients will get multiplied by w times the number of layers they have traveled through,
+
+and so you'll have exactly the same phenomena as we had with activations, where things will get multiplied by w just in reverse.
+
+And so as you go backwards in backpropagation, step by step by step, gradients will get smaller and smaller and smaller.
+
+And so this is sometimes referred as vanishing gradients. And it happens if the weight is smaller than one.
+
+Now if. The weight is exactly one.
+
+We don't have a vanishing gradient, so we train well.
+
+If the weight is larger than one, what will happen is that the gradients will get larger and larger and larger as we go back through the network,
+
+and eventually gradients will explode. Now, in practice, sort of, you will actually have your activation most likely explode before your gradient.
+
+Uh, and you will get an order number in your, in your output of your network.
+
+And that will then when you backpropagate on that, it will create, you will sort of set all the weights of your network to not a number.
+
+Um, nonetheless, exploding gradients is a thing and it is hard to control if you didn't initialize a network properly.
+
+All right. So let's look at a simple example and analyze it. If the weight is smaller than one training is stable.
+
+But we have vanishing activations. And vanishing gradients.
+
+And the network like training is stable, but the network will not learn anything interesting because it doesn't.
+
+It does not remember the inputs far enough into the network and it will not get gradients far enough backwards.
+
+And so if the inputs and the gradients never really hit, you will not learn.
+
+If W is exactly one, we're in a happy place.
+
+Training stable.
+
+The network does train, uh, but at a value of exactly one for a large enough network is almost impossible to hit without additional help.
+
+If W is greater than one. Well training explodes.
+
+Uh, oftentimes this is because.
+
+So if you get exploding activations, exploding gradients, uh, and then our work does not train like this rarely happens.
+
+It happens if you initialize a network poorly. But oftentimes this case is actually sort of relatively easy to avoid.
+
+And sort of your initialization initializer in PyTorch will take care of the fact that you should never be in a routine where w is greater than one,
+
+and gradients start to grow unbounded. Now, in practice, vanishing and exploding gradients.
+
+Uh, they still sort of happen in networks that are sort of more complex.
+
+We can look at deep networks that have not just a single scalar as a weight, but have entire set of matrices as weights.
+
+Um, exploding gradients or exploding activations are sort of manifested in the fact that if.
+
+So if the product of all the weights is started to grow larger and larger, then the sort of the entire output is going to grow larger.
+
+The same is going to happen to. The, uh, product of all the weights in the gradient computation.
+
+This only happens if the network is poorly initialized if the weight of the gradients is large.
+
+Um, you can also sort of force it if you make your learning rate too high and have large gradient updates.
+
+This will eventually cause new weight to become too large, and then you will get these sort of unstable learning effects.
+
+Historically, this also used to happen in recurrent networks.
+
+Recurrent networks are currently not used that much anymore, not at least, at least not in their recurrent form.
+
+Um, and so this is more sort of for historical purposes, if somebody tells you about exploding arranging gradients in recurrent networks,
+
+this used to be a thing, uh, when we still use these models.
+
+Now, how do you sort of handle exploding gradients? Well, the first thing you need to actually notice them, you need to know that they're occurring.
+
+Um, and the easiest way to spot it is if you're lost curve at some point there's two options.
+
+It either goes up sharply here.
+
+Or depending on how you visualize your loss curve, you'll have a little axis here that symbolizes that the loss is no longer a value.
+
+That often is sort of the first indicator that your network exploded.
+
+All right, well, how are we going to go diagnose what exactly is going on?
+
+We can plot the weight norms off gradients per layer so we can look at what are the, uh, the magnitude, what is the magnitude of the weights?
+
+We can look at magnitudes of gradients. We can also look at where infinities or Nans come in in either of these.
+
+And then once we are, we figured this out. We can sort of the oftentimes the remedies to reduce your learning rate.
+
+Very rarely. Uh, if you didn't initialize your network properly, you can change your initializer.
+
+But oftentimes you will not have to do this in PyTorch. All right.
+
+Now, if we look at the other thing, at vanishing gradients, um, this also can occur in networks.
+
+And it is also characterized sort of by this product of all the weights.
+
+And so if the product or the norm of all the weights, the product of the norms of all the weights is sort of.
+
+Get smaller and smaller and smaller as we sort of make the network deeper.
+
+Then at some point, even for sort of four linear layers, the activation will vanish.
+
+The same is true for the gradients. At some point, sort of the product of these gradients will get too small.
+
+If the network is deep enough, and if the initialization is such that the norm of the weights is smaller than one and your gradients will vanish.
+
+So this should be a zero. Here they will go towards zero.
+
+This is actually the case for almost all networks. So we always initialize our networks to have sort of small weights small random weights.
+
+And this will always imply that we have vanishing and vanishing activations and vanishing gradients.
+
+Now, a symptom of vanishing gradient is that the network will not train at all.
+
+Um, if your gradients don't get far enough, back back through the network and your activations,
+
+your inputs don't get far enough forwards through the network, then what happens is that there's just no update.
+
+The network will never get smarter. It will initially go down.
+
+The loss will initially go down a little bit, because it will start to sort of exploit the biases in your data set in the last layer,
+
+but after that it will just stay flat and it will sort of you'll see a little bit of fluctuation.
+
+Um, that fluctuation is mainly due to the fact that different patches have different loss values.
+
+How are we going to diagnose this? Well, the very first important step is you should always train your network with a learning rate of zero.
+
+Well, what does this do? A learning rate of zero means that the network is not training.
+
+But it will show you how this fluctuation looks like.
+
+How does natural fluctuation looks like through your data set?
+
+It will tell you sort of if the model just appeared to make progress just because it saw different batches,
+
+or if it made actual progress during training. If you compare a learning rate of zero with any other meaningful learning rate.
+
+Then you should. You can also plot the weight norms and the gradient norms to see sort of if you get
+
+a gradient at different places in the network and sort of in terms of remedies.
+
+This happens to all but the very shallowest network.
+
+So there's not really, uh, a direct remedy. Uh, you can tune your learning rate a little bit.
+
+You can increase it to see maybe you get the gradient further down if you if you make it sort of scale it up.
+
+But the biggest change here is we'll need to change the structure of the network.
+
+We cannot use vanilla deep networks anymore. Uh, to sort of make deep networks where deep is really sort of more than ten layers deep.
+
+All right. So. Vanishing and exploding gradients.
+
+Vanishing gradients occur in almost all deep networks. This is just part of the part of part of deep networks.
+
+They have vanishing gradients. And we'll look at tools and how to control for them.
+
+The same is for vanishing activations. The same tools actually apply to set of gradients and activations.
+
+Exploding gradients. Tele2. Not a number that will blow up your network.
+
+And this is usually fixed by just lowering your learning rate.
+
+And sort of that will make training more stable. Sometimes have a better initialization, but they should.
+
+Exploding gradients should rarely be a big issue of vanishing gradients are the issue that we'll need to address.
+
+That's it.
+

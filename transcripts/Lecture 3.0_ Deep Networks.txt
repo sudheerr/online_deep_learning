@@ -1,0 +1,133 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So in this section we'll look at deep networks. Um, we'll look at sort of how they can solve certain problems that linear models couldn't.
+
+And to sort of start out with,
+
+I just want to highlight sort of what linear models can and cannot do and why we actually need sort of a different class of models.
+
+Why do we need more complex models. And that's just to recap.
+
+Uh, let's just look at binary classification. Um, so this is a linear binary classification where we want a separate set of.
+
+One class from another. Here is separating the green points from the red points.
+
+Right. The way we write this is the classifier itself.
+
+It's going to be some sort of function. That goes from real values as input in an n dimensional space to just a 0 or 1.
+
+The way we do this in the model is we'll take a linear model and put it inside of a sigmoid function,
+
+which just will take a real value between negative infinity and positive infinity.
+
+And we'll squash it into a value between 0 and 1, which we don't can can call a probability.
+
+Right. Now this linear classifier has some very severe limitations.
+
+And one of the most jarring ones. It's like it can actually not distinguish stuff.
+
+These two pictures of dog paws from something that is not a dog, but it's just a great image.
+
+It does not. The linear classifier has no way of expressing the difference between these two images here and this image here on the side.
+
+All right. And so this is a very silly severe limitation.
+
+Like this is a very simple example. We both we can see that both images are image of stock files.
+
+One is just sort of the inverse of the other. Yet the linear classifier has no way of expressing this.
+
+And the reason why it does have it has no way of expressing this is sort of by.
+
+Let's just by its construction linearity cannot express this.
+
+And the way to show this is that if we look at the background here, all the gray pixels.
+
+They look the same. These gray pixels.
+
+They're all the same between the two, in between the three images.
+
+So there's no way to distinguish the, uh, dogpile from not dogpile on any of the background pixel.
+
+All right. So they are fairly irrelevant to the task here.
+
+The only thing we can look at to distinguish dog park from not dog park is any pixels here in the middle.
+
+All right. Now if we plot these.
+
+What the what? What that means is that while we have here on one end.
+
+We have. Dogpile.
+
+That's black. On the other end.
+
+We have a dog part. It's white, so let's say it does. It's black.
+
+This is white. Right?
+
+Both of which should have a label of one. So let's put the labels here.
+
+Right now. By construction, a linear classifier needs to now predict for anything that's in between these two things.
+
+It also needs to predict the label of one. That's sort of the definition of linearity.
+
+And so if we want to predict a label of one or here just a positive output of the linear regression for both black and white,
+
+then for anything that's in between black and white, we by construction also need to predict a label that's positive or a label of one.
+
+Right. So if the gray pixel here is in between.
+
+We need by construction. Predict to predict a label of one.
+
+And there is no way around this sort of. There's absolutely nothing we can do to the raw inputs that will help us solve this problem.
+
+The linear classifier cannot express this.
+
+Now an even sort of simpler historical example of what linear classifiers cannot do is they cannot express the XOR function.
+
+They can express or and and but they cannot express XOR.
+
+So if we would want to train a linear classifier that predicts, uh.
+
+Zero. For inputs. Zero.
+
+Zero. And we were able to, uh, we want to predict, uh, zero for inputs one, one.
+
+Then by definition of linearity, would have to predict a zero for all values here in the XOR function.
+
+So it cannot even express linear models, cannot even sort of capture very simple logical functions.
+
+Now, one question you might have asked, uh, might have as well, if a single linear model cannot express this.
+
+What if we put them on top of one another? We've heard about deep learning.
+
+So these are sort of models that are on top of models on top of models.
+
+Well would that help? Well unfortunately not, because if we stack or train linear models.
+
+So if we add them sort of out at the output of one linear model as an input to the next model, this will still result in a linear model.
+
+You can do the math on a piece of paper. If you write out sort of what the weights and biases of these linear models are.
+
+You would see that the weights sort of off the two linear models are sort of just combined into one larger matrix multiplication.
+
+And the the bias here is sort of a vector plus a vector matrix product.
+
+Right. So combining linear models, sort of one after the other will still result in a linear model.
+
+And this model will still have this severe limitation. Now, the solution to this entire problem is to add in stuff that's not linear.
+
+And so we can take, uh, linear network, but in between different linear transformations we'll add in transformations that are not linear.
+
+And so we'll look at sort of several different transformations that will follow that will fulfill this.
+
+The simplest one is called a ReLU which is the maximum between zero and it's input x.
+
+All right. And so in this entire segment here, what we'll do is we'll look at deep networks.
+
+We'll look at how do we take sort of these simple linear networks, add in additional things that will allow us to express any possible output.
+
+And then once we have that, we'll then sort of look at what do we need to change in our training set up,
+
+what do we need to change in our loss functions to accommodate this.
+
+All right. That's it.
+

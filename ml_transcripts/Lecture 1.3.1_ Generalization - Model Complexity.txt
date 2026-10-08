@@ -1,0 +1,281 @@
+♪ (jazz music)  ♪
+
+So another approach
+
+is to trade off
+
+training error
+
+with something called model complexity.
+
+Okay, so we could define
+
+another type of potential function
+
+phi.
+
+This time, phi is going to map trees
+
+to real numbers,
+
+and a common mapping is that phi, so given
+
+a training set S, phi of T,
+
+one classic example is to
+
+output the training error on S
+
+plus some value alpha times the size of T.
+
+The size of your tree
+
+divided by the size of S.
+
+Okay, and this alpha is often referred to
+
+as a hyperparameter,
+
+so it's a parameter that you set
+
+at the beginning of your training,
+
+but let's look at the definition
+of this phi of T here.
+
+It has two terms, really.
+
+First, you add in the training error on S,
+
+but then you also add in some alpha
+
+times the size of your tree
+divided by the size of S.
+
+So, there are two ways, and
+we sort of want to minimize,
+
+the goal is to minimize phi.
+
+So, there are two ways
+that phi can increase.
+
+First of all, your tree could have
+
+large training error on S,
+
+but another way for
+phi to increase is that
+
+your tree could have large size.
+
+Okay, so you could imagine
+running many different types of
+
+heuristics for building a decision tree,
+
+and then examining, well, for
+each tree that I generated,
+
+I'm going to add up its training error
+
+and some value alpha times
+the size of this tree
+
+divided by the size of the training set.
+
+And when you add these
+two things together,
+
+that's the value that
+you get for phi of T,
+
+and you could choose the tree that
+
+minimizes this potential
+function phi of T.
+
+Okay, so this doesn't require
+the use of a hold-out set,
+
+but at least it's intuitively
+capturing something,
+
+and that is when you're
+memorizing a training set,
+
+the size of your tree is
+going to have to be large.
+
+Okay, so if I'm able to get both
+
+reasonably small training error
+
+and reasonably small
+
+size for my tree, then
+intuitively at least,
+
+that seems like a reasonable thing to do.
+
+And actually, formally,
+we'll be able to prove that
+
+that is a very good thing
+to do later on in class,
+
+but this is one example of
+
+how you might choose a decision tree
+
+based on this sort of
+measure of complexity.
+
+Another common approach
+
+is something called MDL.
+
+This is the minimum
+
+description length
+
+principle.
+
+And it's a similar idea.
+
+So, again, imagine we have a training set.
+
+Here's x and here's y.
+
+And there's some number of bits
+
+needed to encode.
+
+So, if we wanted to count the
+number of actual bits that
+
+we need to encode this training set,
+
+an upper bound would be m,
+
+which is the number of
+examples in this training set,
+
+times n plus one.
+
+N for the example x, one for the label.
+
+Okay, so then we could build a tree
+
+T, and let's say
+
+T is correct
+
+on 90% of S,
+
+and incorrect on 10%.
+
+Okay, well now we can encode S
+
+using the number of bits we
+need to encode T, your tree,
+
+plus the number of bits
+
+needed to encode that remaining 10%
+
+we got wrong.
+
+Okay, so think back to the
+first example in class today.
+
+We said that a bad learner was one that
+
+simply took your training set
+and handed it back to you.
+
+Literally just copied it over.
+
+So, what this is trying to capture
+
+is some notion of compression.
+
+How well can you compress the
+data set that you were given?
+
+So, if you're given a data set, naively,
+
+it's going to take m times
+n plus one bits to encode,
+
+but we can encode it using just this tree.
+
+If you think about it,
+you can take an input,
+
+feed it through the tree, it'll
+give you the correct output.
+
+And the bits that are required
+to encode the remaining set,
+
+the remaining 10% of the training set that
+
+the tree did not classify correctly.
+
+Okay, so you could generate many
+
+different types of decision trees.
+
+You could use different pruning
+rules for printing the trees
+
+or different rules for
+generating the trees,
+
+different stopping rules,
+and you could look and see
+
+which decision tree that I've generated
+
+has the smallest description length,
+
+or compresses my training set the most.
+
+And I'm going to choose
+that one to output.
+
+So, that's another common
+approach that's used.
+
+So, minimum description length
+
+kind of trading off training
+error with model complexity.
+
+Using a hold-out set, or cross-validation
+
+is a very useful tool that
+we'll talk about later.
+
+In fact, someone asked, what
+about splitting your label data
+
+into chunks and leaving
+out one of the chunks?
+
+That's sort of what cross-validation does.
+
+We'll get back to that.
+
+But all of these approaches,
+all of these ideas
+
+are trying to get at the notion
+that we need to grapple with
+
+the problem of understanding
+when a classifer
+
+has low generalization error.
+

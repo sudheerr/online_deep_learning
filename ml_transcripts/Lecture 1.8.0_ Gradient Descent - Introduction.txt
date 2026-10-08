@@ -1,0 +1,652 @@
+♪ (jazz music) ♪
+
+Hey everybody, welcome
+back to Machine Learning!
+
+Today I'm going to talk
+about gradient descent.
+
+Gradient descent is an
+algorithm and it's arguably
+
+the most important tool for training
+
+complicated models today
+in machine learning.
+
+For example, if you'd like
+to train a neural network
+
+with thousands of parameters,
+
+it results in a very, very
+complicated high dimensional,
+
+nonconvex optimization problem.
+
+And surprisingly, if you want to find
+
+the setting of the parameters
+for your neural network
+
+that fit your data pretty well,
+
+you can use an algorithm
+that's really simple
+
+like gradient descent, it's a
+simple iterative update rule,
+
+and it works incredibly well in practice.
+
+So today what I'd like to do
+is sketch some simple examples
+
+of gradient descent, some
+motivating theories behind it,
+
+and then we'll incorporate
+it into more complicated
+
+and sophisticated optimization tools.
+
+So let's begin.
+
+So imagine that we want to minimize
+
+the following simple parabola.
+
+Okay, so let me draw x, y axis here.
+
+And I have function
+
+on the real line, simple parabola.
+
+And my goal
+
+is to find
+
+the minimizer
+
+of this function.
+
+So just eyeballing things, it looks like
+
+the minimum of this function
+is right about here,
+
+but you know, we're learners,
+
+we don't have access to the
+entire graph of the function,
+
+we only have some limited information
+
+to this particular function.
+
+So for example, let's say that
+we randomly pick a point here
+
+and let's call this x,
+and we get to evaluate,
+
+let me switch pen,
+
+we get to evaluate f of x.
+
+So this gives us some information.
+
+Well let's say that we can also evaluate
+
+the derivative of f at the point x.
+
+Okay, so let's try and draw a tangent line
+
+to this point x, here we go.
+
+And just so that we're
+all paying attention,
+
+the derivative at this point x
+
+is going to be positive or negative?
+
+>> Negative.
+
+>> Negative, why?
+
+Because the slope of this
+tangent line is negative.
+
+Good, so the slope
+
+is negative.
+
+And of course, if we
+were to point over here,
+
+and we were to draw a tangent line,
+
+slope would be positive.
+
+So this gives rise to the
+following kind of simple
+
+algorithm for trying to find the minimum.
+
+If f prime of x is less than zero,
+
+move a bit to the right.
+
+If f prime of x is greater than zero,
+
+move a bit to the left.
+
+And if f prime of x is equal to zero
+
+or very, very close to zero,
+just stop and output x.
+
+And I think it's pretty
+clear from this picture
+
+that this simple iterative algorithm
+
+that only need to know the derivative
+
+at any point is going to work.
+
+Eventually, you will make your way
+
+down to the minimizer
+here, the global minimizer,
+
+regardless of where you started.
+
+Right?
+
+Any questions about that?
+
+Okay.
+
+So now what if we had a
+more complicated function?
+
+I'll draw my x, y axis again.
+
+Oops, didn't work.
+
+There we go.
+
+So imagine my function now
+looks something like this.
+
+Okay, and I want to use
+the same update rule,
+
+so f of x greater than zero, move left.
+
+Remember we're trying to minimize,
+
+f of x less than zero, move right,
+
+otherwise stop.
+
+Okay now this algorithm will
+sort of work the same way.
+
+Of course, if we start here or here,
+
+then we'll eventually
+converge to the global minimum
+
+of the function.
+
+Unfortunately, if we were
+to start here or here,
+
+then we're going to converge to something
+
+that is a local minimum,
+
+whereas this is the global minimum.
+
+Okay, so qualitative, so
+in this first example,
+
+it looked gradient descent, well,
+
+this is sort of a very baby
+version of gradient descent,
+
+but this simple iterative
+algorithm is going to work.
+
+In this example it will
+find a local minimum,
+
+but it's not going to
+find a global minimum.
+
+So qualitatively, what's the difference
+
+between these two functions?
+
+Why is it working in this case,
+
+and why is not working in this case?
+
+Yes?
+
+>> Its complicated function
+has a higher degree
+
+than the number of
+derivatives you're taking
+
+if you include the function itself.
+
+>> It has a higher degree.
+
+>> The function has local minima,
+
+or has a degree higher than two.
+
+>> Well by degree, you're assuming
+that it's some polynomial.
+
+>> Yeah.
+
+>> But it may, this function
+may not even be a polynomial.
+
+I'm looking for something
+perhaps even simpler.
+
+Yes.
+
+>> It has multiple minimums.
+
+>> It has multiple minimums,
+yes, that's the problem.
+
+Yes.
+
+>> It has multiple places
+where the derivatives
+
+equal to zero?
+
+>> It has multiple places
+
+where the derivative is equal to zero.
+
+That's true, although, for example,
+
+we could draw other functions.
+
+Imagine that you have a function
+that's just completely flat
+
+right here and comes up.
+
+This also has multiple places
+where the derivative is zero,
+
+and these are all equally
+anywhere along this flat spot,
+
+they're all equally good global minimum.
+
+So the answer or the term that
+I'm looking for is convexity.
+
+So what is convexity?
+
+So a function
+
+is convex
+
+if the chord
+
+connecting any two points
+
+of the graph of the function
+
+lies
+
+above the function.
+
+Okay, this is a simple,
+
+whoops, simple definition
+for functions on the line,
+
+but it actually makes sense
+
+for higher dimensional functions.
+
+Just to give you an example
+of what I'm talking about,
+
+if we take two points here
+
+on the graph of our function,
+
+and then connect them, whoops,
+
+you'll see that this chord lies
+
+above the graph of this function,
+
+that's why this function is called convex.
+
+On the other hand, if I
+look at this function,
+
+and I take these two
+points and I connect them,
+
+then, well there are still some points
+
+on the graph of this
+function, namely right here,
+
+that lie, or sorry, there's some points
+
+that lie above the chord
+connecting our points on our graph.
+
+So this is not a convex function.
+
+Okay, so,
+
+more generally, we could say that
+
+in terms of the convexity of functions,
+
+again if I have this parabola,
+
+if you want a more quantitative
+definition of convexity,
+
+let's say that we have
+points x-one and x-two.
+
+Then we know that f of 1/2 times x-one
+
+plus 1/2 times x-two is
+less than or equal to 1/2
+
+f of x-one plus 1/2 f of x-two.
+
+So f of 1/2 x-one plus 1/2 of x-two
+
+is sort of f of the
+average of x-one and x-two.
+
+Looks like it's pretty close to here.
+
+On the other hand, we have
+the average of f of x-one
+
+plus f of x-two, that looks
+like the average value
+
+looks like it's about there.
+
+Okay, so just a sort of a mathematical way
+
+of describing convexity.
+
+Equivalently, sort of this is
+
+an equivalent definition of convexity.
+
+So a function
+
+is convex
+
+if
+
+f of a times x-one for any two
+points x-one and x-two plus
+
+one minus a times x-two
+
+is less than or equal
+to a times f of x-one
+
+plus one minus a times f of x-two.
+
+So in the above case
+in this equation here,
+
+we had chosen a to be 1/2,
+
+but more generally we could
+look at any sort of average
+
+of the points x-one and x-two.
+
+And this sort of also proves
+that for convex functions
+
+on the real line, that simple algorithm
+
+that we had talked about,
+
+really will find the global minimizer,
+
+because let's say that, so,
+
+let's say that x-star
+
+is the global min,
+
+and we are currently
+
+at x,
+
+then
+
+what you can see from this equation
+
+is that f of a times x
+
+plus one minus a times x-star
+
+is less than or equal to a times f of x
+
+plus one minus a times f of x-star.
+
+So as we move closer towards x-star,
+
+we are definitely going
+to continue to minimize
+
+this function f.
+
+So this sort of iterative process
+
+where we're moving towards x-star
+
+based on derivatives
+
+is going to work, it's
+always going to find
+
+the global minimum if
+the function is convex.
+
+Okay, let's look at another example.
+
+Let's assume that our function f of x
+
+is actually equal, is a linear function,
+
+so it's equal to w transpose x plus b.
+
+So now we're
+
+working with linear functions
+
+in say d dimensions.
+
+And so we're currently at the point x,
+
+and we want to know
+
+what direction
+
+should we move in
+
+to minimize f?
+
+And by direction,
+
+we mean a unit vector.
+
+So vector of norm one.
+
+So here I have a function f of x,
+
+and my question to you is what
+direction should we move in,
+
+what unit vector should we move in,
+
+what should we add to x
+
+to try and minimize this
+particular linear function?
+
+Yes.
+
+>> Well, just like in the last case,
+
+we took a derivative.
+
+We could take a derivative with respect
+
+to the different dimensions of x.
+
+>> We could, so your answer is
+we could take the derivative
+
+with respect to different dimensions of x.
+
+That's exactly what we're
+going to do in just a moment.
+
+I think for this particular case,
+
+because it's a linear function,
+
+it's even easier to see
+what direction to move in.
+
+So for example, let's look
+at f of x plus u, and u
+
+will be some arbitrary unit vector.
+
+What is f of x plus u equal to?
+
+Yes.
+
+>> The same thing you refer f of x
+
+except it has a w transpose u added to it.
+
+>> Good, we have w transpose x
+
+plus w transpose u plus b.
+
+Now notice we're trying to make this,
+
+we're trying to move to
+a point that minimizes
+
+this value f of x plus u.
+
+We have no control over
+this w transpose x,
+
+that's going to be there
+regardless of which u we choose.
+
+b is also going to be there regardless
+
+of which u we choose.
+
+Our choice of u only really
+affects this middle term.
+
+And I think it's easy to
+verify from this equation
+
+that the correct choice of u
+
+is equal to minus w.
+
+You're going to want to
+choose the unit vector,
+
+and we're going to have to
+normalize to make it a unit vector.
+
+But this is an inner product,
+
+and so the way to maximize
+the negative value
+
+of this inner product,
+well, the way to maximize
+
+this inner product for unit vectors
+
+would be to just choose w over norm w.
+
+And so since we want to minimize,
+
+the correct thing to do
+is just the opposite.
+
+The correct thing to do is
+to take minus w over norm w.
+
+So,
+
+the other thing that you can
+notice is that if we move
+
+in direction
+
+minus w over norm w,
+
+then f decreases
+
+by two norm of w.
+
+It's because w transpose w
+
+is equal to the two norm squared,
+
+and then we're dividing by norm w.
+
+So,
+
+in this direction, minus w over norm w,
+
+the rate of change is
+actually the two norm of w,
+
+and it's decreasing the rate of change,
+
+so it's decreasing
+maximally in this direction,
+
+and the rate of change
+is the two norm of w.
+

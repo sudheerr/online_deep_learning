@@ -1,0 +1,278 @@
+♪ (jazz music) ♪
+
+So we're going to draw a training set.
+Say of size m.
+
+So this is going to correspond to
+X1, Y1, Xm, Ym,
+
+and remember that we're in this case where
+
+X and Y are scalars, so this is often
+referred to as this simple linear
+
+regression scenario. We'll talk about
+multiple-- linear regression with multiple
+
+variables in just a minute. Now if we've
+drawn this training set, remember on the
+
+previous slide, we wanted to minimize
+this expectation, this is the true square
+
+loss of the function (beta 0+beta 1X)
+so we want to minimize that true loss.
+
+Here we've drawn a training set of size m,
+so that minimization is going to
+
+correspond to the following: we're going
+to min over beta 0 and beta 1,
+
+one over m, sum j=1 to m,
+Y^j-(b0+b1 X^j), quantity squared.
+
+Any questions about this minimization?
+Okay, so how should we do it?
+
+How should we find beta 0 and beta
+one that minimize this quantity?
+
+Yes.
+
+>> We set the derivative according to
+beta 0 and beta 1 to zero.
+
+>> Good, so what we've learned from
+calculus is that we're going to take the
+
+derivative, with respect to beta 0,
+beta 1, and set them equal to zero.
+
+Okay, so should we take the derivative?
+So let me call this quantity--
+
+we can ignore the 1/m, so let me call this
+quantity "L" and this L includes the
+
+square up there. So L is everything
+except for the 1 over m term.
+
+So let's compute the partial derivative
+of L, with respect to beta 0.
+
+Sort of instructive,
+maybe take a moment,
+
+see if you can figure out
+what the derivative is.
+
+Has anyone solved for it yet?
+
+Okay, I'll do this one and you guys
+can do the next one. What I have is the
+
+sum from J=1 to m, of Yj - beta 0
+minus beta 1 Xj, times -2.
+
+So I take the derivative with respect
+to beta 0. The square here comes down
+
+and then we have a minus sign because of
+the minus sign in the original
+
+minimization. Everybody okay with that?
+Okay, if we're alright with that,
+
+then how about partial derivative of L
+with respect to beta 1?
+
+Yes.
+
+>> It's just the same thing as beta 0,
+but instead of negative two,
+
+it's negative two X.
+
+>> Good! It's the same thing as beta 0,
+but instead of a -2,
+
+we're going to have -2X.
+
+We're going to set both of these
+equal to zero.
+
+So let's solve for-- maybe I should
+copy these really quickly.
+
+We had sum j=1 to m, Yj minus beta 0
+minus beta 1Xj. I'm eliminating the
+
+minus 2s because they're not important;
+I can divide out by -2.
+
+And let's solve for beta 0.
+
+Can anyone tell me what
+beta 0 is in this case?
+
+Actually, I realize now, I should've
+kept the (1/m)s around here.
+
+Sorry, my mistake.
+
+So beta 0, the solution for beta 0
+is going to be in terms of beta 1.
+
+What is beta 0 in terms of beta 1?
+Just by looking at this first equation.
+
+Okay so, I'm looking for an answer in
+terms of beta 1, Y bar-- which is going
+
+to be average value of the Ys-- and
+X bar-- which is going to be the average
+
+value of the Xs.
+
+Yes.
+
+>> Should be (Ybar- beta 1)
+multiplied Xbar.
+
+>> Good! So it's Ybar minus beta 1,
+multiplied by Xbar. See if you look at
+
+this first equation here, we have a 1/m,
+and we're summing over all the Yj's.
+
+So the sum of the Yj's divided by m is
+Ybar. It's the empirical average of
+
+the Y's. We can do the same thing with
+the X's, and we'll get the empirical
+
+value of the X's, so Xbar, we have a
+beta 1 multiplied by it.
+
+Okay, now how about beta 1? This
+I'm claiming we can do just in terms--
+
+well beta 1 I think we can solve for,
+will not involve beta 0.
+
+So let's look at a couple of these terms.
+Let's start from this equation, and notice
+
+we're going to have (1/m) times-- if we
+were to expand this out-- we'd have
+
+(1/m) times the sum from j=1 to m of XjYj,
+so this is going to correspond to X-- the
+
+product XYbar. We're going to have minus
+beta 0, Xbar, because we're taking the
+
+average of the Xs, and then plus beta 1,
+the average of the X squareds.
+
+So we have XSquared bar; it's the average
+value that X Squared takes on,
+
+because we're multiplying Xj times Xj.
+
+So now let's substitute--
+we've already solved for
+
+beta 0, so let's substitute in.
+And I believe that we'll get XYbar,
+
+minus XbarYbar, plus beta 1,
+X bar, quantity squared.
+
+And then we'll have minus, again,
+beta 1(XSquaredbar). Oh, I think I made-
+
+I think I made a typo here. This should've
+been a minus. Sorry about that.
+
+So all I did was I took beta 0, and I
+substituted in Ybar minus beta 1 Xbar,
+
+and we get this expression out. And
+finally if we do just some arithmetic
+
+and solve for beta 1, we'll get that
+beta 1 = XYbar-Xbar*Ybar divided by
+
+XSquaredbar - Xbar, quantity squared.
+
+Okay, so these are expressions for
+beta 1 and beta 0.
+
+Let's look at the expression for
+beta 1, just a little bit more closely.
+
+What does the denominator
+of beta 1 look like?
+
+Does it remind you of
+a certain quantity that
+
+we've talked about
+in class, yes?
+
+>> It looks like the variance formula.
+
+>> Yes.
+
+So the denominator roughly
+is the variance of x.
+
+It's the sample variant but
+for right now let's just
+
+say that it's very very close
+to the actual variance of
+
+the random variable x.
+
+And what's the numerator
+remind you of?
+
+Yes.
+
+>> Is that the co-variance?
+
+>> Yes it's the co-variance
+of x and y.
+
+As you hopefully remember,
+the co-variance of x and y is
+
+equal to the expectation
+of x times y
+
+minus the expectation of x
+
+times the expectation of y.
+
+So this is a really nice formula.
+
+We see that in terms of
+this set up for simple
+
+linear regression, beta 1 is
+the co-variant of the slope of
+
+the line, is the co-variance 
+of x and y divided by
+
+the variance of x.
+
+And then the y intercept
+is just a simple expression of
+
+beta 1 with these averages of
+y and x sitting there.
+

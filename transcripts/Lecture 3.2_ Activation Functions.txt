@@ -1,0 +1,237 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So let's talk about activation functions.
+
+Uh, an activation function is essentially what we sandwiched between linear layers in, uh, in a deep network.
+
+So recall that a deep network, it's really sort of a linear layer followed by something that's non-linear,
+
+followed by another linear layer, something about, uh, followed by something that's non-linear.
+
+And that makes this entire computation sort of arbitrarily, um, arbitrary, powerful, and arbitrarily expressive.
+
+Now, in the first example, uh, in sort of the last segment,
+
+we've looked at just one specific non-linearity, which is a rectified linear unit call, also called ReLU.
+
+And this is one example of an activation function.
+
+But there's an entire sort of family and zoo of possible functions that people put between these linear layers.
+
+And in this segment here we'll just look at sort of what are advantages of certain activation functions versus others.
+
+And we'll start with the rectified linear unit. Now the rectified linear unit is the max between a linear function which is just x and zero.
+
+And so it grows linearly. Sort of.
+
+On the positive side and it's all flat and zero.
+
+On the negative side. And then there's a point at zero where sort of the two segments meet.
+
+Now, if you look at the gradient of the rectified linear unit, what the gradient of the layer really does,
+
+it's it's linear in positive positive, uh, in the positive, uh, on the positive side.
+
+And so the gradient there is just one. And then on the negative side, it's zero.
+
+And at zero, the gradient is not, strictly speaking, defined.
+
+Uh, now, in practice, we don't care. We either make it one, we either make it zero.
+
+It doesn't really matter. It's sort of an implementation detail in whatever library you choose.
+
+Now, the nice thing about rails are that they're super simple and they're extremely fast to compute.
+
+They have a very simple gradient, but they're sort of fragile because as soon as a specific sort of activation,
+
+a specific output of a network, it's always going to be negative.
+
+We will never, ever get a gradient back to make this, uh, unit not negative.
+
+And so this is known as sort of the dead value symptom, where if we have outputs that are always negative and are fed into a ReLU,
+
+we will never get a gradient to update those outputs again.
+
+And so the way you can prevent this is either you need to initialize the network carefully so that you never start out with values that are dead.
+
+Or you need to try to sort of decrease the learning rate if your or initialization is already good.
+
+If you decrease your learning rate,
+
+you might sort of you might get fewer that values because of that really usually happens after a very large gradient update into a negative direction.
+
+Right. And so this is specific to the rectified linear unit to the ReLU.
+
+They can die out if activations sort of end up always being negative.
+
+They will never ever get a gradient that will tell them, hey,
+
+maybe you should sometimes be positive because the gradient of the ratio for all negative numbers is is zero.
+
+Now, an activation function that fixes this to some extent is the leaky ReLU.
+
+And what the leaky ReLU does is it takes the max between a linear function and another linear function that's just scaled.
+
+And so you can imagine if the scaling factor alpha here is zero, then we end up with a regular value.
+
+But if we make it slightly larger than zero, we will have.
+
+Sort of a slope here, which will give us a small positive gradient, and a small positive gradient is exactly just going to be alpha.
+
+There are versions of leaky values where the parameter alpha is actually learned as part of your network.
+
+Uh, these are called parameterized uh, reviews. They used to be popular about sort of 8 to 10 years ago.
+
+Nowadays they're they're less used. And a nice thing about the Leaky ReLU is it doesn't ever have the problem of sort of a dead rail.
+
+You will always get a gradient to improve or change your function. The not so nice part is that the parameter alpha here needs to be tuned.
+
+You need to figure out how big you want to make the slope here. And.
+
+The Leaky ReLU has a very hard time ever sort of stopping a signal to go, uh, going through your network.
+
+If your network was going to decide at some point that it doesn't want to pay attention to a certain feature,
+
+you can just put it in the negative part of a ReLU. For the leaky ReLU, that will still leak through.
+
+You'll just be multiplied by alpha, and so information never really fully dies out in a leaky ReLU network.
+
+It will always just sort of stay in there. Just dampened by this factor alpha that you have to tune.
+
+Now the next non-linearity we'll look at sort of tries to combine the benefits of the leaky ReLU,
+
+but still have the signal sort of die out the more negative it gets.
+
+And that's the Elu, the exponential linear unit. And this is again sort of you can think of it's a max between x.
+
+So for all the positive values. We'll just follow this linear function.
+
+And then for all. The negative values, instead of just setting it to a linear function,
+
+will set it to this exponential of a negative number, which is sort of slowly, slowly decreasing.
+
+Towards sort of a flatter and flatter curfew.
+
+And so this exponential linear unit, uh, is nice because it always gets the gradient.
+
+The gradient might be extremely small if you're somewhere over here, but you always get a gradient even for negative numbers.
+
+Again, just like the uh. Uh, parametrized fairly or the leaky ReLU.
+
+Alpha needs to be tuned. Um, there's some standard values that work well.
+
+The additional thing that's slightly cumbersome about this is that computing an X of a number on a GPU is also on a CPU is not very fast.
+
+So using alias will slow down, uh, your network a little bit if it's just sort of if the bottleneck is the non-linearity.
+
+And a similar spirit is the, you know, the Gaussian linear unit, the glue, um,
+
+which sort of computes the a combination of a linear function which is x with this sort of.
+
+Uh, uh, density function of a standard Gaussian.
+
+And so the density function of a standard Gaussian looks something like this.
+
+And so if you're in the positive range, what will happen is you will multiply a linear function with something that's most often one.
+
+So it's linear in uh, the positive.
+
+On the positive side, if you're going negative, you'll multiply the linear function with something that's very close to zero.
+
+And so you'll sort of start to asymptote towards zero. Now the one interesting property of Telus is that they actually have a dip.
+
+So compared to other non-linearities they go below zero.
+
+And then they come and recover again towards zero. And so this actually means that there's two points on the glue that have the same output.
+
+So you can either be here or somewhere over here and have the same output activation.
+
+Uh for two very, very different inputs. Um, for a while people thought this might be an issue.
+
+Um, but it turns out in practice, deep networks actually trained better with these little dips in there.
+
+Uh, it's it's still some mystery that it's hard to understand.
+
+It's just empirically, sort of it seems like that activation functions have to slight dip around zero work just fine,
+
+or sometimes actually work better than standard activations.
+
+Again, the nice property of the chili is that it is non-zero.
+
+Um, I like the gradient is non-zero everywhere.
+
+The disadvantages. It does require sort of computation of this continuous density function of the Gaussian um,
+
+which is computationally as heavy or slightly heavier than the x function that we have just seen.
+
+So Julia is are generally considered fairly, fairly slow.
+
+Uh, activations go. Now, finally, if you have seen sort of some more traditional networks, uh, there,
+
+there were activation functions such as sigmoid or ten H two were quite popular.
+
+Um, these are no longer used. Uh, so a sigmoid or a tan H is a function that sort of starts negative.
+
+It crossed the zero, and then it sort of plateaus again around a positive value.
+
+The reason why these are not very popular nowadays is that there's two places where the gradients sort of shrink and go towards zero.
+
+It's sort of for strong negative numbers.
+
+If the gradient is almost zero and up here to gradient is almost zero, because it plateaus again around one.
+
+And so in order for a sigmoid or a network to be able to learn and get gradients through the network, all activations need to stay somewhere.
+
+In this middle range here, which is quite hard to sort of enforce and, and, and impose onto the network.
+
+Um, there's still some networks that are that, that are successful with sigmoids nowadays even.
+
+Um, in general, I would recommend you do not use them because they saturate on both sides,
+
+which means they have gradients that are zero or close to zero on both ends of their spectrum.
+
+While all other activations that we looked at only have this happen towards negative numbers and do not saturate towards positive numbers.
+
+So do not use sigmoid or tan activations. And so if you look at sort of this zoo of activations, well, which one should you choose?
+
+I would always start with a ReLU. If it's the easiest one, it's the fastest one.
+
+It's the one where people experiment with the most. If you happen to see that there is that real use that the network doesn't learn.
+
+You look at activations. A lot of them are zero. Well, maybe you can consider just switching out to, uh, leaky ReLU,
+
+which will help you, eh, debug the network if it's really sort of a learning issue.
+
+Uh, if it's a non-linearity issue, um, maybe you'll figure out what's wrong with your network and go back to ReLU.
+
+And if that still doesn't work, you can try sort of one of the bottom ones here.
+
+I've listed one more, which is the clue, um, which is similar to sort of the Elu, uh, in, in its construction.
+
+Um. Most sort of state of the art networks nowadays use telia's.
+
+Um, they just have shown empirically to work much better, um, than other, let's say, much better empirically show and be shown to work better.
+
+And sort of the computational costs sort of justifies sort of this epsilon increase in performance for a really big state of the art networks.
+
+All right now. So. To use.
+
+Use real use. Uh, initialize them. Well, uh, initialize a network.
+
+Well, the default initialization in PyTorch is often good enough.
+
+Start with small learning rate.
+
+And if it fails, if at some point you realize that your data, your non-linearity is set off is messing up the training.
+
+Um, I would actually look at sort of your training set up real quick.
+
+Uh, it's very rare that the railways is the core issue.
+
+If it really is, try leaky values, try parameterized values, uh, avoid sigmoid and h.
+
+And if you really ever have the privilege to train one of these gigantic, uh,
+
+networks that has lots of computation inside of it, well, try to tell you I.
+
+That's it.
+

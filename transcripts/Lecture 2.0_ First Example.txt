@@ -1,0 +1,29 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+In this segment, we're going to look at a very first example of a deep network.
+
+Um, and that's going to be sort of a very, very simple deep network.
+
+We're going to look at linear models, which can be thought of sort of one layer deep networks.
+
+And really what we're going to do is we're going to go through all the steps required to sort of set up your training,
+
+these very simple deep networks. Um, and so what that means the plan for the second for this section is that we'll start with just defining tasks.
+
+We start by defining sort of what possible outputs can these models produce.
+
+What possible sort of problems can be solved in a very abstract mathematical sense?
+
+Then we'll look at models. And in this case we're going to look at a single exactly one model.
+
+Then we're going to look a bit about data sets and losses that sort of help us train and improve these models.
+
+And then finally we look at the training and optimization side of deep networks,
+
+where we actually learn parameters of these models and fit them to the real data in the data sets.
+
+And we'll go through all of these sort of in a very deliberate and slow fashion
+
+and sort of so that you can understand really what's going on at a very,
+
+very on a very, very simple example.
+

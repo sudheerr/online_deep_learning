@@ -1,0 +1,71 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+Hello and welcome to Deep Learning. Um, in this class, um, we'll teach you the basics of sort of neural networks and deep learning and, um, we'll,
+
+we'll you will understand in the end sort of what's behind the technology and also how to apply it to any sort of new problem that you might have.
+
+And very concretely, the goals for this class is sort of it's very simple.
+
+It's just there's one goal which is at the end of this class, you should be able to design,
+
+implement, train and train your own network on whatever data you have.
+
+That's pretty much it. That's the goal for my class. Um, I succeeded if you're able to apply this.
+
+Um, yeah. And to this end, what we'll do is we'll sort of go through a couple of iterations of sort of ever growing complexity,
+
+and we'll start with sort of the basic introduction and the background material.
+
+We'll talk a little bit about statistics, the origins of deep learning.
+
+Um, we'll talk about sort of the linear algebra. You will need to understand it.
+
+And then we'll with that we'll go into our very first example of the very first deep network that we'll build.
+
+And it's actually not a very deep network. It's going to be a one layer network that is very limited in its capabilities,
+
+but it will show you sort of at a very high level how these things are built,
+
+how these things are trained, and how to sort of how to go through this entire process of the sort of designing,
+
+implementing and training a network, um, from start to end.
+
+Then we'll do this again with slightly more complex networks.
+
+Uh, we'll start to introduce multiple layers of, uh, in a deep network, which sort of can capture a lot richer functions.
+
+And then we'll talk a little bit about the basic building blocks that we need to build networks that go even further in sort of depth and complexity.
+
+We'll start with, uh, residuals and normalizations, which are sort of interesting building blocks that help you build bigger and deeper networks.
+
+We'll talk about very specialized building blocks in networks, namely convolutions and transformers and in India.
+
+And we'll sort of go over a lot of tips and tricks that, uh, people have accumulated over time to sort of train these models successfully.
+
+And so if you want to sort of split the class into, uh, different sections, sort of mentally,
+
+there's really sort of number one is sort of introduction and basic material.
+
+There will not train any deep networks. We'll just look at sort of the basics, and then we'll start to build our first couple of deep networks.
+
+In sort of the next two sections, we'll start to add in a lot more interesting building blocks to build bigger models.
+
+And then in the end, we'll just go over sort of what it takes to make these big networks work.
+
+Now, in terms of content, there's two kinds of classes that, uh, or two kinds of lectures that we'll have.
+
+Um, one kind is going to be slides, just the one I like.
+
+I'm presenting now. And there's also going to be hands on coding exercises, uh, where we'll go through and almost from scratch,
+
+actually code up sort of all the basics, uh, in deep networks.
+
+And as I code, I'll go and explain you, um, sort of what the thinking is behind it, uh, and how sort of how to build this up.
+
+All right. And with that, I just want to tell you. Well, you should just have fun.
+
+Uh, my main goal here is to really for you to learn, uh, have fun.
+
+Deep networks is an incredibly exciting topic. Uh, it's also quite hot now in industry, and I just want you to enjoy it.
+
+I want you to sort of have fun sort of playing with these models and that's it.
+

@@ -1,0 +1,189 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So in this Handson segment we'll just look at dilation and up convolution and see what they look like.
+
+How to implement this in PyTorch and what they do.
+
+All right let's let's get started. Um let's start with our with just a simple, simple layer of convolution.
+
+Well, for now, let's look, uh, let's use a kernel size of three.
+
+We'll. Do one input channel, one output channel, and then we'll do a stride of two.
+
+Padding one. All right. And we'll have a very simple input here.
+
+Let's make it five by five. Um, let's make it all zeros for now.
+
+And. Just look at shapes.
+
+All right. So what this will do is it will.
+
+Oops. It will take the input here.
+
+It's five by five. And since it does striding, it will now make it smaller and it will reduce it to three by three.
+
+All right. We could quickly visualize the receptive field here.
+
+Um. We'll do. Let's, let's let's do let's not to do receptive field.
+
+Let's do receptive field later. Right. So this is very simple.
+
+Now if we want the equivalent effect of sort of striding without striding and using dilation, instead we can set the stride.
+
+To one. And now we'll also add.
+
+A dilation factor. Right. And so what this will do is it will dilate the inputs by, uh, the kernel by a factor of two.
+
+Right. Now if we run this through.
+
+Oh, uh, I forgot to. Padma. So if you run this through the network, what will happen is the kernel now is effectively five by five because we took,
+
+uh, kernel size three, dilated it by two, and then I got tripped up.
+
+I forgot to add the padding here initially.
+
+Uh, I padded by one, but we actually now I need to pad by two because the effective kernel is five by five.
+
+And then it will take this five by five input and just run this.
+
+Dilated, uh, convolution on it. Now let's build a two layer network.
+
+And we'll build two two layer networks that are equivalent. So we'll call this network one.
+
+Right. And we'll just make it linear for now.
+
+Uh, actually, let's add a button. All right.
+
+And so network one. We'll use striding. No dilation.
+
+And two. Three by three kernel.
+
+Right. And so the next layer, the second layer will not stride will strike the first one.
+
+And so network number one would essentially take an input that is five by five.
+
+And because of the padding, because of the striding it'll sort of half its input size.
+
+We can also make this sort of 3032 by 32, which is sort of invisible, that it halves, uh, the number of the width and height.
+
+And. It has a receptive field.
+
+Off three in the first layer, the striding now sort of at a gap of two, and so on.
+
+Each side will add two elements.
+
+So the receptive field of this network but stride in the first layer and 2 or 3 by three kernels is going to be seven cross.
+
+So. If you want to build the same thing.
+
+Using dilation. We would.
+
+Essentially set the stride here to one.
+
+And now the tricky bit is we actually have to dilate the second kernel.
+
+We cannot dilate the first kernel. The first kernel needs to be the same kernel.
+
+But in this in the in network one we we strided.
+
+And so we skipped every other output. And so now later on in network two when we use dilation we now need to dilate the kernel that comes after.
+
+Now. When we dilate, we'll need to make sure that we increase the padding.
+
+And now. We have two networks that are almost equivalent.
+
+So in terms of computation. We can look at this real quick.
+
+Let's make this. Let's make this a bunch of random numbers as an input.
+
+And now we'll look at. Y1 and y2.
+
+That's five. Now.
+
+Uh. If we copied over the parameters of one network to the other.
+
+Um, then you would see that the outputs of them are actually the same.
+
+We can do this real quick. So we'll look at network two dot parameters.
+
+All right. Now we'll look at network one dot parameters.
+
+They should have the same shape. And so now we can start.
+
+We can start copying parameters over from one network to the other.
+
+And if we did this. So if we copied the parameters over from one network to the other, what we would see is.
+
+That the outputs of one network are literally a subset of the outputs of the other network.
+
+Let's do this real quick. All right.
+
+Now we can see that this output here in a striders convolution is the same as this here.
+
+Now if you look at the second output here and just try the convolution it's skipped.
+
+It skipped one in the dilation. Now I can go one further.
+
+And again we would see this. So if we took the dilated output.
+
+And skipped every other element in the dilated output. It's exactly the same as the Strided network.
+
+So the two networks are equivalent. The only thing we need to changes in striding.
+
+The effect will be for all the kernels that follow it in dilation.
+
+It's that dilation of this current kernel.
+
+All right. Now let's look at, uh, transpose convolution.
+
+So let's build another network. And now let's say we would want to recover the resolution that we just lost using a transpose convolution kernel.
+
+Right. It's 2D.
+
+And now the number of input channels, let's say. Let's make it still one one.
+
+Now the kernel size here is one. Now the stride.
+
+Means essentially it's how much we want to upsample.
+
+So the strike before was how much we want to downsample. This stride here means how much we want to upsample.
+
+We also have a padding. Now the interesting thing is for this padding.
+
+This padding will actually cut things from the output. Uh, instead of sort of if we if we make padding zero, it will make the output larger.
+
+If you make padding one, it will start to cut and shrink the output.
+
+And then we have another argument here that's output padding.
+
+Um, we'll set this for zero uh to zero for now. And we'll look at what this does.
+
+Right. Now, if we feed in an input, that's five by five.
+
+Um, then since we have just transpose convolution here, we'll get an output again.
+
+That's five by five. However, if you make this six by six, we'll also get a five by five output.
+
+That's not ideal. So what happened here? Well, the striding had to round down.
+
+So the striding had to round down three. Uh, like, uh, an input size of 6 to 3 and then transpose convolution only inflated it to a size five.
+
+Now, one way to prevent this is to give the, uh, the argument output padding.
+
+And so what output padding does is it simply just adds whatever convolution would, uh, round down.
+
+And here this will just tell it how much to add.
+
+And so if you want to be on the conservative side, if you have a kernel size of three, you should always add an output pad of one.
+
+But that would also mean that if you have five cross five inputs, it will now produce a six cross six output.
+
+And so if you add output padding every single time you had striding in there that rounded down.
+
+This will lead to an output that's slightly larger.
+
+But what you can do is you simply can just cut it after the network inference to sort of the shape you would want.
+
+And so this way it will always produce the same input shape as output shape.
+
+You can even do this inside of the network if you if you would want.
+

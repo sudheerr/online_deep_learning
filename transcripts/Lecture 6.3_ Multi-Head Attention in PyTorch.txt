@@ -1,0 +1,197 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So in this segment uh, we'll look at how to implement Multi-head attention.
+
+Um, Multi-head attention is actually an operator in PyTorch.
+
+Uh, but we will walk through our own implementation of Multi-head attention to show you what's going on computationally under the hood.
+
+All right. And we'll start with sort of, uh, the PyTorch implementation of Multi-head.
+
+Attention. Um, it has sort of an embedding dimension as an input here.
+
+Then it has, well, how many heads that at, uh, the attention, uh, operator has.
+
+Then we have, uh, dropout uh, which will disable.
+
+And then there's a flag here that says batch first, which just means that the first dimension of our attention or of our inputs is a batch size.
+
+Now here we create some random values for keys,
+
+values and queries and we can just feed them through attention queries first, and then keys and values and appear after.
+
+The output of this. It's going to be batch size, which is ten in our case times.
+
+Number of. Queries.
+
+Just here. And then the embedding dimension, which is all the same as our input dimension.
+
+We can also look at the parameters. Still named.
+
+Parameters. Let's look at them just in terms of shape.
+
+So just look at the name of the parameter and its shape. And print all of these.
+
+So there is a projection in parameter. Now here this is.
+
+Embedding dimension times three because we project both keys, values and queries in.
+
+And then there is. A bias term for this protection.
+
+And then there is. A projection weight and a projection out bias.
+
+And so this is sort of the linear transformation that follows, uh, this entire multi-head attention.
+
+Right. Good. Let's code this up ourselves.
+
+Let's create a module. Now the parameters of this model.
+
+Are going to be the same here. We have embedding dimension.
+
+Number of heads they will not do, will not to drop out and will not to um will leave the bad first true as the default.
+
+My copilot was nice enough to just use PyTorch implementation, but you actually want to do our own.
+
+And so here we'll have three different embeddings.
+
+We'll have. And protection. For the keys.
+
+This is a linear layer. We have one for the values and one for the queries.
+
+And then we'll also have a projection of the output.
+
+And we'll save the number of heads. Right.
+
+Then we'll do forward. We're going to have queries, keys and values.
+
+Now we'll go through step by step. First, we'll protect queries, keys and values into.
+
+Our embedding dimension. Then the next thing we'll do is we'll split.
+
+The inputs into different chunks.
+
+Now. Copilot use a chunk function here.
+
+Uh, we'll do this using FinOps, which is a little bit easier to see.
+
+So we'll do from ina ina ups import rearrange.
+
+And now what we can do is we can rearrange our keys, values and queries.
+
+We'll do this. We'll call this rearranged.
+
+Rearranged query. And what we're going to do is we have a batch dimension.
+
+Then the next dimension here is going to be the number, uh, sort of the, uh,
+
+the next dimension here is going to be the number of points, the number of keys we have.
+
+And then we have head times the dimension of each head as an input.
+
+And we'll rearrange this such that we split out.
+
+The hidden dimension here H into the second position, and then we have n times d,
+
+which is the dimension of each of the hits times the number of points in the back.
+
+And we'll do this. For all our inputs.
+
+All right. Now we have tensors that have batch dimension, then number of heads where each head is independent, and then we have n times t.
+
+Now for notational simplicity we'll actually make this m makes it easier to read because these two.
+
+So I will make the top one here M. The queries can have a different number than keys and values.
+
+Now for IOPs, it doesn't matter if you put an and or M there, but it makes it easier to read write.
+
+And now we need to compute the attention weights. We'll do scores is equal to.
+
+And now there's two options. We can either use a matrix multiplication or we can use in some uh, in some is.
+
+An operator that's just like in ops, that allows you to sort of specify dimensions of inputs,
+
+and then what it will do is it will multiply the first and the second input together,
+
+element wise, and sum over everything that you didn't specify would be in the output.
+
+Now our first input here is to. We'll go.
+
+So the queries have a shape of p times h.
+
+This is number of heads times m times t.
+
+The keys have a shape of p times h times n times d, which is given up here.
+
+And what we're doing is we're multiplying,
+
+or we're taking the vector product of every combination of pitch and head of every input M every every input n.
+
+We're going to take the vector product of these two, uh, sort of vectors at this location.
+
+Which is the same as multiplying them together and summing over them, which means we leave them out in the output here.
+
+All right. So this will give us the raw attention weights.
+
+Well now. Compute attention as the softmax.
+
+After scores along the last set of the match.
+
+All right. So now for every query. M will now have a weight to compute the weighted sum over.
+
+Now we can again call. We can compute the result.
+
+So we'll do. Again called in some.
+
+Here. The softmax weights have a shape of p times h times m times n.
+
+We'll multiply them with the values which have this this shape here.
+
+And outcomes and output. That's p times h times m times d.
+
+Right. We'll have to reshuffle this.
+
+We'll have to sort of, uh, rearrange the elements. Uh, we can again.
+
+And we'll call this rearranged. Our. I rearrange result, and all we are doing here is we're going to take the heads.
+
+We'll group all the heads and all the outputs of the heads together along one dimension, and then we'll return the output projection of this result.
+
+Right now. This was a lot of, like, complex rearranging and operations here.
+
+I will take a little time or 2 or 2 to unpack this.
+
+Um, I hope the notation helps that we sort of used consistent notations of batch sizes here and in ops and and ein.
+
+Uh, ein some in the background really do a lot of the heavy lifting and thinking for us, all we need to do is we need to give it the right inputs.
+
+I know that this here does some sort of matrix multiplication along the dimensions that we don't want to appear back here.
+
+Right. And we can now go test this. We can.
+
+Create our attention. And now we're not returning to our attention weights here, we're just returning the output of the tension.
+
+Operator. All right.
+
+You can see the weights of the attention operator is, uh, the the output is exactly the same.
+
+Now if you compared it to. If you compared. Towards attention with us.
+
+The shapes are the same. But the values don't quite match up.
+
+And the reason for this is that our linear layers here are initialized differently.
+
+From the weights that PyTorch uses. Now, we could copy them over and show that the two are functional equivalent.
+
+Um, but we'll do this in a notebook online.
+
+Uh, we'll show you how to sort of get the functional equivalent, uh, of what I coded up here by copying weights over.
+
+But for now, I just want to show you that attention itself is actually.
+
+So it's an okay operator to to code up yourself. Uh,
+
+it's a lot of rearranging of terms such that we can just phrase attention as just this
+
+one nice matrix multiplication plus a linear layer that that follows it in the end.
+
+Right. Um. And that's it.
+

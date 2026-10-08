@@ -1,0 +1,351 @@
+♪ (jazz music) ♪
+
+Okay, the next question
+is how to choose K.
+
+Well, as we've seen before in this class,
+
+K is a hyperparameter,
+so we need to experiment
+
+with different values,
+
+but, you know, one
+
+typical heuristic
+
+for choosing K
+
+is to take
+
+enough singular values
+
+so that
+
+the sum of the remaining
+ones you didn't take
+
+is something like, is
+less than or equal to,
+
+you know, say 1/10 of
+the values you did take.
+
+Okay, so this is just one
+heuristic, that you want
+
+the sum of the remaining
+values to be pretty small.
+
+Okay, so let me demonstrate that the SVD
+
+is actually sort of, you
+know, has many applications
+
+or is a pretty powerful thing to do.
+
+Let's go back to our favorite
+problem, linear regression.
+
+So remember in linear regression
+
+we wanted to minimize
+over all X in R to the N
+
+of the norm of AX minus B squared.
+
+B here was a vector in RM,
+and A is an M by N matrix.
+
+Okay, everybody remember this problem?
+
+Good?
+
+So let's look at an easy case
+
+when matrix A is equal
+to a diagonal matrix.
+
+So, in this case, D is D1,
+D2, so on and so forth,
+
+and it might have some zeros in it,
+
+okay, but it's a diagonal matrix.
+
+Okay, so in this case, so we have AX,
+
+we're trying to minimize AX
+minus B quantity squared.
+
+I've told you that A is a diagonal matrix.
+
+What is the correct value for X1?
+
+We're solving for an X here.
+
+What is the optimal value for X1?
+
+>> Is it just D1?
+
+>> Close, it's not D1 because
+we need to multiply D times X
+
+and we should get something
+close to the B vector.
+
+Yes?
+
+>> It's just B1 divided by D1.
+
+>> Yes, it's B1 divided by D1.
+
+X2 should be equal to B2 over D2,
+
+and if DJ is zero this
+implies that XJ should be,
+
+let's just set it equal to zero.
+
+Okay, so notice if we set
+X1 equal to B1 over D1
+
+and then you multiply
+by this diagonal matrix
+
+you just get B1, and that was exactly
+
+the entry we're trying to match.
+
+So is everybody clear that
+this X is the, you know,
+
+the optimal vector here for this case
+
+where A is a diagonal matrix?
+
+Okay, good.
+
+So solution
+
+is
+
+to multiply,
+
+so this is B, it's to
+multiply by this matrix
+
+one over D1, one over D2,
+and then you just multiply
+
+by zero if any of the DJs were zero.
+
+Right, we agree this was the solution?
+
+So I'm going to call this matrix
+that has these reciprocals
+
+in it, I'm going to call it D dagger,
+
+and this is called the pseudo inverse
+
+of D.
+
+Okay, it's almost an inverse,
+but there are some zeros.
+
+We don't want to invert zeros so
+
+we just replace them with zeros.
+
+It's called the pseudo inverse of D.
+
+Okay, so to summarize,
+
+in this easy case the solution is X
+
+equals D pseudo inverse times B.
+
+Okay, any questions about this?
+
+This was the easy case.
+
+Okay, so again, we want to minimize
+
+AX minus B quantity squared.
+
+So we've been talking about the SVD,
+
+let's actually apply
+the SVD to the matrix A.
+
+Let's solve this in general.
+
+Okay, so this is going to
+become equivalent to min over X
+
+of U S V transpose X minus B squared.
+
+Right, there I just substituted A with
+
+its singular value decomposition.
+
+Okay, now keep in mind that
+U is an orthogonal matrix,
+
+so the norm of U times X is
+actually equal to the norm of X
+
+since U is an orthogonal matrix.
+
+You can think of it, as we've
+talked about, as a rotation.
+
+It doesn't stretch your
+vector, it just rotates it.
+
+So it's going to preserve the norm.
+
+That means that this minimization here
+
+is actually equivalent to min over X
+
+of the norm of, now I'm going
+to multiply by U transpose here,
+
+so I'll get S V transpose X
+minus U transpose B squared.
+
+Again, multiplying by U transpose
+
+doesn't affect the norm of any vectors,
+
+so that's why this is an equivalent step.
+
+Good, now I'm just going to
+make a variable substitution.
+
+I'm going to let Y equal V transpose X.
+
+Okay, this is just equivalent
+to writing VY equal to X,
+
+but now I'm going to make
+this variable substitution.
+
+So this is equivalent
+to min over X of norm
+
+of S times Y minus U transpose B squared.
+
+Right, I just made a
+variable substitution,
+
+but now what do we know about S?
+
+>> It's diagonal.
+
+>> It's a diagonal matrix, good.
+
+So what's the solution to
+this minimization problem?
+
+In terms of Y.
+
+Yes?
+
+>> It's the pseudo inverse
+
+of S times U transpose B.
+
+>> Good, it's S dagger,
+the pseudo inverse,
+
+times U transpose B,
+
+but what did we say Y was?
+
+Y is V transpose X.
+
+So this implies that X is
+equal to V S transpose,
+
+or sorry S dagger, U transpose B.
+
+Okay, how do we get from, that is to say,
+
+how do we get from Y to X?
+
+We just multiply on the left by V.
+
+That's how we get from Y to X.
+
+See, VY equals X.
+
+So we just multiply on the left by V
+
+and we get X equals VS
+dagger as pseudo inverse
+
+U transpose B, and that's it.
+
+That's your solution to
+linear least squares,
+
+and what was really nice
+about this solution,
+
+if you recall when we went over this
+
+using the normal equations,
+we had this annoying issue,
+
+we had to take a matrix inversion,
+
+and we were worried, you know,
+
+how do we know that that
+matrix is invertible?
+
+Here you can see we don't
+even need to worry about it.
+
+We just use the SVD to
+find, to directly find,
+
+the simple expression
+for the optimal solution.
+
+Yes?
+
+>> So the result you got there,
+
+V S dagger U transpose B, that actually
+
+looks like almost the reverse SVD.
+
+It looks like an SVD.
+
+Is that actually the SVD of A inverse?
+
+Actually, no, A's not invertible.
+
+>> Yeah, A may not be invertible.
+
+>> It looks like an SVD.
+
+Kind of backwards.
+>> It's similar.
+
+Yeah, well, that's what we did.
+
+I mean, it is similar, yeah.
+
+It's a neat trick.
+
+But this shows you that
+you can use the SVD
+
+to really, really simply solve
+a linear regression problem.
+

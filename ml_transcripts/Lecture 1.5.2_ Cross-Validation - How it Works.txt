@@ -1,0 +1,654 @@
+♪ (jazz music) ♪
+
+So the hold-out set
+
+is somewhat expensive.
+
+Why?
+
+Well, there are several reasons.
+
+First, usually labeled data
+
+is expensive or difficult to obtain.
+
+In this scenario we're taking
+a part of our training set
+
+and we're making it a hold-out set.
+
+That means that we can't use it
+
+during our training procedure.
+
+We have all this valuable,
+expensive, hard-to-get data
+
+that we're just not using
+
+when we're building our classifier.
+
+That's very frustrating.
+
+The other is that if
+
+we want to try out
+
+multiple methods
+
+for generating classifiers,
+
+we quickly lose confidence
+
+in our estimates.
+
+By this I mean every time
+that we make a new classifier,
+
+and if we want to use the hold-out set
+
+to test its true accuracy,
+
+we have to add up all of these
+probabilities of failure,
+
+and so we quickly are not really confident
+
+that our estimates are actually correct.
+
+For example, here we said
+
+if we want to guarantee
+that the probability
+
+that we're more than 0.1
+away from the true error rate
+
+is at most alpha,
+
+then we had to take n to be this size.
+
+Let's assume that our hold-out set
+
+was 50 times log alpha over two.
+
+We have an alpha probability of failure.
+
+Fine.
+
+Now let's say I generate
+another classifier
+
+and I use the hold-out set again.
+
+Now my probability of failure
+
+is two times alpha because
+I've done it twice.
+
+If I do it again it's three
+times alpha, four times alpha.
+
+We're quickly going to lose
+confidence in our estimates.
+
+In many complex systems,
+
+where you're trying to build models,
+
+you want to try out
+
+not only many different
+types of algorithms,
+
+but perhaps many different
+parameter settings.
+
+So, using a hold-out set is expensive
+
+and we quickly lose confidence
+in what we're doing.
+
+It turns out that
+understanding the best way
+
+to repeatedly use a hold-out set,
+
+or repeatedly use data that we've gained
+
+in order to have confidence
+
+that many of our classifiers,
+
+that we understand the true error
+
+of many classifiers that we generate,
+
+this is still an open
+problem in the field.
+
+It's a difficult problem.
+
+People grapple with it.
+
+How can we reuse our training sets
+
+to build lots of different classifiers
+
+and still understand their true error?
+
+I would say that the
+current best technique,
+
+or the technique that's used most often
+
+to try and solve this problem
+
+is something called cross-validation.
+
+The good thing about cross-validation
+
+is that it works really well in practice.
+
+Most likely, if you've
+built some classifiers
+
+using a library of tools
+in, say, scikit-learn,
+
+and then you want to
+evaluate these classifiers,
+
+or have scikit-learn evaluate
+the classifiers for you,
+
+most likely you see something that says,
+
+cross-validated accuracy
+is blah-blah-blah.
+
+That's exactly what's going on here.
+
+I'm show you exactly how it works.
+
+It does work.
+
+It's like magic.
+
+It works really well in practice.
+
+In terms of the theory
+behind cross-validation,
+
+or really understanding why it works,
+
+there's not too much theory
+
+for really explaining why
+cross-validation works so well,
+
+and you'll see why in just a moment.
+
+The idea behind cross-validation
+
+is that we're going to take
+our entire training set,
+
+let me use a different pen for this,
+
+we're going to take
+our entire training set
+
+and break it up into,
+these are called folds.
+
+Here's fold one.
+
+I have to go back to the other pen.
+
+Fold one, fold two,
+
+fold k.
+
+Now, this is my entire training set,
+
+and I'm going to use this training set
+
+to both train a classifier,
+
+and at the same time
+estimate its true error.
+
+Here's how we're going to do it.
+
+First we'll hold out,
+
+or leave out fold one,
+
+and then we'll train
+
+using folds two
+
+through fold k.
+
+We'll train using folds
+two through fold k.
+
+We'll get a classifier,
+
+and then we'll test
+
+on fold one,
+
+and that will be our estimate
+
+for that classifier's true error.
+
+Then we're going to hold out fold two,
+
+and we'll train using
+fold one, fold three,
+
+and so on and so forth through fold k,
+
+we'll get a classifier,
+
+and we'll test its true error on fold two.
+
+We'll do this k times.
+
+Each time we'll be holding
+out a different fold,
+
+and we'll average up all
+of the errors that we got,
+
+and that will be our
+estimate for the true error
+
+of a classifier produced
+with the parameters
+
+that you're using to build your model.
+
+For example,
+
+let's go back to decision trees.
+
+You have a training set S,
+
+and you're trying to decide,
+
+should I build a decision tree
+
+of depth 10,
+
+or should I build a decision tree
+
+of depth 15?
+
+Which value should I use?
+
+10 or 15?
+
+That's what you're trying to decide.
+
+We know that in terms
+of pure training error,
+
+which is going to be a better choice?
+
+10 or 15?
+
+In terms of we just wanted to
+minimize the training error,
+
+which should we use?
+
+Yes?
+
+>> Seems like 15 should be better.
+
+>> We should use 15.
+
+For any training set that we're given,
+
+assuming the points are distinct,
+
+there exists some massive decision tree
+
+that just classifies
+all of them correctly.
+
+You can really massively overfit.
+
+If we just care about training
+error, you should use 15.
+
+On the other hand,
+
+maybe if you use the value
+15 you're overfitting
+
+and its true error is going to be worse
+
+than if you had just used a
+decision tree of depth 10.
+
+Maybe the decision tree of depth 10
+
+would actually have better
+error on future examples.
+
+It's unclear.
+
+How do we decide?
+
+We decide
+
+using cross-validation.
+
+Here I have my folds.
+
+Whoops.
+
+First I'm going to...
+
+Here's my training set.
+
+Here are my folds.
+
+I'm going to set depth
+
+equal to 10.
+
+First I'm going to try out building trees
+
+when you get depth equals 10.
+
+We'll leave out fold one.
+
+We'll build a decision tree of depth 10
+
+using these folds two through
+folds k as our training set,
+
+and then we'll test the accuracy
+
+of that decision tree on fold one.
+
+Then we'll hold out fold two.
+
+We'll build a decision tree of depth 10
+
+using fold one, fold three,
+
+and so on and so forth, through fold k,
+
+and we'll test its error on fold two.
+
+We'll keep doing this with all the folds.
+
+We'll take the average
+of their error rates,
+
+and at the very end
+
+that'll give us an estimate
+for what the true error will be
+
+if we build a decision
+tree using depth 10.
+
+Now, how do we compare this with depth 15?
+
+Okay, well, I'm going to
+do the exact same thing,
+
+but instead, I'm going
+to set the parameter
+
+in my decision-tree builder to be 15.
+
+Now I'll start with fold one.
+
+I'll hold out fold one.
+
+I'll train using folds two through fold k,
+
+and then I'll test on fold one.
+
+I'll keep doing this.
+
+I'll hold out each fold.
+
+I'll get a bunch of different error rates,
+
+all corresponding to building
+a decision tree for depth 15.
+
+I'll take their average,
+and that will be my estimate
+
+for the true error that
+you're going to get
+
+if you build a decision
+tree using depth 15.
+
+Whichever one is smaller
+
+is going to be the
+setting of the parameter
+
+that I'm going to use.
+
+Yes, question?
+
+>> I was going to ask how big would k be?
+
+How many folds would you need?
+
+>> The question is how many
+folds, what should you set k to?
+
+How many folds do you need?
+
+I would say between five and 10 (chuckles)
+
+is typically what's used.
+
+>> Well, not for this problem,
+
+but for like every, for--
+
+>> Between five and 10, typically.
+
+That's a really good question.
+
+There are no hard guidelines for that,
+
+but typically I found between five and 10
+
+to be interesting, useful values.
+
+Now, you can see that
+this is a useful technique
+
+for deciding how to set
+all kinds of parameters.
+
+There was no reason we
+had to look at depth here.
+
+We could have picked,
+
+for example, if we were
+using random forests
+
+and we wanted to decide how
+large should the trees be,
+
+or how large should the
+subset of random variables
+
+that we choose be?
+
+Any of those parameters,
+
+whenever we have to make
+a decision like that,
+
+whenever we want to compare two methods
+
+for building a classifier,
+
+we can always use
+cross-validation to compare them
+
+and get some sort of estimate
+for their true error,
+
+and then we always pick the smaller one.
+
+Question?
+
+>> Are there some running
+time concerns with this?
+
+'Cause it seems like you
+have to train several times
+
+in order to test this.
+
+>> Good question.
+
+The question is, are we
+concerned about the running time?
+
+Well, on the one hand,
+
+I guess I would say yes.
+
+You're blowing up the
+running time by a factor of k
+
+because we need to do this k times.
+
+On the other hand,
+
+yes, it's true.
+
+You are going to pay in
+terms of running time.
+
+On the other hand, if we're choosing k
+
+to be between about five or 10
+
+it's probably not so bad,
+
+and it's understanding the true error
+
+of a modeling procedure
+is really important,
+
+so it's probably worth the time.
+
+Now, another thing that's easy to see,
+
+just from the description
+of this algorithm,
+
+this cross-validation algorithm,
+
+is that it's going to be
+really hard to analyze
+
+in the sense that nothing's
+really independent
+
+as we do cross-validation.
+
+For example, we held out fold one
+
+and we looked at folds two through fold k,
+
+folds two through k.
+
+We did that.
+
+That's fine, but now
+if we hold out fold two
+
+and then we train on
+folds one through fold k,
+
+well, now its result
+
+can't possibly be independent
+from the previous result
+
+because the folds are overlapping a lot.
+
+We're sort of reusing
+some of our training data,
+
+and so it's going to be really difficult
+
+to say anything about the
+independence of the outcomes
+
+that we get during these various
+
+sets of training, these various epochs,
+
+so it's really difficult to say or prove
+
+something about cross-validation.
+
+But I will say that in
+practice it works very well.
+
+Yes, there's a comment here.
+
+The running time is easily parallelizable.
+
+That's a good point.
+
+This procedure can be parallelized,
+
+so you can save resources by doing that.
+
+Typically, when you're
+building a classifier
+
+and you see something that
+says cross-validated accuracy,
+
+that's exactly what's going on.
+
+One really nice thing about this
+
+is that it does allow you to make use
+
+of all of the training data
+that you actually have.
+
+You don't have to,
+
+every time we are leaving
+out one of the folds,
+
+but then we get to reuse it
+
+when we're training it
+one of the next times
+
+when we don't leave out that fold,
+
+so it is an efficient
+use of your training set,
+
+and that's very nice.
+

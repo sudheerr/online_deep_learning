@@ -1,0 +1,469 @@
+♪ (smooth jazz music) ♪
+
+Hi, and welcome back
+to Machine Learning.
+
+I'm Adam Klivans.
+
+Today I'm super excited
+to talk to you guys about
+
+a model of learning called
+the mistake-bounded
+
+model of learning.
+
+So to motivate it, imagine if
+you had a computer program
+
+with the following property:
+
+so this program takes as input emails,
+
+one by one, along as a sequence,
+
+and it has a guarantee that
+it's going to only make
+
+100 mistakes when it's classifying spam.
+
+So that means it gets an email,
+
+it has to classify it spam or not spam.
+
+Then it moves on to the next email.
+
+It has to classify it spam or not spam,
+
+and it learns when it
+makes a mistake or not.
+
+But it has an ironclad guarantee
+
+that it's only going to
+make, say, 100 mistakes.
+
+So I think that would be a
+pretty amazing guarantee.
+
+It would mean that if
+your inbox had tens or 20
+
+or 30,000 emails in it,
+there were only going to be
+
+100 times when this program
+mistakenly labeled something
+
+spam when it wasn't spam, or
+not spam when it was spam.
+
+So that would be a pretty
+awesome guarantee to have
+
+for a spam-filtering program.
+
+I don't think we have anything like it.
+
+But I'm going to show you some examples
+
+where you can get these types
+of ironclad guarantees
+
+for prediction problems.
+
+They're simple examples, but
+they're going to highlight
+
+a lot of interesting aspects
+of machine learning,
+
+and I think it's an elegant
+model to examine anyway.
+
+So let's begin.
+
+As I mentioned, this is
+called the mistake-bounded
+
+model of learning; it was
+introduced by Nick Littlestone.
+
+And in this model, as I
+said, we have a learner.
+
+And the learner's going to
+take samples, data points,
+
+so it's going to obtain
+
+data point one.
+
+And let's, let me erase
+this here for a second.
+
+And once it gets this data point,
+
+it's going to have to respond with its
+
+guess for its classification.
+
+So in the example that
+I described earlier,
+
+this first data point would be an email,
+
+and then it has to guess spam or not spam.
+
+So maybe it guesses spam.
+
+And then there's a teacher,
+
+and the teacher responds
+with either correct,
+
+if the program is correct,
+or if the learner's correct,
+
+or mistake.
+
+Now if the teacher says correct,
+
+then the learner's happy, the
+learner didn't make a mistake,
+
+and the next challenge will then come.
+
+So then we'll have email
+two, or data point two,
+
+so let's assume that the first
+guess, spam, was correct.
+
+Then we'll get email two.
+
+And the learner will give its guess.
+
+Let's say this time it says not spam.
+
+And then the teacher,
+
+it responds with correct or mistake.
+
+And let's say this time it says, nope,
+
+learner, you made a mistake.
+
+On this email two you guessed not spam,
+
+but it was actually spam.
+
+So this means, when this happens,
+
+we keep a counter, let's
+call it number of mistakes.
+
+And it increases by one.
+
+We'd like to say that you
+learn from your mistakes,
+
+so it's true that the learner
+did make a mistake here.
+
+But on the other hand, typically
+when a mistake is made,
+
+the learner learns something,
+
+and if you think of the learner
+as a computer program,
+
+it's going to, so the learner
+
+will then update
+
+its internal state.
+
+Okay, so the learner, it makes a mistake,
+
+we increase the mistake bound by one,
+
+but then it changes its internal state
+
+because it's learned something.
+
+I'll be more concrete
+about this in a moment,
+
+but I'm just defining the model right now.
+
+We say a learner
+
+has mistake-bound
+
+t if for every
+
+sequence of challenges
+
+the learner makes at most
+
+t mistakes.
+
+So in the example that I
+was discussing earlier
+
+for spam classification, and I said,
+
+imagine you had a program that
+had mistake bound of 100,
+
+it would mean that no matter
+what sequence of emails
+
+that you get, your program is,
+
+possibly even an infinite
+sequence of emails,
+
+your learner's only going to
+make at most 100 mistakes.
+
+Okay, so we're going to call
+that value t, whatever it is.
+
+So let me give you an example
+
+of an actual scenario where
+you can come up with learner
+
+and find a mistake bound.
+
+Okay, so I'm going to consider
+a class called script C,
+
+and it's going to be the set of all
+
+monotone disjunctions
+
+on n variables.
+
+And our domain is going
+to be equal to the set
+
+zero, one to the n.
+
+So bit strings of length n.
+
+Let me give you a few
+examples of functions
+
+that are in script C.
+
+So for example, x one or x three.
+
+So it's an or, disjunction
+is another way of saying or.
+
+X one or x three, this is
+an element of script C.
+
+And you can see that x one or x three
+
+is going to be true whenever it's given
+
+a bit string that has a one
+
+in either the first position
+or the third position.
+
+So if f of x, let's do another example,
+
+equals x one or x seven or x nine.
+
+Here's a function.
+
+This function is going to be one
+
+whenever it's given a bit
+string that has a one
+
+in the first position
+or the seventh position
+
+or the ninth position.
+
+In those circumstances it's one.
+
+On all other bit strings,
+it's defined to be zero.
+
+So these are disjunctions,
+
+and the reason why I call the monotone
+
+is that I'm not going
+to have any negations
+
+in my literals right now.
+
+Okay.
+
+So let's go back to
+mistake-bounded learning.
+
+So we have a function,
+let's say, f in little c,
+
+in script C, so remember f
+is a monotone disjunction.
+
+The learner does not know f,
+
+does not know which monotone
+disjunction we've picked.
+
+So here's the learner.
+
+And the learner's presented
+with a bit string x
+
+in zero, one to the n.
+
+And the learner has to respond
+with either one, zero or one,
+
+depending on what it thinks f of x is.
+
+So here we're trying to learn f.
+
+So the learner responds to zero, one,
+
+and the teacher
+
+says correct
+
+if the guess equals f of x,
+
+and the teacher says mistake otherwise.
+
+So if the learner is giving a guess,
+
+zero or one, and that guess
+actually equals f of x,
+
+the challenge it was presented with,
+
+then it was correct, nothing happens,
+
+we'll move on to the next challenge.
+
+If the teacher says mistake,
+it means that our guess
+
+was not equal to f of x.
+
+The learner will update its state
+
+and will get another challenge.
+
+So then we'll get another
+challenge, let's say, x prime
+
+and zero, one to the n.
+
+In either case, the learner is something.
+
+If the learner's guess was correct,
+
+then it knows, oh, I know
+the value of f of x.
+
+If the learner was incorrect,
+
+the learner still knows
+the value of f of x
+
+because it's just the
+opposite of the guess
+
+the learner had given.
+
+So if this model makes sense,
+
+this would be a good place
+to stop for a second
+
+as I give you the following question.
+
+Be something for us to think about.
+
+Can you come up
+
+with a learner,
+
+another term for the learner would just be
+
+an algorithm for the learner,
+
+with mistake bound at most n,
+
+just the number of literals.
+
+So the question is, even
+though there are possibly
+
+to the n different
+challenges that the learner
+
+could be presented with, can
+you come up with an algorithm
+
+whose mistake bound for the learner,
+
+as it goes through this
+sequence of examples,
+
+is always bounded above by n,
+
+the number of literals that we have?
+
+Any ideas for this?
+
+Yes, go ahead.
+
+>> Do we get to control the data points
+
+that are input to the learner?
+
+>> Good question: do we get
+to control which challenges
+
+come to the learner?
+
+No, we don't,
+
+and that's what makes this
+model very interesting.
+
+The challenges could be totally arbitrary.
+
+They could be decided by an adversary.
+
+And your algorithm has
+to succeed regardless
+
+of which challenges it's presented with.
+
+So no, you don't get to figure,
+
+you don't get to learn,
+you get to ask a query;
+
+you don't get to say, oh, I want to know,
+
+I want to be presented
+with this challenge.
+
+You don't get to do that, as the learner.
+

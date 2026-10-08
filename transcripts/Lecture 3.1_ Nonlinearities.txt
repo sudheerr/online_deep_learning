@@ -1,0 +1,243 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So we've just looked at sort of how linear models are severely limited in their
+
+capability and how they cannot even distinguish this dark point image here from,
+
+uh, sort of just a gray background. Now.
+
+We already teased a little bit that the solution to this is to make the model nonlinear.
+
+Now in this section, we're really going to look at what that means to make the model nonlinear and why it will help
+
+us sort of with our problem of distinguishing this dog power from a non dog point image.
+
+We'll start by defining what this non-linearity is. And so by far the simplest non-linearity is the max between x and zero.
+
+And so this is a piecewise linear function. Um it is linear.
+
+It's sort of its identity for all positive values.
+
+And then it is also linear for all negative values, it's just a constant of zero.
+
+Right. And then. At exactly zero.
+
+Here these two functions meet. Not really.
+
+It is very nice. It has a very nice interpretation in terms of what the gradient of values for all negative numbers.
+
+The gradient of a value is zero. For all positive numbers, the gradient of a value is one and at zero it's strictly speaking not defined.
+
+But in deep learning we don't care about these things. All right.
+
+So this is a very simple function. Now if you add this very simple function between two linear networks or two linear linear layers,
+
+we'll get something that is actually very capable and very expressive.
+
+And we get something that can distinguish the dog paw from the background.
+
+Now how, how, how can we sort of construct such a network?
+
+Well,
+
+let's actually sort of go through the intuitive explanation on how we can do this with sort of two linear functions and a non-linearity in between.
+
+And then we'll go look at sort of the hard core math behind this.
+
+Right. So if you have a linear function, this linear function could output two values.
+
+It could output sort of how bright a certain, uh, a certain pixels.
+
+And you could output how black or how dark a certain pixels.
+
+Okay, now we can take these two outputs and we can feed them through a rectified linear unit.
+
+This ReLU. That is really I will now sort of say we can adjust sort of to how bright or how dark.
+
+Function to sort of it have a threshold. So at some point we say we're no longer care about sort of darker than gray.
+
+We no longer care about darker than a brighter than brighter than gray.
+
+And so now we have two functions. One will measure is a certain pixel brighter than gray or is a certain pixel pixel darker than gray?
+
+And once we have that sort of through a linear layer and a rectified linear unit.
+
+We can then go in and just sum this up.
+
+We can say a dog paw in this simple example is something that is either brighter than gray or darker than gray.
+
+That can be our classifier that can distinguish this white and black dog dogpile from sort of this just gray image.
+
+Now, mathematically, the way we can construct this is we're going to say.
+
+Black has a value of zero. White has a value of one.
+
+Gray has a value of a half. And now our first layer is going to take the input x.
+
+It's first going to output an output that is x minus one half.
+
+And then it's going to output a half minus x. All right.
+
+That's our very first layer of the network. It just has two outputs.
+
+One is sort of how far away from gray are you in a positive?
+
+How far away from gray are you in the negative? We'll take these two.
+
+We'll sum them up as outputs and we'll subtract one fourth from it.
+
+Um, the one fourth will become clear in a moment. Now, if you look at these first function, that's these two functions here.
+
+The input to the first function is exactly the negative of the input to the second function,
+
+and both of which compute the max between zero and their value and so.
+
+These two first. These first two functions are.
+
+Essentially just computing the absolute value between x and a half.
+
+And so the absolute value between gray, which is a half and a half.
+
+That is just zero. The absolute value between white and a half is one half.
+
+The absolute value between black and a half is again a half.
+
+And now we subtract a fourth just to make sure that all the values that we assign to gray here.
+
+Oops. All the values that we assign to gray.
+
+Are. One fourth, and all the values that we assign to black are.
+
+Uh, also a fourth or fourth for grades negative, a fourth for par for, uh, white and black.
+
+It's a fourth positive for fourth. All right.
+
+And so that's how we can take this very simple dog, for example, and essentially just feed and feed it through a network that has just a linear layer,
+
+a rectified linear unit, which takes the max between its output of the linear layer.
+
+And zero and we'll feed it. So another linear layer. And this one will be able to distinguish dark part versus knocked off power.
+
+All right. And so it will be able to solve all the limitations that we had for our.
+
+Network. For our linear network. And that's pretty much all deep networks.
+
+So it is deep networks or a set of networks that alternate some linear transformation.
+
+It does not always need to be the matrix multiplication between order linear transformations and non-linear latent non-linear layers.
+
+And so we sort of just sort of alternate between these two computations over and over again until we get an interesting output.
+
+Now mathematically, what the linear model does, is it sort of it models a function that goes from an n dimensional input to a c dimensional output.
+
+And this function is sort of modeled in these layers of computation where we have non-linearity sort of stacked on top of a linear transformation.
+
+The parameters of this linear model of this of this deep, deep network are.
+
+Almost always just the parameters after linear transformations.
+
+Uh, these non-linear functions here, they sometimes in very rare occasions they carry parameters, but oftentimes they do not.
+
+And so we'll have just simple linear transformations. These are the parameters of the model.
+
+This is what we're going to optimize is we're going to fit to the data.
+
+And then in between we have some nonlinear functions that sort of help us make this functional class of deep networks arbitrarily expressive.
+
+Now, I've referred to layers several times here in, in in the slides already.
+
+And so I'll formally define what actually what it is, what a layer is in a deep network.
+
+And so a layer in a deep network is often sort of characterized as this largest
+
+computational unit that can be sort of taken out and reused in various other places.
+
+And so a linear layer. We have already look that this is a linear classifier, which is a matrix multiplication plus a bias addition here.
+
+And this is one of the basic building blocks of deep networks. Now other layers are non-linearities such as their value the rectified linear unit.
+
+And so these networks are built out of these elementary building blocks.
+
+Internally there's lots of additions multiplications and matrix multiplications.
+
+But we abstract them away as sort of these elementary building blocks that we're going to reuse over and over again.
+
+And these are these elementary building blocks are called layers.
+
+And so here we have a linear layer. We have a rectified linear unit as a layer.
+
+And then again a linear layer ReLU linear layer.
+
+All right. And so these elementary building blocks that we stack on top of one another to build deeper and deeper networks.
+
+These are called layers.
+
+Now, one sort of slightly special thing about layers is that we don't count all the layers if we call, if we count layers of a deep network.
+
+Um, if we say that a network has ten layers, what that actually means is that it has ten linear layers and then it has non-linearities in between.
+
+You might have other sort of more complex functions somewhere in between,
+
+but we only count the layers that have sort of that model linear transformations.
+
+Uh, moreover, if for some reason you only assign a network that has layers that are sort of parallel.
+
+So if over here we would have another linear layer.
+
+And you would feed your data through it. And then back here, we would not count this as a three layer network.
+
+This would still be a two layer network. Um, and the way we would sort of in very complex networks, decide how many layers there are,
+
+we would simply just look at sort of the how many linear transformations a certain input goes through to reach its output,
+
+which is sort of from the input to the output. What is the number of transfer?
+
+The maximum number of linear transformations a certain element goes through?
+
+And that's how we just decide sort of how deep a network is and how many layers it has.
+
+Um, the reason for this is sort of primarily historic.
+
+Um, it also has a little bit to do that,
+
+sort of it's a good indicator on how hard or how easy it is to train a network by sort of listing out how many layers it is,
+
+how many consecutive sort of computations it has.
+
+All right. Now, one other thing about deep networks is that they are actually almost arbitrarily expressive.
+
+Um, so there is this universal approximation theorem which says that even a two layer deep network with,
+
+uh, the proof is with a slightly different non-linearity.
+
+Um, but sort of a network that's just linear and then non-linearity and linear again, that network can express an arbitrary continuous function.
+
+And so. In theory, this says that deep networks can sort of fit to arbitrary functions to anything you would want.
+
+Now, obviously this is a little bit magical. Uh, this is sort of seems too good to be true.
+
+And in many ways it is too good to be true. Uh, there is sort of two catches to this, uh,
+
+catch number one is it might be very hard to find that network that fits this arbitrary function that you have.
+
+And so training might become difficult. Uh, and the other thing is.
+
+The theory says that it's possible, but the construction of this proof is going to be extremely inefficient.
+
+So it might this network might exist, but but you might never be able to fit it onto any hardware.
+
+You have to train it. All right. And so a lot of deep learning what what we do in a lot of deep learning is we try to
+
+build efficient architectures that can express the functions that we would want.
+
+So a lot of the work doesn't really go into showing that you could express it.
+
+But constructing networks that can express anything you would want to express.
+
+All right. And so with that sort of non-linearities is really what allows deep networks to sort of to be magical.
+
+Um, they sort of go in between linear layers.
+
+And through that, they allow deep networks to approximate any sort of continuous function they would want.
+
+That's it.
+

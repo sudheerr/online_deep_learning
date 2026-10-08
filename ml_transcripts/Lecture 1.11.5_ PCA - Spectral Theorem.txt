@@ -1,0 +1,266 @@
+♪ (jazz music) ♪
+
+So, let me restate 
+the spectral theorem.
+
+So now we'd like to formally
+understand this relationship
+
+between arbitrary matrices
+of the form X transpose X
+
+and their eigenvector
+eigenvalue decompositions.
+
+So the spectral theorem says
+
+that any symmetric matrix
+
+can be written as Q D Q transpose,
+
+where Q is diagonal,
+sorry, Q is orthogonal,
+
+and D is diagonal,
+
+with real values, with real numbers,
+
+on the diagonal.
+
+And furthermore,
+
+so we'll call these its eigenvalues,
+
+and furthermore, if A is
+equal to X transpose X,
+
+then all the eigenvalues
+
+are greater than or equal to zero.
+
+Okay, so any symmetric matrix
+has this nice decomposition,
+
+but it could be the case
+that the diagonal matrix
+
+has negative entries.
+
+In the special case when you're working
+
+with covariance matrices,
+if A is X transpose X,
+
+then all of the eigenvalues are positive.
+
+Does anyone know how to prove this?
+
+Anyone see a proof for this?
+
+Okay, well let's break
+it down into two claims.
+
+Claim one is that for any V,
+
+V transpose AV is always
+greater than or equal to zero.
+
+How about a proof for that claim?
+
+This proof is really a one-liner.
+
+Remember that A equals X transpose X, yes?
+
+>> So is this equal to
+XV transpose times XV?
+
+>> Yeah, very good.
+
+So if we, because A
+
+equals X transpose X,
+V transpose AV equals
+
+XV transpose times, or
+sorry, inner product XV.
+
+Right, so here we're taking a vector XV,
+
+and we're taking its
+inner product with itself,
+
+so it must be greater than equal to zero.
+
+Good, we're just getting warmed up,
+
+that's the proof of claim one.
+
+Claim two is that,
+
+well, now we want to finish the proof,
+
+let's prove that A cannot have
+
+negative eigenvalues.
+
+And I'll give you a hint,
+
+the proof is by contradiction.
+
+Yes?
+
+>> So if we assume that
+
+it has one negative eigenvalue,
+
+that means it's some eigenvector where,
+
+after we transform it,
+its magnitude is smaller
+
+than it was before we transformed it.
+
+Using claim one above, we can see
+
+that after we've transformed V by A,
+
+its magnitude is larger
+than it was before.
+
+>> Well,
+
+that would be if we looked at,
+
+claim one just talks about V transpose AV,
+
+it doesn't talk about AV transpose AV.
+
+But you have the right intuition.
+
+Yes?
+>> Is it like when you
+
+diagonalize the matrix,
+it'll have a negative value
+
+in the diagonal for A?
+>> Yeah, that's also,
+
+that's a step of the proof.
+
+So let's assume by way of contradiction
+
+that lambda i is negative,
+
+so the eigenvalue is negative.
+
+Okay, now I'm going to rewrite A.
+
+By the spectral theorem, we know that A
+
+is equal to Q D Q transpose,
+
+because it's a symmetric matrix.
+
+Okay, and now let's consider
+
+the vector Q times ei,
+
+so this is all zeroes and
+a one, in the ith position.
+
+Okay, this is equal to e, this is ei.
+
+Okay, so we're taking Q times ei.
+
+So now, let's let V be Q times ei.
+
+Okay, and so let's
+consider V transpose AV.
+
+What are we going to get?
+
+ei transpose, Q transpose,
+
+Q D Q transpose, Q ei.
+
+This is just by substitution.
+
+Now you can see that Q transpose Q is,
+
+the identity matrix, because
+Q is an orthogonal matrix.
+
+So this goes to identity.
+
+Q transpose Q goes to identity.
+
+So we're left with ei transpose Dei.
+
+And what is D times ei?
+
+It's just a vector of all zeroes,
+
+with a negative value in the ith position,
+
+because we assumed there
+was a negative eigenvalue.
+
+So D times ei is a vector
+
+that just has one non-zero entry in it,
+
+everything else is zero.
+
+And then we take its
+inner product with ei.
+
+So it just picks out
+that one negative value.
+
+So we know that this is less than zero.
+
+But that contradicts claim one.
+
+Claim one said that for every vector,
+
+V transpose AV had to be
+greater than or equal to zero.
+
+So this shows that every matrix
+
+of the form X transpose X
+
+actually has eigenvalues that are all
+
+greater than or equal to zero,
+
+and that's why geometrically,
+
+we can interpret all covariance matrices.
+
+It's why we can view them or
+interpret them geometrically,
+
+we can view them as
+rotations and scalings.
+
+If it had negative eigenvalues,
+
+that wouldn't really
+correspond to some sort of,
+
+it wouldn't have a nice
+geometric interpretation
+
+in terms of scaling training sets.
+
+But whenever we have a covariance matrix,
+
+we do have this nice
+geometric interpretation,
+
+and that's sort of what enables you
+
+to do PCA in the first place.
+

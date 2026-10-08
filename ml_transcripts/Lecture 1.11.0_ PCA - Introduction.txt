@@ -1,0 +1,482 @@
+Hey everybody, welcome
+back to Machine Learning.
+
+Today I'm really excited to tell you about
+
+probably the most important technique
+
+for reducing the
+dimensionality of your data
+
+in machine learning, called PCA.
+
+PCA stands for principal
+component analysis,
+
+and it's a simple, super effective way
+
+to come up with a different
+representation of your data,
+
+but still have it be really meaningful,
+
+and not lose too much information.
+
+PCA, or principal component
+analysis, as I said,
+
+it's probably the most important method
+
+for reducing the dimension
+of your training set,
+
+but it also forms the
+basis for a bunch of other
+
+sophisticated techniques
+in machine learning,
+
+so it's definitely important to learn.
+
+And also if you are a little
+rusty with your linear algebra,
+
+then you'll really
+enjoy learning about PCA
+
+because you'll get re-acquainted
+with some of those topics
+
+that you might have found
+scary or intimidating,
+
+and they'll start to make sense here.
+
+So let's begin.
+
+So as I mentioned, this is a technique
+
+for dimensionality reduction.
+
+And I'll briefly just compare this to
+
+the random projection method
+
+that we've discussed.
+
+This is the, you'll recall the JL- lemma.
+
+So when we talked about random projection,
+
+we literally randomly picked
+
+vectors R1 through RK,
+
+and we projected a data point on X
+
+onto these random vectors.
+
+So we looked at X inner product R1,
+
+and so on, and so forth.
+
+X inner product RK.
+
+And this vector of length K
+
+became the new representation for X.
+
+One thing to notice, is that these RIs,
+
+they're not meaningful.
+
+Say we're not meaningful
+
+with respect to the training set S.
+
+By that, I mean they were
+picked completely at random,
+
+so they can't have any
+real meaningful attachment
+
+to the actual training set.
+
+The only guarantee that we
+got with random projection
+
+is that we were able to preserve
+
+the euclidean distance
+
+between points.
+
+And we'd like to come up, you
+know we'd like to be able to
+
+say a little bit more than that.
+
+Mainly the other thing is, in practice
+
+K has to be, you know,
+something like at least 100
+
+for random projection to work.
+
+Whereas with PCA, as we'll
+see, or I'll actually show you
+
+some experiments in the real world.
+
+You can choose, so for PCA,
+
+we can choose K to be say two,
+
+and still actually get meaningful results.
+
+Additionally, PCA
+
+looks at the data
+
+to come up
+
+with a new representation.
+
+So it's data dependent.
+
+Unlike random projection,
+
+where you just pick a
+bunch of random vectors
+
+to represent your training, data PCA,
+
+we're actually going to
+examine the training data,
+
+and look at some structure in the data
+
+to try and figure out, you know,
+how should we represent it.
+
+So in a way, PCA is going to come up with
+
+a much more meaningful
+representation of your training set.
+
+Okay, so at a high level,
+
+the goal of PCA
+
+is to find
+
+vectors in V1
+
+through VK,
+
+such that for all X in your training set,
+
+X can be, and I'm going to
+use these squiggly lines,
+
+X can be approximately represented
+
+as a linear combination
+
+of these vectors.
+
+And we'll talk more about what that means.
+
+As you can imagine, the square
+loss is going to be involved.
+
+Now, I have to make a note about
+
+pre-processing.
+
+So before we apply PCA
+to our training set,
+
+we're going to do a little
+bit of pre-processing
+
+of your training set.
+
+Okay, so they're two
+steps we're going to take,
+
+and these are common
+steps that people take
+
+in all sorts of applications
+in machine learning.
+
+One, is we're going to subtract the mean,
+
+or center of mass
+
+from each data point.
+
+Okay, so we'll take all
+of our training points,
+
+we'll compute the mean coordinate wise,
+
+and subtract it from all the points,
+
+so now our data set is
+going to be mean zero.
+
+And we're going to also sort of normalize
+
+the standard deviation,
+
+or I should say normalize
+by the standard deviation
+
+of each feature.
+
+So we want the features to
+have relatively similar ranges.
+
+For example, if you
+have some training data,
+
+and one coordinate corresponds to length,
+
+then you don't want,
+
+well you could re-scale that length,
+
+you could measure the length in say feet,
+
+or you could measure it in miles.
+
+And depending on how you measure length,
+
+you'll have dramatically different values
+
+in that coordinate.
+
+And so you don't want, so for example,
+
+if you measure length, let's say in feet,
+
+and then you switch to miles,
+the size of those coordinates
+
+are going to go way way down.
+
+And you don't want these
+sort of artificially
+
+small coordinates in your training set
+
+that can throw off some other calculations
+
+that you subsequently do.
+
+What you'd like to have is the features
+
+all have sort of the same range.
+
+So the way you do this
+is for every feature I,
+
+you compute the square root,
+
+the sum of J equals one to M,
+
+X, I, J squared, so this sum
+is over all training sets,
+
+over all training examples,
+so X superscript J,
+
+that goes over all the
+points in your training set.
+
+And we're looking at the
+ith coordinate, X of I,
+
+and we're taking the some of
+those, the squares of those
+
+features over all training
+points in our data set,
+
+then we're taking its square root,
+
+and we'll call this sort
+of the standard deviation
+
+of the ith feature.
+
+And then we'll divide
+
+all the ith features
+
+by sigma I.
+
+So the idea that you'd
+like your training set
+
+to have mean zero, and
+as much as possible,
+
+or as closely as possible,
+variance one in each feature.
+
+Okay, and that just sort of standardizes
+
+the magnitude of the features
+amongst all the features
+
+in our training set.
+
+Okay, any questions about
+this type of pre-processing,
+
+or normalization that we're doing?
+
+It's pretty standard.
+
+You subtract the mean,
+divide each coordinate
+
+by the standard deviation.
+
+Make sense?
+
+Okay, good.
+
+Okay, so
+
+how to begin, how should we begin?
+
+Let's say we want to
+find the first vector.
+
+So remember, we're going
+to try and write each point
+
+in our training set as a linear
+combination of K vectors.
+
+How should we find, or
+what should our strategy be
+
+for finding the first vector?
+
+Well, basically we're going to look
+
+for a vector
+
+that minimizes square distance.
+
+Okay, so more, you know, concretely,
+
+we're going to try and
+minimize over all vectors V,
+
+and we'll assume that
+their two norm equals one,
+
+so you can think of
+these as just directions.
+
+If you have a vector with
+unit norm, it's a direction.
+
+One over M, sum J equals one to M,
+
+distance
+
+between XJ,
+
+and V squared.
+
+Okay, this seems like a really
+natural objective function
+
+that we'd like to minimize.
+
+We just want to find the direction
+
+such that when you
+project all of the points
+
+orthogonally down onto that direction,
+
+and you take the sum of the
+squares for the distances,
+
+it's minimal.
+
+So let me draw a little picture.
+
+Sort of sounds like regression,
+
+so talk a little bit about that.
+
+So remember in regression,
+
+we had a bunch of points,
+
+and we were trying to find a
+line that best fits the points.
+
+And our loss, oops sorry, our loss
+
+was this vertical distance
+
+between your label and the line squared.
+
+Okay, this was the case for regression.
+
+In PCA,
+
+insert it this way,
+
+we're looking for a line, but
+now we're going to measure
+
+the distance from each point
+via its orthogonal projection
+
+onto the line, and we'll take squares.
+
+So this is PCA.
+
+Okay, and this is our V, this is our line.
+
+So in regression, we
+were looking for a line
+
+in the regression case,
+and you were measuring
+
+the sum of the squared
+air, it's just the label
+
+minus the point on the
+line quantity squared.
+
+In PCA, we're minimizing this
+distance between X, J, and V.
+
+How do you measure distance?
+
+Well it's the orthogonal projection,
+
+it's via the orthogonal
+projection of your point
+
+to that line V.
+
+Okay, so two different notions of sort of,
+
+well two different objective functions,
+
+even though they sort of sound similar.
+

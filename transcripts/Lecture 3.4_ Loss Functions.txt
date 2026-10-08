@@ -1,0 +1,251 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So we have previously looked at deep networks and how they can parameterize any sort of continuous function,
+
+uh, from a continuous output to any continuous uh, from a continuous input to any continuous output.
+
+We've also looked at what to do if outputs that we want from our network are not continuous.
+
+Uh, we've looked at output transformations that sort of take the output of our network and transform it into the right format that we want.
+
+Some output transformations I've looked at is sort of what if we want our outputs to just be positive?
+
+What if we want our outputs to be sort of classification outputs?
+
+Um, anything you would want. So that is at the inference side.
+
+So if we how do we transform our outputs. Once we sort of have the network trained once it already produces what we'd want.
+
+Now during training, each sort of task or each output transformation will have sort of its own very specific loss function.
+
+So you can think of output transformations are sort of for train networks.
+
+And how do we get to get them to produce what we want.
+
+And then we have corresponding loss functions that during training help us sort of produce the result we want.
+
+Now, the biggest difference between a loss function and an output transformation is that loss functions always need to produce good gradients.
+
+Still, they cannot just tell us what the output is or how to transform the output,
+
+but they will need to tell us, given a certain desired output label which will call y here.
+
+How do we change the output of our network to get to produce this y.
+
+All right. Now we have looked at loss functions in the previous, uh, section already.
+
+Uh, we have looked at sort of how do we sort of take losses over individual data elements,
+
+which is this lowercase l here, and how we then how do we then optimize them,
+
+or how do we sort of think of them as losses over the entire data set, which is this capital L here,
+
+which is a function of the parameters in the data set, while the lowercase l here.
+
+Is just a function of the parameter and individual set of inputs to the network or ground truth labels.
+
+Now when we talk about optimization, we will always look at expected loss.
+
+So we'll look at what is the expected loss. We optimizing the expected loss.
+
+That's sort of the big thing that we're looking at.
+
+If we're looking at loss functions and sort of the properties of, uh, of sort of the computation graph that we're building, we'll always look at.
+
+The top here will always look at individual elements.
+
+We'll look at how do we make individual elements, individual outputs off our network produce what we want it to produce.
+
+A good example here is for regression. So for a regression there is no output transformation.
+
+We're getting get a real valued input. We're going to produce a real valued output.
+
+And our job is for the loss function to sort of force the network to output what be labeled as outputs.
+
+There's really two commonly used loss functions for continuous uh, for continuous values for regression.
+
+There's the L1 loss. Which is the absolute value between what your network outputs.
+
+Which is this here? And what your label says it should be, which is why.
+
+Though Cl2 loss, which is sort of the squared value the squared difference between the two.
+
+So you can think of the L2 as sort of the squared Euclidean distance.
+
+L1 is also sometimes referred to. Sort of taxi distance Manhattan distance.
+
+Um, especially if we if we consider higher dimensions.
+
+Now, the really cool thing about deep networks is in practice, it honestly doesn't really matter which one you choose.
+
+Uh, most people will start with an L2 loss. Sometimes they'll throw in L1 loss, but in essence, if you have large enough data,
+
+if you have a good enough model, both L1 and L2 losses will give you good results.
+
+That is, if you consider a regression. Now for classification.
+
+Uh, the losses are, uh, also fairly standard.
+
+Um, labels for classification are. For binary classification, it's either just a label of zero and or a label of one.
+
+Our network itself will output a real valued output.
+
+Will feed this through a sigmoid to get a probability for sort of how likely our network predicts the right label.
+
+How likely predicts label one, how likely predicts label zero, and the loss function is just maximizing this likelihood.
+
+There's log likelihood. So we want our model to predict the correct label with the highest possible likelihood.
+
+Um, since we're oftentimes minimizing loss functions, this is the negative log likelihood that we're minimizing.
+
+So we're maximizing the positive log likelihood which is we're minimizing the negative log likelihood which you can see down here.
+
+So we have a ground truth label Y. We're going to compute a probability of y.
+
+So if the ground truth label is. One.
+
+Then we're simply just going to look at the output of the sigmoid.
+
+If the graph with label is zero, we're going to look at one minus the output of the sigmoid.
+
+We'll put this into a log. And then we're optimizing this.
+
+Now we want to ask, so why are we putting this into a log. Why can't we just maximize the actual probability of, uh, of the network?
+
+Why can we just maximize the sigmoid here without the log?
+
+And the reason for this is that the log of the sigmoid has a much nicer shape.
+
+It's also often referred to as the binary cross entropy. Um, it is this function that is sort of linear.
+
+If you're way off, and then if you start to get the label right, it starts to flatten.
+
+So it looks a lot like some of our non-linearities, uh, maybe just flipped around.
+
+And the nice property of this is that if you're wrong, then your negative log likelihood will be high.
+
+She's over here and you'll get a good gradient. So the network will actually tell you how to improve.
+
+If you're right. Which is over here. You will no longer get a gradient.
+
+So the gradient of the negative log likelihood here is close to zero.
+
+And you will no longer need to, you know, and get a signal to improve because you don't need to improve because you're already right.
+
+And so that's a nice property off. So if the log of the sigmoid or the binary cross entropy,
+
+it gives you a good gradient when you're wrong and then when you're right, the gradient is going to be close to zero.
+
+If we optimize the sigmoid directly, what will happen is that the gradient, if you're very wrong, is going to be flat.
+
+So there is no there is if there is a gradient of zero, if you're very wrong.
+
+And then when you're starting to sort of. Be in the middle here.
+
+There is going to be a gradient.
+
+And then there's again not going to be a gradient when you're when you're on the on a strong positive when you're really right.
+
+And that's an issue because if the network is really wrong, it will not get a signal on how to improve.
+
+If you use a log, you will get a signal. If you don't use a log, you will not get a signal.
+
+And you can try this yourself. Uh, you can you can sort of try to optimize just the raw sigmoid versus the log of the sigmoid.
+
+And you will realize if you don't initialize your network, right. If you have sort of, sort of.
+
+Uh, uh, a largely, I guess, a network that's really large, uh, scaled, um, that has strong outputs.
+
+With the log sigmoid, you will be able to train that network with the pure sigmoid at some point.
+
+You will not. Now, in practice, uh, there is an issue with the log of the sigmoid, which is that if you feed set of a strong negative number,
+
+also strong positive number into the sigmoid, for a strong negative number, the sigmoid will eventually become zero.
+
+It will become numerically zero. Uh, just that's because of numeric precision.
+
+Uh, we don't have infinite precision in our floating point numbers. And so at some point it will just become zero.
+
+That's it. Now the log of zero is just defined.
+
+It's just not defined. It's defined as not a number. Now PyTorch knows about this.
+
+It does. It does try its best to not have you sort of not return you a not a number.
+
+So they will clamp it. They'll give you sort of an arbitrary value.
+
+That's sort of the best they can do under the current precision. But you will not get a gradient through log of sigmoid.
+
+For a very small number for a very sort of for a strong for a large negative number, you will not get a gradients for log of sigmoid.
+
+To prevent this, you should never use log of sigmoid. Just by itself.
+
+You should never try to, uh, implement this loss function yourself.
+
+There is a loss function. It's called PCI with logits loss.
+
+You should always use this one, because this one combines the log into sigmoid and one function and is implemented in a numerically stable way.
+
+If you use sigmoid and p c loss, sort of, you will not get that numeric stability.
+
+So always use the combined function. Uh, that will make sure you get a gradient through the network trained properly.
+
+All right. So we looked at regression. We've looked at uh classification.
+
+Let's now look at multi-class classification. So for multi-class classification um our outputs for the network is going to be a class from one to C.
+
+Uh it's no longer just 0 or 1. It's from one to C.
+
+Labels go from one to C. And the probability that we were defining is going to have sort of C entries.
+
+Probability of class one, probability of class two, probabilities class three, and so on.
+
+Now we get these probabilities through the softmax. We can have an arbitrary real valued output.
+
+Uh and then we'll feed it through the softmax function will give us which will give us essentially all positive numbers that sum up to one.
+
+Uh, and it just turns out to be that probabilities, probabilities are positive numbers that sum up to one.
+
+Just like in the binary, uh, case, we can then optimize the negative log of the ground truth probability to optimize our network.
+
+So it's very similar to the binary case.
+
+We'll take the probability of the softmax and will maximize that probability similarly to the soft uh, to the to the binary case.
+
+The softmax case here it has sort of a nice gradient.
+
+Uh, it is always sort of very well defined. And similarly to the binary case, you should always use the built in PyTorch function for this.
+
+The built into PyTorch function here is cross-entropy loss. It has two arguments.
+
+The first one is the output your of your network. Uh, which is this which we usually use O for and this notation.
+
+And then you will compute the log of the softmax. You should not feed into softmax.
+
+You should not, uh, sort of try to take the log of the softmax yourself,
+
+because if it turns out that the probability of all the output of two of your classes is sort of larger than,
+
+uh, the difference between two outputs is larger than 100.
+
+The softmax will make certain elements zero, which will again use to.
+
+Will lead to numeric issues when you're trying to take the log of it.
+
+And so you should always use the cross-entropy loss that one is always numerically stable.
+
+It is well defined. All right.
+
+And so to sum this up, um, for, uh, regression, you use L1 or the L2 loss.
+
+In practice, it often doesn't matter which one you use. You can choose whichever you want.
+
+Um, for binary classification, use the, uh, PC with logits loss, which is the binary cross-entropy.
+
+Um, for multi-class classification, use the cross-entropy loss.
+
+And you should always use the PyTorch built in functions.
+
+You can implement L2 and L1 loss yourself, but for cross loss for classification, always use the PyTorch built in functions.
+
+That's it.
+

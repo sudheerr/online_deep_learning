@@ -1,0 +1,37 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+I think. So we have looked at our very first deep network, actually three of our very first deep networks.
+
+Uh, they're very simple. They're all very small, compact, linear models.
+
+Um, but they helped us understand the very basic concepts of deep learning, which is we'll need to set up a task and a model.
+
+In this case, our models were all linear tasks for classification, binary classification and regression.
+
+Then we'll need to set up a data set and a loss. The data set just shows us what the right outputs should be.
+
+And the last and helps us helps the model sort of connect what it outputs to what it should output.
+
+And then finally we looked at training optimization and we looked at how to implement this in PyTorch.
+
+And we looked at how this works mathematically. But the cool thing about deep learning is that.
+
+Models can get more complex set of other training setups can can maybe get a little bit more complex.
+
+But at its core, the very basics of machine of deep learning will always stay very, very simple.
+
+It will always be just a model, a data set with a loss and some sort of optimization.
+
+We can tune and tweak all individual parts.
+
+We can add in more sophisticated optimizers later on, but the very, very basic core is just super simple, right?
+
+And so for the rest of this class, what we'll do is sort of we'll go on and make networks deeper.
+
+We'll make them express sort of different characteristics.
+
+Uh, linear models have severe limitations. We'll show how to train other models that don't have these limitations.
+
+But again, overall, the structure of what we're going to look at is always going to be the same as with these very simple linear models.
+
+That's it.
+

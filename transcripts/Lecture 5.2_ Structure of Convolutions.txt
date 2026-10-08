@@ -1,0 +1,399 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+Think. So we've just looked at convolution.
+
+Um, convolution is sort of this spatially anchored linear operator.
+
+It's very fast, it's memory efficient, and it sort of preserves the structure of the input image.
+
+And we can just think of this as a sliding window linear operator that we sort of apply at every single location.
+
+Let's look at what would happen if we just built a network, a deep network out of convolutions.
+
+Well, what we would do is we would just replace linear layers with convolutions,
+
+and then we'll just alternate over sort of convolution non-linearity, convolution non-linearity.
+
+If you want to build this very deep we would probably add in some normalizations and some residuals.
+
+And at some point we'll be happy. We'll get the output.
+
+And the output might be uh, smaller image.
+
+Or we could even average things together and just get one sort of one.
+
+Single output for the entire network.
+
+But there is an issue though, when we look at this network, which is vanilla, convolution actually shrinks the input.
+
+So every single time we add another layer, our input gets slightly smaller.
+
+And to look at this, uh, this is sort of the definition of convolution again.
+
+And it gets smaller because if we have a kernel of a certain height and width.
+
+Well, if that height and width is larger than one, we actually cannot fit as many kernels in as our input images, our input pixels.
+
+So let's say those three input pixels along the height dimension here.
+
+Or along the West dimension. Let's say there's three input pixels along the west dimensions, so four input pixels along the west dimension.
+
+We have a kernel size of two. We can only fit that kernel into the image three times.
+
+And so that will sort of shrink the output.
+
+Every single time we apply convolution. So now we're left with an operator that looks at a beautiful input image.
+
+And every single time we apply it in a deep network, it just makes it slightly higher, the image slightly smaller and smaller.
+
+That's sort of weird, right? You don't actually want to have to deal with it.
+
+Like you don't want an operator that just arbitrarily shrinks your input image.
+
+All of a sudden you have to worry about, what if I make my kernel too large?
+
+Then all of a sudden my output will be too small. The solution to this is padding.
+
+So when we compute convolution, what we can do is we can first make the input artificially larger.
+
+So we'll grow it grow the input by a certain number of pixels.
+
+And we'll just put a random like an arbitrary value in there.
+
+That arbitrary value is almost always zero. We'll put a value of zero in there and then we'll apply convolution.
+
+And so if we have a kernel size of two part by one on one side only.
+
+Then that will ensure that the original input size, which was for.
+
+Is exactly the same as the original.
+
+Output size, which is, uh, s the new output size, which is for.
+
+Okay. There's an issue, though, with padding with this sort of padding, which is.
+
+If we pat on one side only, we're actually slightly shifting the image every time we do this.
+
+So now we have a way of keeping the image size the same. But every single time we try to keep the image size the same, we're slightly shifting it.
+
+We're shifting the image to the top left corner.
+
+Now the solution to this is to pad on all sides.
+
+So instead of padding on just one, uh, one end will pad all around the image.
+
+And so that way there's never going to be a case where we'll shift the image slightly to the side.
+
+All right.
+
+And so what that means is that if we have convolution, we can now sort of apply padding and will always be applied to all sides of the image.
+
+This introduces two new two new parameters or hyper parameters, which is the padding width and the padding height.
+
+Now we'll have an input, will pad it on all sides, which will make it slightly larger.
+
+Sort of by two times the padding. We'll have a kernel that has a certain width and height.
+
+We'll apply that convolution with that kernel and what we get as an output.
+
+Is. The original image size, plus two times the padding minus the kernel, uh, kernel widths or height plus one.
+
+Okay, so now we can have we can tune.
+
+The padding such that, uh, convolution, the convolutional kernel will not shrink damage.
+
+And so one thing to sort of remember here is that if you do padding, if you use padding and which is you should always use padding.
+
+You should always pad by sort of such that the padding plus two times the padding plus one is equal to your kernel size.
+
+So if you have a kernel size of three, the padding should be one.
+
+If you have kernel size of five, the padding should be two, and you already can see the pattern.
+
+If the kernel sizes is, uh, one, the padding should be zero.
+
+You already can see the pattern. You should never have a kernel size. That is, even if you use padding and uh, convolution.
+
+And if you use padding convolutions, because if you have a kernel size that's even,
+
+there's no padding that you can do on all sides that will guarantee that the, uh, output has the same size as the input.
+
+All right. So for simplicity, all we'll do is we'll pat on all sides and then we'll choose a kernel size is two times the padding plus one.
+
+All right. So that solves our first issue. So if you want to now build a big convolutional network, just replace all linear layers with convolutions.
+
+We not long ago no longer have to issue that the image will shrink and shrink and shrink and shrink.
+
+But there is a second issue, which is as we build our network, we will want to have more and more channels in our convolutions.
+
+And the reason for this is that a lot of the information about the image is going to be packed into channels itself.
+
+So we'll take spatial information. Convolution will take spatial information.
+
+It will sort of pack it into channels. Because the channels and the relationship between channels is really what builds up these
+
+interesting patterns and the relationship between these interesting sort of objects and,
+
+and sort of lower level patterns in an image itself. But if we do this with vanilla computation, uh, convolution, this is extremely slow.
+
+And we can sort of express on how slow it is. If you look at the convolution, the computational cost of convolution.
+
+It is width times height of the image by width times height of the kernel times input channels times output channels.
+
+And so if your input is quite large, this width and height of the image.
+
+Times the size of the kernel is just going to get extremely large.
+
+And so one solution is to say, well, if you want to get this computational cost down, we could just shrink the width and the height, right.
+
+We can just make the image smaller in width and height. And then maybe we can increase the channels a little bit.
+
+Such that the computations that of the channels will draw width and height will go.
+
+Well, we'll get smaller. And so the computation stays more or less the same all throughout the network.
+
+And the operation that allows us to do this is convolution with a stride.
+
+And so sort of at a very high level, what a stride is, is it's skipping certain outputs in your convolution.
+
+So now instead of sliding this window of convolution over the image,
+
+sort of one patch at a time or one step at a time, one overlapping patch at a time will now skip certain outputs.
+
+So we'll look at. One patch.
+
+But now, instead of looking at the one that's directly adjacent and overlapping to it, we'll go two over.
+
+And so that is a straight stride of two. And what that will do is if we skip certain outputs it will just downsample the image.
+
+It will sort of reduce its width and height. And by much or by how much it sort of, uh, is shown down here.
+
+If you have an input image with a certain height and a certain with.
+
+You have a kernel with a certain height and a certain width.
+
+What will happen is if you stride the convolution with a certain parameter s w and s h, you will essentially have.
+
+The original size of the convolution, which was. Height of image minus height of kernel plus the padding.
+
+This is divide divided by the stride. And then the same is true for the West.
+
+It's divided by the stride, and in the end we'll add plus one.
+
+And the plus one really is there just to fix the rounding. Um, we could also put the in the formula itself.
+
+We could to put the plus one back up here and just back.
+
+Up here. And round appropriately, but it's easier to just do the math and pull them plus one out.
+
+Right. Now, the big advantage of strided convolution is it's computationally very efficient for later layers.
+
+So the stride convolution itself, yeah, it's slightly more efficient because now, uh, we can sort of skip certain outputs.
+
+But everything that comes after.
+
+Is running convolution on a on an image that's just smaller and it's smaller by a factor of S, W and S-h where's is the striding factor?
+
+It also has a second advantage. Uh, if we think of the receptive field of layers that come after this layer,
+
+their receptive field now gets actually blown up by a factor of the stride.
+
+So if we had a receptive field, maybe, uh, of sort of two for a second convolution.
+
+And a receptive field of two for the first convolution.
+
+What would happen is that instead of in original convolutions, this would just add up.
+
+It would give you a receptive field of three.
+
+But if we tried the first convolution, sort of the size of the of the second kernel gets blown up the letter.
+
+The dimensions it looks at in the image are the width and height of what it looks.
+
+An image gets blown up by the stride. And so striding convolutions early on can help you look much further in image.
+
+And that's why modern convolutional networks have a receptive field that's much larger than the image.
+
+It's because they stride inside of the network, the sort of subsample width and height.
+
+And then later kernels look at much larger extents of the image.
+
+Now, one thing about striding is, uh, striding requires rounding.
+
+Um, there is always going to be sort of multiple image sizes that will map to a same, the same lower resolution image size.
+
+Um, and so if your width minus curl width of the image minus kernel with plus two times the padding is not divisible by as w,
+
+we will have to round it down. And this means that we'll sort of cut part of the image off.
+
+It's just because there is no strided kernel that fits in there anymore.
+
+And so it gets sort of you'll have certain elements here.
+
+On the side of the image that will just get cut off.
+
+Now, in practice, this is less of a deal. It is less of a serious issue.
+
+Um. What happens is that the receptive field of the lower layers is large enough such that if you cut off the last row and,
+
+uh, in an in a later layer, you will still see it in your, in your deep network.
+
+All right. So now we can take a convolutional network.
+
+Sort of. We can again alternate between convolutions, non-linearity, maybe together with some normalizations and residuals.
+
+And we can start to build up this bigger and bigger network. We now have a way to sort of prevent inputs from shrinking,
+
+and we have a way to sort of make this network have more and more channels without losing a lot of computation by just striding later convolutions.
+
+But what if the network is still too slow? So it can happen that if you want to deploy a deep net,
+
+a convolutional network on sort of a mobile device or something that has a lot of it doesn't have a lot of computation.
+
+That despite self is not enough. Straining might not be enough to get you a fast network.
+
+So there's two other tricks that we can do is we can, uh, use group convolutions, which sort of is similar to striding to a certain degree where.
+
+Not. All inputs contribute to all outputs.
+
+And so what we'll do is we'll split the channels that we have in convolution into groups.
+
+And we'll have a linear layer only within a group.
+
+So we'll not have connections between groups. And so that allows certain layers certain groups of layers to specialize.
+
+And it cuts down the computational cost of convolution by a factor of t where choose the number of groups you build.
+
+A special case of this is depthwise convolution. That's actually where sort of this grouping is still used most often.
+
+Where the input channels and output channels are the same and they're exactly the same as the group.
+
+And so what depthwise convolution does is it sort of has computation.
+
+It has it runs a convolution on an image filter independently for each channel.
+
+So there is not going to be any communication between channels. And.
+
+Sort of each channel gets to sort of just apply convolution spatially, spatially, independently.
+
+Now. One thing that can go wrong here is if you apply this directly to an RGB image,
+
+what it will essentially do is it will force you to reason not about colors anymore.
+
+It will force you to reason about redness, greenness and blueness and in the independent of one another.
+
+Just because there is no way to communicate between different color channels.
+
+Um, in practice, there's an easy solution for this, uh, which is depthwise convolution,
+
+if you ever use it, should always be followed up by a one cross,
+
+one convolution, which is a convolution that has a kernel size of one, but then has,
+
+um, all communication between all input channels and all output channels.
+
+And so there is a way to factorize convolution into depthwise convolution, which doesn't communicate between channels, and one cross, one convolution,
+
+it only communicates between channels, um, and so that often leads to the most memory efficient and also computationally efficient uh deep networks.
+
+If you zoom out a little bit. Um. We've looked at convolution.
+
+We've looked at all the different ways we can tune and, and influence what, uh, convolution does.
+
+Um, we have a certain number of output channels. Um, we have a group size.
+
+We have, uh, width and height of kernel. We have padding and we have strides.
+
+Now. This seems like a lot of parameters to have for one linear layer.
+
+We went from sort of just having to worry about channels, uh, in linear layers,
+
+to not having to worry about all sorts of different things in this convolutional layer.
+
+Well, this worry is a little bit of a it's an illusion.
+
+Um, you don't actually have much choice when you, uh, design convolutional networks.
+
+Uh, there is sort of very few reasonable choices of these parameters, and there's really two choices you need to make.
+
+Um, you need to make a choice about striding, and you either stride or you don't.
+
+And so you don't stride in one dimension versus the other.
+
+You stride with both dimensions so you don't stride at all. And you either have a stride of one, uh, which is original convolution.
+
+You mean you don't downsample or stride of two, where you downsample by a factor of two?
+
+I don't think you should consider anything else. Um, like 1 or 2 is sort of these are the good values.
+
+And then you have a kernel size. And so for kernel size mostly it's uh, it needs to be um, it needs to be odd.
+
+Otherwise you will not be able to pad. Well. And now you don't want to make it too large.
+
+Uh, oftentimes the first layer is larger, but for all the layers inside of the network, you will choose a kernel size for either 1 or 3.
+
+And that should be good enough.
+
+And everything else is more or less determined by the other two, by these two choices, but the choice of the stride and the kernel size.
+
+For the output channels. After the first layer, you will just start with some value of output channels.
+
+And the rule of thumb is that you should only increase your output channels if you stride.
+
+And if you stride, you increase your output channels by the striding factor.
+
+So since a striding factor is two, you always just double your output channels whenever you stride.
+
+And the reason why I do this is that it keeps the computational cost of convolution more or less constant.
+
+So in a deep network, computation is spread out almost evenly across all layers, which is oftentimes a good thing.
+
+And the reason why it spreads out this computation evenly is that the width and the height after striding will be divided by the stride,
+
+and then the input and output channels will be multiplied by the stride, which will which will cancel each other out.
+
+Groups. I don't think for this class you will not will probably not need to use groups.
+
+You can if you really want to uh, you can do depthwise convolution followed by one cross, one convolution.
+
+But oftentimes we'll just ignore groups.
+
+Um, padding. Padding is again determined by the kernel size itself.
+
+It's the kernel size minus one divided by two such that the input image size does not, uh, or the input size.
+
+The size of the input activations does not change. All right.
+
+So really, the two things you have to choose for each convolutional layer is the binary decision.
+
+Do I want to stride or do I not want to stride. And then you can choose your kernel size.
+
+And so the way to build convolutional networks is you alternate between convolution non-linear layers,
+
+and there is structures which you can use to sort of add normalizations or add residuals.
+
+Um, and then we'll decide where in the network to stride.
+
+The striding will sort of take image dimension.
+
+It will reduce the image dimension and it will add it into the channels.
+
+So it will sort of pack spatial information into channel dimensions.
+
+You will also lead to sort of larger receptive fields and more global patterns.
+
+And so all you need to do is you need to sort of strategically set where you stride and pick your favorite kernel size.
+
+So in summary, convolutional operators padding and striding sort of allows you to, uh, to control the output size.
+
+We use padding to make sure that the inputs, uh, the inputs don't shrink.
+
+And we use striding to actually purposefully reduce the size of the inputs by a constant factor group.
+
+And depthwise convolutions kind of help.
+
+You can help you, uh, reduce the convolutional, uh, the cost of convolution if you ever use depthwise convolution,
+
+uh, it cannot mix information across channels and should always be followed up by a one cross, one convolution.
+
+That's it.
+

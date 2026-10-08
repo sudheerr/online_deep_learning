@@ -1,0 +1,225 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So in this segment we'll look at what do convolutional networks learn.
+
+Um, and so to recap we've looked at images and sort of their structure.
+
+And we also have looked at how convolutions really fit that structure of an image.
+
+We've sort of looked at how all the patterns in the image or sort of nearby objects are always sort of almost one continuous blob of pixels.
+
+I mean, they can be this they can be discontinuous if there's a if there's occlusion.
+
+But oftentimes they're like spatially very close together.
+
+And a convolutional network really fits that structure very well.
+
+And so people in research looked at how do these convolutional networks represent images
+
+inside of sort of either their activations or inside of sort of their decisions?
+
+How do convolutional networks see images as they sort of travel through, uh, that network?
+
+And so there's two options on how we can sort of answer the question, how does the convolutional network see the image?
+
+One is we can look at activations and we can look at sort of we can study the individual
+
+activations inside of the network and see what are they actually sensitive to.
+
+What activations are sort of used for almost all computation, what activations are not used for much,
+
+and what computations are highly specific to very distinct classes?
+
+Then the other thing is we can we can look at sort of what does the ConvNet think about sort of different parts of the image,
+
+and what does it look at in the image to make a decision?
+
+And so if you want to visualize activations, uh, there there is that's been a lot of work and on sort of studying and understanding activations.
+
+I'll highlight one of them here. Um, and in this work, um, sort of.
+
+What the study did. Is it correlated?
+
+Individual activations inside of the network.
+
+In various layers of a convolutional network, and he correlated it with classes or outputs or sort of certain labels that are associated to an image.
+
+And if you, if you, if you look at sort of. Look at the network through this lens.
+
+You can find very interesting sort of activations emerge.
+
+There's in early layers of the network. There are activations that sort of just care about color.
+
+They're really individual outputs of the network that really are just sort of splashes of color.
+
+There is units that are activations that fire on red, some that fire on, uh, yellow,
+
+and then others that fire on sort of sky like objects because it's fairly NASCAR as sky is fairly distinct,
+
+and colors and low level patterns can help you detect sort of sort of sky like objects.
+
+And so this is the units that sort of specialize in detecting the blue of sky.
+
+Now if you go to the next layer, next level here, um, you will see textures starting to emerge.
+
+You'll see woven textures, for example. That's one that will emerge.
+
+Um, you can see sort of banded textures.
+
+You can see grid like structures emerge. And so the network will take these individual color, uh, sort of units,
+
+an assessor and assemble them into activations that now look at different textural patterns.
+
+Now, if you go further up you can take these textures and associated already two sort of basic objects.
+
+Uh, some textures can be assembled into detecting sky.
+
+So somewhere in between the network in the middle of the network,
+
+it will learn to sort of look at sky, some fire and very specific fruit to have a unique texture.
+
+Um, and then there's still sort of more complex patterns that emerge.
+
+If you go one step further in the network to about con four.
+
+Uh, by the way, here, con four doesn't actually mean there's only four layers.
+
+It means that if it's the fourth group or the fourth block of convolutions, and there you can see sort of faces emerge.
+
+Uh, you'll see sort of. Interesting other textures like swirly.
+
+You can see dogs will emerge because there's a lot of talk pictures online that we learn from.
+
+And then finally, sort of at the highest level, you'll see more complex off tricks, like not just there is part of a dog's face,
+
+there's actually neurons or activations that that activate on individual objects like cats.
+
+There's legs of people. There is sort of like other parts of objects of wheels and so on.
+
+And so you can really sort of see how the how the deep network builds up from very basic patterns,
+
+sort of red, green, blue, you builds up to understanding of textures.
+
+It builds up an understanding of sort of primitive, simple to classify objects, then parts of objects, and then finally looks at entire objects.
+
+And the work that, uh, sort of studied.
+
+This is, uh, side by side of down here below it's network dissection.
+
+And the way they did this is they recorded activations for all layers in a deep network and then sort of took for each activation,
+
+they looked at the top p uh, activation.
+
+So when was this part, uh, when was this activation most excited.
+
+And then they correlated the time when this was most when this sort of specific outfit
+
+was most excited was test and was highest with ground truth labels in a data set.
+
+And what you see here is sort of. Activations are highly active.
+
+And highly correlated to specific classes.
+
+And that's how they can visualize sort of what parts of the network look like.
+
+Now this will tell us sort of how information is built up,
+
+but it's a very incomplete picture because clearly the different channels are not independent.
+
+Activations don't just correlate to one class.
+
+They're reused over and over again in a very complicated and sort of messy process inside of the network.
+
+Now, a more sort of holistic way to look at the network is instead of trying to understand what's going inside,
+
+going on inside is trying to understand, well, if it makes its decision in the very last layer, if it makes its decision.
+
+What does it look at? And so the question what does it look at can be answered in two different ways.
+
+One is the convolutional network. It slides sort of the receptive field over the image.
+
+And as it slides the receptive field over the image. It looks a different set of crops after image.
+
+And so for each of these crops, we can now visualize how confident is the network about a specific prediction.
+
+And here this is the prediction brushing teeth. And it happened to be most confident.
+
+When it looks. At.
+
+So if the region that centered. Around.
+
+The toothbrush. Now for cutting trees.
+
+It will look at sort of the person that's cutting the tree, and it will look at the tree or the chainsaw.
+
+All right.
+
+And so this will tell us because we apply this convolutional network sort of in a sliding window over an entire image because it's all convolutional.
+
+It can tell us, um, sort of. Where certain things are, where the network thinks certain things happen.
+
+Now if you make your your network fully convolutional from the beginning, you don't need to do anything extra.
+
+You just read out that that that that last classification layer and it will be a map like this.
+
+Now, if at any point inside you chose to average pool and then add the linear classifier on top,
+
+you have to convert this back to a fully convolutional network to use this method.
+
+And so the way to do this is to sort of switch to average pooling and the linear layer.
+
+And. Replace it with a one cross, one convolution, and then average pooling.
+
+Now if, if the structure was more complex. So some networks, some of the early networks that people designed where there's not just one linear layer,
+
+there is sort of a whole host of sort of linear layers with other sort of dropout.
+
+And, and ReLU is in there. In that case, there's really not much you can do with this specific method.
+
+All right.
+
+Now there is a way to handle more complex networks, and it's an extension to came, uh, the class activation maps and that's called Grad cam.
+
+And so what Grad Cam does is it looks at activations of individual classes,
+
+but instead of visualizing just the output of the network, it now sort of takes a gradient step.
+
+We computes the gradient of a specific output to all its inputs and it visualizes the gradients.
+
+Of the inputs. And so this here tells you that if you look at this image.
+
+This region here. Down here.
+
+This region is what changes the output the most.
+
+So it has the highest gradient. So if you would change, uh, a specific activation in here, it would change.
+
+What the classifier thinks this image is the most. Right.
+
+And so the way you would compute this is um, you essentially compute, uh,
+
+you would average all of your classification, uh, all of your activations together.
+
+You get a single classification. In the end.
+
+And then you just called backward and you visualize the gradient that you get.
+
+And you visualize the magnitude of the gradient. Right.
+
+So you'll take your sort of your network output, you average the classification outputs together and then you called backward and to backward uh,
+
+to gradients uh degrades is sort of will produce this sort of heatmap here.
+
+All right. And so to understand a little bit what's going on inside of a network.
+
+Um. What we sort of can do.
+
+There's really two ways we can look at, uh, class activation outputs or grad cam like the gradients after grad class activation,
+
+uh, maps that will help us understand where the network looks.
+
+Or we can start to come up with interesting schemes that study individual activations in isolation.
+
+And that will sort of show us what patterns the network learns inside of it.
+
+That's it.
+

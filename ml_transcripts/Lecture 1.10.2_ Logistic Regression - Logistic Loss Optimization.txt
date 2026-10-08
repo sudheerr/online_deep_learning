@@ -1,0 +1,554 @@
+♪ (jazz music) ♪
+
+What's the optimization problem,
+
+associated with logistic loss?
+
+Remember, we wanted to use the
+0-1 loss, but it's NP-hard.
+
+Is very difficult to minimize.
+
+So instead, we're going
+to use this logistic loss.
+
+As you can see, I guess from,
+
+One nice thing about this
+picture, if I'd drawn everything
+
+really smoothly, you could see that all
+
+of the losses are convex.
+
+Okay.
+
+So, let's say are loss function L of W
+
+is equal to one over M.
+
+Sum from i equals one to M.
+
+Log of one plus X to the minus,
+Yi times W transpose, Xi.
+
+So, we want to minimize L of W.
+
+So, we want to figure out what's
+the min over W, of L of W.
+
+Okay, this is going to be our relaxation
+
+of finding the best half space.
+
+We're just going to minimize W,
+
+with respect to this logistic loss.
+
+Okay.
+
+Now, one function that
+enters the picture here,
+
+is the sigmoid function.
+
+So, define it G of Z.
+
+This is one over one,
+plus E to the minus Z.
+
+And if I were to graph sigmoid
+function, it would sort of,
+
+See if I can do this.
+
+This should be more curved.
+
+Okay.
+
+Not a great drawing,
+but you get the picture.
+
+It should look more symmetric.
+
+Sorry.
+
+But, as Z gets large, then G
+of Z is heading towards one
+
+and as Z gets small, G of
+Z is heading towards zero.
+
+Okay, so let's look at some properties
+
+of the sigmoid function.
+
+Any questions about sigmoid function?
+
+You'll see why we're
+using the sigmoid function
+
+in just a moment.
+
+So, as I said, G of Z is equal to one,
+
+over one, Plus E to the minus Z.
+
+And one simple fact,
+
+is that G of Z, plus G of minus Z
+
+is actually equal to one.
+
+Does anyone see why that is?
+
+Okay.
+
+Well, G of Z is one over
+one, plus E to the minus Z.
+
+What's G of minus E?
+
+One over one, plus E to the Z.
+
+How do I show that this is equal to one?
+
+Yes.
+
+>> Everything will have
+the same denominator.
+
+>> Well, let's just multiply the numerator
+
+and the denominator by
+E to the Z, for this.
+
+Then, this becomes E to the
+Z, over one plus E to the Z.
+
+And so, I just get one.
+
+Okay so, this is sort of
+nice, and you'll see why.
+
+So now, let's assume that
+we have the following
+
+relationship between our random variables.
+
+Let's assume that the expected value of Y,
+
+And remember, Y here again is, let's say,
+
+plus one, minus one.
+
+Let's say is equal to G of Y,
+
+times W transpose X for some W.
+
+Okay, so this implies,
+
+Remember, when we were doing regression,
+
+we often assumed that the
+expected value of Y given X
+
+was just some linear
+function, W transpose X.
+
+Here, I'm assuming that the
+expected value of Y given X,
+
+is G of Y, times W transpose X.
+
+I should've written,
+
+Let's put it this way.
+
+Okay, this implies that the
+probability that Y equals,
+
+say one, given X is equal
+to G of W transpose X.
+
+Okay so, this means,
+
+So, what this means, you
+remember the picture of sigmoid.
+
+Let me write this.
+
+So, what this means is that
+conditioned on some value, X
+
+or I should say, there exists
+some W, such that conditioned
+
+on any value X, the
+probability that Y equals one,
+
+is G of W transpose X.
+
+So, given X, if W transpose X is large,
+
+it means the probability
+that Y equals one, is large.
+
+Again.
+
+So, given an input X, remember
+there's some hidden W.
+
+If W transpose X is large,
+it means that we're far
+
+out here in the graph of
+sigmoid, and so the probability
+
+that Y takes on the value one,
+is going to be very large.
+
+Conversely, if W transpose
+X is negative, small,
+
+then the probability that Y equals one,
+
+is going to be very, very small.
+
+So, note the relationship here,
+
+Note the relationship here
+
+between learning a half space.
+
+In learning a half space, we
+said that there was some W,
+
+such that if W transpose X was positive,
+
+then the value should be one, period.
+
+In logistic regression,
+we're going to assume
+
+that the label associated to the point X
+
+is proportional to this
+sigmoid G of W transpose X
+
+for some hidden W.
+
+So, it's sort of a soft relaxation
+
+of the a half space scenario.
+
+If W transpose X is very large
+in a half space scenario,
+
+your label is definitely
+one, because it was positive.
+
+In logistic regression
+we're going to assume
+
+that the probability that
+your actually equal to one
+
+is very large, but it may not be one.
+
+So there's some chance you
+could still output zero,
+
+and likewise if W transpose X is small,
+
+instead of always saying that your label's
+
+going to be minus one.
+
+Well, you know, it's probably
+going to be minus one,
+
+but there's some small chance otherwise.
+
+And if W transpose X is say, zero
+
+then you might end up
+somewhere around here.
+
+In fact, if W transpose X
+is zero, then we'll have
+
+one over one, plus E to the zero.
+
+So, we'll have one half.
+
+And so the probability, it'll
+sort of be equally likely
+
+to have a label one or
+to have a label zero.
+
+Okay, are there any
+questions about this model?
+
+Okay.
+
+So, someone asked, is it
+expectation of Y given X
+
+or probability of Y given X?
+
+Actually, sort of doesn't
+matter because our random
+
+variables here are plus
+one, minus one or 0-1.
+
+So, for example, I keep
+switching up on you.
+
+But let's say,
+
+It really doesn't matter,
+because it's either 0-1
+
+or plus one, minus one.
+
+But, clearly if the
+labels are zero or one,
+
+then the expected value
+of Y is exactly equal
+
+to the probability that Y equals one.
+
+Okay.
+
+So, here we are.
+
+We have that,
+
+the probability that Y
+equals some value, Yi
+
+conditioned on Xi and some vector W
+
+is actually equal to the sigmoid function
+
+of Yi times W transpose Xi.
+
+Okay.
+
+This is the model,
+
+So this is the model
+for logistic regression.
+
+This is just what we assume to be true.
+
+Any questions about the model?
+
+For example, when we were
+learning a half space,
+
+the model was, we often
+assumed that there was
+
+a classified that perfectly separated
+
+the positive points from
+the negative points.
+
+Here, we're going to assume
+that the probability,
+
+that Y equals some value, Yi,
+conditioned on X and i and W,
+
+some choice of W is equal to a sigmoid
+
+of Yi times W transpose Xi.
+
+And then we could ask,
+given the training set,
+
+S, which as usual,
+
+What is the most likely
+W, given the training set?
+
+Okay.
+
+So, given that we have this
+model for random variables,
+
+for our points in our labels,
+
+and then we're given the training set, S.
+
+X1, Y1 through XM, YM.
+
+What is the most likely W?
+
+Which W is most likely to
+occur, given that we have
+
+this particular training set?
+
+So, I'm going to call
+this, the likelihood.
+
+I'm just going to call it, LL.
+
+I'll just call it, likelihood,
+
+of W is then going to
+be equal to the product
+
+from i equals one to M of the probability,
+
+that Y equals Yi, conditioned
+on Xi and W, which is equal to
+
+the product, from i equals one to M of G.
+
+I guess, G now.
+
+Yeah, sorry.
+
+G of,
+
+G was sigmoid.
+
+Yi times W transpose of Xi.
+
+Okay.
+
+So, the likelihood of some
+vector W, is actually equal
+
+to this product, because
+we're independently
+
+taking the probabilities,
+with respect all the points
+
+in your training set.
+
+Any questions about that?
+
+Okay.
+
+And then, we want to maximize this.
+
+Respect to W.
+
+We want to find the W
+that's most likely to occur.
+
+So, we'll take the log, W.
+
+And it's equal to the sum.
+
+The product becomes the
+sum, from i equals one to M
+
+of the log of Yi times W transpose Xi.
+
+Sorry, I need a sigmoid in there.
+
+Oops.
+
+Log of G, of Yi times W transpose Xi.
+
+Okay.
+
+And this equals to any,
+
+So remember, G of Z was one
+over one, plus E to the minus Z.
+
+This was sigmoid.
+
+So, when I take the log
+of the sigmoid function,
+
+what's going to happen to
+this sum, is I'm going to get
+
+minus sum, from i equals one to M log.
+
+So, it's one over one,
+plus E to the minus Z.
+
+So, I got a minus sign,
+and then one plus E.
+
+Yeah.
+
+I'll just write this as X of
+minus Yi, times W transpose Xi.
+
+Okay.
+
+So, the log likelihood is
+exactly equal to minus sum
+
+from i equals one to M,
+log of one plus X minus Yi,
+
+W transpose Xi.
+
+Okay.
+
+What does this quantity that
+I've underlined, look like?
+
+Or, what have we run into?
+
+Yes.
+
+>> Logistics loss function,
+
+we're looking at right here.
+
+>> Yes.
+
+This is exactly the logistic loss function
+
+that we were looking at, previously.
+
+So, if we go back here, we
+have this logistics loss.
+
+One over M, sum from i equals one to M.
+
+Log of one plus X to the
+minus Yi, W transpose Xi.
+
+And we said this was a,
+
+This was a nice function because
+it was convex, and smooth.
+
+And here we are, back at
+doing logistic regression,
+
+where we've assume this model,
+and we look at the likelihood
+
+and then looked at the log likelihood,
+
+and we got something
+that's equal to minus M,
+
+times the logistic loss, times the sum.
+
+Let's see what we called it.
+
+Capital L of W.
+
+If we got minus M, times capital L of W.
+
+So this was logistic loss.
+

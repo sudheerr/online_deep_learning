@@ -1,0 +1,486 @@
+♪ (jazz music) ♪
+
+But it turns out, for the running time
+
+we can really win.
+
+So
+
+we can save
+
+on the running time.
+
+In fact, we can save dramatically
+
+using something called the kernel trick.
+
+So what I'm going to describe for you
+
+is kernel perceptron and
+you'll see that we can
+
+get this running time, in some sense,
+
+back down to linear time even though we're
+
+working in this much
+higher dimensional space.
+
+We still won't be able to
+say much about the margin
+
+but
+
+at least in terms of
+run time we're going to
+
+have a big improvement.
+
+So.
+
+Let's call this kernel perceptron.
+
+Okay so if I have an input x,
+
+this is my input.
+
+I'm going to denote phi of x
+
+to be the image
+
+of x
+
+in the feature space.
+
+So if x was in Rn
+
+and we were looking at
+polynomials of degree d,
+
+just so we're all on the same page,
+
+what's the dimension of phi of x?
+
+Yes?
+
+Right, so phi of x
+
+is going to be an Rn to the d.
+
+Okay.
+
+Now imagine that we had a function, k
+
+that takes in points x one
+
+and x two
+
+and outputs
+
+the inner product of phi of x one
+
+with phi of x two
+
+and let's assume
+
+that k of x one and x two
+
+is easy to compute.
+
+So again, k here is going to be something
+
+called a kernel function.
+
+And what it's going to do
+
+is take any pair of points,
+
+here I'm looking at x one and x two
+
+but it could be any pair of points.
+
+K is going to take any pair of points,
+
+x one and x two
+
+and it's going to output the
+inner product of phi of x one,
+
+phi of x two.
+
+And let's also assume
+that k of x one x two
+
+is easy to compute.
+
+Okay.
+
+So let me,
+
+let's describe kernel perceptron.
+
+So remember, in the perceptron algorithm
+
+we started off with some w
+
+and it was equal to say,
+the all zeros vector.
+
+So now we want to work
+
+in Rn to the d.
+
+So I'm going to assume our initial point w
+
+is the all zeros vector
+
+of length n to the d.
+
+Let's assume we make a mistake.
+
+So w new
+
+is going to be equal to
+
+w old
+
+which we said was the all zeros vector.
+
+So we'll sort of ignore it for right now,
+
+let's imagine this is the first mistake.
+
+And we're going to add to it y times,
+
+this time not x but
+
+since we're working in this
+larger dimensional space,
+
+what are we going to add to it?
+
+Yes.
+
+>> The image specs.
+
+>> Phi of x.
+
+Exactly.
+
+So do we all agree this is
+going to be our new vector,
+
+our new w?
+
+It's going to be w old
+which we said was zero
+
+plus y times phi of x.
+
+Okay.
+
+So let's keep running
+
+this perceptron algorithm
+
+and so let's say we made a mistake
+
+on point
+
+x one.
+
+Now in order to keep running
+the perceptron algorithm,
+
+we need to evaluate
+
+w new
+
+inner product,
+
+let's say we have a new point,
+
+phi of x two.
+
+So x two is our new point.
+
+So do we all agree that in order
+
+to keep running the perceptron algorithm
+
+in this higher dimensional space,
+
+I have to take
+
+my new hypothesis, my new weight vector w
+
+and I have to take its inner product,
+
+remember, w is now in this
+larger dimensional space,
+
+I need to take it's inner
+product with the mapping
+
+of this point x two.
+
+That's how I decide whether
+to send back plus one
+
+or minus one.
+
+I have to look at the
+sign of this quantity.
+
+Now it seems like in order
+to compute this value,
+
+w new inner product phi of x two,
+
+I need to work in this n
+to the d dimensional space.
+
+I need to actually
+compute this mapping phi
+
+and take it's inner
+product to the n to the d
+
+dimensional vector w new.
+
+But here's what's called the kernel trick,
+
+remember w new is actually equal to y,
+
+which is a scaler,
+
+times phi of,
+
+remember we said this is
+the first point, x one,
+
+phi of x one
+
+inner product phi of x two.
+
+This is the quantity
+that we need to compute.
+
+And how did we define the kernel function?
+
+We said that k of x one
+
+x two was equal to the inner
+product of phi of x one
+
+and phi of x two.
+
+So this is equal to y
+times the kernel function
+
+of x one and x two.
+
+And remember we said
+that the kernel function
+
+we were going to assume,
+we'll give some examples
+
+of kernel functions in just a moment.
+
+But we said that the kernel function
+
+was going to be easy to evaluate.
+
+And notice that the input
+to the kernel function
+
+are these vectors x one and x two
+
+and they're of length n,
+
+not n to the d.
+
+So we're taking our kernel function k
+
+and we're evaluating it using these inputs
+
+that are of length n.
+
+And then we're multiplying it by a scaler.
+
+So that's awesome.
+
+This is efficient and easy to calculate
+
+as opposed to computing the inner product
+
+of the n dimensional vectors
+explicitly in this n to the d,
+
+excuse me, these are n to
+the d dimensional vectors,
+
+computing their inner product explicitly
+
+in some n to the d dimensional space,
+
+that's going to take a lot of time.
+
+Yes, question.
+
+>> How did you know that w new
+
+was equal to y times phi to the x one.
+
+>> Well I was assuming we
+made a mistake on point x one.
+
+And remember the perceptron update rule
+
+says that you take your,
+
+the way you update your new vector
+
+is you take the old one
+and you just add to it
+
+y times the vector,
+
+the point x.
+
+In this case, our point x one is actually,
+
+remember, we're working in
+this higher dimensional space
+
+so the point is actually phi of x one.
+
+We're running the perceptron algorithm
+
+in this higher dimensional space.
+
+>> But then aren't you
+missing a w old there?
+
+>> This w old?
+
+Yeah, we assumed that it was zero.
+
+We initialized it to be zero.
+
+>> Okay.
+
+>> So our initial choice of w
+was just the all zeros vector.
+
+So if the initial choice of
+w is the all zeros vector
+
+then this w old,
+
+the way w starts, it's just zero.
+
+So I'm just zeroing it out.
+
+Okay.
+
+So.
+
+We can keep going like this.
+
+So every time, so
+
+basically,
+
+w
+
+is going to end up
+
+being the sum, let's say
+we've made t mistakes,
+
+let's say we make t mistakes
+on the first t points.
+
+Then w
+
+t plus one is going to be the
+sum from i equals one to t
+
+of y
+
+t
+
+times phi of
+
+x,
+
+sorry,
+
+yi
+
+times phi xi.
+
+And if we need to compute,
+
+so this is a vector,
+
+think of it as Rn to the d.
+
+So if we need to compute wt plus one
+
+inner product with phi of
+
+xt plus one,
+
+well we're going to get the
+sum from i equals one to t
+
+of yi times the inner product of phi of xi
+
+phi of x t plus one.
+
+And each one of these inner products
+
+is actually the kernel function on xi
+
+and xt plus one.
+
+And remember, we said that this
+
+was going to be efficiently computable.
+
+So the idea is that we can
+run the perceptron implicitly
+
+via this kernel function.
+
+We can run this perceptron update
+
+in this much higher dimensional space
+
+and the only thing that
+we need to keep track of
+
+are our inner products of vectors
+
+in this higher dimensional space
+
+and we can do that via a kernel function
+
+that outputs some function on the vectors
+
+in the lower dimensional space,
+
+in the little n dimensional space.
+
+So we're able to simulate
+the perceptional algorithm
+
+in a much higher dimensional space
+
+just with low dimensional vectors
+
+and this kernel function.
+

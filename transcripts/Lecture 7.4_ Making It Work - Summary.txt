@@ -1,0 +1,55 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So making deep learning work in practice is really an iterative process.
+
+Um, it involves sort of setting up your data set, uh, and sort of looking at your data, uh, normalizing your input, preparing your model.
+
+Like, you pick the right model. You prepare your model, that sort of step number one.
+
+The step number two is sort of you train your model, uh, in sort of most cases you lose.
+
+And w you might have to tune your own learning rate schedule to get really good training performance.
+
+Then step number three is you're going to set up your validation set.
+
+You're going to set up your test set. And then you're going to measure the performance between these test sets to see how much you're overfitting.
+
+If you're overfitting, what will happen is you will have to go back to sort of the beginning here.
+
+You're going to go. Change certain things in your architecture.
+
+Maybe you change your training set up. Maybe you do use data augmentation.
+
+Maybe it's even. Maybe it's not even possible with the current data to fit a model.
+
+So use transfer learning. You sort of borrowed a model from somewhere else.
+
+Then you go train the model again. Especially if you use transfer learning.
+
+Maybe the model will not train in the first. In the first, uh, the first try, you'll have to go back.
+
+Look at your you look at your model again, sort of tweak your optimizer a little bit.
+
+Eventually you'll be able to train your model.
+
+You look at the validation performance again. And this this loop sort of continues over and over and over again until you're happy.
+
+Once that happens. You will evaluate a model exactly once on the test set and you're done.
+
+If you set this up properly. This test set should give you a good idea on how well the model would work.
+
+Uh, sort of in unseen data. Now, a lot of this is a lot harder to do if you have little data.
+
+So if you have a small amount of data, you have to be very careful in how you sort of set this up,
+
+how you split the data sets, how you sort of how you set up your models and how you have to sort of prevent overfitting.
+
+If you have more and more data. And so if we sort of ended up in a, in, uh,
+
+sort of scenario where you had like all the data that you could ever collect in the world, this does become a lot easier.
+
+I mean, there's huge engineering challenges, uh, with a lot of data, but the actual pipeline of trying to prevent overfitting,
+
+trying to get to a model that works well in practice does become a little bit easier.
+
+That's it for this segment.
+

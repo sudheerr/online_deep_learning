@@ -1,0 +1,89 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+In this segment we'll talk about tensors. Tensors is an extension to linear algebra, uh,
+
+that allows us to express even more computation and represent even more data that we're not able to do in basic linear algebra.
+
+And so with that, let's actually just look at what basically an algebra is, um, and recap the previous segment.
+
+So the basic basics of linear algebra is that it's a language to help us express many mathematical operations all at once,
+
+or a lot of computation all at once. And we sort of looked at two examples of representing sort of values in linear algebra.
+
+Number one was a vector which is a 1D array of numbers.
+
+Number two was the matrix which is a 2D array of numbers.
+
+But what about sort of higher dimensional uh inputs?
+
+What if we would want to sort of put an image into a deep network?
+
+Well, an image has three dimensions. The first dimension is going to be the height of the image.
+
+The second dimension is the width of damage, and the third dimension is the number of channels.
+
+Now for RGB images, the number of channels is always three.
+
+But in general we can look at hyperspectral images where the number of channels can sort of increase up to the 20 or 30 channels.
+
+Um, another example is video, but we would add an additional dimension for time.
+
+Now we could, in theory, uh, store images or videos as sort of long lists of matrices,
+
+but that would sort of defeat the purpose because it wouldn't make the notation much easier.
+
+And so that's why we look at representations for any dimensional arrays that sort of allow us to pack data in 3D.
+
+45 t however many d we would want.
+
+And that representation is the tensor. So a tensor is an ndarray of numbers.
+
+And so it has sort of a shape which it's, which it, which is sort of the size of the tensor along each dimension.
+
+And then it has a number of dimensions. And so the shape really is sort of, uh, the tensor is really sort of an extension of linear algebra to uh,
+
+to sort of reason about n dimensional objects.
+
+Let's look at some examples. So a 1D tensor.
+
+We have already covered. This is a vector. 2D tensor is a matrix.
+
+A 3D tensor is an image. Um.
+
+It could also be sort of a spectrogram of uh of a waveform in audio processing.
+
+Um, there's many more examples of sort of 3D tensors.
+
+And then 4D tensors include videos, uh, and sort of any other extended time series.
+
+Um. Now in PyTorch.
+
+Uh, tensors are sort of the basic building block that we use for almost anything that involves values and data.
+
+Um, tensors have a shape, and that shape is both the size of each dimension and the number of dimensions that the tensor has.
+
+So the shape itself is sort of a list. If you want to create, uh, one 1D tensor, we would just set the shape to a list of one value.
+
+If you would want to create sort of a matrix we would do the one.
+
+Come up to two. And any dimensions would I would work.
+
+Now, tensors also have a data type. And this is sort of specific to PyTorch.
+
+Um, PyTorch allows you to create arrays of various different data types.
+
+It can be integers. It can be floating point. You can even specify the precision you would want for each floating point.
+
+And so that is sort of attached digit dtype to data type of the tensor.
+
+And then finally the number of dimensions down here which is the length of the shape uh is the final property that we sort of care upon.
+
+And then with all of these sort of properties, the tensor just stores all the raw values that sort of are associated with this array,
+
+together with its shape, dimension, and, and uh, and type.
+
+All right. Um. That's it. So tensors are a sort of multi-dimensional extensions of arrays,
+
+and they provide a very easy and efficient way to represent and manipulate large amounts of data.
+
+That's it.
+

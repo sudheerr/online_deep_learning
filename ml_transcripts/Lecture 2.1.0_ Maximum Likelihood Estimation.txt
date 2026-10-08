@@ -1,0 +1,2436 @@
+♪ (upbeat music) ♪
+
+Welcome to Machine Learning class,
+
+I'm Qiang Liu from UT Austin.
+
+So today we are going to introduce
+
+maximum likelihood estimation,
+which is a very powerful
+
+and the general idea
+
+for estimating parameters
+of probabilistic models.
+
+So let's just get started.
+
+So the maximum likelihood
+estimation is a way
+
+to estimate parameters for giving
+
+probabilistic distributions
+from observation.
+
+So let's give a example to just get a...
+
+of what it looks like.
+
+So let's say assume we have a biased coin.
+
+So we can model the result
+
+of this coin using a random variable.
+
+So this coin which we model
+
+as a random variable denoted by X.
+
+So X is a random variable, meaning that
+
+its value is a random variable every time
+
+when you draw the coin.
+
+So and this random variable is defined
+
+by a probability distribution.
+
+So the probability of X equal
+to head, equal to theta.
+
+Here's the assumption.
+
+And theta is a parameter.
+
+And then the probability
+
+of X equal to tail is
+one minus theta, right.
+
+So here theta is something
+called a parameter
+
+and it's a unknown parameter,
+we don't know about it, right?
+
+But what we do know is
+that we observe a sequence
+
+of draws from this distribution.
+
+So we observe a sequence.
+
+So in this particular case,
+
+we observe four heads and one tail.
+
+And the question then
+
+is to estimate the parameter theta
+
+given the observation, right?
+
+So notice that theta is unknown
+
+and we don't directly observe
+theta but we observe it
+
+through the random observation drawn
+
+from the distribution, right?
+
+So this is a very simple question
+
+and you probably know
+intuitive what it looks like
+
+because here we draw five times
+
+and four out of five is head.
+
+So we can probably just easily guess
+
+that the estimation could
+be five out of four, right?
+
+So this is a very simple
+intuitive justification
+
+but the problem is, is
+there a mathematical
+
+and principle way for estimating theta.
+
+Is there kind of a general principle
+
+so that we can extend this
+
+to estimate more complex
+parameters, right?
+
+So maximum likelihood estimation
+does exactly this task.
+
+So let's illustrate the key idea
+
+of maximum likelihood estimation.
+
+So let's simplify the problem.
+
+Say we have two choices of theta.
+
+So let's say either theta
+equal to .9 or equal to .1.
+
+And we want to decide which
+one is more likely, right?
+
+So, is .9 more likely or
+.1 more likely, right?
+
+So how can we decide a parameter
+
+is more likely than the other?
+
+Well, what we can do is that
+just by assumption, right?
+
+So let's say if theta
+actually equal to .9.
+
+Then what we can calculate
+is the probability
+
+that say that we can
+say the data set given
+
+that the theta equal to .9.
+
+This is something we can calculate.
+
+For example, we can
+calculate the probability
+
+of saying the observation which
+is the four head, one tail
+
+given that theta equal to .1, right?
+
+This is a probability of (talks) the data
+
+given that theta equal to .1 right?
+
+And this equals to, you
+can actually calculate
+
+this very easily using probabilistic rule.
+
+Basically here, we see head four times
+
+and we know that the probability
+of seeing head is theta
+
+by the assumption so
+because it's four times,
+
+so we multiply four times, right?
+
+And the reason we can do this is because
+
+we assume that observation
+is independent, right?
+
+And then we see tail for once.
+
+So we multiply one minus
+theta power one (talks).
+
+So one minus theta is the
+probability of seeing tail,
+
+that's why we multiply by twice, by once.
+
+So we can actually calculate this number,
+
+it's going to equal to .1 power
+four, .9 power one, right?
+
+So we can sort of say that
+
+this is actually a very small number,
+
+so it will be point zero, zero (talks).
+
+It's a very, very small number, right?
+
+So now on the other hand, if
+we assume theta equal to .9,
+
+then we can also calculate the probability
+
+of seeing the data's data observation,
+
+it's going to be the
+probability again to head,
+
+head, head, head, tail given
+that theta equal to .9, right.
+
+We have the same formula
+as before except that
+
+we have a different value of theta, right?
+
+So again, this is equal
+to theta four power,
+
+one minus theta and which equals
+to .9 four power .1, right?
+
+So this one, this number
+is actually much larger
+
+because it's the fourth power
+of .9 instead of .1, right.
+
+So this is very large.
+
+And (talks) the, if theta equal to .0,
+
+the probability of seeing the data
+
+is actually much smaller, right?
+
+So from here, we can sort
+of see that the likelihood
+
+that theta equal to .1 is much smaller
+
+than the likelihood of
+theta equal to .9, right?
+
+Now this is just two possible
+values but in practice,
+
+what we can do is we
+can do the same practice
+
+for every single value of
+theta between zero and one.
+
+In that way, we can
+actually get a function,
+
+something called likelihood function
+
+that you evaluate how likely
+each parameter is, right?
+
+And then we can sort of maximize
+that likelihood function
+
+to find the estimation of theta.
+
+So let's go through this.
+
+Right so basically what's
+happening is, you know,
+
+let's say plot theta has X-axis and then
+
+we can sort of calculate the probability
+
+of seeing the data, right?
+
+I would just use data given theta, right?
+
+So this is going to be
+a function over theta.
+
+And then in this particular case,
+
+the function will look
+like something like this.
+
+It's between zero and one.
+
+It will be large when theta
+is some somewhere close to one
+
+and small when theta is very small, right?
+
+And then we can just
+maximize this function
+
+to find out optimal
+estimation of theta, right?
+
+So let's implement this idea.
+
+So we kind of already have
+been already doing this, right?
+
+So we can sort of calculate
+define a function theta.
+
+This function is defined to be exactly
+
+what we have been doing
+
+which is the probability
+of seeing the data set
+
+given theta and then again we
+have already calculated this.
+
+It's, right?
+
+And then we want to estimate theta
+
+by maximizing this function
+
+which is argmax theta, L theta.
+
+So, argmax represents the value,
+
+the result you get
+
+by maximizing a particular
+function, right.
+
+So this function here
+
+is called the likelihood function, right?
+
+So this function is called
+likelihood function.
+
+It's called likelihood function.
+
+And then we are trying to
+maximize the likelihood function
+
+to estimate theta and this estimator
+
+is something called a maximum
+likelihood estimation.
+
+So maximum likelihood estimation, right.
+
+So in our particular case,
+
+we will have theta-hat
+equals to argmax theta
+
+which is exactly four power of theta,
+
+one minus theta, right.
+
+Now the problem is we just need to solve
+
+this optimization problem.
+
+It turns out this curve exactly looks
+
+like the curve we had here.
+
+So we should be able to estimate something
+
+that is close to one, right?
+
+But the problem is how do
+we actually solve this?
+
+Well, turns out one
+sort of very nice trick
+
+is that we can max...
+
+Instead of maximizing this function,
+
+we can maximize its log so
+meaning that this actually
+
+is equivalent to maximizing theta,
+
+taking the log of the whole thing.
+
+Right and the reason is
+because the log function
+
+is a monotonic increasing function, right?
+
+So the log function looks like this.
+
+This is a log, right, log X.
+
+So if a theta maximize
+the original function,
+
+it should also maximize
+the log of that function
+
+just because the transform defined
+
+by log is monotonically
+the increasing, right.
+
+And then this actually helps a lot
+
+because originally we have
+a lot of products, right?
+
+Right now if you take
+the log, we have some
+
+and that's much easier to handle.
+
+So if we write down...
+
+If we expand the log,
+
+it will become four times log theta
+
+plus log one minus theta, right?
+
+And then we can now optimize this function
+
+by taking the gradient and find the points
+
+where the gradient equals zero, right?
+
+So let's define this log
+function to be l theta.
+
+Right l theta actually equals to the log
+
+of the capital L theta, right.
+
+So the l, small l is called
+a log likelihood function.
+
+So it's called log-likelihood function.
+
+Right.
+
+Okay so in our particular case,
+
+we can, maximizing L
+
+by taking the gradient and (talks) right.
+
+So we can take the gradient of l equals
+
+to four divide by theta plus,
+
+if you take the gradient
+for log one minus theta
+
+equals to one minus
+theta minus one, right?
+
+And then you hope this one equal to zero
+
+and then that gives you theta.
+
+If you solve this value,
+
+you will get theta equal to four five.
+
+So meaning that if you look at this curve,
+
+you want to find a point
+that has zero (talks),
+
+that's exactly the point
+
+that you will optimize this function.
+
+So this estimation now
+is actually consistent
+
+with the naive guess that we had earlier,
+
+but it's derived from a very general
+
+and powerful mathematical principle
+
+of maximizing the likelihood, right.
+
+So this is actually the basic idea
+
+it's actually a fairly simple idea.
+
+Now, just to recap what
+we have been doing, right.
+
+So in this example, the
+problem is that we are trying
+
+to estimate the unknown probability theta
+
+through a set of observation.
+
+In this case, it's a binary observation,
+
+either head or tail, right.
+
+And the idea is that because
+we don't know exactly
+
+what theta is, what we can do
+
+is to try different
+possibility of theta, right?
+
+Let's say theta equal to minus .1,
+
+we can given, assuming theta equal to .1,
+
+we can actually calculate the probability
+
+of seeing the data if
+theta equal to .1, right?
+
+And that gives you a likelihood function
+
+for theta equal to .1 and
+we can do the same thing
+
+for any other theta and that gives you
+
+this likelihood function, right?
+
+Which looks like, you know, in this case
+
+it looks like this right,
+it has a maximum point,
+
+which is the point that the value of theta
+
+there will maximize the likelihood
+
+and then we can implement this idea
+
+by writing down exact form
+of the likelihood function
+
+and then because likelihood function
+
+is often a product of lots of things,
+
+so we take the log, the log transform.
+
+That gives you a more convenient form
+
+and then we in this particular case,
+
+we can take the gradient and
+find the zero gradient point
+
+that gives you the estimation, right?
+
+So this is the very simple idea.
+
+Now let's try to summarize this idea
+
+in a more kind of abstract
+and a general form
+
+and then we will go back
+with further more examples.
+
+So now let's define the kind
+of the family the problem
+
+that maximum likelihood
+estimation can solve.
+
+So the problem setting is that
+
+we are given a set of observation Xi,
+
+i from one to n, right?
+
+So each Xi is a observation.
+
+In the case of a biased coin,
+
+each Xi is going to be the observation
+
+of each outcome either
+head or tail, right?
+
+And then we'll assume
+each of these observation
+
+is independently and
+identically distributed
+
+from some unknown
+distribution P star, right?
+
+So here is what's called IID,
+
+independent identically distributed
+
+is a very important assumption.
+
+Basically it means that
+different observations
+
+are generated independently
+
+from the underlying distribution
+that we don't know, right?
+
+And then we have a very
+important assumption
+
+that this unknown distribution
+P theta is actually belong
+
+to a parametric sets of distribution.
+
+That means it's a set of distribution,
+
+which is indexed by some parameter theta
+
+that we don't know, right?
+
+So in the example we
+just showed last time,
+
+the theta is the
+probability of heads, right?
+
+But there are many other cases
+
+where theta have different meanings.
+
+We'll go over some example later.
+
+And then the goal is to
+estimate theta, right?
+
+So now let's talk about how
+maximum likelihood estimation
+
+can solve this type of
+general problems, right?
+
+So the idea then is exactly
+what we talked in the example.
+
+So we write down the
+likelihood function, right.
+
+So it's the L theta.
+
+The likelihood function is
+going to be the probability
+
+of seeing the whole observation
+
+given a particular value of theta.
+
+So it will be probability
+
+of seeing X1 all the way to Xn, right?
+
+Given a particular value of theta, right?
+
+And then because we are
+assuming the observation Xi
+
+is drawn independently
+from the distribution.
+
+So we can actually separate
+the joint distribution
+
+into a product of the
+individual distributions.
+
+So it turns out this joint distribution
+
+of seeing all the points
+is actually a product
+
+of individual probabilities, right.
+
+So it's a product of all
+the probabilities, right?
+
+And then we mentioned that
+it's often more convenient
+
+to instead of working on
+the likelihood function,
+
+we actually most likely, we want to work
+
+on the log likelihood function
+
+which is the small l equals to
+the log of capital L, right?
+
+Now the capital L, likelihood function
+
+is a product of probabilities.
+
+So if you take the log,
+it becomes the sum, right?
+
+So this is going to equal to
+sum over i equal to one to n,
+
+log probability Xi given theta, right?
+
+So this is the log likelihood function.
+
+It's the sum of log probability
+
+of all the data points, right?
+
+And then we can define the
+maximum likelihood estimation.
+
+Maximum likelihood estimation,
+which is we estimate theta,
+
+the theta-hat represents
+the estimation of theta
+
+by maximizing the likelihood function
+
+or equivalently, the
+log likelihood function.
+
+So it'll become...
+
+Right?
+
+So now we actually need to solve
+
+this optimization problem, right.
+
+And then we need to solve
+the optimization problem.
+
+Right so in the example we
+showed just one moment ago,
+
+we can solve that optimization problem
+
+by exactly deriving closed
+form solution, right
+
+but more generally we can
+use numerical algorithms
+
+to solve this problem
+
+if we don't have nice
+closed form solution.
+
+So, let's go over more examples
+
+to sort of see this general framework.
+
+Once again we define
+the likelihood function,
+
+we then calculate the
+log likelihood function,
+
+then the parameter estimation problem
+
+just reduces to an optimization problem
+
+of finding the optimal points
+
+that maximize the log likelihood.
+
+So let's go over more examples.
+
+This is actually exactly the same example
+
+we just talked (talks), we mentioned
+
+but I'm formulating in a
+slightly different way.
+
+So now we are given a
+set of observation Xi.
+
+Here, Xi is a binary,
+either zero or one, right?
+
+So it's equivalent to say that
+
+it's either tail or head, right?
+
+But it doesn't matter just zero, one
+
+is very convenient to
+represent binary values.
+
+And then we assume it's drawn IID
+
+from what's called Bernoulli distribution.
+
+This is really just another name
+
+of the coin model that we just mentioned.
+
+So here, I'm actually writing the model
+
+in a slightly different way.
+
+So I'm assuming the
+probability of X equal to one
+
+actually equal to this guy.
+
+So which is exponential W,
+one plus exponential W, right?
+
+So, in the earlier model example,
+
+this value equal theta, right?
+
+So there will be a transform
+between theta and the W.
+
+So basically, the reason
+we want to use W here
+
+is because we don't need to
+constrain theta equal to,
+
+to be between zero and one, right?
+
+So let's see, here is
+a W, here is a theta,
+
+you can sort of think that's a transform.
+
+Right.
+
+So this transform is
+exactly this exponential
+
+over one plus exponential.
+
+So we map a arbitrary real value
+R to theta that probability
+
+that is between zero and one, right.
+
+So in this way, when we optimize W,
+
+we don't need to concede the constraint
+
+of theta being zero and one, right.
+
+So this is a very nice
+trick that people often use,
+
+very useful and powerful.
+
+Now and then if we make this assumption,
+
+then we can calculate one minus theta
+
+and then it will exactly equal
+
+to one over one plus exponential W, right.
+
+Now the problem becomes
+estimating W, right?
+
+But they are equivalent
+
+so we'll divide the equivalent results
+
+but just you know,
+slightly different form.
+
+Okay, so we are going to solve
+
+this problem using maximum
+likelihood estimation.
+
+We just practice (talks) we had, right?
+
+So we will write down
+the likelihood function,
+
+which is the probability of
+seeing all the data points
+
+given W, right in this case,
+we want to write estimate W
+
+and it will equal to
+the power that, right?
+
+Log P Xi W, sorry.
+
+So let's just directly write
+down the log likelihood.
+
+So log, right.
+
+And we want to maximize this, right.
+
+So here one sort of minor
+issue is that the function,
+
+the probability is defined
+case by case, right?
+
+So if X equal to one, this is the formula,
+
+if X equal to zero, this is the formula.
+
+It would be nice to
+have a unified formula.
+
+Turns out we have,
+
+turns out you can sort
+of equivalently rewrite
+
+this whole formula in another form.
+
+So let me do this.
+
+So here just as a side result,
+turns out we can show that,
+
+we can write the probability of X
+
+just to be exponential X times W
+
+divided by one plus exponential W, right.
+
+So this is really just the equivalent
+
+to the definition we had for the model.
+
+So let's just verify, right?
+
+So if X equal to one,
+then this whole function,
+
+this function becomes just
+plugging X equal to one,
+
+it will become exponential
+W plus exponential W, right?
+
+So this is the formula
+we have here, right?
+
+Right here.
+
+And then if X equal to zero,
+
+then just plugging X equal
+to zero in the formula here,
+
+we get one plus exponential W.
+
+So this is the formula
+we have here, right?
+
+So, but in this way, we don't need
+
+to kind of conceive the
+models case by case.
+
+We have a simple formula for different X.
+
+This will be very helpful
+
+for our derivation of maximum likelihood.
+
+So now we have the maximum
+likelihood estimation
+
+which is here, we can just write down,
+
+plug in the formula, right?
+
+So we know that the log P X
+given theta, given W sorry.
+
+Given W equals to using this formula,
+
+it will become log exponential XW,
+
+one plus exponential W, right?
+
+So it equals to XW minus log
+one plus exponential W, right?
+
+So this is the formula for each log P
+
+and then we are going to sum them together
+
+for different Xi together overall formula.
+
+So this will then, the log
+likelihood function, right?
+
+sure equals to sum (talks)
+
+over the log P Xi given W, right?
+
+So it will equal to, sum
+over i equal to one to n
+
+and then I'm going to
+plug in this formula,
+
+I get Xi times W minus log one plus W,
+
+right together, right.
+
+So we can sort of reformulate this.
+
+We can separate the summation,
+it will become Xi W minus.
+
+So here, for the second term
+
+because it doesn't depend on i,
+
+we can just write it n times
+because we sum over n terms
+
+that equal to this exact value.
+
+Right.
+
+So this is actually the function
+
+that we're going to optimize.
+
+For simplicity, we can
+sort of reformulate this,
+
+let's denote this whole thing
+as n times X-bar, right.
+
+W minus log one plus exponential W.
+
+So here, X-bar is defined
+to be the average value
+
+of all the possible X, right.
+
+So now this whole likelihood
+function only depends on,
+
+sorry again this is W, right.
+
+It only depends on the
+data through X-bar, right.
+
+And then we have W which
+we want to optimize, right.
+
+So in order to optimize this function,
+
+once again what we want to do
+
+is to take the gradient, right.
+
+So let's take the gradient.
+
+So gradient of W.
+
+If we take this whole gradient,
+
+it will becomes n, n
+actually doesn't matter
+
+because it's a constant.
+
+The first term is the (talks) term.
+
+If you take the gradient, it's X-bar minus
+
+and then you have log
+one plus exponential W.
+
+If you take its gradient
+you need to use (talks)
+
+because it's log, you
+get (talks) exponential W
+
+and then you take a
+(talks) for exponential W,
+
+we get this, right?
+
+So you hope this whole
+thing equal to zero, right?
+
+This whole gradient equal to zero.
+
+And then you can actually work it out.
+
+So at this point, sorry, sorry here.
+
+So at this point, we can actually
+
+already estimate the parameters
+
+because remember, when we
+define the probability,
+
+exponential W divided by one plus
+
+exponential W equal to theta, right?
+
+If you compare this with the
+gradient formula we have here,
+
+we can sort of already see that,
+
+we sort of already see that
+the estimation of theta equals
+
+to the estimation of
+theta-hat W, exponential W-hat
+
+should be equal to X-bar,
+
+which is the average value of
+all the observation, right?
+
+Because Xi denotes to either zero or one.
+
+So the average is really
+the percentage of...
+
+Is really the number of ones divided
+
+by the number of ones plus
+the number of zero, right?
+
+So using this idea,
+
+we can actually get the
+same estimation of theta-hat
+
+that is consistent with
+the earlier example.
+
+And obviously, you can also estimate W
+
+despite applying the inverse transform,
+
+turns out if you solve this equation,
+
+you will get W-hat equals to log, right.
+
+But so this also gives
+
+you a maximum likelihood
+estimation of W-hat, right.
+
+So, to recap this example,
+it's a reformulation
+
+of the biased coin example
+that we had earlier
+
+except that instead of
+estimating the probability theta,
+
+we estimate another
+parameter W which is obtained
+
+by applying this transform, right?
+
+So the advantage is that
+we can sort of allow W
+
+to be arbitrary real value and
+then we apply this transform.
+
+This transform is actually
+
+sometimes called sigmoid
+transform to get a probability
+
+and then we want to estimate
+theta and then the idea
+
+is to write down the likelihood function.
+
+In order to do it, we can
+actually reformulate this model
+
+so that we can sort of
+rewrite different cases of X
+
+using this simple unified
+formula by introducing,
+
+multiplying X by (talks) W.
+
+And then if we use this
+formula, you get the log X,
+
+which is this and then we can take the sum
+
+of log probability which
+is the log likelihood.
+
+We get some very simple formula,
+
+taking the gradient, we can get a formula
+
+for estimating both
+theta and the W, right.
+
+So again, simple example.
+
+So okay, so now let's
+go to another example
+
+which is also a very simple
+but very basic example.
+
+So in this case, we
+again have observation,
+
+a sort of observation Xi, i from one to n.
+
+And then in this case
+we assume Xi is drawn
+
+from what's called Gaussian
+distribution, right?
+
+So a Gaussian distribution indexed
+
+by two parameters, mu and sigma.
+
+So mu is the mean, sigma is the variance.
+
+So here, if you still remember,
+a Gaussian distribution
+
+is a distribution whose density function
+
+has a bell curve, right.
+
+So this is X, you will have
+the center of the bell curve
+
+which is the mean mu and then
+
+the width of the peak is
+defined by sigma, right.
+
+So the mu is the mean parameter.
+
+The sigma is the variance parameter.
+
+Right, mean and the variance.
+
+So if you write down the formula
+
+for the density function,
+it it looks like this.
+
+Exponential negative X minus mu square.
+
+So it merges the difference from X,
+
+let's say X is here, it
+merges the difference
+
+between X and the center
+mu which is the mean
+
+and then take the...
+
+Divided by sigma square.
+
+So sigma is the variance,
+it defines the peak,
+
+the width of the peak of the bell curve.
+
+If you scale by sigma
+and then divide by two,
+
+take the exponential, that
+gives you a positive number.
+
+And then you need to have
+multiply these numbers.
+
+So this two pi square root times sigma
+
+is a normalization constant
+that make sure that
+
+if you integrate over the
+whole density function,
+
+it equals to one meaning that so
+
+dx equal to one, right?
+
+So the normalization constant
+here is to ensure that, right?
+
+So this is a sort of basic introduction
+
+to Gaussian distribution but
+then here the setting is that
+
+we have a Gaussian distribution
+
+whose mu and sigma is unknown.
+
+We don't know the mu and sigma.
+
+But we do observe a set of
+samples from the distribution.
+
+Right, for example, let's
+see stock prices, right?
+
+So we observe let's say Apple stock price,
+
+we observe its price everyday, right?
+
+We only have the observation,
+
+we don't know the actual
+distribution it's drawn from
+
+but we can assume it's a
+Gaussian and then in this case,
+
+we can estimate both mean and the variance
+
+to get a sort of better
+understanding of the pattern,
+
+how the price changes, right?
+
+Okay, so we are basically going
+
+to practice the same procedure as before.
+
+So we're going to write down
+the log likelihood function,
+
+which is sum over i equal to one to n.
+
+So in this case, theta actually
+goes to both mu and sigma.
+
+So we have a pair of parameters
+
+that we're going to
+estimate jointly, right?
+
+So and then we have, we want
+
+to write down the log probability
+Xi given theta, right?
+
+So, we are going to just use
+
+the formula we have here, right.
+
+So it's already defining
+the log probability.
+
+So if we take the log of this bell curve,
+
+we will have, log two pi,
+
+square root sigma minus
+
+i mu square, right.
+
+So this is exactly just taking
+the log of the probability.
+
+And then we can sort of
+reformulate this a little bit.
+
+It will give you a sum over...
+
+So, first obvious we
+need to separate the term
+
+by two pi square root,
+it will become equals
+
+minus so this is the first term,
+
+then we need to separate
+the term by sigma.
+
+It will become minus n
+times log sigma, right.
+
+And then we have this
+quadratic term, right.
+
+And then it'll become minus two sigma,
+
+sum over i equal to one to n.
+
+Xi minus mu square, right.
+
+So we actually want to maximize this.
+
+So taking this whole thing,
+
+this is the likelihood function.
+
+We actually want to maximize
+both mu and sigma, right?
+
+Turns out this is fairly
+easy to do, right?
+
+So let's just observe some very simple.
+
+So let's say if we fix sigma, right,
+
+for in fact it doesn't
+matter what sigma is.
+
+If you want to optimize mu,
+
+you just optimize this part, right?
+
+If you want to maximize the likelihood
+
+because sigma squared is always a positive
+
+and you have a minus here.
+
+So actually it turns out the optimal sigma
+
+is always argmin
+
+sum over i equal to one to
+n, Xi minus mu square, right.
+
+So the optimal estimation
+mu is going to minimize
+
+the sum of square distance
+from Xi to mu, right.
+
+Let's say you have a bunch of points,
+
+let's say points here, each of them is Xi,
+
+you want to find a kind
+of value of mu, right?
+
+If you take the sum of the
+square distance, right?
+
+The square distance or the sum
+
+of square distance is minimized, right.
+
+Turns out, it's fairly easy to do this.
+
+Again you can take the gradient.
+
+Turns out it's a fairly simple derivation,
+
+turns out the optimal estimation
+
+is going to be exactly the
+mean value over the Xi, right.
+
+So here, let's just take a gradient.
+
+It's a very simple step.
+
+If you take this whole
+thing and take the gradient,
+
+it becomes sum over i equal to one to n.
+
+Two times mu minus Xi, right
+
+and you hope this equal to zero, right?
+
+And then this exactly, if you reformulate,
+
+it is exactly point to the fact
+
+that the estimation should be
+the mean value of Xi, right?
+
+This is a fairly simple derivation, right.
+
+So this is very nice.
+
+It means that if you derive
+
+the maximum likelihood
+estimation of mu-hat,
+
+it exactly equals to the mean
+value of all the Xi, right.
+
+Now we can do the second derivation
+
+which is for optimal sigma, right.
+
+So in order to do that,
+it will be very useful
+
+if we sort of define,
+make a notation right.
+
+So let me just copy this whole thing.
+
+So the likelihood function
+again L theta is going
+
+to include this whole thing.
+
+So if you want to maximize sigma,
+
+it's going to argmax, right?
+
+Because the first term is a
+constant, it doesn't matter.
+
+So you're going to
+maximize minus log sigma
+
+minus sigma square and then
+this whole thing, right?
+
+Which is sum over i equal
+to n Xi minus mu-hat
+
+because mu we already estimate optimal mu
+
+so we just plug in the mu-hat
+
+into the formula, right, right.
+
+We want to maximize this.
+
+Again, we can just take the gradient.
+
+Turns out let's define this whole thing
+
+as let's say F sigma, right.
+
+If you take the gradient,
+
+you will find equals to n
+times sigma, right minus.
+
+This is going to be if
+you take the gradient,
+
+it'll become because it's
+the negative two power,
+
+it'll become three, two, two, one, right
+
+and then sum over i equal to one
+
+to n Xi mu-hat square right.
+
+So then if you take it to be zero,
+
+you will find that the estimation
+is actually equal to...
+
+So this is the estimation
+for the variance.
+
+The variance is the sigma square.
+
+So sigma is the standard deviation right.
+
+So this derivation shows
+that the estimation
+
+of the variance, sigma
+square should actually equal
+
+to the empirical variance.
+
+So basically, this is Xi
+minus the mean, right?
+
+Take the square and take the average.
+
+This is exactly the
+empirical variance, right?
+
+So turns out very nicely,
+everything works out very nicely.
+
+So if we, you know,
+
+let's say if we have a
+Gaussian distribution,
+
+if we estimate mu, the mean,
+
+we get the empirical mean, right?
+
+If we estimate the sigma
+using maximum likelihood,
+
+we get the empirical variance, right.
+
+Very nice.
+
+So this is another example,
+a very basic example
+
+that allows us to estimate sigma.
+
+So here's another example,
+sort of somewhat difficult
+
+and sometimes people
+often find it confusing.
+
+So let's go over this example very quickly
+
+to kind of get a sense of how
+maximum likelihood estimates
+
+works in different distributions, right?
+
+So here, again we have a IID sample Xi
+
+drawn from some distribution.
+
+In this case we actually
+assume the distribution
+
+is a uniform distribution
+between zero and theta.
+
+So now in this case,
+theta is again a parameter
+
+but it's going to be a
+positive parameter, right
+
+and basically the density
+function is going to be defined
+
+to be a uniform, let's see, zero.
+
+So basically, if X
+belongs to zero and theta
+
+then the probability is one over theta.
+
+The reason to have one
+over theta is because
+
+if you integrate this whole
+region, it equals to one, right.
+
+And then the probability of X
+belong to any other intervals
+
+to be outside of zero and
+theta is going to be zero.
+
+So this is like a step function.
+
+(talks) like this way.
+
+And then we are given a
+set of observation Xi,
+
+maybe Xi is somewhere here,
+
+maybe here.
+
+(talks) get a bunch of Xi.
+
+We want to find the optimal theta
+
+to maximize the likelihood, right.
+
+So, obviously, intuitively
+we may want the...
+
+We may think that the optimal theta
+
+should be something like this,
+
+where you can sort of cover
+all the observation, right
+
+but it cannot be too large, right.
+
+Another possibility is like this, right.
+
+This is less likely than the one
+
+that just tightly cover all
+the probabilities, right.
+
+So turns out, if you use
+maximum likelihood estimation,
+
+it will give you an answer
+for the optimal theta.
+
+So let's just do it.
+
+So in order to do it,
+it's useful to write down
+
+this probability again as
+a function of X, right.
+
+So I can just write
+this as probability of X
+
+given theta equals to one
+over theta indicator function.
+
+X belongs to zero and theta, right?
+
+So this indicator function equal to one
+
+if X belongs to zero and
+theta, zero if not, right.
+
+And then if you write down
+the log likelihood function,
+
+well turns out in this
+case we actually want right
+
+the likelihood function just because
+
+some of the probability is actually zero.
+
+So yeah.
+
+So L, the product pi equal to one to n,
+
+the probability (talks) Xi given
+theta and this equals to...
+
+You take the product of
+all these things, right?
+
+And then you need to have, sorry.
+
+Right so if you move the theta,
+
+one over theta outside of product,
+
+it'll be one over theta power n.
+
+Right so it's one over theta power n
+
+and a product of a bunch
+of indicator functions.
+
+Now you can further simplify this
+
+to say that if all the Xi belongs
+
+to the interval zero, theta,
+
+then you will get one
+over theta power n, right.
+
+If Xi belongs to zero,
+theta for every i, right?
+
+Now if any of the Xi doesn't
+belong to the interval,
+
+then you will have zero product
+
+whatever else, then you will
+get zero, right otherwise.
+
+Right.
+
+Now this means that you want
+to maximize this function.
+
+It's a strange step
+function but if you plot it,
+
+it will likely be
+something like this, right.
+
+So let's say, again just
+to plot the data points.
+
+Let's say these are data points, right.
+
+Right,
+
+so in order to make sure the
+likelihood is larger than zero,
+
+I need to make sure zero, theta
+
+covers all the data points.
+
+So I need to sort of make
+sure theta is actually larger
+
+than the maximum data point, right.
+
+Must be somewhere here.
+
+And then if theta is actually larger
+
+than the maximum data point, I then want
+
+to make sure theta is as small as possible
+
+because the one over theta will decrease
+
+as theta increases, right?
+
+So it'll be something,
+
+the likelihood function is actually weird.
+
+It's zero all the way
+here and then suddenly,
+
+you will have one over theta
+
+and then from here it will decay
+
+with one over theta n, right.
+
+Right and then if you
+find the optimum point,
+
+this is going to be exactly
+the optimum point, right.
+
+So this is going to be the
+exactly the optimum point.
+
+So turns out from here,
+we can sort of show
+
+that the optimal theta
+
+is actually maximum of X1 to Xn, right.
+
+The maximum data point that you see, right
+
+which makes sense a lot, right?
+
+So basically, we'll just select
+
+this particular uniform distribution
+
+that covers the data point
+but as tight as possible.
+
+So let's see.
+
+So we talked a bunch of
+very simple examples, right?
+
+In all these cases, Xi are
+really just a single number,
+
+a very simple number.
+
+Turns out maximum likelihood estimation
+
+can also be used for more complex cases.
+
+One example is for regression, right?
+
+So and even classification.
+
+In these cases, we have (talks) problems
+
+where we have pairs of
+variables and we are interesting
+
+to kind of understand the
+relation between the future
+
+which is typically Xi and
+the variable which is Yi.
+
+In this case we can actually
+
+also use maximum likelihood estimation.
+
+So let's just go over this quickly.
+
+So let's see, we are doing regression.
+
+So if we are doing regression, we have Xi,
+
+which is a bunch of future as well as Yi
+
+which is a bunch of variables, right.
+
+And then just give example, let's say
+
+this is Xi (talks) we
+observe a bunch of Xi
+
+and the corresponding Yi like, let's see,
+
+here, here, here, here, here, right?
+
+And we want to kind of understand
+
+the relation between Xi and Yi.
+
+so we are going to feed a curve
+
+to predict the Y given X, right?
+
+So in this case, it's actually
+very reasonable to assume
+
+that Yi is generated from
+some distribution, right?
+
+Because the generation process
+of Yi is typically noisy.
+
+And then a typical assumption
+that we can make is that
+
+we can sort of assume
+conditioning on each Xi,
+
+Y is following some Gaussian distribution,
+
+whose mean is a function,
+some function class
+
+and then you have some variance, right.
+
+So just to give example.
+
+Let's say I want to kind of, I have line.
+
+This line is going to be X, theta, right.
+
+So let's say the line is
+going to be f X, theta
+
+equal to theta X, right.
+
+So it's a simple linear line,
+maybe plus a bias term, right?
+
+And then, given let's say a value of X,
+
+I assume the Y is generated
+from some Gaussian noise,
+
+whose mean is this curve
+
+but you also have some variance, right?
+
+So then in this particular
+case, maybe Y is here, right.
+
+And then in the other case, Y maybe here.
+
+They are kind of noisy observation
+
+that fluctuate around this curve, right?
+
+We don't see this exact curve
+
+but we do see lots of noisy
+observation of Y, right.
+
+Now the problem is to
+estimate a parameter of theta
+
+as well as the noise magnitude
+of sigma squared, right?
+
+Turns out this problem can also be solved
+
+using maximum likelihood estimation.
+
+And the idea is also simple.
+
+So instead of maximizing
+a single likelihood,
+
+we in this case maximize
+the conditional likelihood,
+
+the Y conditional of X.
+
+So let's just practice this, right?
+
+So use a change of color.
+
+So let's say we have,
+
+again we just write down
+the likelihood function.
+
+L theta equals to...
+
+In this case, (talks) will
+be sum over log probability.
+
+Because we care about the relation
+
+or dependency of Y given X
+
+so here we maximize the probability Yi
+
+conditioning on Xi and theta, right.
+
+Again, we can sort of write down
+
+the log likelihood of the Gaussian.
+
+So it will become we need to
+use the formula we had earlier.
+
+It will become negative log two pi,
+
+I think it will be minus n,
+minus divide by two, right.
+
+This constant term really doesn't matter
+
+and then we have the likelihood,
+
+the variance term which will
+become n log sigma, right.
+
+And then we have the mean term,
+
+this quadratic term,
+
+you have the sum over i
+equal to one equal to n
+
+two sigma square Yi
+because Yi in this case
+
+is the variable minus f i, theta.
+
+So in this case f i, theta
+is actually the mean.
+
+So in the earlier example, what Xi, theta
+
+is going to be the mu but in this case
+
+we are replacing the mean
+
+with our curve f theta, right.
+
+Right, so then we need to optimize this.
+
+Actually this log, this
+likelihood function
+
+is actually a joint function
+of both theta and sigma, right.
+
+So in this case we want
+to maximize theta, right
+
+but so we're going to solve
+the optimization of theta.
+
+It's actually going to maximize
+
+just like the estimation of mean.
+
+It's actually equivalent to,
+
+sorry this is should be minimization
+
+right, because that's an active, right.
+
+So turns out the estimating of theta
+
+is actually exactly
+minimizing the sum of square
+
+difference between Yi and
+the curve loss, right?
+
+So this is the exactly the
+least square estimator.
+
+Right.
+
+So it's probably the first (talks)
+
+you (talks) in data science
+analytics related class
+
+but you can sort of
+show that in this case,
+
+it's actually equivalent to
+maximum likelihood estimation,
+
+based on a Gaussian assumption, right?
+
+And then you can also
+actually estimate sigma,
+
+the sigma-hat is going to,
+again, maximize this whole term.
+
+I don't need to repeat the derivation
+
+but turns out you can sort of show that
+
+in this case, it's exactly,
+the estimated variance
+
+is exactly the kind of the
+empirical square loss, right.
+
+So basically, you use theta to estimate,
+
+you minimize the mean square error
+
+to estimate theta-hat
+and then you calculate
+
+the average of square loss,
+
+this will give you estimation
+of sigma-hat, right.
+
+So it's a very nice interpretation
+
+of using maximum likelihood
+
+to derive least square estimation, right.
+
+So, similarly, we can also
+use maximum likelihood
+
+to solve classification problems
+
+and this relates to
+logistic regression, right?
+
+Again, this is just another example.
+
+So in this case, we again
+have Xi which is the future.
+
+Yi now is a label.
+
+In the regression case,
+Yi is a real number
+
+and in the classification case,
+
+Yi is actually a binary variable
+
+from either zero or one
+in this case, right?
+
+So if you plot the curve,
+
+it'll be something like
+this where this is X.
+
+So you will have some
+of the X gives Y, right.
+
+One and zero, right.
+
+So some of the X is mapped to one,
+
+some of the X is mapped to zero
+
+and we want to decide given
+a new X, we want to decide
+
+what's the value of Y, right.
+
+So in this case, we can
+actually make this assumption
+
+which is a extension of
+the Bernoulli example
+
+we had earlier which is, given X,
+
+the probability of Y is this
+logistic function, right?
+
+So this is exactly what we had earlier,
+
+except we are replacing the W
+with this whole function fX.
+
+So basically, we're saying that
+
+there's some function f X, theta, right.
+
+And then if we apply this function,
+
+we sort of transform this
+function into a probability,
+
+we get the probability
+of Y given X, right.
+
+So this is the model.
+
+And particularly if you expand this,
+
+it will become the probability
+Y equal to one given X
+
+equals to exponential f X, theta,
+
+one plus exponential f X, theta.
+
+And then similarly, the
+probability Y equal to zero,
+
+given X and theta equals to one
+over exponential f X, theta.
+
+So the f X, theta defines the likelihood
+
+that Y equal to one or zero, right
+
+but they are transformed
+into the probability
+
+using the sigmoid function
+like we had earlier.
+
+And then we can sort of estimate theta
+
+using maximum likelihood estimation.
+
+So again, it's exactly the
+same procedure we had earlier.
+
+Basically we want to maximize
+sum over i equal to one to n
+
+log probability Yi given
+Xi and theta, right.
+
+So if you expand this,
+you will exactly know
+
+that just plugging this
+formula, you'll have Xi, Yi.
+
+You'll have Yi, Xi theta
+
+minus log one plus exponential
+f Xi, theta, right.
+
+So you have this, right.
+
+And then you want to maximize
+this function, right.
+
+You find this function is
+the likelihood function.
+
+You want to maximize it, right.
+
+Now, in this case, unlike the
+examples we covered earlier,
+
+in this case, it's actually
+difficult or impossible
+
+to derive a closed form
+solution for optimal theta
+
+and typically we solve this optimization
+
+using numerical algorithms so
+
+numerical methods, right.
+
+One of the most widely used algorithm
+
+for solving this kind of problem
+
+is something called a gradient descent.
+
+So basically let's say this
+is the kind of the curve.
+
+So this is theta, this is l theta.
+
+We want to find the optimal points, right.
+
+So we sort of start
+from some initial guess
+
+and then gradually just follow
+the the gradient direction
+
+to kind of increase the function.
+
+So you will then uncover sort of details
+
+about gradient descent
+
+but Professor Klivan's
+class talked about this.
+
+So definitely check his lecture.
+
+Okay.
+
+So to summarize, we have this
+maximum likelihood estimation.
+
+So and so one of the idea that I want
+
+to sort of emphasize here is that
+
+this maximum likelihood estimation
+
+is actually a random variable.
+
+Just because, you know, let's say
+
+you have a set of data
+points Xi that is drawn
+
+from some (inaudible) distribution, right?
+
+And then by sort of this procedure
+
+of maximizing the likelihood function,
+
+you can sort of really
+think this theta-hat
+
+as a function of the
+random variables, right,
+
+X1 to Xn, right.
+
+And then because of this,
+it's a random variable,
+
+we can sort of try to understand
+its a statistical behavior
+
+by sort of understanding how much pi
+
+is how much variance it has, right?
+
+This relates to some of the analysis
+
+about bias and variance and
+mean square error analysis.
+
+So we will talk about
+this in the next class.
+
+So thank you very much,
+I will see you next time.
+

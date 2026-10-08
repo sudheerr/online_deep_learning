@@ -1,0 +1,108 @@
+♪ (jazz music) ♪
+
+At this point we should define
+
+the Frobenius norm
+
+of a matrix.
+
+Well, it is the, you know,
+it's a well known thing.
+
+It's the sum over all of the entries.
+
+You take the sum of the
+squares of the entries
+
+and then you take the square root.
+
+So this is called the
+Frobenius norm of a matrix.
+
+So given
+
+a matrix A,
+
+the goal, or our goal, will be to find
+
+a matrix A prime such that A prime
+
+has rank K
+
+and minimizes
+
+A minus A prime Frobenius norm
+
+over all rank K matrices.
+
+Okay, so we're given a matrix A.
+
+It may have high rank, but
+our goal is to find a matrix A
+
+prime such that A prime has
+smaller rank, namely rank K,
+
+and it minimizes this quantity,
+
+A minus A prime Frobenius
+norm over all rank K matrices.
+
+Okay, so it's sort of the
+closest matrix of rank K
+
+to the matrix A in terms
+of the Frobenius norm.
+
+Seems like a natural goal.
+
+So how do we do this or what's the answer?
+
+Well, we just compute the SVD of A
+
+and take the top K singular
+
+vectors
+
+and values.
+
+Okay, so it's just as what we described
+
+sort of on this slide.
+
+We're going to take A and
+we'll, maybe I rewrite it,
+
+so we'll have A is equal
+to U S V transpose,
+
+and then the answer is A prime equals
+
+U prime S prime V transpose prime,
+
+so
+
+this was U,
+
+this was S, this is V transpose,
+
+we'll take the first K columns of U,
+
+we'll take this K by K submatrix of S,
+
+and we'll take the first
+K rows of V transpose.
+
+Okay, so this, the U prime,
+S prime, V transpose prime.
+
+Okay, and you notice that
+A prime is still M by N.
+
+Okay, so that's,
+
+that is the way that you
+would find the best fitting
+
+rank K matrix in terms of Frobenius norm.
+

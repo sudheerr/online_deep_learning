@@ -1,0 +1,149 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So in this segment we'll look at how to use stochastic gradient descent in PyTorch.
+
+Uh we'll start off with the similar uh, with a similar example as we have looked at before in linear networks.
+
+We'll start out with the flowers data set. Um, I've already loaded the flowers data set here.
+
+Um, I've loaded it into a tensor down here, which I put on the TPU for now.
+
+I've created the linear model, which takes all our pixels as an input and just produces 102 possible outputs.
+
+I've put the model onto the CPU. We'll use the cross-entropy loss and we'll set up the optimizer.
+
+All right. Now, in order to use stochastic gradient descent,
+
+it doesn't actually matter if we sort of the difference between gradient descent is stochastic gradient descent here in terms of the algorithm,
+
+is just what batch we feed in before we compute the gradient over the entire data set over the entire training set,
+
+and we use that gradient to optimize or to update our model.
+
+And every single time we computed the gradient over the entire data set.
+
+Now, if you want to switch over to stochastic gradient descent, all we need to do is we need to change our training loop.
+
+And so our training loop. Is going to be.
+
+So 100 epochs for now. So here.
+
+Copilot suggested that we sort of around gradient descent because this here computes the output over all our
+
+training images and then computes the loss over all our training images and then takes a step in the optimizer.
+
+What we'll do to change this to stochastic gradient descent is we'll add in another for loop here.
+
+So we'll do for I in range training images.
+
+Well, let's not get ahead of ourselves here. We'll do from zero to length of training images.
+
+And now. We'll compute the model output.
+
+On one individual. Input image and we'll compute the loss on one individual label.
+
+Now, if you want to plot the loss per epoch, the thing we need to do is we need to average it.
+
+Easiest way to do this is to add all the lost values to a list.
+
+Now here the important. There's an important thing. We cannot add l to this list.
+
+If we add L, which is the or. Let's call this loss value here.
+
+If you add this to the list, we'll eventually run out of CPU memory,
+
+because what happens here is that PyTorch computes a computation graph that sort of gets us the value of that loss.
+
+And now we'll add a node of that computation graph into our loss into our list here.
+
+We do not want that. What we want is we actually just want a value.
+
+We just want a floating point value. Now there is many ways to do this.
+
+The easiest one is to just convert it to a torch to a python float.
+
+And this will give us the average loss.
+
+All right. Let's run this for one epoch for now and see how we do.
+
+Now, PyTorch did complain and tell me that it could not compute the loss for, uh, batch of size.
+
+One with a target of batch size zero.
+
+What happened here is by indexing into just a single image, I removed the batch size.
+
+PyTorch was not happy about it. So we can add in the batch size again with sort of a size.
+
+Uh, size one. Uh, dimension a singleton dimension.
+
+And that should now run. All right. The expected loss is really high right now.
+
+Let's run it maybe for ten epochs and see if we do any better.
+
+All right. I can see it sort of jumped all around.
+
+Uh, this is usually an indicator that the learning rate is relatively high, uh, for stochastic gradient descent.
+
+Um, there's two ways to fix this. We could reduce the learning rate, uh, which will lead to a sort of slower convergence.
+
+Or we can start adding in this variance reductions. The easiest, very, very introduction to implement right now.
+
+Here is batching. Um. Let's say we have a batch size.
+
+Let's call this batch size. Let's make it 32.
+
+And now, instead of computing the model output over just one single and, uh,
+
+output here we'll go from I to I plus batch size, which will average 32 images to batch of 30.
+
+Uh, will I average 32 images together? We'll do the same for labels.
+
+And now this simple change. Changed our stochastic gradient descent.
+
+From vanilla stochastic gradient descent to batch mini batch stochastic gradient descent.
+
+Right? Well, the learning rate was still relatively high.
+
+Now we do better. Now the final thing we can do is we can add momentum.
+
+What we'll do here. Which is just a single change in the parameters.
+
+Now the learning rate with momentum versus without momentum.
+
+With momentum, the learning rate should be, uh, a slightly smaller.
+
+Otherwise your network might explode. Strangers again.
+
+All right. So stochastic gradient descent without anything will iterate over each individual image will compute.
+
+Uh, forward and backward step for each individual image.
+
+We'll compute the loss for each individual image, and then will take a step in the optimizer for each individual image.
+
+If you want to add in batches, you will start to sort of increase.
+
+Instead of looping through all individual images, you can loop through sort of batches of images.
+
+You can compute the loss and gradient of these patches. And then finally, if you want to add in momentum you add this momentum term here.
+
+Now in the homework. It might be possible that in your sort of setup, the data set might not fit all in memory.
+
+So the way we have implemented this here is that the data set nicely fit into memory.
+
+We can load everything ahead of time. We'll keep it in the CPU memory.
+
+And the way we construct batches here is by just looking at a set of subsets of our entire data set by indexing directly into it in our,
+
+into, in our, um, GPU memory.
+
+Now, this is not always possible. In fact, it's actually almost never possible if you have a large enough data set.
+
+And so what we need to use then is you would need to use something that's called sort of a data loader and a torch data set.
+
+This is something that we'll look at in the uh, in the homework uh, and stuff.
+
+We'll look at examples and how to use this more in the homeworks. All right.
+
+But for now this is stochastic gradient descent with momentum and Apache.
+
+That's it.
+

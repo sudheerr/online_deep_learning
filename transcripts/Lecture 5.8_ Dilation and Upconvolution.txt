@@ -1,0 +1,219 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So we have looked at convolutions. We have looked at sort of how to build convolutional networks.
+
+Uh we've also looked at how to increase the receptive field of a convolutional network through striding.
+
+Um, and what we'll do in this segment here is we'll first sort of take a second look at the receptive field.
+
+We'll look at how to grow the receptive field and what implications this has when we grow the receptive field.
+
+And so. If you look at the receptive field of a deep network, let's say we just use sort of kernel sizes that are sort of three by three.
+
+Now, if we take a convolutional network, apply a three by three kernel that will have a receptive field of three.
+
+Now, if we grow this by one, if we have two layers sort of that have kernel size three, that will lead to a receptive field of five.
+
+And we can repeat this over and over and over again. But every single time we add another layer, the receptive field only grows by two.
+
+But the reason for this is is quite simple.
+
+Every single kernel will just sort of add one element on the side.
+
+If the kernel sizes is one, the receptive field will not grow.
+
+If the kernel size is three, it will grow by one element on both sides.
+
+So how do we get a large receptive field if we do this right?
+
+Well. We would have to add a lot of layers to get to a large receptive field.
+
+Right. That's why we looked at striding. So it's striding.
+
+Does is. It's sort of downsampled the number of outputs.
+
+And if we now take two. Uh, convolutional layers.
+
+We stride the first one by a factor of two. And then apply another sort of three by three convolution.
+
+All of the sudden the receptive field is not five as it was originally.
+
+Now it is actually seven. And every single kernel we add on top will start to grow the receptive field not by one element, but by two elements.
+
+Now, if we go on and stride the next layer again, this will actually start to exponentially increase.
+
+So if we have two strided convolutions followed by another three by three convolution, not a receptive field all of a sudden is 15.
+
+Now we can take this, uh, further and further and further,
+
+and at some point will have receptive fields that are larger than the entire image, with not a lot of computation.
+
+We do lose something, however, which is striding decreases the output size.
+
+And so now we have to trade off between.
+
+So if looking at the image in very intricate details and remembering, and instead of having to position information about these details.
+
+Or having a small receptive field. And only looking at local information.
+
+That's not a very good trade off. And so one way to sort of get a larger receptive field without losing any spatial information is dilation.
+
+And so what dilation does is it takes the kernel that we have for convolution.
+
+And now instead of sort of looking at adjacent elements in this kernel, we now spread this kernel out.
+
+And so you can think of this is very similar to what we had with striding.
+
+So it's striding. What we did is we skipped certain outputs and now we have a kernel, but we skip certain elements in this kernel.
+
+And so we can take a two cross two kernel here.
+
+Which is shown here, and we can dilate it with a dilation factor of two.
+
+And what will happen here is it will spread out the original elements after two by two kernel.
+
+Into a three by three kernel where everything is just sort of distance, two away.
+
+We could dilate with a factor of three. Then we would get sort of, uh, 4x4 kernel.
+
+Uh, if our original input was a three by three kernel, we if we dilate it by a factor of two,
+
+we would now have a sort of a five by five kernel which has gaps in between.
+
+Right now. The nice thing about this is this.
+
+So the number of parameters, if we dilate, the kernel actually stays the same.
+
+Um, we don't introduce any more computation. We don't introduce any additional parameters.
+
+All that happens is that the kernel sort of gets bigger.
+
+And so if we have a convolutional network with dilated kernels, we can get the same effect.
+
+We can have a large receptive field. For much.
+
+Sort of. Well, for, um, for a higher output resolution.
+
+So we'll have a higher output resolution as, uh, sort of has the same effect as striding, but it will not reduce the output resolution.
+
+Right. So if you compute the two, sort of striding has the same receptive field as dilation.
+
+But dilation keeps the output resolution. Now there is a catch, uh, which is.
+
+Dilation is slow. Uh, it's also known as a true convolution.
+
+Uh, and this is a very slow operator, just because we keep all the outputs sort of at the original resolution.
+
+So again what's trading does is it skips outputs.
+
+What a true convolution or dilation does is it skips elements in the kernel.
+
+The effect of both is more or less the same. It will.
+
+Make the receptive field larger. It will look the, uh, it will force the network to sort of look at, uh, things that are further away.
+
+But. One keeps the spatial resolution, the other one throws it away.
+
+All right. Now there are networks that have sort of that, that half dilation, uh, almost all the way throughout.
+
+They're not the most effective, uh, the most efficient.
+
+Uh, it is more efficient to actually first half convolutions with strides that reduce to size and then blow that size up again.
+
+And so the operation that blows up the size of uh, convolutional network, uh, or the activations in a convolutional network is called up convolution.
+
+It's also sometimes called transpose convolution.
+
+Um, this is mostly because it's implemented as a transpose of convolution inside of sort of most PyTorch or most kind of, uh, deep learning libraries.
+
+The name transpose convolution is not ideal.
+
+Uh, op convolution is sort of the better way. Um, and so up convolution will is an operator that helps us sort of increase the,
+
+uh, the, the resolution of an activations, sort of the inverse of the striding.
+
+And so what up convolution does is um, it takes sort of a certain input.
+
+It takes one element in the input here and then it will produce sort of.
+
+It will first. Artificially add zeros in the input itself.
+
+And then you will apply convolution to it. So you can think of what up convolution does.
+
+Is it sort of pads the input with zeros and then it runs convolution over it.
+
+And so since we pass so it doesn't pad it, it inserts zeros in insert into the input.
+
+And then it runs convolution and inserting these zeros artificially.
+
+Will sort of make the output will they will make the activation map larger.
+
+Now, computationally,
+
+this is actually the same as sort of flipping the convolution around instead of sort of having many inputs go to, uh, one output.
+
+You can think of up convolution as one output producing uh, one input producing many outputs.
+
+Um, but then you have to at an average, uh, these outputs together.
+
+So I find it easier to think of up convolution as actually artificially inserting zeros inside
+
+of the input and then running convolution on that sort of artificially inflated input.
+
+And this will allow you to get spatial resolution back that striding lost.
+
+And this is often used together with striding. So in early parts of a network you will stride to get the resolution down.
+
+And then there is an equivalent parameter setting of up convolution or transpose
+
+convolution that will then get you the resolution back once you're done with.
+
+Right. There is sort of one little trick which is striding round.
+
+And so the rounding has to. You have to be careful in sort of including the last output here, uh, when you do up convolution.
+
+All right. And so in practice, um, this is used in the output layers.
+
+So up convolution is used uh, in uh sort of after a certain number of uh,
+
+strided convolutions you'll just add output convolution of convolution after up convolution.
+
+After up convolution. Um, and so this will allow you to have outputs that have a higher resolution.
+
+This is also known as transpose convolution. Um, sometimes people call it deconvolution.
+
+Uh, this is a very unfortunate naming. Deconvolution has.
+
+Uh, proper definition in signal processing.
+
+And it is not this. So I would recommend don't call it deconvolution.
+
+Uh, it is sometimes called fractional striding.
+
+Um, because sort of if you stride by a certain, by a fractional amount, you would also get, uh, output resolution back.
+
+And so really, the ways I think about striding up convolution and dilation is it's inserting zeros in different parts of the convolutional operator.
+
+Striding sort of removes certain parts of the output.
+
+So I sort of. It doesn't add zeros, but it sort of pretends like certain outputs are not needed.
+
+Dilation. It adds zeros in the kernel.
+
+So certain elements, uh, it will make the kernel larger, but certain elements are not needed.
+
+And then up convolution, it will artificially add zeros in the input to make the input larger and then apply convolution.
+
+And each one of them has different trade offs.
+
+Dilation can get you a large receptive field without losing spatial resolution, and then striding and and up.
+
+Convolution will either, uh, decrease or increase the spatial resolution.
+
+Yeah, that's pretty much it. So striding increases, uh, the, uh, uh, the receptive field while decreasing the output.
+
+Dilated convolution increases the receptive field while keeping the output size the same.
+
+And then up convolution will increase your output. Uh, your space, the spatial dimension of your output.
+
+That's it.
+

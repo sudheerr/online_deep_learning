@@ -1,0 +1,147 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So in this segment, we'll look at Multi-head attention, which is an extension to the regular attention operator.
+
+It's actually what people mean when they say attention.
+
+Uh, sort of the basic attention operator is almost never used.
+
+Multi-head attention is what people actually use. Um, and so to recap, sort of the basic attention operator has keys, values and queries,
+
+and it uses a softmax to attend to other keys and to average sort of the values of these keys for each input query.
+
+Now. For now, let's look at self-attention, where keys, queries and values are all the same.
+
+Now, self-attention has actually some fairly basic limitations.
+
+Um, which is if you look at cosine distances, um, we can show that sort of for each pair of elements xy and z that.
+
+The pairwise distance between the two. Always needs to be smaller than half the distance from x to itself and y to itself.
+
+And so what that means is that we can never have any attention that has sort of.
+
+That attends to an element other than ourselves, more than us.
+
+Or it will attend more to the other element. The other element itself will attend more to itself.
+
+All right. So the diagonal of this attention operator is always going to be dominant in its basic form.
+
+And so that is sort of an issue. All right.
+
+Now. How are we going to fix this issue?
+
+Right. We have this attention. Operator. It's supposed to sort of allow us to do arbitrary computations, arbitrarily reasoned over sets.
+
+And all of the sudden we sort of realize that, well, no, it cannot.
+
+It always attends to itself more than anything else.
+
+Okay, now the solution really is quite simple, which is before we feed an input into attention, we'll actually multiplied with a linear layer.
+
+And so we'll have weight matrices wq.
+
+W k and w v, and now instead of running attention directly on the input x, we'll now multiply x with these weight matrices.
+
+And so you can think of this. We're going to take an input.
+
+And now we're going to apply a linear layer to each input, which allows us to sort of have arbitrarily different values for.
+
+Queries, keys and values. And now we'll compute attention of this.
+
+And so through this trick, we can now make attention attend to anything else than hours than than anything other than the element itself,
+
+more than the element itself.
+
+And so we can now have a tension instead of a tense to arbitrary places in the image.
+
+Just by adding this simple, sort of simple weight matrix.
+
+It also has an additional benefit adding this weight matrix here.
+
+Makes the tension actually almost like a linear layer.
+
+Let's say it, the the the the queries into keys didn't do anything into softmax as identity.
+
+But what remains is still a linear layer in here.
+
+And so by just adding these weights to it. Attention already got as expressive as convolution with a kernel size of one cross one.
+
+All right. Now, the issue here, though is that.
+
+We still have the same attention matrix for all of our for our entire operator,
+
+which means that attention can only look at one other place where it wants to focus on.
+
+It cannot gather information from multiple disjoint places, or if it if it if it can, it has to average that information together.
+
+It cannot reason about it independently. Not a solution to this is what's known as Multi-head attention.
+
+And what Multi-head attention does is it just concatenates multiple attention mechanisms together.
+
+So mathematically, Multi-head attention takes as an input.
+
+X. Just here. Now it runs multiple attention operators in parallel.
+
+Each one of these attention operators has its own weight matrix.
+
+All right. Each one of them has its own linear layer for keys, queries and values.
+
+We run them all through the network and concatenate.
+
+Now, just for good measure, we'll also add a second linear layer in the end here, which is w0, which is the output transformation.
+
+Now you might ask, well why would you want to add a second linear layer afterwards.
+
+Attention is actually a linear operator in the values.
+
+And so this linear layer down here. In this linear layer up here.
+
+Should actually cancel each other out. Now, the reason why we add a linear layer before and after attention is simply for computational efficiency.
+
+Um, we can project values down, uh, we can project the inputs down in this layer here.
+
+And then we concatenate all of them. And then depending on how many, uh, how many hits, which is how many parallel attentions we had,
+
+we can again use a linear layer to project the result back down.
+
+Right. And so the word head really means how many attention operators do we concatenate?
+
+It turns out that Multi-head attention can be shown mathematically to be as expressive as convolution,
+
+and the direct relationship between the two is that if we have attention with h heads,
+
+we can make this as expressive as convolution with square root of h times square root of set H, uh kernel size.
+
+And the sketch of the proof here is uh is given down down here, uh, in this picture.
+
+But sort of as an intuition on why this works is we can have attention, sort of the softmax part of attention,
+
+attend to each individual element in the kernel of a convolution in the convolutional kernel.
+
+So we can have one attention that attends to the element right next of the center, one that does, uh, sort of right above one.
+
+That's the power right below. And so we can build up this convolutional kernel by having very specialized attention, uh, uh, attention mechanisms.
+
+And then for each one of them we have, we have this matrix multiplication that will then allow us to sort of mimic the, uh, the linear operators that,
+
+uh, the linear operator inside of the convolutional kernel that sort of projects an input window into, uh, specific output.
+
+Right. So this is just a neat connection that shows that sort of attention can be at least as expressive as convolution.
+
+It is not as efficient. Uh, so if you really have a network, uh, a task where a convolution is.
+
+Is sort of a really great fit for it. Convolution will be slightly more efficient and attention will require sort of a more data.
+
+And it will also require sort of, um, a bit more computation to learn the same, uh, the same operation.
+
+All right, so to recap, um, Multi-head attention is sort of what people actually call attention.
+
+So if you call and if you have a network with and with attention, you always mean multi-head attention.
+
+Um, and so Multi-head attention is attention that has sort of linear layers going in that splits the input into n different attention operations.
+
+Then we concatenate them and gather them. Um, and so this is as expressive as sort of w h type by w h 2d convolution if h is the number of heads,
+
+if you have one head, this is as expressive as one cross, one convolution.
+
+That's it.
+

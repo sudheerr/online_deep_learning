@@ -1,0 +1,292 @@
+♪ (jazz music) ♪
+
+Okay, let's recall, we're, you know,
+
+recall PCA, we had to find
+
+the Eigendecomposition
+of a covariance matrix.
+
+Okay, so we had a covariance
+matrix X transpose X,
+
+and we were interested in finding
+
+the principal components
+which were the Eigen vectors
+
+corresponding to the largest Eigen values.
+
+Okay, let me show you
+how we can use the SVD
+
+as a black box to find them.
+
+So let's just write X transpose X.
+
+Let's look at the SVD of X.
+
+It's U S V transpose transpose
+times U S V transpose.
+
+Okay, so I'm just going
+to transpose this matrix
+
+and I'm going to get V S U transpose
+
+times U times S V transpose, okay?
+
+But here I have U transpose U.
+
+We know that's an identity matrix,
+
+and so we're left with
+V S squared V transpose.
+
+V is an orthogonal matrix.
+
+V transpose is an orthogonal matrix.
+
+So there, we got it for free.
+
+This is the Eigendecomposition.
+
+Okay, so one cool thing to notice
+
+is that the right singular vectors,
+
+well, the right singular, sorry,
+
+the right singular values
+of, singular vectors, of X
+
+and the rows of V transpose are
+
+the principal components,
+
+i.e. the top Eigen vectors
+
+of X transpose X.
+
+Okay, so this is why some
+people think that the SVD
+
+gives you strictly more
+information than the,
+
+than sort of PCA or the
+Eigendecomposition of your matrix.
+
+Why is that?
+
+Well, when you compute the SVD you can
+
+just read off the rows of V transpose.
+
+Those are the principal components of
+
+the top Eigen vectors for X transpose X.
+
+So it's just giving you
+that information for free.
+
+And then what about the singular values
+
+versus Eigen values?
+
+How can you relate the singular
+values to the Eigen values?
+
+Yes?
+
+>> The singular values are
+
+the Eigen values of X transpose X,
+
+or no, the square roots.
+>> No, they're not.
+
+Good, the singular values
+
+are the square root
+
+of the Eigen values
+
+of X transpose X.
+
+Okay, so once again,
+we can compute the SVD.
+
+The singular values are really telling us
+
+what the, we can just square
+them to get the Eigen values
+
+of X transpose X, so it
+contains a lot of information.
+
+Okay, so the SVD sort of automatically
+
+lets you solve linear regression
+and PCA all in one shot.
+
+Okay, so it's a nice technique.
+
+Let me mention one further application.
+
+So we'll call it image compression.
+
+Okay, so imagine that we had an image
+
+and let's say it was a
+black and white image.
+
+So we can view it as a matrix,
+
+say an M by N matrix, and each entry
+
+is
+
+zero or one.
+
+Okay, and here's a simple
+idea for image compression.
+
+So let's call this matrix A.
+
+Compute A prime which
+is equal to a low rank
+
+approximation of A
+
+for some value of K.
+
+Okay, we'll sort of
+experiment or play with.
+
+So we'll just take A and we'll
+
+compute A prime using the SVD.
+
+It'll be some low rank approximation of A.
+
+What will the entries
+of A prime look like?
+
+Will they be zero, one entries?
+
+>> They'll be numbers somewhere
+
+in between zero and one.
+
+>> Yeah, why should,
+yeah, so not necessarily.
+
+They could be
+
+numbers between zero and one.
+
+So one way to interpret a
+number between zero and one,
+
+instead of black and white, is to just
+
+view it as some shade of gray.
+
+Okay, so we could compute A prime,
+
+we could map all the values
+that we get for A prime
+
+to some gray value, and
+we could just decide okay,
+
+this is going to be the compressed
+version of our matrix A.
+
+It'll just come up with some new image.
+
+Okay, so this has been done many times.
+
+This is from a paper that I like
+
+that has a cute title, A
+Singularly Valuable Decomposition:
+
+The SVD of a Matrix by Dan Kalman.
+
+Okay, so he talks all
+about the SVD of a matrix,
+
+and then he shows some pictures
+
+of doing image compression like this.
+
+So here's your original
+image, it has all zero, one
+
+black or white values, it's 24 by 24,
+
+then,
+
+right, so
+
+here are the singular
+values, the first 16 of them,
+
+9.5, six, five, three, two, two, one, one,
+
+so they're going down,
+and here's the result
+
+if you use a rank three approximation,
+
+so you choose K equals three.
+
+You can see now we have some gray values.
+
+Here's a rank five approximation.
+
+You can see that it's getting better.
+
+And then here's the
+rank five approximation
+
+but now when you took these values
+
+we rounded them to the
+nearest integers, zero or one,
+
+and you get back an image pretty close,
+
+I mean, it's, let me scroll
+back here so you can see,
+
+so here was the original image,
+
+and what do we get back?
+
+We get back an image that's pretty close
+
+to what our original image was.
+
+Okay, so it's sort of a crude but
+
+nice technique for
+doing image compression.
+
+Okay, so as we saw today,
+there were many applications
+
+of the SVD, linear regression,
+principal component analysis,
+
+image compression, matrix completion,
+
+and this is really just sort of a sampling
+
+of all the applications
+that computing these types
+
+of matrix decompositions have.
+

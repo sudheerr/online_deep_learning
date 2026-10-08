@@ -1,0 +1,1082 @@
+♪ (jazz music) ♪
+
+Let's do another example.
+
+This time it's going to be
+an infinite function class.
+
+So we're going to PAC learn axis parallel
+
+rectangles.
+
+What is an axis parallel rectangle?
+
+So an axis...
+
+so now we're working
+
+I'm changing things up on you a little bit
+
+we were working in two dimensions now.
+
+Okay, so we have the XY plane
+
+and let me give you some examples.
+
+So here's an axis parallel...
+
+actually I'm going to use
+my feature of my pen here.
+
+Oops!
+
+Oh come on.
+
+There's an axis parallel rectangle
+
+there's an axis parallel rectangle
+
+there's an axis parallel rectangle
+
+and so on and so forth.
+
+These are all axis
+parallel rectangles because
+
+the axes are parallel to the X and y axis.
+
+So what's the learning problem?
+
+Well, the learning problem is as follows.
+
+We're going to be given points,
+
+Some are going to be labeled positive
+
+and some are going to be labeled negative
+
+and you're labeled positive
+
+if the point is
+
+inside c which is an unknown
+axis parallel rectangle
+
+and you're labeled negative
+
+if the point is outside c
+
+the unknown axis parallel rectangle.
+
+So we're given points; they're labeled,
+
+there's an unknown axis parallel rectangle
+
+we don't know what it is
+
+we're given points drawn
+from some distribution,
+
+it's not necessarily the uniform
+distribution on the plane
+
+well there isn't one but
+
+it's not necessarily say
+a Gaussian distribution,
+
+some distribution points are chosen
+
+and they're labeled plus if they're inside
+
+this unknown access
+parallel rectangle and minus
+
+if they're outside the
+axis parallel rectangle.
+
+And our goal as usual is given epsilon
+
+and delta output h
+
+that is epsilon accurate
+
+with probability at least 1 minus delta.
+
+Question about the problem.
+
+>> I was just wondering how is this used
+
+in real life though learning algorithms?
+
+>> Well, the question is how
+is this used in real life.
+
+So there are many algorithms
+in machine learning
+
+that are based on geometry for example,
+
+finding a separating hyperplane is one
+
+of the most common and core algorithms.
+
+It's used in support vector machines.
+
+It's at the basis of boosting algorithms.
+
+So I'd say geometric
+methods for classifying data
+
+is a heavily used tool.
+
+This in two dimensions I
+agree is sort of a toy problem
+
+but I'll talk about the n
+dimensional problem after
+
+we've examined this one.
+
+So I think as usual you
+know for many problems
+
+in this class for many
+topics in this class
+
+we'll start with smaller examples
+
+and then we'll build up to
+more sophisticated ones.
+
+Question.
+
+>> So we suppose that there
+are no negative points
+
+within the positive points.
+
+>> Good question.
+
+So what you're asking is, is there no-yes?
+
+So in in this simplified
+example, every time you see
+
+a plus it means that you really are in
+
+the unknown axis parallel rectangle
+
+and every time you seem a minus
+
+you really are outside.
+
+So there's no no-yes in these examples.
+
+We'll talk about learning
+with no-yes later on in class.
+
+So what I'm looking for
+is a candidate algorithm
+
+that actually PAC learns
+axis parallel rectangles
+
+in two dimensions.
+
+And you'll notice that we can't really use
+
+the consistency algorithm
+or the analysis directly
+
+because there we had...
+
+it depended on the size
+of the function class
+
+and there are infinitely many
+axes parallel rectangles.
+
+So we have to do something
+or at least we have to...
+
+whatever algorithm you come
+up with we're going to have
+
+to analyze in some perhaps
+slightly different way.
+
+Yes.
+
+>> Shouldn't we just take
+the maximum and minimum
+
+of the coordinates of the positive points
+
+in our sample set?
+
+>> The maximum or the minimum
+of the coordinate points
+
+>> Both to set the...
+
+like the rectangle.
+
+>> Okay, so I think I think
+what you're suggesting
+
+is that we output the
+tightest fitting rectangle
+
+that hits all of the positive points.
+
+Okay, so for example,
+
+if we wanted to
+
+so if we were given a
+bunch of positive examples
+
+and we wanted to outfit the tongue output
+
+the tightest fitting
+rectangle then I believe
+
+it would look something like this.
+
+So the suggestion was look
+at all of the positive points
+
+and take a rectangle that
+most closely covers all
+
+of your positive points.
+
+Another potential idea would be to take
+
+the largest rectangle
+that you can that fits
+
+all of the positive points
+before it bumps into
+
+the negative points
+
+but we can definitely try
+analyzing this algorithm.
+
+Question.
+
+>> Well I think both of
+those would probably lead
+
+to over fitting because if you choose
+
+the tightest possible
+rectangle then anything that's
+
+like you don't know that those points
+
+like delimit the exact
+boundaries of the rectangle,
+
+so maybe you'd want to
+try to find boundaries
+
+such that any point on the boundary is
+
+like some metric as with respect
+
+to the distance of the negative
+
+and the distance of the positive points
+
+from the boundary and try to make
+
+that as even as possible.
+
+>> Okay, so what I like
+about your suggestion,
+
+you're giving a potentially
+different algorithm
+
+and you're worried about
+
+this tightest fitting rectangle algorithm
+
+because you're worried that
+when we take future draws
+
+from the distribution
+they may lie outside of
+
+this tightest fitting rectangle,
+
+and that's going to be an
+erroneous classification
+
+and we have to worry about that.
+
+So what you're suggesting
+is instead of taking
+
+the tightest fitting rectangle,
+
+maybe take some rectangle that
+
+is a little bit larger than
+
+the tightest fitting
+rectangle by some measure
+
+of a little bit larger.
+
+>> Or may such that the closest
+
+like the closest to points to the
+
+like for all the points on
+the boundary that we draw
+
+the closest to points like one is positive
+
+and one is negative,
+
+so try to get an even
+split in that regard.
+
+>> See when I evenly split up
+
+the positive and negative points.
+
+I see, that's an interesting idea.
+
+I have good news for you though.
+
+The tightest fitting
+rectangle actually works
+
+and the only question is
+really how do we analyze it.
+
+In fact, there's only one thing that
+
+we haven't specified with this algorithm.
+
+What haven't we specified
+for this algorithm.
+
+We said I'll put the
+tightest fitting rectangle
+
+but what did we not specify?
+
+>> Sample size.
+
+>> The sample size, correct.
+
+So
+
+let's draw our picture again.
+
+X and Y axis.
+
+Here are our positive points,
+
+here's our tightest fitting rectangle.
+
+Whoops!
+
+So the claim is the tightest
+fitting rectangle works
+
+and the only question is
+
+how large to choose our training set.
+
+So I think what we should think about
+
+when trying to analyze this problem is
+
+remember there's there's a
+random event going on here.
+
+We're taking random points
+from this distribution
+
+and the question is
+
+what is a bad event?
+
+What would you consider a bad event?
+
+Yes.
+
+>> If we have a positive point
+
+that lies outside the fitting rectangle.
+
+>> If we have a positive
+point that lies outside
+
+the best fitting rectangle.
+
+Well, we have we have
+the guarantee that all of
+
+the positive points are
+inside the unknown rectangle.
+
+So I'm not sure what you mean.
+
+>> I mean like the
+tightest fitting rectangle
+
+we've already found.
+
+>> Okay, we have the
+tightest fitting rectangle
+
+we've already found.
+
+>> Or did you mean... nevermind.
+
+>> What would be a bad event?
+
+Yes.
+
+>> I guess all the positive
+points or a cluster
+
+are around a really tiny area so
+
+we can't really draw an accurate--
+
+>> Good, good.
+
+Right a bad event would be
+that these positive points
+
+are clustered around some tiny rectangle
+
+that's very, very small with respect
+
+to the true rectangle.
+
+The probability mass
+of the true rectangle.
+
+So for example if the true
+rectangle... well, let's be even
+
+or something like that
+
+and we have to be careful.
+
+We have to assume that there's
+
+a lot of probability mass here.
+
+So a bad event,
+
+the bad event is that the
+tightest fitting rectangle
+
+is small i.e., lots of probability mass
+
+exists
+
+outside of h.
+
+By probability mass, I mean
+
+if the probability of landing
+in this larger rectangle
+
+is at least so if the
+probability of landing
+
+in the larger rectangle but
+not in the smaller rectangle
+
+the shaded region.
+
+If the probability of
+landing in that shaded region
+
+is at least epsilon then we're in trouble
+
+because we're going to say
+
+that this shaded area is negative.
+
+And so if it takes up at
+least an epsilon mass of
+
+the probability distribution,
+then we're going to be
+
+we're not going to be epsilon accurate.
+
+In fact, we'll make at least
+
+an epsilon fraction of mistakes.
+
+So I agree this is the bad event
+
+that the tightest fitting
+rectangle is small
+
+and there's lots of
+probability mass outside of h.
+
+How do we bound
+
+the probability
+
+this happens.
+
+So this is where the size of s
+
+is going to come into play.
+
+We need to bound the probability that
+
+this bad event actually occurs.
+
+Any ideas on how to do that?
+
+Yes.
+
+>> The general idea is that
+
+the more positive points you get,
+
+the more likely or I guess the less likely
+
+that there are more
+points that are outside
+
+your largest rectangle because--
+
+>> Yes the correct intuition
+is that the more points
+
+that we take, the less likely it will be
+
+that there's some huge rectangle
+
+outside of us that we haven't hit.
+
+But one thing to worry about
+remember is that you know
+
+the when in the last lecture
+when we were analyzing
+
+the consistency algorithm
+
+we were able to take a union bound
+
+over all of the bad hypotheses
+
+over all the bad events.
+
+So a bad event is that
+there's an enormous rectangle
+
+that surrounds...
+
+that has lots of mass that's outside of us
+
+but there are potentially
+infinitely many rectangles
+
+that are sitting outside of
+
+the tightest fitting rectangle.
+
+And we definitely can't
+sum up probabilities
+
+over an infinite number of events.
+
+Question.
+
+>> Shouldn't we calculate
+the distance between
+
+the positive and the negative points
+
+such as, if the this distance is very small
+
+then we know that the
+boundary can't move too much.
+
+>> You want to calculate the distance
+
+between the positive
+and the negative points.
+
+>> Yes.
+
+>> Okay, so here's
+a negative point,
+
+here's a negative point,
+here's a negative point
+
+but here's a positive point
+
+though it's tiny.
+
+We'd like to do an analysis
+of the following form.
+
+We'd like to say,
+
+well the probability
+
+well we'd like to do an analysis where we
+
+analyze h
+
+perhaps the tightest fitting rectangle
+
+and say something
+
+about h versus
+
+all the
+
+rectangles that are large
+
+and contain h because sort
+of those are the bad events
+
+but we have potentially
+
+as I said we have potentially
+infinitely many of them.
+
+And so it's going to
+be difficult to reason
+
+about infinitely many bad events.
+
+Yes.
+
+>> I guess the smaller the
+
+for the larger the ratio of h to
+
+the area of h
+
+to the area of the actual
+rectangle, the closer you are--
+
+>> Right.
+
+So the ratio of the areas between
+
+the tightest fitting rectangle
+
+and the true rectangle
+
+it's going to indicate your error somehow.
+
+So that's an interesting idea,
+
+let's actually analyze this problem
+
+a little bit differently.
+
+So here's my plane and I'm
+going to assume that this is the
+
+Let's assume that this
+is the true rectangle
+
+this is C.
+
+Okay, so this is not h this
+is c the true rectangle.
+
+So here's one bad event.
+
+I'm just going to define a bad event.
+
+So I'm going to take a slice of c,
+
+I'm going to look at this shaded region
+
+and I'm going to say that one so bad event
+
+let's call it b one is
+
+and I'm going to I'm going to
+assume that this shaded region
+
+has at least an epsilon
+over four probability mass
+
+with respect to d.
+
+So I'm going to say b one is the event
+
+we see no points
+
+in the right strip.
+
+Okay, so I'll call this
+strip the right strip.
+
+It's on the right hand side.
+
+And b one will be the
+event that we see no points
+
+in this shaded region.
+
+So we get all these draws
+from our distribution
+
+and if we don't see
+one in the shaded strip
+
+on the right hand side,
+
+I'm going to say that
+bad event b one occurred.
+
+Then I'm going to take another strip
+
+again it's going to have
+probability mass epsilon over four,
+
+and I'll say b two is the event
+
+we see no point
+
+in the bottom strip.
+
+Okay, now I think you see where I'm going
+
+of b three
+
+this will have probability
+mass epsilon over four.
+
+B three will be the bad
+event that we see no point
+
+in the left strip
+
+and then b four
+
+this will also have probability
+mass epsilon over four,
+
+b four is the event
+
+we see no point in the top strip.
+
+Okay, so four bad events
+
+four bad events each one
+corresponding to a strip
+
+of probability mass at
+most epsilon over four.
+
+Why did I pick epsilon over four?
+
+You'll see in just a minute.
+
+Here's my claim.
+
+If neither b one nor b two
+
+nor b three nor b four occur,
+
+then h
+
+the tightest fitting rectangle
+
+is epsilon accurate.
+
+So this is my claim.
+
+If none of these bad
+four bad events occur,
+
+then the tightest fitting rectangle
+
+is indeed an epsilon accurate hypothesis.
+
+What does it mean if none
+of these bad events occurs.
+
+It means we see at least one
+point in the right strip,
+
+at least one actually let me use
+
+a different color here,
+
+means at least we use we see
+one point in the right strip,
+
+we see at least one point
+in the bottom strip,
+
+we see at least one
+point in the left strip
+
+and we see at least one
+point in the top strip.
+
+If none of these bad events
+occur, we're going to see
+
+the points like these.
+
+We're going to see a point in each strip.
+
+And so, then the tightest
+fitting rectangle
+
+let me do that again.
+
+The tightest fitting
+rectangle is actually going
+
+to be very close to the unknown rectangle.
+
+So the tightest fitting
+rectangle will differ on
+
+the bottom portion by at
+most epsilon over four
+
+because it's within that strip
+
+and it will differ on the right strip
+
+by at most epsilon over four,
+
+it'll differ from the unknown
+hypothesis on the top strip
+
+by at most epsilon over four
+
+and on the left strip by
+at most epsilon over four.
+
+This is because it's inside
+
+the boundary of our
+tightest fitting rectangle
+
+is inside each strip.
+
+So the true error of the
+tightest fitting rectangle
+
+is going to be at most epsilon
+
+as long as none of these bad events occur.
+
+You can see we had to add
+up these epsilon over fours
+
+to get the true error.
+
+That's why I chose epsilon over four.
+
+Any questions about this?
+
+We still have to analyze something, right?
+
+What do we have to analyze?
+
+Yes.
+
+>> How big our sample has to be to--
+
+>> How large do we have to choose s to be.
+
+So let me erase this.
+
+We know that we want none of
+these bad events to occur.
+
+So what's the probability
+if I choose, whoops
+
+if we choose m random samples,
+
+what's the probability of say b one.
+
+Let's just calculate one of them.
+
+What's the probability of b one
+
+if we choose m random samples.
+
+Remember b one is the event that
+
+we see no points in the right strip.
+
+Yes.
+
+>> Is it one minus epsilon
+over four of the m.
+
+>> Correct.
+
+It's at most one minus
+epsilon over four raised
+
+to the power m.
+
+Each draw is independent.
+
+So the probability that we
+miss that right hand strip
+
+is at most one minus
+epsilon over four to the m.
+
+This is also the same probability
+
+for b two b three and b four.
+
+So we immediately have
+that the probability
+
+that b one or b two or b three
+
+or b four occurs is
+
+at most four times one
+minus epsilon over four
+
+raised to the power m.
+
+Now someone online asked,
+how do we know all rectangles
+
+are equal in the distribution?
+
+That's a good question.
+
+The rectangles are not
+being drawn according
+
+to a distribution.
+
+A certain fixed unknown rectangle c
+
+is fixed before everything begins
+
+and the only thing that's
+distributed according
+
+to script d are the points
+themselves in the plane.
+
+So the points in the
+plane could be distributed
+
+in a strange way but the
+unknown true rectangle
+
+is fixed once and for all beforehand.
+
+Getting back to our failure
+probability analysis
+
+what did we want this quantity
+to be less than or equal to?
+
+(student speaks off microphone)
+
+Delta.
+
+So this implies well
+
+I'll leave it as an exercise
+that you can work out
+
+but if you choose m to be polynomial
+
+and well I guess we
+could just work it out.
+
+So we have four times one minus epsilon
+
+over four raised to the m,
+
+we want this to be less
+than or equal to delta.
+
+What should our next step be?
+
+(students speaks off microphone)
+
+Okay, one minus epsilon over four to the m
+
+less than or equal delta over four.
+
+Yes.
+
+>> When you raise to the power m?
+
+>> Right.
+
+So we use the fact that one plus X
+
+is approximately e to the X.
+
+So one minus X is
+approximately e to the minus X.
+
+So we'll have e to the
+minus epsilon m over four
+
+is less than or equal to delta over four,
+
+then we take logs we'll
+get minus epsilon of m
+
+less than or equal to delta over four.
+
+Log
+
+and this implies that m should be
+
+at least log delta over
+four for four epsilon.
+
+Okay, so as long as we
+choose a number of samples
+
+that's at least four times
+log delta over four divided
+
+by epsilon, then we know that
+the tightest fitting rectangle
+
+will be an epsilon accurate hypothesis
+
+with probability at least one minus delta.
+
+So h-- let me write this properly
+
+h tightest rectangle
+will be epsilon accurate
+
+with probability at least one minus delta.
+

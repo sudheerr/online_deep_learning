@@ -1,0 +1,123 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+Welcome to our first, uh, hands on segment. In this segment, to a look at how to sort of create, sample and look at distributions in PyTorch.
+
+Um, and to start with, um, I have Visual Studio, visual Studio Code open here.
+
+Um, I'll also have copilot running with me. And so whenever we get stuck, I'll just ask copilot to want to continue, how to continue.
+
+And if you're doing your homework, even if you're sort of doing work on yourself, uh, as a hobby, I highly recommend just interact with copilot.
+
+Uh, it makes it makes sort of, uh, coding easier or you learn much quicker if you do this.
+
+All right.
+
+So with that said, we'll start always sort of the same way when we, uh, code in PyTorch, we'll import PyTorch, which imports the PyTorch package.
+
+Um, we'll also import, uh, torch dot distributions.
+
+Um, as this we'll just call torch.
+
+Uh, I don't want to call it just, uh, we just want to call. On it.
+
+Call it this. All right. So now we're ready to sort of create samples from, uh, Bernoulli distribution.
+
+Okay. So let's create, uh, Bernoulli distribution.
+
+That's an O missing here. Per.
+
+All right. Um, and we'll see what copilot thinks we should do.
+
+All right. We should probably not call this test. Um.
+
+Right. And so copilot already filled in set of values for the Bernoulli distribution, which we don't quite want.
+
+Um, so right now I just want to give the Bernoulli distribution a single value of 0.5.
+
+And so this will create an object that's a Bernoulli distribution that has a 50% chance of producing a zero,
+
+and the 50% chance that will produce a, that it will produce a one. We can look at this object.
+
+And it really only has one property. It's the probabilities, and it's 5050.
+
+Now if you want to sample from this two distribution. All right.
+
+Let's see what copilot thinks we should do. All right, now, we just drew a sample from the Bernoulli distribution here.
+
+We drew a zero. We can repeat this. Now, we drew one zero again, zero one.
+
+We can continue this forever. Fact which just draw will just draw ten samples here and here.
+
+We can see every single time we get enough, an almost random looking outcome.
+
+Now one thing we can do is we can start to measure the mean and the variance of the samples that we drew.
+
+So we can draw some samples. Let's say we draw a thousand samples here.
+
+Well, print them real quick to show how they look like. And now.
+
+We'll start to compute the mean. And below we'll compute the variance.
+
+And Copilot is smart enough that even without listening to me, it will it will compute that it will put the right code here.
+
+And so we'll hear about this. What happens is that the samples are a list of torch tensors, which we'll cover in more detail later in class.
+
+Um, we need to stack them up into one gigantic torch tensor, which does what this stack here does.
+
+And then we can compute the mean and the variance of this tensor.
+
+You can see that the average over a thousand samples of values that we randomly drew between 0 and 1 should be about oh point.
+
+It should be 0.5. It's not quite point five.
+
+Uh, and the variance of all of these samples is about 0.25, which is, which is what the real value at the variance of the real distribution is.
+
+If you try this again, we may get, uh, we might get luckier.
+
+We might get unlucky. Here. This was a very unlucky roll of samples.
+
+Um, we got a lot more zeros and ones. But one thing that should become clear is that.
+
+These samples are not the same as the original Bernoulli distribution.
+
+The original Bernoulli distribution has a mean of exactly 0.5.
+
+No more, no less. And our samples, depending on how lucky we are.
+
+Or are you going to be slightly below 0.5? Slightly above 0.5, but there were rarely be exactly point five.
+
+We can do the same thing with a different distribution. Let's create a Gaussian distribution.
+
+A normal distribution. Yeah. All right. So copilot created a normal distribution that has a mean of zero.
+
+So the values are centered exactly at zero. And a standard deviation of one.
+
+We can again draw samples from this distribution.
+
+And you can see some of these samples are now just sort of real valued numbers.
+
+And it can be positive. It can be negative. It can be almost anything.
+
+We can again draw sort of a thousand samples from the normal distribution.
+
+And we can compute the mean and the variance of these thousand samples.
+
+And again, we can do this multiple times and we'll never get exactly the same mean and variance that we defined before.
+
+And so these samples are always going to be slightly biased.
+
+Um, and so the one thing I want you to take away from this segment is that in sampling any probability distributions,
+
+you can think of the PyTorch function here that generates all of these samples as the data generating distribution.
+
+So we got some underlying distribution that's sort of pure and beautiful.
+
+But we only get to observe samples from it.
+
+And because we only get to observe samples from it, the samples never fully match the original distribution.
+
+This is quite important. Um, it could be.
+
+It will become very important when you cover sort of overfitting or fitting your model to data and what to be aware of later in this class.
+
+All right. And with that we're done with this segment.
+

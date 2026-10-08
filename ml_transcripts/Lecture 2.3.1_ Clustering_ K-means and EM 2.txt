@@ -1,0 +1,698 @@
+♪ (upbeat jazzy music) ♪
+
+Welcome to Machine Learning.
+
+So in this lecture we are going
+
+to talk about EM algorithm,
+expectation maximization,
+
+which is another clustering algorithm
+
+that generalizes K-means algorithm,
+
+which we introduced previously.
+
+So in order to introduce EM algorithm,
+
+let's review K-means algorithm to see
+
+what's the problem of K-means algorithm.
+
+So we call that the algorithm K-means.
+
+The K-means algorithm is a very
+simple clustering algorithm,
+
+so the procedure is very simple.
+
+Let's say in this case we are
+giving ourself data points.
+
+We want to cluster them into K clusters.
+
+So the idea is to start
+from some random centroids
+
+and iteratively update assignments
+
+by finding the closest
+centroids for each data point
+
+and also finding, also
+updating the centroids
+
+based on the assignments.
+
+Now the problem of this
+algorithm is that sometimes,
+
+so the problem is that for each data point
+
+we are forced to give an assignment,
+
+and sometimes this is difficult to do.
+
+Let's use a given example,
+
+let's say you have a data set
+
+that looks like this, this, this,
+
+and then you have some
+point in the middle.
+
+And then at some point,
+maybe your centroids is,
+
+two centroids are here, wait.
+
+And then it's clear these
+two should be assigned here,
+
+and these two should be assigned here,
+
+but then you have this middle point
+
+which is kind of close to both
+
+of the centroids equally.
+
+So, and then you are forced,
+
+in K-means you are actually
+forced to make a decision
+
+about which centroid, data
+point, should be assigned to.
+
+In this case, you will probably have
+
+to randomly sort of decide,
+breaking the ties randomly,
+
+and obviously this
+wouldn't be ideal, right?
+
+And EM algorithm procedurally is
+
+really a sort of simple generalization
+
+of K-means that allows us to make soft
+
+or probabilistic assignments
+of the data points.
+
+So the idea is very simple,
+
+I can sort of just introduce
+the procedure very quickly.
+
+So the idea is that instead of making
+
+a deterministic assignment
+for each of data point,
+
+in EM algorithm we actually
+make probabilistic assignments
+
+in the sense that instead of
+calculating the optimal Zi,
+
+we actually calculate a probability
+
+for Zi equal to the one to
+K, any particular value.
+
+So the idea is that we actually calculate
+
+the probability of Zi
+equal to K, for each K,
+
+and this probability is actually
+taken to be proportional
+
+to the distance, but
+in a probabilistic way.
+
+So example of this is that
+we can take the assignment
+
+to be some sort of sigmoid function
+
+constructed from the distance.
+
+Maybe we have some lambda that scales.
+
+Sum over L from one to K, exponential.
+
+So the idea is that instead of finding,
+
+deterministically assign each data point
+
+to the centroids that is close to it.
+
+So we actually maintain our probability
+
+about Zi belongs to each of the centroids,
+
+and that the probability is proportional
+
+to exponential minus the square distance
+
+from xi to new K.
+
+Here lambda is some
+constant, is some parameter.
+
+We can actually automatically decide
+
+in the complete version of EM algorithm,
+
+but here we are just giving
+a simple illustration.
+
+So lambda is something that you right now
+
+can think of as fixed.
+
+And then because it's the probability,
+
+we actually need to
+normalize the probability,
+
+so we need divide this
+exponential function
+
+by sum over all the possible clusters.
+
+So going back to the example
+we have in the figure,
+
+let's see for the point
+that is in the center
+
+because the distance from this point
+
+to both of the centroids are
+very close to each other,
+
+so in this case if you
+calculate the probability
+
+we will have something that is close
+
+to 1/2 1/2, which is expected.
+
+In this case we just
+maintain our probability,
+
+we don't need to make a
+deterministic hard decision
+
+about which cluster this
+particular data point
+
+is assigned to.
+
+In comparison, the other data points,
+
+let's say these two data
+points on the right,
+
+is actually much closer
+to its own centroids
+
+than the other one,
+
+so the probability that they are assigned
+
+to their own centroid is much larger
+
+than the other centroids,
+
+but overall we actually
+just maintain probabilities
+
+instead of making hard assignments.
+
+And then after we calculate
+the probabilities,
+
+we can update the centroids.
+
+In K-means, the centroids is updated
+
+by averaging over the data points
+
+that is assigned those centroids,
+
+but now because we are sort of defining
+
+randomized assignments and we only keep,
+
+maintain our probability, so
+we need to modify the mean,
+
+the average, to be a weighted average.
+
+So here, earlier the muK equals
+
+to average over all the data points
+
+that is assigned to Z,
+
+Z equal to K, Zi equal to
+K, and this can be wrote as,
+
+this formula will be average over Zi
+
+but weighted by this indicative function.
+
+So the indicative
+function, I Zi equal to K,
+
+equal to one if Zi equal to K,
+
+zero if Zi doesn't equal to K.
+
+So we can sort of view
+this indicative function
+
+as a zero-one probability,
+and in EM algorithm,
+
+we actually just replace
+this indicative function
+
+with the actual probability.
+
+So in EM algorithm the update will be
+
+muK equal to sum over i equal to one to n,
+
+and then we have the probability,
+
+Zi equal to K, xi,
+
+divided by i equal to one to n,
+
+probability, Zi equal to K.
+
+So it's a very simple extension.
+
+Basically we just replaced
+the indicative function,
+
+which represents some sort
+of deterministic probability.
+
+It will either equal to
+one if Zi equal to K,
+
+zero if Zi doesn't equal to K.
+
+Now, in EM algorithm we replace
+
+this deterministic probability
+
+with the actual soft probability,
+
+so we're doing a weighted
+sum for each muK.
+
+We update it to be the
+weighted average of Zi, xi,
+
+and the weight equals to the probability
+
+for each data point to belong to K.
+
+Let's just go over this example
+we had here in the graph.
+
+So let's just redraw the graph.
+
+Let's see, I have these two data points,
+
+these two data points,
+
+and then we have some
+data point in the middle.
+
+Okay, so let's say the centroids,
+
+the earlier centroids is here, and here,
+
+and then for each data point
+
+we are going to calculate the probability
+
+that they belong to each of the centroids.
+
+For example, for this point on the left,
+
+we may have a high probability
+to be assigned to the first.
+
+Let's see, distance at Z is equal to one,
+
+this is Z equal to two.
+
+We may have a high probability
+
+to assign to the first
+centroids, maybe 0.9 and 0.1.
+
+Maybe the second one is
+
+a little bit smaller, maybe 0.8, 0.2.
+
+The third one is equal distance
+to both of the centroids,
+
+maybe it's 0.5, 0.5.
+
+These are 0.2, 0.8.
+
+This is 0.1, 0.9.
+
+So here, basically for each data point
+
+we just calculated assignment probability
+
+based on its distance
+to all the centroids.
+
+And then, after we have this probability,
+
+we can update the centroids.
+
+So let's say for mu1,
+
+what we do is we just
+do a weighted average
+
+using the probability
+that each of data point
+
+belongs to Z one, Z equal to one.
+
+So in this case,
+
+the mu1 should equal to, it
+will be a weighted average.
+
+The first data point, the
+left to first data point,
+
+contributes the most to this centroid
+
+as it has a 0.9 probability.
+
+Times x1, so this is x1,
+
+x2, x3, x4, x5.
+
+And the second data point
+contributes 0.8 probability,
+
+times x2, and the third one,
+
+it's in the middle so
+it only contributes 1/2
+
+of the probability, so it would be 0.5 x3.
+
+And then we have 0.2 x4,
+
+so x4 actually contributes
+only 0.2 probability,
+
+but it still contributes something,
+
+so we still actually add it.
+
+So x4 still have inference
+to the first centroid,
+
+even though the inference is much smaller
+
+than the other data points
+that are close to the centroid.
+
+And then we have x5, which is 0.1,
+
+which only contributes 0.1 probability,
+
+so it's much smaller.
+
+And then because the weight is sum,
+
+we actually need to normalize this sum
+
+with the sum of the probability.
+
+0.5, 0.2, 0.1,
+
+so this is going to be the new centroid
+
+for the first cluster.
+
+Now similarly, we can
+just do the second one,
+
+mu2, which is exactly the
+same except now we are using
+
+the probability for each data point
+
+belongs to Z two, Z equal two.
+
+Now in this case,
+
+it's exactly one minus of the probability
+
+that we had earlier,
+
+so for the first data point
+
+the weighting is going to be 0.1, so x1.
+
+The second data point is 0.2, x2.
+
+The third one is 0.5, 1/2 1/2,
+
+and then x4 is going to contribute 0.8,
+
+so it actually plays an
+important role for mu2.
+
+And then we have 0.9, five,
+
+so point x5 would
+contribute the most for mu2.
+
+And then similarly we
+just normalize the sum
+
+using the sum of the probabilities.
+
+So this gives you the updated center,
+
+and then we iterate this
+process until it converges.
+
+So if we actually brought,
+
+let's see, the updated decision,
+
+the one, the two.
+
+Let's say just here's the data point.
+
+After the update, it's likely
+that most of the centroid,
+
+it's likely, for example
+it might be possible
+
+the centroid of these two
+clusters will be here.
+
+So both of them are taking
+
+the middle point into consideration.
+
+So we'll get this symmetric
+placement of both centroids,
+
+which is kind of reasonable in this case.
+
+Now if we are doing the K-means algorithm,
+
+we will get something different.
+
+Let's say if we are
+doing K-means algorithm,
+
+when we are doing K-means algorithm,
+
+what's happening is that you are forced
+
+to assign the middle point
+to one of the clusters.
+
+And this has to be decided in some way.
+
+You know the distance is slightly smaller
+
+for a particular centroid,
+so assign it to that,
+
+or you need to break the ties randomly.
+
+So in this case, maybe it's
+possible that these two,
+
+the center point is assigned
+to the left centroid,
+
+so you will get something like this.
+
+So get something like this,
+and something like this.
+
+So you get a asymmetric assignment,
+
+which may not as reasonable
+
+as the one we had from EM algorithm.
+
+So this is what we get from EM algorithm,
+
+this is what we get
+from K-means algorithm.
+
+So this is the idea.
+
+The intuition is really just replacing
+
+the deterministic assignment
+with the probability
+
+and then we update the
+centroids using a weighted sum
+
+of all the data points
+according to their probability.
+
+So the algorithm idea is very simple,
+
+so here is another illustration
+
+of the EM algorithm,
+let's look at this plot.
+
+Let's say look at the first plot.
+
+So this plot, each data point,
+
+for each data point we
+have these different colors
+
+to represent its probability
+
+that it is assigned to
+different centroids.
+
+In this case we have three centroids.
+
+We have green, red, and blue.
+
+So in the initialization,
+
+we can sort of see that
+most of data points have
+
+a sort of very mixed probability,
+
+and that's because, in this case,
+
+due to the initialization
+
+all the centers have significant overlap,
+
+so most of the data points
+in the overlapping area
+
+has probability that
+is almost close to 0.3,
+
+so evenly divided into
+those three centroids.
+
+Now as we perform EM updates,
+
+so we can sort of see
+that the centroids moves,
+
+and the probability updates.
+
+So this is the first iteration,
+
+this is the second iteration,
+and the third iteration,
+
+and then just repeat the process
+
+until you can sort of see
+
+that gradually the different centroids
+
+are separating with each other
+
+and the probability
+becomes more deterministic.
+
+So in this particular case,
+
+the algorithm end up with
+converging to a nice position
+
+where all these three
+centroids are well separated,
+
+and so the probability
+of all the data points
+
+are close to one, but
+still some of them is
+
+not strictly one, for example, this one.
+
+Okay, great.
+
+So this is the basic algorithm
+idea of EM algorithm.
+
+In the next lecture, we
+are going to introduce
+
+the mathematical idea of EM algorithm.
+
+We will actually show
+that the EM algorithm
+
+is actually an optimization,
+
+a mathematical optimization algorithm
+
+for performing a maximum
+likelihood estimation
+
+of Gaussian mixture models,
+
+so we will talk about
+that next time, thank you.
+

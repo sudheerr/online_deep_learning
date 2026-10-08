@@ -1,0 +1,45 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So now and in this class, we're at a point where we sort of have all the basic tools to build really deep networks.
+
+We know sort of the basic setup, we know how to train these networks.
+
+Um, we know how to sort of build them out of layers of computation.
+
+We have learned that vanishing vanishing gradients and activations, they're part of everyday life of network training.
+
+Uh, they're much better than exploding gradients, um, which we have to control through learning rates and sort of proper initializations.
+
+Um, and more importantly, we actually know all the tricks to train networks as deep as you would humanly want.
+
+Um, we know how normalizations and residual connections.
+
+Can help us train set of networks, can help us have gradients, travel through back through the networks.
+
+Uh, and how they sort of half activations survive almost all the way through to the end.
+
+We know how to change number of channels by sort of switching out different types of residual connections here by essentially replacing with a,
+
+with a with a linear layer. And so this gives us sort of all the basic tools that we need to train very, very deep networks.
+
+Now, the one thing that we have not talked about is what this linear layer with this layer here does,
+
+we haven't really talked about changing sort of the parameters and the core structure of the network.
+
+We talked about how to make it deep,
+
+but we haven't talked about what this linear layer does and sort of what advantages and disadvantages of this linear layer are.
+
+And we'll do this sort of in this second half of this class, there will be a strong focus on trying to replace this linear layer,
+
+which is really just a matrix multiplication with something a bit more structured.
+
+And then towards the very end of the class,
+
+we'll sort of look at sort of how we have this entire network structure and how we can apply it to arbitrary problems that we might face.
+
+But for now, we're at a point where we have the training algorithms we make.
+
+We are able to sort of get gradients to arbitrarily deep networks.
+
+All we need to worry next is structure. That's it.
+

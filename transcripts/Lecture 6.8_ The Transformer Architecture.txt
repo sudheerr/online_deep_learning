@@ -1,0 +1,173 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+Think. All right.
+
+So in this segment we're looking at the transformer architecture.
+
+And so everything in this section sort of leads up to this.
+
+The transformer architecture is sort of a very compact and computationally efficient
+
+way to model set operations or even operations over arbitrarily sized inputs.
+
+And so what did use is at its core is it uses multi-head attention as its basic ingredient.
+
+And then it uses positional embeddings to sort of make sure that we we don't have permutation invariance if we don't want it.
+
+And we'll combine this with a multi-layer perceptron.
+
+All right. So multilayer perceptron is sort of a linear layer a ReLU a linear layer.
+
+And you can make it slightly deeper. But oftentimes sort of one non-linearity is enough.
+
+Right. So you can think of this multilayer perceptron. This is the dumbest possible, uh, architecture that we can build.
+
+We apply this to each of the outputs of the transformer independently.
+
+After so of the multi at attention independently. And that's the basic transformer building block.
+
+Now it gets a little bit more complicated just because we have.
+
+If we would build this just vanilla. Uh, we actually had issues.
+
+We would have issues with vanishing, uh, activations and gradients.
+
+And so we'll also need to put normalization into this layer, uh, somewhere in the right place.
+
+And we'll also add residuals in. And so the actual transformer layer will take sort of multi-head attention.
+
+And then it will combine it in a residual connection with its original input.
+
+Add layer normalization to it. Then feed the output of that through a multilayer perceptron, which is sort of just linear ReLU linear.
+
+And then well again at this in a residual connection.
+
+Normalize. And that's the output of the transformer layer.
+
+So this is very simple. Multi-head attention.
+
+Residual normalize MLP residual normalize.
+
+That's it. Right. There's two layers, two parts that have weights that we learn.
+
+One is multi-head attention, and the weights will learn.
+
+And multi-head attention really govern how we're mixing inputs together.
+
+Where do we look? Where else do we look to get information? What sort of what else?
+
+Uh, do we attend to? What else should we care about? And then we have the map down here, which is the simplest possible network that we can build.
+
+And what that will do is will just sort of for us, for ourselves, for the current location.
+
+It will build up a more and more complex, uh, sort of representation.
+
+In theory, you wouldn't actually need the map.
+
+Uh, you could just put a ReLU after Multi-head attention and repeat this over and over again.
+
+Um, the reason why we do use a NLP is because it's computationally more, uh, more efficient.
+
+So the MLP here is actually super fast. Uh, it's just sort of two linear layer supplied and a ReLU in between.
+
+What is computationally expensive is this multi-head attention part.
+
+And so this will allow us to sort of focus computation locally a bit more, spend a little bit more, uh, cycles, uh,
+
+compute cycles on the local computation before we then go and again mix information across the entire sequence.
+
+Now there are sort of two different versions of, uh,
+
+of attention that really has to do with the fact that people found out that placing Normalizations in different parts of the,
+
+of the, uh, um, uh, transformer works better.
+
+Uh, and it trained slightly faster. So the original transformer architecture used this post normalization, where normalization came after the layers.
+
+Um, that is sort of that was sort of the wisdom at the time also for residual networks, which is the convolutional equivalent to this.
+
+Um, by now I think people realized that pre normalization works slightly better.
+
+Um, and so what people will essentially do is they'll add.
+
+The normalization right before the linear layers will give the transformer a residual connection.
+
+That's really just linear all the way through. All right.
+
+Now, how do we build up a transformer architecture.
+
+So we now look at that individual layer. Now let's figure out how we build this gigantic.
+
+Sort of network out of this. Well, the answer is pretty simple.
+
+We have an embedding of our inputs. And so if this is words will tokenize the words which will split it up into different parts.
+
+Uh, for each part of the word will associated with a specific embedding, a specific feature vector that will then sort of.
+
+Replace this word, and then we're ready to just feed it through layer and layer and layer off a transformer architecture.
+
+Super simple. No. That's right. You don't have any striding.
+
+We don't have anything sort of special there. It's just sort of layers and layers and layers of transformers.
+
+Right. And so this is sort of, again, sort of a more detailed view of how we do this.
+
+Um, for language, we'll tokenize the sentence, embed output, uh, feed it into n transformer layers, and then we will get one output for each input.
+
+Okay. Now the question is how do we actually perform interesting tasks with this?
+
+Right. Now we have a sentence.
+
+We embedded and now we just get an output for each.
+
+Each each input in our center in a in our in our sequence.
+
+Right. Now if you'd want to do the task of sentiment analysis.
+
+What you want to do is you want to add one more input.
+
+And so you'll add to special input token here.
+
+Which is known as the classification token. And what this will do is it will allow you to read out.
+
+The result of this classification token, add a linear layer to it.
+
+And then predict the sentiment.
+
+And so this will allow you to sort of say, okay, I'm going to have a sentence, and I'm not going to associate a sentiment to one individual word.
+
+But what I'm going to do is I'm going to have one more token that just says CLS.
+
+And I'm going to look at the value of the CLS token to then determine what my sentiment is, what the sentiment of the sentences.
+
+And really what this actually does computationally is this additional token
+
+here is now allowed to attend all parts of the sentence at every single layer.
+
+We'll just have attention to all other parts of the of the sentence.
+
+And in the end to for the output here, this actually has attention over all possible inputs.
+
+And then it will produce its result. There's various additional sort of ways we can play with tokens, um, and other sort of.
+
+Ways to construct and and and play with these transformer architectures.
+
+Most of these are beyond the scope of this class. I just want to show you the simple one where you sort of have one additional classification token.
+
+Um, there's we can use cross attention.
+
+We can use lots of interesting things to make this, uh, these transformers output almost anything you would want.
+
+So to summarize, uh, the transformer architecture is actually a super simple architecture.
+
+It has two layers that have weights in it, the multi-head attention and the multi-layer perceptron,
+
+uh, which is sort of a simple, uh, linear, uh, ReLU linear network.
+
+We add layer norm and residuals to it. That's pretty much all there is to the transformer.
+
+Um, not a transformer architecture overall.
+
+It's just a stack of many of these layers of, of of of transformer or many of these transformer layers.
+
+That's it.
+

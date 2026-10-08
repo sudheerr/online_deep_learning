@@ -1,0 +1,1707 @@
+♪ (upbeat jazz music) ♪
+
+Welcome to Machine Learning.
+
+So in this lecture, we are
+going to talk about clustering
+
+and an important algorithm for clustering
+
+which is called a K-means.
+
+So let's get started.
+
+So clustering is a class
+with very important
+
+unsupervised learning task,
+
+so the problem is that we are
+given a set of data points,
+
+so here,
+
+I'm drawing a bunch of data points,
+
+each of them may represent
+some sort of feature,
+
+let's say in this case we
+have two set of features,
+
+x1 and x2,
+
+and the goal here is that we want
+
+to partition the data set into solo groups
+
+so that similar data points are grouped
+
+into the same clusters.
+
+So in this particular case we may want
+
+to have an algorithm, a computer algorithm
+
+that is able to group these data points
+
+into three sub-groups, right?
+
+So that we can sort of think
+that each of these groups
+
+represents some particular structure
+
+about the data points, right?
+
+So why are we interested
+in doing this task?
+
+Well, let's give some examples, right?
+
+So here's an example,
+lets say, in Google News,
+
+when you open the web browser,
+
+and check news, Google
+actually gives you a bunch
+
+of actually classify different stories
+
+into different categories.
+
+For example in this case you
+have world, US, businesses,
+
+and sports, and many
+other categories, right?
+
+So Google actually has
+an automatic algorithm
+
+that takes different articles
+
+and groups them into
+coherent topics, right?
+
+In this way, it's easier for the readers
+
+to kind of browse through
+different articles,
+
+and read what topics
+they are interested in.
+
+So this is one example, another example,
+
+let's say you are working
+some market company
+
+such as Walmart, right?
+
+and you have a bunch of
+different customers, right?
+
+And let's say you are deciding
+
+to make different let's
+say advertisements,
+
+let's say you have three
+different strategies
+
+for making advertisements, right?
+
+So in this case it would
+be very useful to group,
+
+to partition the customers
+into several different groups.
+
+Each of them shares some
+similar behaviors, right?
+
+So that you can send the
+same types of advertisements
+
+to them, and this can dramatically
+improve the efficiency
+
+for your business, right?
+
+So these are some of the
+examples of clustering,
+
+obviously there are many other
+examples in machine learning,
+
+computer vision, and
+machine language processing
+
+where clustering plays a fundamental role
+
+in many tasks, right?
+
+So in this lecture we're going
+
+to talk about k-means algorithm.
+
+>> So this is one of the most basic
+
+and also widely used
+algorithm for clustering.
+
+So let's start from
+setting up the problem.
+
+So let's see, we are given
+a set of data points.
+
+So x-i, i from one to n which is
+
+a collection of data points,
+let's say in the example
+
+of marketing you want to
+group different customers.
+
+So in this case, each x-i
+represents information
+
+about a particular customer.
+
+So, x-i could be a vector itself.
+
+Let's say, x-i-one all the way to x-i-d
+
+where each coordinate represent
+different information.
+
+Let's say the first coordinate represents
+
+the dollar this particular customer
+
+spent on, let's say, electronics.
+
+And then the second one is
+another category of product.
+
+And then basically we have
+a bunch of data points, x-i.
+
+And then we are given
+
+a number K, which is
+the number of clusters
+
+we want to partition the data points.
+
+So K has to be given in K-means algorithm.
+
+If you have no idea how
+many clusters you may want,
+
+you can try different numbers
+and then pick the best.
+
+There are also data driving approaches
+
+that allows us to capture, to estimate
+
+the best K automatically,
+
+but we wouldn't cover
+that topic in this class.
+
+So we are given data
+points, and we are given K.
+
+And we want to decide how
+to partition the data.
+
+So the idea of K-means
+is to jointly estimate
+
+the assignment of each data point.
+
+So you want to decide which cluster
+
+each data point will be assigned to.
+
+And then you also want
+to decide a centroid
+
+of each of the cluster.
+
+Let me give you illustration
+of what this means.
+
+Let's say we have some data
+points that look like this.
+
+Obviously, we have two clear clusters.
+
+We hope to cluster these
+data points in two clusters.
+
+And then, by assignment, we mean
+
+that all the data points in this group
+
+will be assigned to be one
+into the first cluster.
+
+And then all these other data points
+
+will be assigned to the second cluster,
+
+which it has a label two.
+
+So this represents the assignment
+
+of each of the data points.
+
+And then in addition to
+that, K-means algorithm
+
+also want to find the centroid
+for each of the cluster.
+
+So the centroid is the
+representative data point
+
+for each of the cluster.
+
+And empirically, the
+centroid will be simply
+
+the average or the geometric center
+
+of all the data point within that cluster.
+
+So the goal of K-means
+algorithm is to jointly decide
+
+the both the assignment and the centroids
+
+so that it provides a optimal
+partition of the data.
+
+And how to achieve this?
+
+Well, K-means algorithm achieve
+
+this with a very simple idea.
+
+So the idea is that because we don't know
+
+the centroid and the assignment,
+
+we just start from random initialization.
+
+Let's say, we randomly initialize
+
+either the centroids or assignments.
+
+And then, we iteratively
+update them iteratively
+
+so that they can be improved sequentially.
+
+So we will repeat these two
+steps until it converges.
+
+So the first is that given
+that we know the centroid
+
+of each cluster, we are going
+to assign each data point
+
+to the cluster that has
+the closest centroid.
+
+And then, after the assignment is done,
+
+we will update the centroid
+of all the clusters
+
+based on the assignment,
+and then we just repeat
+
+this process iteratively
+until at some point
+
+no change can be made by this update.
+
+And then, the algorithm converges.
+
+Okay, so let's actually
+use a very simple example
+
+to illustrate this process.
+
+Let's say we have this
+very, very simple data set
+
+where we have three points.
+
+Let's see, we have three points.
+
+Let's use red to
+represent the data points.
+
+We have this, we have this, we have this.
+
+So, let's say we have
+this very simple data set
+
+with three different data points.
+
+And we want to class them,
+cluster these three data points
+
+into two groups, K equal to two.
+
+So let's follow K-means algorithm.
+
+We will start from random initialization.
+
+Initialize the centroids
+of assignments randomly.
+
+So let's just let's say,
+initialize centroids randomly.
+
+Let's just pick a simple
+case where, let's say,
+
+we assign randomly here.
+
+Maybe another centroid randomly here.
+
+Obviously, these two random assignment
+
+is by no way a reasonable
+estimation of the centroids.
+
+Okay, but this is the random assignment
+
+that we come up with.
+
+And then we'll perform
+this iterative update.
+
+In the first step, based on the centroid
+
+we will go into assign each data point
+
+to its closest centroid.
+
+Let's say this data point.
+
+For this particular
+data point, we are going
+
+to compare its distance from this centroid
+
+and this centroid and compare
+which centroid is closer.
+
+In this way, it's not very clear visually
+
+so let's just move this
+centroid a little bit closer.
+
+So, now it's obvious that
+this particular data point
+
+should be closer to this
+centroid on the left.
+
+So we are going to assign
+this point to this centroid.
+
+So let's say, assign it to this centroid.
+
+Let's say use the group notation.
+
+And then, for this
+point, we will similarly
+
+calculate distance as well.
+
+So the distance will be
+the this way and this way.
+
+And then, in this case,
+the centroid on the right
+
+is close to it, so this
+point is going to assign it
+
+to the centroid on the right.
+
+And similarly, for the
+point on the right side,
+
+again we're going to compare its distance
+
+from these two centroids, and the centroid
+
+that is closer to it
+is going to be the one
+
+with the on the right.
+
+Now, in conclusion, at the
+end of the assignment step,
+
+we are going to have
+the following examined,
+
+just re-plot the figure so it's clear.
+
+So here's...
+
+At the end of the assignment step,
+
+we are going to assign
+this data point to here
+
+and these two data points
+into this centroid.
+
+Okay, so now given the
+assignment we are going
+
+to update the centroid because
+after we decide assignment,
+
+we realize that the centroid
+is no longer is actually not
+
+a reasonable centroid for the
+data points in that cluster.
+
+So for example, for these two data points,
+
+a more reasonable centroid
+for these two data points
+
+will be the center of them.
+
+It should be here instead
+of the middle point
+
+of these two points instead
+of the original location.
+
+So we are going to move this
+centroid to the averaging,
+
+to the middle point of
+these two data points.
+
+Computationally, we'll be just averaging
+
+these two data points.
+
+And similarly, for this other cluster,
+
+we only have one single data point.
+
+And obviously a more reasonable estimation
+
+of the centroid should
+be the data point itself.
+
+So, this centroid should be
+moved to the data point itself.
+
+So, after this assignment, this step,
+
+we are going to have new
+locations of centroids.
+
+One is coinciding with
+the data point itself.
+
+Another is the middle point
+of the other data points.
+
+Okay, so now we have
+centroids and then we go back
+
+to update the assignment.
+
+So, obviously this left side of point,
+
+it should be assigned to itself.
+
+And then the middle point, again,
+
+we are going to compare its distance
+
+with these two centroids.
+
+And this time we find
+that its actually closer
+
+to the centroid on the left.
+
+So we are going to assign this data point
+
+to this centroid.
+
+And then for the data point on the right,
+
+which is here, obviously
+we should assign it
+
+to the right centroid.
+
+So, then to be clear,
+we are going to have,
+
+these two points, who is assigned
+it into the left centroid.
+
+And the right point that is assigned
+
+into the right centroid.
+
+Okay, so once again, after
+we update the assignment,
+
+the centroids are no longer reasonable,
+
+so we need to update them again.
+
+Now in this case, the left
+centroid should be the average
+
+or middle point of these two left points.
+
+So we should update it to the middle point
+
+of these two data points.
+
+And then, the right
+centroid should be updated
+
+to the right data point itself.
+
+So, in this way, we are going to have
+
+updates.
+
+So in this way, after we update,
+
+we are going to move the centroid,
+
+the right centroid to the right data point
+
+and the left centroid to the middle point
+
+of the left two data points.
+
+Okay, so then we need to
+update the assignment again.
+
+So, in this case, it's obvious that
+
+the left two data points
+should be assigned
+
+to the left centroid and the right point
+
+should be assigned to the right centroid.
+
+And then, we need to update the centroids.
+
+At this time, we realize that the centroid
+
+is already a reasonable estimation
+
+so we don't need to update at all.
+
+And then, the algorithm actually stops.
+
+So, and then just finish
+the K-means algorithm.
+
+So, again, the idea is
+really natural and simple.
+
+You can probably just guess it
+
+if you think about the
+problem without any knowledge.
+
+So the idea is that we start
+from random estimation,
+
+random initialization
+assignments in centroids.
+
+In this case, we start
+from random centroid,
+
+but you can also start from
+random assignment if you like.
+
+And then we iteratively
+improve the centroid
+
+and the assignment alternatively.
+
+So, given the centroid, we
+will assign the data point
+
+into the most reasonable clusters,
+
+which is the cluster that
+has the closest centroid
+
+and then given the centroid
+
+and then given the assignment,
+
+we are going to re-update the centroid
+
+so that the centroid
+becomes more reasonable
+
+given the newly updated assignment.
+
+And then we just repeat this process
+
+until at some point the
+assignment and centroid
+
+is consistent with each other.
+
+And there's no way to further
+improve them individually.
+
+And then at this time the algorithm stops,
+
+and hopefully now we can
+get a reasonable clustering
+
+based on this algorithm.
+
+So this is really the key
+idea of K-means algorithm.
+
+So...
+
+So let's recap the algorithm formally.
+
+So the more mathematical way
+to describe the procedure.
+
+Let's again just recap the setting.
+
+So we are, as an input, we are given
+a bunch of data points, X1 through XN,
+
+and we are given a number of clusters,
+K, that we want to partition, you know,
+
+the dataset into K parts.
+
+And then, again, we randomly
+initialize the centroids,
+
+and then at each iteration,
+we do the following:
+
+First...
+
+For each data point, we assign it
+to the closest centroid.
+
+Mathematically, we can
+write it in this way:
+
+Basically, zi, which belongs to
+1 to K, right,
+
+represents the assignment
+of each data point.
+
+So, for example, in the example
+we had earlier...
+
+Let's see, we have these two groups,
+
+then, these three data points,
+these four data point
+
+may have at zi equal to 1,
+
+these three data points may have
+zi equal to 2.
+
+So, now, the way to calculate zi
+is simply calculating...
+
+Calculating the distance of each xi
+to the centroids,
+
+here, I'm using mu k to represent
+the centroid of the k's cluster.
+
+So I calculate the distance from each
+xi to the K centroid,
+
+and I find the K that
+minimizes the distance, right?
+
+So this will give you the index
+of the centroid that is closest
+
+to each of the data points.
+
+So, and then, after we calculate zi,
+we can calculate the centroids,
+
+we can update the centroids by calculating
+the mean of each data point,
+
+of all the data points that belong
+to each of the centroids.
+
+So here, I'm representing Sk
+as the set of data points
+
+that is assigned to the K centroid.
+
+For example, in this case,
+these four data points represent S1,
+
+which means these are the data points
+that is assigned to the first centroid,
+
+and then these three data points
+is going to be S2,
+
+they are assigned to
+the second centroids, right?
+
+And then, when I update the centroid,
+I simply just take the average
+
+of all the data points
+within each centroid,
+
+so sum over all the data points i,
+
+belongs to Sk, right,
+for the K centroids,
+
+and then divide it by
+the size of the centroid.
+
+So this is the mean of the data points
+belonging to the K centroids.
+
+So this gives you the updated centroids,
+and then we repeat the process, right?
+
+And then we redo the assignment
+and re-update the centroids
+
+until the algorithm converges,
+
+until we can no longer update
+the assignment of the centroids
+
+and then the algorithm stops.
+
+So it's a very simple,
+intuitive algorithm, right?
+
+So,
+
+now the problem is,
+
+why does this algorithm make sense, right?
+
+What's the mathematical
+principle of this algorithm?
+
+It turns out this k-means procedure
+
+can actually be viewed as some sort
+
+of what I call coordinate
+descent algorithm
+
+for minimizing objective function
+
+that defines how well the
+data is partitioned, right?
+
+So it's a very nice framework,
+
+so I'm actually going to
+introduce this framework,
+
+in the end we will find that k-means
+
+is really just a optimization algorithm
+
+which is very elegant
+mathematically, more importantly,
+
+because it's a very nice
+optimization algorithm,
+
+convergence is automatically
+guaranteed, right?
+
+So let's dive into the details, right?
+
+So the idea is the following.
+
+Let's say we are given a
+set of data points, right?
+
+Given again just recap the setting.
+
+So we are given a set of
+data points, we want to find,
+
+we want to find two things, right?
+
+One is the centroids, mu k, right?
+
+Small k from one to capital K.
+
+And then also the assignments,
+
+which is z i,
+
+so i from one to n right?
+
+So let's for notation,
+
+let's represent this
+whole thing as mu, right,
+
+this whole thing as z right?
+
+And then what we want
+
+to do is define some objective function,
+
+define a objective function of mu and z,
+
+that quantifies how well the
+data is partitioned, right?
+
+And here's how I define the loss function,
+
+it's a very natural loss function.
+
+So the idea is the following.
+
+The loss function of mu
+
+and z is sum over all the data points,
+
+i from one to n,
+
+for each of the data points,
+we calculate its distance
+
+from the centroid that
+is assigned to it, right?
+
+So which is mu z I,
+
+squared, right?
+
+So this is actually a very reasonable way
+
+to quantify how well the
+data is clustered, right?
+
+So the idea is that for
+each data point x i,
+
+I calculate it's distance
+from mu z i, right?
+
+remember z i is the index
+
+of the centroid x i is assigned to, right?
+
+so mu z i represents the
+centroid that is assigned to x i,
+
+so I'm calculating the distance
+
+from each x i to its centroids,
+
+take the square, and
+then sum them together.
+
+So this will represent, sort
+of, notion of clustering,
+
+that is induced by mu and z, right.
+
+Let's say, just give you
+an example, you know,
+
+let's say again use
+some data points, right,
+
+let's say you have, let's say I have these
+
+these seven data points, right?
+
+Now if the centroids are
+here right, and here,
+
+which is a reasonable centroid,
+when we calculate distance
+
+for each data point to its centroid these
+
+are very small distances, right?
+
+If I only sum over these
+distances, I will get a very
+
+sort of small cause function,
+
+so L is a loss function, right?
+
+So the good choice of mu
+
+and z should be a small
+loss function L, right?
+
+On the other hand, let's say
+I have some bad assignments,
+
+right, so it's here, here,
+here, here, here, here, here.
+
+Let's say you know, for example,
+
+maybe the centroids are here,
+
+I choose two centroids
+here and here, right?
+
+And then maybe it's reasonable
+
+to maybe assign the data points
+in this way, right, right?
+
+But then in this case,
+as we calculate distance
+
+from data to its centroids,
+all of them are very large,
+
+as we sum them together,
+
+I will get a very large
+loss function, right?
+
+So this is a bad choice of centroids,
+
+this is a good choice of centroids, right?
+
+And then mathematically, you
+want to find the best centroid
+
+of centroids, simultaneously
+
+and also the best choice of assignments.
+
+So what we want to solve is
+really a optimization problem.
+
+So what we want to do is to
+minimize this loss function,
+
+L mu z, right?
+
+Among all the possible mu
+and all the possible z.
+
+So this is actually what we want to solve.
+
+We are actually reducing
+the clustering problem
+
+into an optimization problem, all right?
+
+Now this is actually
+a tricky optimization,
+
+it's actually mixed optimization.
+
+That's because here mu, mu is
+actually continuous, right?
+
+Mu belongs to dimension times k, right?
+
+So each of the centroids
+has d dimensional elements,
+
+it's a d dimensional vector,
+then we have k of them, right?
+
+So mu is a continuous variable, right?
+
+Now z, is actually a
+discrete variable, right,
+
+so z is actually belongs to one to k,
+
+and n of them, right?
+
+For each of data points, you
+want to find assignment, right?
+
+So we want to solve this
+mixed optimization problem,
+
+it's a difficult optimization problem,
+
+certainly it's not a convex optimization.
+
+So in fact we will find
+lots of local optimum
+
+for this optimization problem.
+
+However, the k-means algorithm
+
+that we just introduced is
+actually a very simple algorithm
+
+that actually tries to exactly minimize
+
+this objective function
+using an idea called
+
+coordinate descent.
+
+So the idea of coordinate descent.
+
+Coordinate descent.
+
+Right.
+
+So the idea of coordinate descent is
+
+that I can update mu and z
+
+alternatively, so the idea
+is the following, right?
+
+So what I can do is I can fix,
+
+so let's you know,
+
+so you know, I can, it's
+an iterative algorithm
+
+so what I'm going to do is the following.
+
+So I will initialize...
+
+mu, right, initialize mu.
+
+And then what I want to
+do is I want to repeat
+
+between you know, optimize,
+
+between update...
+
+z, with fixed...
+
+mu.
+
+Let's say I start from some random mu,
+
+and then I try to update z, minimize z,
+
+find the optimal z with mu being fixed.
+
+And then, I will try to update
+
+mu with z fixed, right?
+
+And then I just repeat this
+process until it converges.
+
+Turns out this process, if you repeat it,
+
+it will actually give you a local optimal
+
+of this loss function.
+
+So to be more precise,
+
+the update is going to be the following.
+
+Let's say mu zero is the
+initialization, right?
+
+And then at each iteration,
+
+let's say the t iteration, right?
+
+What we are going to do is, you know,
+
+the z t equals to argmin of z,
+
+and then loss function mu t z.
+
+Right, so what it means is
+that at each iteration t,
+
+I'm fixing mu equal to mu t,
+
+and then I want to find
+the optimal assignment z
+
+to minimize the loss function,
+
+and I take z t to be the minimum
+
+of this optimization, right?
+
+Now because of fixed mu t,
+
+this will be a pure discreet
+optimization, right?
+
+So, because mu is fixed and z is updated,
+
+so this will be easier to solve.
+
+I will talk about how to solve this,
+
+it actually exactly corresponds
+
+to the exam in process in k-means.
+
+And then you go, we can, update mu t,
+
+mu t in this case will
+be mu t plus one, right?
+
+Equal to argmin
+
+mu, L, mu, z t, right?
+
+So the idea is that now I
+have a new value of z t,
+
+what I can do is I fix z equal to z t,
+
+and then find the mu that
+minimize the loss function,
+
+and this optimal value is set
+to be mu t plus one, right?
+
+And then I just repeat, right?
+
+And then I get the new value
+of mu t, I'm going to update
+
+to get z t plus one, and
+then I will get mu t plus two
+
+and just repeat this process
+until it converges, right?
+
+So now, the argument is
+
+that if you implement this algorithm,
+
+you will actually obtain
+the k-means algorithm
+
+that we showed earlier, right?
+
+so let's try to, sort
+of, verify this, right?
+
+Okay, so in order to verify this,
+
+let's just look at the
+loss function once again,
+
+so this is the loss function,
+let's just rewrite it.
+
+So the loss function is...
+
+mu z equal to sum over i plus one to n,
+
+L...
+
+oh sorry, it would be
+
+x i minus mu z i squared,
+
+and we'll actually use the norm.
+
+Right?
+
+Okay, so now let's see, mu t is fixed,
+
+and they want us to update z, right?
+
+We want to find the optimal z
+to minimize this loss function
+
+with mu being fixed.
+
+Well, if you look at this
+closely, you can sort
+
+of already see that obviously say
+
+that in order to find the optimal,
+
+let's say find the optimal...
+
+z i,
+
+because it's a summation
+over i from one to n,
+
+and z i only appear in
+one of the term, right?
+
+Now in order to find the
+optimal z i, we really just need
+
+to solve the optimal problem
+which is we really just need
+
+to argmin the i's term of the...
+
+z i, right?
+
+Right, we really just need to
+minimize, find the optimal z i
+
+for each data point x i.
+
+This is exactly the assignment
+step of k-means, right,
+
+so this is the assignment step.
+
+Right, so the assignment step
+of k-means is actually trying
+
+to optimize z, right?
+
+And then if we want to optimize mu,
+
+with z fixed, we can also
+do it fairly easily, right?
+
+Let's look at this loss
+function once again.
+
+If we want to find the optimal mu,
+
+let's say mu k, right,
+
+so mu k is the center
+of the k cluster, right?
+
+And then what we want to do
+is that we really just need
+
+to find all the terms
+that involves the mu k,
+
+and this one corresponds
+to all the data points
+
+that is assigned to k's cluster right?
+
+So, it's actually occurring
+to argmin mu, mu k,
+
+because we only care about,
+want to optimize mu k,
+
+we only care about, let's
+see, the data points
+
+that is assigned to the k's cluster.
+
+So what I can do is I can, sort of
+
+just like what we did earlier,
+
+we can sort of argmin i belongs to s k,
+
+x i, z k squared.
+
+Where s k is equal to
+
+all the data points
+
+when z i equal to k, right?
+
+So s k is the subset of data points
+
+that was assigned to k centroids
+
+from the last iteration right?
+
+When we optimize mu k,
+
+we only care about the
+data points in s k right?
+
+And then, you know, if you
+work out this optimization,
+
+it's really just a quadratic optimization,
+
+we can show that the
+solution is exactly going
+
+to be the mean of x i, right?
+
+Just to show, it's a very simple step,
+
+so we can do it very quickly.
+
+So in order to find the op--,
+oh sorry this is mu k, right?
+
+Now in order to find the
+optimal mu k, what we want
+
+to do is to expand this
+quadratic function,
+
+and what we will get
+is sum over i from s k,
+
+x i will be the norm, right,
+
+and then minus two x i transpose
+mu k plus mu k norm, right?
+
+And then if you rearrange the terms,
+
+we'll find the first term
+is actually a constant,
+
+when introduced back to mu k,
+
+so the first term, we don't
+care about it, it's a constant.
+
+The second term is going to be
+
+minus two times sum over i from s k, x i,
+
+transpose mu k, right?
+
+And then the third term
+is going to be plus,
+
+because you have s,
+
+because this is the sum
+over all the points in s k,
+
+and you're summing s k,
+
+number of data points.
+
+So this is actually going
+to sum over norm, s k,
+
+the number of data points in s k,
+
+and then mu k squared right?
+
+Okay so this is actually
+a quadratic function,
+
+if you take its derivative,
+
+you will find that the
+solution is exactly,
+
+the optimal mu k is exactly
+going to be the mean s i,
+
+i belongs to s k, divided
+by number for s k, right.
+
+So the idea is that this
+is a quadratic function,
+
+if you take the derivative
+and set it to be zero
+
+you will get exactly this formula, right?
+
+So this shows that this is
+exactly the centroid update step
+
+of the k-means, so.
+
+Right, centroid update step.
+
+So we have the assignment step,
+
+which corresponds to
+finding the optimal z i,
+
+we have the centroid update step,
+
+which corresponds to updating the mu k,
+
+and then iteratively,
+
+this is really a coordinate
+descent algorithm
+
+for minimizing the loss function
+that we had here, right?
+
+So there are a few number of issues
+
+that we should pay
+attention to in this case.
+
+One is that this loss function
+
+is going to be a non-convex optimization.
+
+Meaning that it's going
+
+to have lots of local optimals, right?
+
+And then we round k-means algorithm
+
+every time we are starting from
+some random initialization,
+
+so we may just end up with
+a random local optimal.
+
+That's no guarantee
+
+on finding the global
+optimal points, right?
+
+So in general, finding
+the global optimal point
+
+is going to be a bit harder problem,
+
+it's very difficult problem,
+
+so that means that the k-means algorithm
+
+may be very sensitive
+to the initialization,
+
+and what you can do in practice
+
+is that you can try several
+different initialization
+
+and pick the solution
+
+that in the end finds the
+minimum loss function, right?
+
+So, this is something
+you can do in practice.
+
+The second thing we should pay attention
+
+to is that coordinated descent algorithm
+
+is actually guaranteed to
+find the local optimal.
+
+So the idea is that, from each iteration,
+
+you are finding the minimum solution
+
+of each coordinate,
+
+when the other coordinate is fixed, right?
+
+This procedure can only
+decrease the loss function.
+
+So, it will be guaranteed
+
+to always decrease the loss function
+
+until you find the local optimal.
+
+So if we want to draw a figure,
+
+it will be something like this right?
+
+So let's say,
+
+let's say this is the
+convex loss function, right?
+
+So the k-means algorithm
+is going to guarantee
+
+to monotonically decrease
+until it reaches one
+
+of the local optimal, right?
+
+If you start from here,
+you'll find that here,
+
+if you start from here,
+you will guarantee to find
+
+some of the local optimal,
+for example, at here, right?
+
+So it's a very nice property, right?
+
+You cannot guarantee to
+find the global optimal,
+
+but at least you can find
+the local optimal, right?
+
+So here I just want to sort
+of talk a little bit more
+
+about monotonic decrease and
+property of coordinate descent.
+
+So mathematically here's
+what I want to claim.
+
+So let's say mu t,
+
+and z t,
+
+is the solution that we
+found from the t's iteration.
+
+And then we have the
+following property, which is,
+
+the loss function from
+t plus one iteration
+
+is guaranteed to be no larger than...
+
+is guaranteed to be no larger
+
+than the solution from the t's iteration.
+
+So in this way, your algorithm
+
+can never increase the
+objective function, right?
+
+Now, how to prove this, you
+know it's basically really just
+
+based on the procedure
+that we had earlier, right?
+
+So let's say, starting
+from for example, starting
+
+from the mu t and z t, right?
+
+Mu t, z t, right?
+
+Now because mu t plus one is guaranteed
+
+to minimize this loss
+function when t fixed,
+
+z fixed to be z t, so we have to,
+
+you know, we can actually
+guarantee that mu t plus one z t
+
+is absolutely, must be no
+larger than z t, right?
+
+Because mu t plus one is obtained
+
+by minimizing this loss
+function when z fixed
+
+to be z t, right?
+
+This is by the definition
+of the coordinate descent.
+
+And then similarly, this
+is going to be no smaller
+
+than mu t plus one,
+
+z t plus one,
+
+and the reason is that
+
+z t plus one is going to be defined
+
+as exactly the value that
+minimizes the loss function
+
+where mu is fixed to be mu t plus one.
+
+This is why it's guaranteed to be smaller.
+
+So in this way we can sort
+of show that from each
+
+iteration, the loss function
+can never increase, right?
+
+So, and hopefully
+following this procedure,
+
+we should be able to
+find the local optimal,
+
+and this is something that we
+can at least sort of guarantee
+
+even without guaranteeing
+getting the global optimal,
+
+so thank you very much.
+

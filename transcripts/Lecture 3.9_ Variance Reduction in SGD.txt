@@ -1,0 +1,263 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So we've just looked at stochastic gradient descent, which is this algorithm that takes ideas from gradient descent but starts to update the values,
+
+the parameters at every single step at which it will compute a loss.
+
+It will start to jump around crazily,
+
+impose sort of the loss landscape in depth in terms of the parameters that it explores, but eventually it will converge.
+
+And we've established that the convergence rate is roughly proportional or it's sort of it's strongly tied to the variance of this gradient estimate.
+
+So if all of the sort of gradient estimates of the individual loss functions over the individual data elements, if they all agree,
+
+then great stochastic gradient descent will converge very quickly if they all disagree, which means the variance is high, it will converge slower.
+
+Then this segment here we'll look at how do we make the variance of stochastic.
+
+Stochastic gradient descent smaller. There's two tricks double use for this.
+
+Trick number one is we'll use mini batches.
+
+And so what a mini batch is it's sort of.
+
+Taking a subset of our data set and computing a gradient on that subset of our data set.
+
+Instead of using only one data element. We'll now average together the gradient of a few data elements, which are called a batch.
+
+Now this does introduce a new hyperparameter which is the batch size.
+
+So if you use a batch size of one, meaning that will only compute the gradient over one data element at a time and not average them at all.
+
+Well, that's just vanilla stochastic gradient descent. If you use a batch size that's the size of an entire data set.
+
+Well, we'll end up with vanilla gradient descent because now we compute gradients over your dataset.
+
+Now in practice we'll choose a value in between. And the trade off freely.
+
+Here is that if we make the batch size larger.
+
+Then sort of a larger mini batch will lead to a lower variance gradient, but it is more computationally expensive to compute that gradient.
+
+And so we'll trading off computational sort of expense versus sort of lower variance.
+
+And we'll look at this in a little bit more detail.
+
+So if you compare stochastic gradient descent to Minibatch stochastic gradient descent the difference here is this for loop here.
+
+So before we take a gradient update.
+
+We'll now average sort of gradient estimates from multiple data samples all together in one single mini batch.
+
+And then we'll take this gradient step. So this will lead to a lot less crazy jumping around.
+
+And it will lead to a lower variance. And we can do we can show this computationally quite easily.
+
+So if you look at the variance of mini batch stochastic gradient descent, that variance is sort of the expected difference.
+
+Between the gradient estimate of one minibatch versus the gradient estimate.
+
+Over the entire loss function.
+
+So we'll now just look at how much different is the mini batch gradient from the entire loss gradient from the loss from the loss functions gradient.
+
+Well, an expected loss of gradient. Sorry. Now with a little bit of math we can separate the two terms.
+
+There is going to be one term that's.
+
+Just to square off the loss. This is the norm of the gradient of the loss.
+
+And then the other term is the expected norm of a mini batch gradient.
+
+Um, the reason why this math works out is that sort of the, uh, if you pull this apart,
+
+you'll have an inner term that sort of the loss gradient squared.
+
+And then you have another term here. That's the expectation.
+
+After, uh, after mini batch gradient times the loss times two.
+
+And then this expectation is again just the loss gradient squared. And so in the end you'll end up with the difference between the gradient
+
+magnitude of the mini batch gradient versus the magnitude of the loss gradient.
+
+The same thing we can do for stochastic gradient descent here.
+
+I've written it down in a way such that we have an expectation over batches, and then an expectation over the elements of the mini batch.
+
+Just to make the notation of the two formulas the same. Now what we can look at is how much smaller is the variance of the mini batch
+
+gradient versus the variance after some kind of stochastic gradient descent,
+
+right. They flipped the sign accidentally.
+
+Um, so we can look at the difference in variance between the two.
+
+And so if we pull all of this in here. You will get this expression here.
+
+Now we can play the same trick as we did with the math up here to rearrange terms.
+
+And what we'll end up with is, uh, is.
+
+So the difference between the two is actually the negative here.
+
+This would be negative here. Uh, variance of the minibatch.
+
+Gradient. So down here this measures.
+
+The variance of the gradient estimate of one minibatch, and we'll look at expectation over all possible mini batches.
+
+Now we can show that the variance of the mini batch gradient estimate is always positive.
+
+And thus sort of this term here.
+
+This would also be negative here a smaller than equal to this term.
+
+This negative variance of the mini batch gradient is always going to be smaller or equal to zero,
+
+which means that we can always show that the mini batch gradient estimate has always a lower variance.
+
+Then the stochastic gradient descent gradient estimate. Now the difference between the two.
+
+Really depends on how much the variance is within a minibatch and how much variance is across many batches.
+
+So here is sort of an example on how stochastic gradient descent looks like if we plot it.
+
+So this is sort of the convergence of stochastic gradient descent.
+
+Over here. This is stochastic gradient descent with mini batches, and you can see even for mini batches,
+
+there is a slight spike every now and then in the convergence.
+
+This is gradient descent on the very other very very other end.
+
+Now the slight spikes, both in stochastic gradient descent and gradient descent in the loss itself,
+
+comes in again from two sources A taking the wrong gradient step.
+
+So taking a gradient step that overall is the wrong direction, or from the fact that we have to evaluate the loss,
+
+such as the mini batch or individual example, which also creates huge spikes.
+
+But in general you can see that the convergence of mini batch.
+
+Stochastic gradient descent is a lot smoother than original.
+
+Stochastic gradient descent. Now the question is how big should you make your mini batch?
+
+Um, and the empirical answer is as big as possible, as big as you can fit on a single GPU.
+
+Um, and so oftentimes these models are trained on massive GPUs.
+
+And you would want to make such a limiting factor in this case, it's the memory of your GPU.
+
+And you want to make your mini batch as large as you can fit into the memory of your GPU.
+
+Um, oftentimes this will like this will not lead to mini batches that are wildly too big or
+
+that are too slow to update just because the memory is the main constraint in GPUs,
+
+not the actual computation. Now, oftentimes it's also referred to make sort of mini batch as powers of two.
+
+Uh, it's not required, uh, especially if you can only have mini batches of size of 3 or 5.
+
+It is fine to make them not powers of two for small numbers, for much larger values.
+
+It is often better to make them powers of two, because GPUs are optimized for sort of nicely rounded values off of mini batches.
+
+And you should always use mini batches whenever you train.
+
+You should use mini batch if you can, if it fits onto your GPU.
+
+Now the second variance reduction uh, technique is momentum.
+
+And so momentum is similar to mini batches in the sense that it will average gradients together from different estimates,
+
+uh, or from different samples.
+
+While mini batches did this by explicitly sort of constructing this collection of data samples that we average gradients over.
+
+What momentum does is it does this instead of this running average.
+
+And so momentum stochastic gradient descent with momentum will sort of keep track of an additional term.
+
+You will keep track of this average gradient term that you have seen and will update this average gradient term every single time.
+
+Using a running average. And so it is running average.
+
+Does it takes the previous gradient estimate that we had.
+
+Multiplies it by a constant. Uh that's the call to momentum which is often times smaller than one and large or equal to zero.
+
+And then you left the new gradient to it. And that's the final gradient step we're going to take.
+
+We're no longer going to update our model in the direction of the current gradient.
+
+We'll do it in the direction of the current gradient averaged together with all the previous gradients that we have seen in a running average.
+
+It also introduces a new hyperparameter, which is called a momentum term.
+
+If omentum is zero. We will use.
+
+Sort of vanilla stochastic gradient descent. If momentum is, uh, sort of larger, we'll start to average.
+
+In practice, you shouldn't tune your momentum. Just set it to 0.9.
+
+0.9 momentum works just fine with almost all of sort of all the networks that we generally use.
+
+Like to compare the two. Mini batches will average a gradient across the batch.
+
+Momentum will average the gradient. Sort of.
+
+Along its history. Now, it is possible to show that momentum also reduces the variance and leads to faster convergence.
+
+That proof, though, is much harder, uh, because now the gradient estimates are actually correlated.
+
+The next time you take a gradient step, you have it's going to be similar to the previous time.
+
+You no longer have this nice independence that you had between batches.
+
+And so proofs of convergence are a lot messier with momentum.
+
+They do exist, though. In practice momentum helps a lot.
+
+Um, here is a, uh, sort of, uh, plot of vanilla stochastic gradient descent.
+
+This is if we just use momentum just by itself without mini batches, it will already lead to a very nice and smooth convergence.
+
+And then here this is vanilla gradient descent.
+
+And you can see a momentum. This is a momentum 0.9 will lead to sort of uh convergence.
+
+That's sort of as fast as gradient descent.
+
+But it's computationally sort of not as expensive.
+
+Now, we already covered this, uh, a little bit. What momentum values should you use?
+
+You should use 0.9. Um, one very important thing that's very easy to forget is the default value for momentum in PyTorch is always zero.
+
+So if you initialize your stochastic gradient descent algorithm.
+
+And you do not specify a momentum term, it will not use momentum.
+
+So whenever you use SGD as an optimizer at the momentum term,
+
+there's other optimizers in PyTorch that we'll cover later in class that have momentum built into them as a default parameter.
+
+Uh, SGD does not. And so you'll always have to remember to use it.
+
+And so in terms of variance reduction, uh, both mini batches and momentum help reduce variance.
+
+Um, they will introduce some additional computation for mini for momentum.
+
+This is minor.
+
+This is sort of averaging a gradient for mini batches is really sort of collecting gradients across multiple examples, which is sort of more costly.
+
+But the reduction in variance is sort of justifies their use.
+
+And you should always use both. You should always use stochastic gradient descent with mini batches and momentum to serve optimize your network.
+
+That's it.
+

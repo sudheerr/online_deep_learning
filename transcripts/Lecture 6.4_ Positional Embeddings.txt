@@ -1,0 +1,421 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So in this segment we'll look at positional embeddings.
+
+At this far we have looked at attention as this set operator.
+
+And what I haven't told you is that attention itself, if you just look at sort of the basic form of it,
+
+uh, the basic form of attention with weights is actually permutation invariant.
+
+So what that means is that we can take a bunch of inputs to attention.
+
+We can keep the queries the same. Permute all the keys and values in an arbitrary order.
+
+As long as you permute them the same. The output of attention is the same.
+
+Okay. Now this is a bit of an issue.
+
+Um, because we cannot reason about things being a two hour left or two hour right in a sentence.
+
+If you use this in an image, we cannot reason about any spatial arrangement of, of, uh, of different inputs.
+
+Right. And so this permutation variances is.
+
+Can be an issue. Right. And the reason why the operation is permutation invariance really has to do with the math, with the way this softmax is built,
+
+and with the fact that the permutation in the keys and values in the mathematical definition after of the attention cancels out which the permutation,
+
+the permutation of the keys cancels out the permutation of the values.
+
+Okay. Now there's certain problems where this is not a word, where this is not an issue.
+
+And so let's say you would want to sort of. Look at a bunch of inputs.
+
+Let's say these are sort of. Counties in Texas.
+
+And what do you want to predict is simply just sort of.
+
+Are there power outages? Uh, and you want to look at past power outage data.
+
+And I want to look at sort of well, is it likely that in the future.
+
+I'll get a power outage? Now we can think of power outages unless they're heavily weather related.
+
+Um, they're sort of independent for each of the counties in Texas.
+
+Any mixture of weather related. If we zoom out enough, they might they might not be all that correlated.
+
+Right. Now this is an operation where we could definitely learn.
+
+Patterns that repeat between counties, but the exact location of counties in Texas might not make that much sense.
+
+Right. So there are operations where the transformer can just be applied,
+
+or attention can just be applied on purely set inputs and the spatial position doesn't matter.
+
+But there's also inputs and these are most of the inputs. They will they will that you will likely consider that are heavily ordered.
+
+And so one of them is natural language. Um, we cannot treat a sentence, uh, sort of this bag of words that's arbitrarily shuffled.
+
+Um, so my kid likes the movie is not the same as the movie likes my kid.
+
+Um, one sentence doesn't make a lot of sense, and the other sentence does actually mean something.
+
+Um. Speech or sound patterns are also heavily correlated inputs, and the structure there matters.
+
+And then finally images. Um, they are sort of their spatial structure means a lot.
+
+And so just as a fun demo, uh, to show you how sort of spatial structures of inputs can change sort of visual meanings of images.
+
+Uh, here on the side, I have sort of visual and I have a bunch of highlights of visual anagrams.
+
+Um, which is a paper from CV, PR. And what they do really is they take patches in an image, they reshuffle them, and that will generate a new image.
+
+Now they do a little bit of post-processing. So they do a little bit of, of sort of warping of the colors within each patch to reshuffle them.
+
+But this is minimal right.
+
+And so. You can see that the order in which we look at things really matter for natural language, speech and images.
+
+That there is certain inputs where it is unclear if the order matters.
+
+And so one of these inputs is point clouds. Um, point cloud data is sort of you can think of the are sets of 3D coordinates of points.
+
+They're often obtained by using a range finder, uh, sort of a 3D camera.
+
+And sort of looking at how far away are certain points from the camera.
+
+And then we project them into a coherent 3D structure.
+
+We'll do this over multiple different, uh, different sort of 3D captures and stitched together into this one sort of cloud of 3D points.
+
+Now, this is an interesting operation because.
+
+Points with 3D coordinates is actually sort of a set.
+
+It's a set of points. And so one way to look at this is a regular transformer.
+
+And this would actually work quite well uh, because it's a set operation.
+
+And so all the positional information is already contained in the values itself.
+
+And this is what you see here. And so then when all the information is contained in the inputs itself,
+
+if all the positional information is contained in the inputs itself, this can be, uh, set operation.
+
+That's permutation invariant. And you can learn to interpret the scene.
+
+But what we had to do is we had to use our operation where the 3D coordinates of each points are encoded in the inputs.
+
+And that really is the key. Um, so we can sort of take attention.
+
+Vanilla attention and apply to data where the position is encoded in the input x.
+
+So if the position is contained in X.
+
+Then. Attention is no longer this permanent permutation invariant operator because a permutation.
+
+After keys and values would now also lead to a permutation of positions which is no longer no longer allowed.
+
+And so if attention can have positions as inputs, you can start to reason about relationships between nearby,
+
+uh, nearby sentences and nearby words nearby points in a point cloud or even nearby parts of images.
+
+And that's exactly what positional embeddings do. So a positional embedding takes an input,
+
+and it adds some additional information to the input that will encode the position at which each input, uh, is located.
+
+And then what we do is we'll simply just add the embedding that we get for our inputs, which are can be embeddings of these words.
+
+And then we'll add an embedding of the actual position to it.
+
+And now attention is no longer a set operation.
+
+Right. If we concatenate embeddings of our inputs with embeddings of positions.
+
+Attention can reason about relationships between inputs. All right.
+
+Now, the most straightforward positional embedding is simply just to enumerate all our inputs from one to n.
+
+If it's in a sentence, if it's in an image, you would just enumerate in 2D and just attach that number.
+
+We could just attach a number or half sort of a linear layer.
+
+Embed that number. The issue is that this is not going to work.
+
+Um, it's very it's very easy. It's straightforward, but you're not going to learn anything interesting with it.
+
+Um, and that's because the network will have a hard time decoding what that number means.
+
+You will have a hard time decoding what like position zero means versus position one versus position uh,
+
+two, especially if you concatenate it with the input directly or add it to the input directly.
+
+A much better way to sort of encode positions is so through uh, sine and cosine, uh, positional embedding where we'll take the input.
+
+The location in which we are in the input. Which is in here.
+
+We'll divide it. By some sort of base frequency.
+
+And oftentimes this is just done in sort of in, in, in powers, uh, of sort of.
+
+Increased by a factor of two.
+
+Right. So we'll take some value and then just sort of have these powers of two that sort of linearly increase from sort of.
+
+To the power of zero. To the power of one. Right.
+
+And so you can think of these just the sort of elements that we divide by sort of larger and larger numbers.
+
+And the largest number we'll divide by is in this case 10,000.
+
+We'll do this both for a sine and the cosine.
+
+And then we'll have a feature vector where the first elements are sort of this input n divided by a small number.
+
+Uh, and I guess it's, it's one in the beginning.
+
+And so these will be sines and cosines that have a very high frequency.
+
+And then towards the end we'll have sines and cosines that have a lower and lower frequency.
+
+And this is what you can see here. So this here is.
+
+The encoding of n. Actually, it goes the other way here.
+
+Right. And so you can see for sort of.
+
+Low values of I here. You will have a sine function.
+
+That sort of hair is very wavy. And then if we increase AI to larger values, the sine function here will not even get once through its entire period.
+
+Uh, when it's sort of when, when it reaches the end or the last position.
+
+Right. And so since we have this. These frequencies increase exponentially.
+
+We can actually choose a very, very large window,
+
+the maximum size that we ever want to consider of a sequence and sort of split it up into more and more accurate,
+
+more and more fine grained, uh, positions. And so now the network can sort of use these sines and cosines to locate elements very, very efficiently.
+
+You can for example say like okay, I want to look at sine functions that have a small value in sort of the lowest frequencies.
+
+Right. Which means it will look at sort of positions that have relatively small values.
+
+And then it can go in and sort of fine tune.
+
+Maybe it wants after a certain frequency, it wants, it wants the value to be high, which will sort of zoom in to maybe.
+
+This region here. Right.
+
+And so with the sine and cosine, the network can quickly learn to localize itself in specific positions.
+
+And so this will take your input. It will take your position,
+
+expand it out into sort of a c dimensional space where C is really sort of the
+
+number of channels and how number of frequencies you divide your input pattern in,
+
+and it will out in that it will allow the network to quickly localize itself in this, in this, in this input frequencies.
+
+Now there's other options for positional embeddings. Um, one is we could actually just learn them.
+
+Um, so. We can simply for each parameter, for each input position.
+
+We can just have a weight that's freely learned. Well, now we're not no longer projecting input positions to sines and cosines.
+
+We'll just assign random weights to each input. And so what this will do is it will allow the network to sort of focus on each input individually.
+
+This works very well if the training sequence is always longer than the test sequence, or at least as long as the test sequence.
+
+It will not work if the training sequence is. Or if there's ever a test sequence that shorter than the training sequence.
+
+Um, and you can you should use this if there is no. Obvious frequency information associated with the inputs.
+
+What do you mean? If there is no sort of fixed ordering, if you want to have a positional embedding,
+
+you're not quite sure what the right way to do this is, uh, what the right structure is.
+
+You know, there is some structure in inputs, but you don't quite know what the right structure is.
+
+You can just try to learn it. As long as that you always have training data that's longer or equally long than your test data.
+
+Um, one sort of famous example of this is Vision Transformers.
+
+Uh, this is, uh, a computer vision model where input images are a sort of split into different patches.
+
+And then there is sort of, uh, different patch embedding, uh, associated with each input.
+
+And so this patch embedding will essentially just tell the vision transformer which patch it's looking at,
+
+so the network can learn to say I have this positional and by an embedding.
+
+Hence I'm going to top left under half of the image or on the center of the image or on the bottom right of the image.
+
+And this is a fairly successful computer vision model, where sort of one transformer with the right positional embeddings can just
+
+learn to reason about different arrangements of images and parts of images.
+
+Now there's also options that instead of consider the absolute position in sequence.
+
+Consider the relationship between elements in the sequence.
+
+And. So one such relationship, uh, is modeled in the T5 uh language model.
+
+And what it does is instead of adding the bias to the keys and the queries as embeddings, we'll simply just learn a bias inside of the softmax.
+
+So we will learn for each attention head in Multi-head attention will learn to bias it in a certain direction.
+
+And the way this bias is learned is that we learn a bias on the difference of positions.
+
+So this is often used for sequencers.
+
+And so we can look at the difference in position between two parts, the two elements in a sequence and just learn a bias for this position.
+
+Okay. And so this has this relative positional embedding has actually quite a lot of advantages.
+
+They generalize better to sort of new length sequences.
+
+Because all we need to look at now is we need to look at relative positions.
+
+And we no longer need the network to understand where it is absolute and absolute position within a sentence,
+
+within an image, within whatever sequence you look at. And so this also captures sort of the shift invariance that we had with convolutions.
+
+Uh, it carries this over in into the attention architecture, uh into the transformer and attention architectures.
+
+Now there's a variant of this, uh, which is alibi, um,
+
+which will look at sort of instead of learning a parameter for all pairs of differences in outputs,
+
+learns a scaled version of the actual difference between the two elements.
+
+Um, the last version of this is actually the first relative positional, uh, or pairwise encoding,
+
+which instead of encoding the pairwise position directly in the as a bias in the attention mechanism, um, we can add it to the keys.
+
+And the value is here. And there is a way to sort of encode it such that the buyers or the buyers in here,
+
+the encoding in here will result in sort of, uh, an embedding that sensitive to the relative position.
+
+Now this for all of the embeddings that we have used this for, um, are sort of more classical examples of what people have used.
+
+Um, there is one positional embedding that's slowly starting to emerge, just sort of the one positional embedding to rule them all.
+
+And that is rotary positional embeddings, uh, and its variants.
+
+And what rotary positional embeddings do is they really take the best of two worlds.
+
+Uh, rotary positional embedding is a positional embedding that's built on absolute positions.
+
+So we embed absolute positions.
+
+But once we compute that positional embedding, and once we compute the attention operation with it, it will result in a relative positional embedding.
+
+And the key insight in a rope, uh, in is that if we set up our positional embeddings instead of adding them to our keys and values,
+
+if we multiply our keys and values with a positional embedding, we can multiply them with this weird sine and cosine matrix.
+
+And I would just like to note that this is sort of it has this interesting block structure.
+
+Right. And if we multiply our keys.
+
+And queries with this block structure. What will happen is when we compute attention, we will first multiply these sine and cosine matrices.
+
+And this is set up such that if we multiply two of these matrices together, we will get embeddings that are sines.
+
+And cosines of the difference of two of these embeddings.
+
+So we'll have m of. Theta one minus theta.
+
+Two. And they're called rotary positional embeddings because these are, uh, parameterizations of rotations in 2D.
+
+Um, people have looked at sort of extending this to higher dimensions, but oftentimes 2D is actually sufficient.
+
+And what they allow us to do is they allow us to sort of have positional embeddings that are in theory, absolute.
+
+But as soon as we apply attention to it, they become relative to two positions.
+
+Right. And most sort of state of the art architecture,
+
+starting to use these rotary embeddings or ultra or versions of these rotary embeddings to sort of
+
+quickly get relative positional embeddings without any of the pain of relative positional embeddings,
+
+which is having to learn these parameters that sort of that interact between that and that model interactions between relative positions.
+
+And the way to sort this. You can think of this rotary positional embedding is is it can really sort of learn.
+
+Relative positions. It encodes them in sine and cosine.
+
+And the really cool thing is it because it encodes and sine cosine.
+
+All of this is cyclical. Um, they actually extrapolate reasonably well to longer and longer, um, long and longer sequences.
+
+Um, in terms of sort of public models that start to use these, uh, the Lamar family of models, uh, language models use these,
+
+uh, to great to great success and really sort of more and more big language models starting to use,
+
+um, sort of rotary embeddings that are absolute in the way they're implemented,
+
+but in the way the computation, the math works out to actually model relative interactions between positions.
+
+All right. So how are you going to sort of take.
+
+These positional embeddings and use them. Well, the very first one is we can just train a LMS with it.
+
+We can train large language models with it. We can train vision models with it.
+
+But just sort of having positional encoding is combined with our input encodings and then feed that to the network.
+
+And oftentimes you actually add a positional encoding not just to the input, but you can also added later on in the attention mechanism.
+
+Now there's a second place where positional embeddings are quite popular, and that is for implicit functions.
+
+This is completely different from, uh, from the attention mechanism and transformers.
+
+And so in implicit functions the goal is to learn a function.
+
+That takes a coordinate, let's say a coordinate of an image as an input and produces a color value.
+
+And so if you train a network to map from x, y location in the image to color value, you can encode an entire image in the weights of a deep network.
+
+There's other implicit functions. You can do this for 3D. And so, uh, Nerf is a good example of doing this in 3D,
+
+where you can encode 3D structure in sort of an inner function that sort of looks at x, y, and z now and then sort of encodes.
+
+Like if this place in 3D is occupied or not.
+
+In what? Colored house? And so these are implicit functions.
+
+And so implicit functions use positional embeddings often in their inputs.
+
+And a lot of sort of the the fanciest positional embeddings at least for absolute positions have been developed for implicit functions.
+
+Now they can be used equally well for uh, for language models or for transformers.
+
+Um, so there's this nice duality between the two. Um, if you're interested in looking at more.
+
+So there's a nice paper at uh, on Theory or Features,
+
+which is sort of a fancier version of the sine cosine embeddings that really shows you what you can,
+
+what you can encode using just positional embeddings and implicit functions,
+
+which is sort of a network that looks at positions, positional embeddings, and then a bunch of layers of an MLP.
+
+All right. So in summary, uh, positional embeddings, um, they sort of break the permutation invariance of attention.
+
+They allow us to reason, uh, across sort of different positions and relate different inputs to one another.
+
+There's many types of positional embeddings. There's absolute, sinusoidal, learnable relative, almost always.
+
+Now, at least in transformer based architectures, you'll use rotary embeddings.
+
+Uh, if you use implicit functions, you might want to use absolute positional embeddings.
+
+Uh, not actual absolute, but you should probably use sinusoidal uh, or for your based, uh, positional embeddings.
+
+That's it.
+

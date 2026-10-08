@@ -1,0 +1,27 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right, so we've reached the end of the transformer section. Uh.
+
+So transformers are really sort of this interesting architecture that allow us to reason about variable length inputs.
+
+Um, and to really start there learning the structure of whatever input you're giving it.
+
+Um, this is in stark contrast to convnets, uh, that we used for images where sort of the structure is, is relatively fixed.
+
+It has a fixed resolution. We have to think hard on how do we adapt the network to that structure and resolution.
+
+Um, and in general, transformers nowadays can actually be as powerful as convolutional networks,
+
+even on the task that convolutional networks are designed for, such as image understanding.
+
+Um, they are still quite a bit more data hungry.
+
+So if you have sort of a small problem, small data set, uh, a convolutional network can still do better than a transformer.
+
+Uh, also for smaller architectures, the transformers have been a bit harder to train than, uh, convolutional networks this far.
+
+But in general, transformers started to emerge as a sort of this dominant architecture that is starting to take over more and more of sort of.
+
+More and more sort of areas and subjects, uh, into services.
+
+This is one common framework. That's it.
+

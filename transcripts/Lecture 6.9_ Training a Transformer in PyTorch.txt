@@ -1,0 +1,693 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+Make. All right.
+
+So in this segment we're going to do something special. Uh we're going to train a transformer.
+
+And we're going to train a transformer to predict its own code to train a transformer.
+
+Um, this is going to be one of the biggest hands on segments that we'll do in this class.
+
+Uh, it's also the one where you'll probably see me struggle a little bit, uh, doing this all in one go.
+
+Um, but we'll give it a shot. Um, another change is that if we want to train a transformer to protect its own code.
+
+Uh, as a as a transformer, we cannot do this in a notebook.
+
+Uh, accessing the code of a notebook is a little bit, uh, annoying.
+
+Uh, we'll do this instead in, uh, just raw Python file.
+
+Now, I've copied in the transformer layer that we developed last time.
+
+And then I've copied in the transformer architecture we've developed.
+
+Down here. This is the instantiation of the transformer that we had last time.
+
+And I'll remove this for now. What we'll do instead.
+
+Is we'll start writing a training function. And so what we want to do is we will get the source code of this file.
+
+We will encoded in a format the transformer understands.
+
+And then we'll ask transformer to predict the next character in our set of in our in the source of our of our transformer.
+
+In the, in the Python source code. So we'll do is we'll take all the source code, we'll encoded.
+
+Then we'll feed it through a transformer. And we'll ask it to predict the next character of the source code.
+
+This is slightly special because here we only have one training example.
+
+We have one training example, which is the source code of our of our transformer and will fit it into the transformer as a whole.
+
+And then we'll sort of use a shifted version of this as the ground truth, as the label to predict.
+
+All right, so let's get started with this. We'll start writing a training function.
+
+And the training function. Really. The first thing we'll need to do is we'll need to collect the data.
+
+So this is the source code here. And for now let's just print it out.
+
+So we can test this function. And so this here is if we called a Python file by itself, it'll call to train.
+
+Will just call train. We can open a terminal and just call python3 transformer.
+
+Py right. And all it really does is it reads the source code of the file and it prints it out.
+
+All right, so I'm not sure we have the right data. The next thing we need to do is with this source code.
+
+We'll need to tokenize it. Now, the tokenization we'll choose here is will tokenize the source code as just characters.
+
+We'll do character by character by character prediction after source code of this file.
+
+Now, if you ever wanted to do something, uh, fancier with natural language processing,
+
+I would not recommend you do character encoding just because that leads to very long sequences.
+
+For this particular example here, this is fine. See the done.
+
+So we'll first. I will not take any chances.
+
+Well, first, convert the code into a list, and then we'll see what, uh.
+
+What? As tensor as what data type it interpreted.
+
+And let's no longer print the code here. All right.
+
+It says it couldn't do, uh, it couldn't convert string to tensor directly.
+
+So we'll instead just write this out properly.
+
+So for each character in the code.
+
+We'll convert it to an integer. Right.
+
+So this gives us, uh, list, uh, sort of integer values.
+
+Each integer value corresponds to a character in our code. We can so quickly see which characters are used.
+
+The torch. And you can see we use sort of characters from ten to about 121.
+
+And so it's sufficient in this in this case it's efficient to predict only from 0 to 128 sort of possible values or 127.
+
+Right. The next thing we'll do is we'll see how we can fit this into the transformer.
+
+Let's create a transformer. If you look at the definition of our transformer here.
+
+It takes an embedding dimension, number of hits and number of layers.
+
+And then what we do here is we'll just feed. X, the input that we get directly into the network, which is a sequence of transformer layers.
+
+Now. There is no way we can feed in characters like this directly.
+
+So what we actually need in a transformer as the very first layer.
+
+Is we'll need an embedding. And so we get this.
+
+By. Add adding, torch and embedding.
+
+128 is good enough, and that will go to the actual dimension of the transform.
+
+And what embedding does is it's really just, uh, a set of learned features.
+
+And here this is how many there are. The input to the embedding is going to be an integer value.
+
+Uh, in our case this is sort of the uh, the code, the Ascii code of the character.
+
+And it will convert this into a 128 into an embedding dim sized feature vector.
+
+Then we'll go through a bunch of transformer layers, and afterwards we'll need to output, uh,
+
+we'll need to classify each output and we'll classify it again into 128 possible classes.
+
+These are the characters we're going to predict. All right.
+
+So this is the slight modification we did to our transformer. Now let's create a transformer that has.
+
+Zero layers. What this will do is it will just really touch.
+
+It will create the embedding and then it will create a linear. Linear layer after to classify.
+
+And we'll do this to just see if the network works. Will feed into first ten tokens here and see what the network outputs.
+
+All right. Outcomes some values we can look at the shape of the of these values.
+
+The first dimension is one. That's the batch dimension. We added this through the none in here.
+
+Then the next dimension is ten, which is the length of our sequence,
+
+and to the last dimensions 128, which is the number of possible predictions that we want to make.
+
+And we can now go ahead and actually train this. It's trained for 100 iterations for now.
+
+Copilot is confused because I didn't create it. Create the optimizer yet.
+
+So let's create the optimizer. Lose and w learning rate seems fine for now.
+
+Now we'll predict a certain output for every token in our sequence, except for the.
+
+Except for the last one. No.
+
+Yeah, we'll do it for. For everything. Except for the last one. The last one we don't need to feed in.
+
+The last one is still going to be the end of sequence token eventually. Now we have this prediction.
+
+We can compute a loss. It's a cross entropy.
+
+Let's make this zero here. It's the cross entropy between.
+
+The prediction and the tokens. Now we do not use the first token here.
+
+The first token. We do not predict. The first token comes into the transformer.
+
+And then the ground truth is shifted by one down here. Right.
+
+And that's for now. Just print out the loss and print.
+
+See what this does. All right.
+
+This gives us some loss, some prediction for this very simple transformative as zero transformer layer is just an embedding.
+
+And, uh, and the classifier. Right.
+
+Now we'll reset the gradient. We'll call last step backward and then step the optimizer.
+
+Right. Let's call this again. Good.
+
+And let's just let this run for the ten iterations and see what the last.
+
+All right. So the last nicely decreases. We can even let it run for a hundred and only print.
+
+Every ten iterations. All right.
+
+So now we're getting the last down. Pretty neat though pretty nicely. Now.
+
+So just for 500. At some point this will plateau.
+
+It will plateau around at around one point. Uh 81.79.
+
+Now, why does this plateau? Well, because right now what we have is the network is a transformer that takes as an input a character.
+
+And without knowing what the next character is, without knowing any context, it needs to predict what the next character is.
+
+This is an extremely hard task. Um, you can do it reasonably well for space characters, because for space, you know,
+
+there's a very high likelihood that another space character will follow it. For everything else, this is an almost impossible task to to do.
+
+Right. And so in order to make progress, we'll actually need to.
+
+Give this network a few layers. But as we add layers, this gets, uh, this gets a bit slower.
+
+Um. One thing we can do is we can make sure that all our sort of our inputs, outputs and networks are all on the GPU.
+
+That will make this training a little bit faster. All right.
+
+So now we're training this network and it's still not quite what we wish.
+
+It's still around 1.8. So what's going on. Well it turns out in the definition of the transformer up here.
+
+We don't actually have a positional embedding anywhere. And so what we're asking the network to do now is we're giving it one character as an input.
+
+We're going to give it all other characters in the file,
+
+but all other characters in the file are sort of given in a random order, because there is no position.
+
+It's sort of just operating on this set of characters as an input, which makes it equally impossible to predict the next character.
+
+We can actually look at the prediction it makes. Here.
+
+We can look at the prediction, let's say for the first ten character and for the first.
+
+We'll look at the prediction for the first. Ten characters.
+
+The argmax will give us the most likely prediction, and we'll compare this to the actual tokens.
+
+That it should predict which are token 1 to 11.
+
+And you can see it does a decent job at guessing some of these like it.
+
+Figured out that the first, for some reason it could do the first character, which is to I for import here.
+
+It could do that, but then so that for all others it sort of it just more or less randomly guess that's what the next character would be.
+
+That's even sort of. It's even worse than that.
+
+If we probably gave it. If you predicted this order aggressively, which we can do by giving it input sequences of of increasing length,
+
+the predictions will likely be even a little bit worse.
+
+So the way we would do autoregressive prediction, this is going to be an indexing nightmare here.
+
+But bear with me for a moment. So we'll feed in a sequence of length n.
+
+As input. And then for each sequence of length n, we'll ask network to predict an output sequence.
+
+We'll use the last value here, and then we'll take the argmax.
+
+We'll do this for n in range ten.
+
+This is sort of doing autoregressive prediction where we feed in increasingly long sequences and always just look at the last prediction.
+
+It's one. Let's make this readable.
+
+And you can see the autoregressive prediction is even sort of.
+
+It doesn't even match the prediction we had with the full sort of transformer network, which is not a good thing.
+
+Right? So what are we going to do next?
+
+We're going to go into our transformer and we'll add in positional embeddings.
+
+We also need to make sure that the autoregressive prediction here actually produces an output that is valid,
+
+meaning that we will need to force the transformer to only look at things that happen in the past.
+
+So this prediction here. This line here.
+
+The full prediction of the last of the first ten characters should always match the prediction down here,
+
+which is the autoregressive prediction of the first ten characters. If we don't have two to match, we have a bug somewhere.
+
+Right. And so what we're going to do here is we're now going to go into the transformer and we're going to add in a positional embedding.
+
+And we're going to mask the transformer to only look at the past.
+
+We can do this both in one go. The way we're going to do this is.
+
+In the Multi-head attention! The multi-head attention here takes.
+
+An argument. Attention, mask! And what this does is it allows you to feed in a floating point value.
+
+That is added to the attention before the softmax.
+
+We can make certain values in their negative infinity,
+
+meaning they're masked out and we can make other values sort of learned depending on the distance between two elements.
+
+And that will give us a way to encode a relative positional embedding.
+
+Now this is going to be by far the trickiest part and will first sort of develop.
+
+The function that produces this mask. So we'll have a, uh, function that says, let's call it attention mask.
+
+The first argument here is the sequence length, how long we expect the sequence to be.
+
+And then the next argument here. This is not the embedding dimension.
+
+Uh, this is going to be an actual learned embedding.
+
+Right. And so it does learn embedding is.
+
+It's a torch tensor. All right.
+
+So the learn embedding will essentially look like this.
+
+This is embedding. Zero embedding.
+
+One. And so on. Which will then translate into relative positional embedding.
+
+So embedding zero is going to be used. This is a floating point value.
+
+It's going to be used if we're going to go from a location x to a location x in attention to betting, one is going to be used.
+
+If you're going to go from location x one back. Embedding N is going to be used.
+
+If you're going to go from location x to location N back.
+
+Okay. And so now we need to construct an attention matrix where the diagonal is going to be embedding zero.
+
+An element one off the diagonal is going to be embedding one.
+
+Two off the diagonal is going to be embedding three, and so on until we reach the length of our relative positional embedding.
+
+And everything else in this matrix is going to be infinity. And so we'll start by just creating this infinity matrix.
+
+And so what this embed new full does is it creates a new tensor.
+
+On the device that embed lifts on and.
+
+Using the same sort of floating point, uh, or the same datatype as embed.
+
+Now, we created such that it's sequence length to a sequence length because that's the size of our attention matrix.
+
+And for now we'll just fill it with negative infinity. Now we'll also produce.
+
+A sequence that's positions from uh, from zero to uh n or any of from zero to sequence length and now will produce relative position.
+
+And relative position is simply just a position along one dimension minus the position along the other dimension.
+
+So that gives us sort of an attention matrix shape. That's just the relative position.
+
+Now we look at which positions are valid.
+
+Now, not all positions are valid.
+
+Anything that goes into the future, we want to mask out everything that's beyond the length of our learned embedding will.
+
+Mascot. So the valid positions are positions that are.
+
+Greater or equal to zero or. That are sort of.
+
+That are. Shorter than our learned embedding vector, because if you don't have any parameters in your learned embedding anymore,
+
+then we also don't know what to put into this relative position or into this attention matrix.
+
+Attention, mask! All right. Good.
+
+Now we have the relative positions we'll have. We know which positions are valid.
+
+And now all we need to do is we need to write these learned embeddings into the correct location.
+
+And so we'll look at all valid positions.
+
+In our loan embedding. And then.
+
+We're going to retrieve the corresponding relative position after valid position, retrieve the learn embedding from there, and then copied into embed.
+
+And that's pretty much it. Now we can test this function real quick.
+
+And so let's create. Let's make this smaller.
+
+Let's make this three. In this five. And next make sure this is floating point.
+
+And so what this will do is now it will create this matrix here where everything going into the future is masked out, is negative infinity.
+
+So this is the attention matrix.
+
+Everything that goes into the future is infinity, a negative infinity, meaning there's no attention ever going into the future.
+
+And now attention to the element itself is zero.
+
+Just because we just said that to learn embedding here to test this function is going to be a range which is the first element to zero.
+
+If you go one back, it's one. If you go two back, it's two.
+
+And then if we go more than two back, we're again sort of outside of the range of this learned embedding,
+
+which again will make the attention mask negative infinity.
+
+The one thing that we still need to do is we'll need to make sure that we can do this per attention head.
+
+That the learned positional embedding will be learned per attention head.
+
+And so. We should be able to make.
+
+We should make sure that we could. Have.
+
+Call this function here, where the first argument is the attention, the number of attention heads, and the second argument.
+
+Is then the length of our loan possession, but I'm pretty sure if we call it right now, this is going to fail and we'll have to fix it.
+
+Yeah. And it's going to fit.
+
+It's failing in part because to learn embedding here. Actually also needs the number of heads to mention.
+
+All right. And the rest down here.
+
+I've already added the ellipsis here, which essentially means that if there's any dimension in any sort of number of head dimension in front,
+
+uh, it will automatically, uh, sort of skip these dimensions and only apply the masking and the relative positions to the last dimension.
+
+And so this gives us a way to now create a relative positional embedding for each of the attention heads.
+
+This is an example for two heads where the first head uses numbers one to uh one, uh zero, one and two.
+
+The second head uses numbers three, four, and five.
+
+All right. So where do we go from here?
+
+We now have a function. That will take a learned positional embedding and convert it into this large attention mask.
+
+Now, if you go to our transformer layer, the first thing we'll need to do is we'll need to learn the relative positional embedding.
+
+And we can learn this a series and we can give this a free parameter here.
+
+So we can do. Relative position, length and just make it so.
+
+Make it 128. We also need to have a dimension.
+
+That's number of heads here. And that should be it.
+
+And now in the attention computation in the layer here. We'll give attention.
+
+An additional, uh, argument. That's attention. Mask of the learned positional embedding.
+
+What we call it relative position. All right.
+
+And we need to give the sequence length. Was long and ugly.
+
+Let's put this in a new line real quick. All right.
+
+So we compute the attention mask. We feed it in here. And.
+
+The sequence length is dimension one. All right.
+
+So this is a tension with a learned relative positional embedding.
+
+It's a little bit sort of tricky to read. It's a reshuffle.
+
+The terms and constructors attention matrix. Um.
+
+Once we have debug this, it's pretty easy to see how it looks like the sort of this matrix where sort of
+
+the diagonal is learned and then all off diagonals going backwards are learned,
+
+and everything else is negative infinity. All right, now let's see if we can train this train.
+
+If we can call the train function. All right.
+
+Forward and backward worked. And let's train this.
+
+All right. You can already notice it starting to sort of the last is starting to decrease.
+
+It's starting to decrease way quicker than before.
+
+Just because the learned the relative positional embedding allows the transformer.
+
+The much better reason about sort of what's before, what comes before or after.
+
+And you can see the predictions here are really starting to match what we saw and what we have seen before.
+
+And the autoregressive prediction really matches the prediction of the network if we run it on the full sequence.
+
+We can train this a little bit more or less, train this for 200 iterations.
+
+And while this is training. We'll now go and write.
+
+The sampling function for this. So this has now been the training function where we train to sort of give the transformer an input,
+
+and then we'll have it predict a shifted version of this input to just predict the next character.
+
+The nice thing about transformer Transformer here is that we don't actually need to ever unroll it during training.
+
+We can just feed in one sequence and then the shifted sequence and just call forward on a transformer.
+
+As long as we have mask attention, everything. Everything in this transformer is going to be sort of compute,
+
+like all the computations happen in parallel, and all the next word predictions happen all together.
+
+All right. Now. One thing, one other thing we need to take care of is right now, we feed in.
+
+The entire code as a sequence, but we don't give the network an opportunity to actually start the sequence like we
+
+actually would need to give it the first character AI to start generating anything.
+
+And the network also doesn't have an option to ever say, hey, I'm done generating.
+
+And so if you want to change this into an, a sort of an autoregressive model that can generate the entire file,
+
+we'll need two special tokens, one that is the beginning of file, and one that's the end of file.
+
+And we can add them right here. So we can say at the beginning of file token is 127, which is unused right now.
+
+And then the end of file token is zero. And so now we just made the sequence two characters longer.
+
+But what we did was making this sequence two characters, long as we gave the model the, uh, the,
+
+uh, the, uh, the opportunity to start generating, we only need to give it sort of character.
+
+127. And then we also gave it the option to sort of stop generating by outputting, uh, characters zero.
+
+All right. We'll clean this up a little bit here.
+
+We'll. Safe.
+
+The model. And then let's actually say if the entire model.
+
+We'll move it. We'll move it on the CPU real quick.
+
+Save it and then. Will train this while we write the sampling function for this transformer.
+
+All right, let's see what copilot here gave us. We'll load the net.
+
+We'll put it on to the TPU again. We'll start out.
+
+Yes. This I want to change a little bit. So theta is equal to 127 which is our first character here.
+
+And then we'll move this in here. We'll look at the current data.
+
+Move it onto the CPU. Add a batch dimension.
+
+Then this is the prediction. Now copilot wanted to sample AI for now.
+
+Actually, I'm happy just using the argmax. So we can do next character is predict argmax.
+
+And now instead of calling concatenation, we'll just do data dot append.
+
+Next character. The reason for this is that, uh, append is actually um, oftentimes a little bit faster than, than sort of these towards concatenation.
+
+Um. And then we'll also import this.
+
+And then we'll print out this character. So we'll do this start, start that right.
+
+This character here. All right, and then we'll flush.
+
+Flush. Just to make sure that the character is displayed after we write it onto S3.
+
+Out. All right. This is our simple sampling function here.
+
+You can see if we're done training. All right. This model is done training and has an extremely low loss.
+
+And now we can call sample and we'll see what happens. So the model will one after the other set of reproduce the code.
+
+Do you think it got a little bit confused here? Somewhere around here.
+
+Um, we might have to train it for a little bit longer. And then down here it got really confused sort of once it starts missing one
+
+prediction because we completely overfit to the file that we're currently training.
+
+Once it starts missing one prediction, it really will go off the rails.
+
+Um. I did a thing you noticed.
+
+You can notice here when we do this,
+
+autoregressive prediction is the model will actually get slower and slower the further we, uh, we like, the more we predict.
+
+And the reason for this is the reason why it gets slower and slower is that.
+
+The longer the sequences, the more computation we have to order, the slower attention gets,
+
+because attention is really an operation that attends from every point in the model to every other offer, and from every input to every other input.
+
+And so one way, one thing we can do to make this slightly faster is instead of giving it the entire data stream,
+
+we'll just give it the last 500 characters. And so that will make sure that generation is always pretty quick.
+
+All right. Now let's fix the model up real quick.
+
+And see if we can if we can actually completely overfit, let's make the model slightly bigger.
+
+And see if this does the trick and if we can overfit to that bigger model.
+
+Oh all right. So.
+
+Hmm. Now, training is obviously going to be a little bit slower with the bigger model.
+
+And while this is training, um, we can sort of go over what we did in this, in this exercise.
+
+So we started out with is we started out with the transformer code that we had from the previous class.
+
+We did add in relative positional embeddings, which we got in through the attention mask.
+
+At the same time we also did causal masking. So if we masked out any attention that would look into the future.
+
+This was sort of a relatively easy modification.
+
+We added a parameter to the model that's number of heads times the length of the relative positional embedding.
+
+Then. We added in sort of this attention mass computation here and just gave the self-attention operator, which is a multi-head attention.
+
+We'll give that self-attention operator. An attention mask argument.
+
+All right. It looks like the model was still not big enough.
+
+Um, one thing we could do is we could make this slightly larger.
+
+The relative positional embedding. That might help. And then in the same time, while this is training again, we'll look back.
+
+So we gave Multi-head attention, an attention mask operator, and that made all of our attention layers be sort of causal attention.
+
+It only looks into the past to predict the next element. Then for the transformer itself, we added only two layers.
+
+We added an embedding layer that took the raw character code,
+
+the unique the Ascii code for each of the characters and embedded them into an embedding dimension.
+
+Then we had the transformer in between. And then we took.
+
+The output of the transformer and made it into 128 predictions, which is the next character predictions that we would want to do.
+
+We didn't have to do anything to to forward function. This is all done in the towards sequential.
+
+Now. For training. We are training to predict our own the the the own code of this file.
+
+So we load the code. We load the source code of the file.
+
+We convert it into a tensor by extracting the Ascii code of all characters, adding a special token 127 in the beginning to say let's start predicting.
+
+And then we'll add a special token in the end to sort of start predicting.
+
+All right let's see. This still didn't quite get there. It didn't converge okay.
+
+We'll train for longer and we'll get the. Train for twice as long.
+
+All right. So we added these two special tokens here. Then we created the transformer.
+
+We set up the optimizer. And then.
+
+During training, we take our entire source file that's now tokenized into character level tokens.
+
+We added this artificial batch, dimension zero,
+
+and then we said for any input for any character except for the last character, which in this case is the zero.
+
+We'll feed those into the network, and then we'll have the network predict the next character.
+
+And so these are characters from one to the very end, including zero.
+
+So the predictions will never predict 127. This is only done during the input.
+
+And predictions. Just start from the beginning of the file to the very end.
+
+This is our standard optimizer. Um, we have we print out the loss to see how things are converging.
+
+Then we print out sort of the token sequence that we feed in, uh, sorry, the token sequence that we expect, which is the ground truth.
+
+And then we, uh, we sort of predict, uh.
+
+We have our predictions. Take the most likely prediction. And then compare and compare that to the autoregressive prediction.
+
+And the last two should always match. Otherwise they don't match.
+
+We have. We did. We made a mistake in the masking of the autoregressive in code.
+
+Now for sampling. We'll just start with the 128 127 token.
+
+And then half sort of predict one token at a time until, uh, I forgot that until the model predicts a zero.
+
+So if the model predicts a zero, then we'll start predict there. We'll stop generating.
+
+We'll write the characters to start, which is the same as printing without a new line,
+
+and then we'll make sure that this is actually written under the terminal.
+
+Down here. We'll just call training first and then we'll sample and we'll see if this works.
+
+If this doesn't work, I'll post the actual solution that I did for the to prep for this class online.
+
+And uh, this one thought that, that that solution will actually, um, produced, uh, its own code.
+
+All right. Well, it looks like it is converging. Um, sort of a loss of law smaller than 0.01 usually means it's completely overfit.
+
+Oh, no. All right.
+
+I spoke too soon. Uh, somewhere on the, uh, along the way here.
+
+It's I love it. The learning rate was slightly too large, and we should have used this checkpoint, probably.
+
+Or the checkpoint before. Um. This here is a model that now started producing a real code and then just produced absolute garbage.
+
+Um, we have a version and we'll post it on the course page of this actually working.
+
+Um, yeah. Right. That's pretty much that pretty much wraps up this segment.
+

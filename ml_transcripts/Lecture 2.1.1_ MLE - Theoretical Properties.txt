@@ -1,0 +1,1821 @@
+♪ (smooth jazz music) ♪
+
+>> Welcome to Machine Learning.
+
+So today, we are going to talk about
+
+maximum likelihood estimation.
+
+In this class, we will actually
+
+talk about theoretical properties,
+
+some basic theoretical understanding
+
+of mathematical likelihood
+as a mathematical tool.
+
+So the first thing we want to
+talk about, draw attention to,
+
+is that the maximum likelihood estimator
+
+is actually a random variable.
+
+And this is because, when we perform
+
+maximum likelihood estimation,
+
+the data, which is x-i, is
+drawn from a distribution,
+
+so the data is a random variable.
+
+And then the likelihood estimation
+
+can be viewed as a function of the data.
+
+Now, because the data is random variable,
+
+the maximum likelihood
+estimation is, obviously,
+
+also a random variable.
+
+Now, if you look at this function,
+
+it's actually a complicated function.
+
+This function is implicitly defined
+
+by the maximization process
+of maximum likelihood,
+
+but still it's a function.
+
+So, depends on the random variable,
+
+so it's a random variable.
+
+Now, because it's a random variable,
+
+we actually need to understand
+its statistical properties,
+
+including both bias variance
+and mean square error.
+
+So, in the following, I will define these
+
+three key properties and show
+the relation between them.
+
+And then I will define what's
+called unbiased estimators
+
+and consistent estimators.
+
+These are very nice properties
+
+that we often wish our estimators have,
+
+and in most cases, maximum likelihood
+
+do have these nice properties,
+
+such as unbiasedness and consistency.
+
+Okay, so let's get started.
+
+So the bias, let's define the bias.
+
+The bias is simply the
+difference of the expectation
+
+of the maximum likelihood estimation
+
+with respect to true parameter.
+
+So it's defined to be
+the bias of theta-hat,
+
+which is the maximum
+likelihood estimation,
+
+equals to the expectation
+
+of the estimation,
+
+as we take the expectation
+over the random data,
+
+minus theta-star.
+
+So the expectation's
+taken on the x one to xn,
+
+as they are generated from
+the true distribution, p-star.
+
+So here, p-star is the true distribution
+
+that generates the data,
+
+so the bias is between the expectation
+
+of the maximum likelihood estimator,
+
+the difference between the expectation
+
+and the true parameter, theta-star.
+
+So more explicitly, you can
+sort of write it in this way,
+
+where the expectation is a integration.
+
+So it's x one to xn,
+
+p product, i equal to one to n,
+
+p xi, given, let's say, theta-star dx,
+
+so this is the definition
+of the expectation,
+
+minus theta-star.
+
+You can see that it's a
+fairly complicated formula
+
+for complicate cases.
+
+We wouldn't be able to
+have a closed-form formula
+
+for the bias, but in simple cases,
+
+we do have analysis for the biasedness.
+
+So I will show some example later on.
+
+So this is the bias.
+
+And then we also have variance.
+
+So the variance of theta-hat
+
+is the typical definition of variance.
+
+So it's defined as expectation theta-star
+
+theta-hat x one to xn
+
+minus the mean error,
+
+the expectation of the estimation,
+
+which is exactly what's
+calculated in the bias,
+
+which is going to be theta-hat
+
+x one to xn.
+
+And then you have square,
+
+and then expectation.
+
+So this is actually the
+usual definition of variance,
+
+so we have these random
+variables, theta-hat.
+
+We minus its mean
+expectation, its expectation,
+
+take the square, take the expectation;
+
+this is the variance.
+
+So the variance represents the
+fluctuation around the mean,
+
+while the bias measures the
+difference between the mean
+
+and the true value.
+
+We hope both of them to be small.
+
+Now it turns out we have
+another important measurement
+
+called a mean square error,
+
+that is highly related to
+both bias and variance.
+
+So the mean square error
+
+is defined to be the difference,
+
+the mean square error of theta-hat
+
+is defined to be
+
+the difference between
+
+the maximum likelihood estimation
+and the true parameter.
+
+So it's almost the same as the variance,
+
+except that, instead of
+subtracting the mean,
+
+we directly subtract the
+true value, theta-star.
+
+So in this way, the mean square error
+
+is actually a very direct estimation
+
+of the quality of the maximum
+likelihood estimation.
+
+So in fact, mean square
+is exactly something
+
+we want to minimize, we
+want to design the estimator
+
+to minimize the mean square error,
+
+or we hope the maximum
+likelihood estimation
+
+naturally has a small mean square error.
+
+Now it turns out these three
+quantities are related together
+
+and with a very simple formula,
+
+and this formula is actually a very simple
+
+and basic formula
+
+called a bias-variance decomposition.
+
+So this formula says that
+the mean square error
+
+equals to the bias square,
+
+the square of the bias, plus the variance.
+
+So intuitively, it says that
+
+both bias and variance contributes
+to the mean square error.
+
+And if you sum the bias
+square with the variance,
+
+exactly, you get mean square error.
+
+So let's prove this, this
+is actually something
+
+that is easy to prove,
+
+but is so basic that everyone
+should understand it.
+
+So let's prove it, so want to proof.
+
+So if we write down the mean square error,
+
+equals to expectation,
+
+I use a brief notation, so
+I just drop the theta-star
+
+and I have theta-hat
+minus theta-star square.
+
+So I drop the dependency on x one to xn,
+
+just because it simplifies the notation.
+
+And then we can expand
+this quadratic term.
+
+So what we do is we have expectation,
+
+we have theta-hat,
+
+we minus expectation theta-hat
+
+plus expectation theta-hat
+
+minus theta-star square.
+
+So these two are equivalent,
+
+and minus something, and minus the mean,
+
+and then add it back.
+
+So this is equivalent.
+
+And then I can expand
+this quadratic formula,
+
+equals to expectation.
+
+I have this first term
+becomes theta-hat minus theta
+
+expectation square.
+
+And we have the square of the second term,
+
+which is expectation theta-hat
+
+minus theta-star.
+
+And then we have the product term,
+
+which is right here:
+
+two times theta-hat minus
+
+expectation theta-hat,
+
+and then expectation theta-hat
+
+minus theta-star.
+
+Now, at this point, it's very easy now.
+
+So the first term, it is the difference
+
+between theta-hat and expectation,
+
+take the square, take the expectation;
+
+this is exactly the variance.
+
+Exactly the variance.
+
+The second term, it is the expectation
+
+of theta-hat minus
+theta-star, take the square.
+
+So this is already the bias.
+
+It's already a constant
+because we have already taken
+
+the expectation of theta-hat.
+
+So if you take another expectation,
+
+it actually doesn't have any effect.
+
+So just looking at
+this, it actually equals
+
+to the bias square.
+
+And then we have the third term,
+
+which is the product
+between these two terms.
+
+It turns out this term equal to zero.
+
+Now let's show this term
+actually equal to zero.
+
+Let's show it.
+
+So the course in term is expectation
+
+theta-hat minus expectation theta-hat,
+
+expectation of theta-hat minus theta-star.
+
+So equals to, right?
+
+Now if you look at this,
+
+the second term here, which is
+the expectation of theta-hat
+
+minus theta-star is actually a constant.
+
+So as I take expectation,
+I can move it outside
+
+of the expectation.
+
+So if I move it outside of expectation,
+
+we just take expectation of theta-hat
+
+minus expectation theta-hat
+
+times this constant term.
+
+This is actually exactly the bias,
+
+this term inside the bracket.
+
+And then, if you look at the first term,
+
+and we can further rewrite it into
+
+expectation of theta-hat
+
+minus the expectation, all
+the expectation theta-hat,
+
+which is really just the
+expectation of theta-hat.
+
+And then we have theta-hat
+minus theta-star.
+
+Well at this point it's
+obvious because it's zero,
+
+the first term is expectation
+minus expectation self,
+
+so it's zero.
+
+So that means we proved the
+bias-variance decomposition
+
+which shows that the mean square error,
+
+which is the difference between theta-hat
+
+and the true value, true sort
+of parameter of theta-star,
+
+it decomposes to the
+sum of the bias square;
+
+the square of the bias
+
+plus the variance of theta-hat.
+
+Now this is actually a
+very important formula
+
+because, in many times, that's a tradeoff
+
+between bias and variance.
+
+Sometimes we have larger
+variance but smaller bias.
+
+Sometimes we have smaller
+bias but larger variance.
+
+By trading of these two terms,
+
+we can sometimes find a sweet point
+
+where the sum of them is minimized
+
+so we can optimize the
+overall performance.
+
+Now if we look at this
+framework once again,
+
+I sort want to draw overall picture
+
+about this whole process.
+
+So let's change a color.
+
+So what's happening here is that,
+
+as we estimate, let's say,
+
+some unknown parameter,
+let's say theta-star
+
+is the unknown parameter,
+the whole procedure
+
+goes like the following:
+
+so theta-star is the unknown parameter.
+
+Form the unknown parameter,
+we generate a bunch
+
+of observations, x-i, right?
+
+So theta-star is unobserved,
+this is unobserved,
+
+but x-i is observed.
+
+Now from the x-i, we generate
+
+a estimation, which is theta-hat.
+
+So theta-hat is the maximum
+likelihood estimation
+
+that we calculate.
+
+And then the hope is that,
+as we compare these two,
+
+as we compare theta-star and theta-hat,
+
+we hope that, on average, they
+are very close to each other.
+
+And the magnitude of the difference
+
+between theta-star and theta-hat
+
+is actually what's measured
+by maximum likelihood,
+
+the mean square error.
+
+Okay, so now we have defined
+
+bias variance and mean square error.
+
+I would now define what's
+called unbiased estimator.
+
+Turns out, let's erase something.
+
+Erase this.
+
+So turns out, if an estimator
+
+has a zero bias,
+
+then we call
+
+theta-hat an unbiased estimator.
+
+So this is a very nice property.
+
+It means that, if you
+performed the estimation
+
+for many, many times,
+
+every time from a different copy of data,
+
+then if you take the average
+of all the estimation
+
+that you get, it actually should equal
+
+to the true value.
+
+So this is something called unbiased.
+
+It's a very natural definition.
+
+Now besides that,
+
+we also have something called
+a consistent estimators.
+
+So this is saying that, if I
+have increasingly more data,
+
+then if the mean square error
+
+of theta-hat n, theta-hat goes to zero
+
+as n goes to infinite.
+
+So this is saying that, as
+I have more and more data,
+
+so then, in this case, the random,
+
+the theta-hat is going to be
+
+an increasing number of,
+
+a function of increasing number of data.
+
+In this case, if the mean square error
+
+of theta-hat goes to zero,
+
+as you have infinite number of data,
+
+then theta-hat is called consistent.
+
+So consistent means that,
+if you have infinite number
+
+of data, you shouldn't have no error.
+
+If you have more data,
+you should have less
+
+mean square error.
+
+Now these, I just want to
+point out these two concepts
+
+are actually very
+different from each other,
+
+because, let's say if you are unbiased,
+
+that doesn't means you are consistent
+
+just because, even though
+the bias term is zero,
+
+you may have large variance,
+
+and you may have a variance
+that doesn't goes to zero,
+
+even if you have infinite number of data.
+
+So in this case, you wouldn't
+have a consistent estimator.
+
+On the other hand, even
+if you are consistent,
+
+it may not necessary imply unbiasedness.
+
+That's because the
+consistency just says that,
+
+asymptotically, if you have
+infinite number of data,
+
+the mean square error goes to zero.
+
+But for every finite number of data,
+
+you may still have some amount of bias,
+
+even though that bias
+is increasingly small
+
+as you have more and more data.
+
+So what's related is something called
+
+a asymptotic unbiasedness.
+
+Asymptotic
+
+unbiased.
+
+So this is the case when we have the bias
+
+goes to zero as n goes to infinite.
+
+So this is, again, a
+claim about the limit,
+
+about the asymptotic property.
+
+So it says that, if you have
+infinite number of data,
+
+the bias, even though for
+any finite number of data
+
+it has a non-zero bias, but
+then as you have increasingly
+
+more data, the bias will
+eventually goes to zero.
+
+Now if you have a consistent estimator,
+
+that does imply that you
+have asymptotic unbiasedness,
+
+but it cannot imply the
+direct unbiasedness.
+
+So let me just sort of clean up the notes
+
+and so we can sort of see
+the relation more clearly.
+
+So maybe this way.
+
+So what's happening is...
+
+So if you are consistent,
+
+you can imply asymptotic unbiasedness.
+
+If you are unbiased,
+
+you cannot imply consistency.
+
+If you are consistent, you
+cannot imply unbiasedness.
+
+On the other hand, if you are unbiased,
+
+you can, obviously, also
+imply asymptotic unbiasedness
+
+just because you have zero bias
+
+at finite data, so you should
+have zero limit as well.
+
+So these are some very important concept
+
+sometimes we will encounter in reading
+
+literatures and papers.
+
+Okay, so now let's give you example
+
+of maximum likelihood estimation
+
+that is consistent, biased or unbiased.
+
+So the example is about
+the Gaussian distribution.
+
+So in this case, we could see it,
+
+a set of data x-i, that
+is drawn from a Gaussian,
+
+the mean which is mu, the
+variance which is sic-um square,
+
+are assumed to be unknown.
+
+And then in the last lecture,
+
+we showed that the maximum
+likelihood estimation of mean
+
+is simply the empirical mean of x-i.
+
+And then the estimation of the variance
+
+is simply the empirical variance.
+
+Okay, so now we need to
+check the unbiasedness
+
+and sort of consistency of the estimators
+
+we get for mean and variance.
+
+So let's check the
+unbiasedness of mu-hat first.
+
+So the bias of mu-hat
+
+equals to the expectations of mu-hat
+
+minus mu, and then the mu-hat
+
+is really the empirical averaging.
+
+And then minus mu,
+
+and the equals to.
+
+And then because the
+expectation of each x-i
+
+actually to mu, so we can further write it
+
+as, if we can move the sum
+outside the expectation,
+
+becomes sum over expectation x-i
+
+minus mu, and each term equals to mu,
+
+minus mu, so overall, this
+actually equal to zero.
+
+Now this means the bias of
+mean estimation is zero.
+
+And then we want to
+calculate the variance.
+
+The variance of mu-hat equals to
+
+expectation of mu hat minus
+
+the expectation, which actually
+we calculated which is mean,
+
+so minus, which is mu, take the square.
+
+And then this equals to expectation.
+
+One over n, sum over one to n
+
+x-i minus mu square.
+
+Now we need to do some calculation.
+
+We need to expand this quadratic function.
+
+It equals to expectation.
+
+First of all, we can push the one over n
+
+other side of the square,
+
+and then we need to do the summation.
+
+Turns out if you expand it,
+
+it will equal to sum over
+all the quadratic terms.
+
+And then all the crossing terms,
+
+which is wij n
+
+x-i mu, xj mu,
+
+where x doesn't equal to x-i.
+
+So should be sum over
+
+i doesn't equal to j.
+
+There's sum over.
+
+And then this actually
+equals to expectation.
+
+So we can actually move the
+expectation inside the sum.
+
+And then that will give you
+the sum of the variance,
+
+so we'll have one over n square,
+
+sum over i equal to one to n
+
+expectation x-i minus mu square.
+
+I just move the
+expectation inside the sum.
+
+And then plus, again, I
+will do the same thing
+
+which is a equal to
+
+x-i minus mu, xj minus mu.
+
+Now turns out each of the term here
+
+actually equal to the variance.
+
+So for example, this term
+equals to the variance of x-i,
+
+which equals to sigma square
+
+because x-i is drawn from the Gaussian.
+
+And then we are summing over
+n terms, divide by n square.
+
+So overall, I will
+actually have one over n
+
+times the sigma square,
+which is the variance.
+
+And then plus, this term is actually zero.
+
+That's because we are assuming x-i and xj,
+
+they are independent with each other.
+
+And this term is actually the covariance,
+
+and they should equal to zero.
+
+And the way to see this is that,
+
+because we have a product,
+and because x-i and xj
+
+are independent, so we
+can push the expectation
+
+inside the product.
+
+So we have this, so this equal to this,
+
+which then equal to zero.
+
+That's because x-i minus mu
+expectation equal to zero.
+
+Now this shows that the variance of the,
+
+the variance of the mean estimator,
+
+mu-hat, equal to one over n
+
+times the sigma square.
+
+And then, because we
+have bias equal to zero,
+
+then we can calculate
+the mean square error.
+
+So the mean square error of mu-hat
+
+equal to bias mu-hat square
+
+plus variance mu-hat,
+
+which equals to sigma square over n.
+
+That's because the bias equal to zero.
+
+So now, is this estimator consistent?
+
+Yes, it is, that's because
+the mean square error
+
+equals to one sigma square over n.
+
+So as n, so if n goes to infinite,
+
+then we can say that the mean square error
+
+of mu-hat goes to zero, and
+this means it's consistent.
+
+It's a very nice, consistent estimator.
+
+Obviously, we have zero
+bias, equal to zero,
+
+so that means it's unbiased.
+
+Unbiased.
+
+So this is very nice.
+
+So the mean estimation is
+both unbiased and consistent.
+
+Now how about the variance?
+
+Well we wouldn't go over
+details about the derivation.
+
+It turns out the variance estimator
+
+is not a unbiased estimator.
+
+So turns out the expectation
+of sigma-hat square
+
+doesn't equal to sigma square.
+
+In fact, we can show that
+another unbiased estimator,
+
+which I defined, let's say, s-hat,
+
+is the following:
+
+x-i minus mu-hat square.
+
+It turns out this theta-hat,
+
+which is similar to
+the empirical variance,
+
+but the difference is that
+the empirical variance,
+
+the maximum likelihood estimation,
+
+normalize the sum by one over n.
+
+Whereas this new estimator
+is normalizing the sum
+
+by one n minus one.
+
+And turns out this estimator
+is actually unbiased,
+
+so meaning we can show that
+
+this estimator equal to sigma square.
+
+But the maximum likelihood
+is not unbiased.
+
+So this means it's
+actually biased estimator,
+
+which is sad.
+
+But it's not too bad,
+because we can also show that
+
+it's actually asymptotically unbiased,
+
+meaning that the bias of sigma-hat square
+
+actually goes to zero
+as n goes to infinite.
+
+You can sort of see this
+
+because the difference
+between this set s-hat
+
+which divides n minus one
+and the empirical variance,
+
+is actually very small.
+
+One is one over n, one
+is one over n minus one.
+
+If n is very large, the
+difference is very small.
+
+So we expect the bias is going to be small
+
+as we have very large n.
+
+And similarly, we can also
+show that the variance
+
+of sigma-hat square goes to zero
+
+as n goes to infinite.
+
+And then overall, we can show
+that the mean square error
+
+of sigma-hat square goes to zero
+
+as n goes to infinite, and
+this means it's consistent.
+
+So it's also a consistent estimator.
+
+And the fact that the bias goes to zero
+
+means that it's asymptotically,
+
+...totically unbiased.
+
+So it's also very nice.
+
+Okay, so this is just a simple example
+
+that explain the concept,
+
+some of the concepts about
+consistency and unbiasedness.
+
+It turns out, in most
+cases, when you divide
+
+with maximum likelihood estimation,
+
+in most cases, you can actually
+show that it's consistent.
+
+It's almost always consistent,
+
+unless there are weird cases where
+
+regularity doesn't hold.
+
+But why is this the case?
+
+What's the mathematical
+principle that makes
+
+the maximum likelihood
+estimation always consistent?
+
+Turns out one way to explain it
+
+is to use what's called KL divergence.
+
+Kullback-Leibler divergence.
+
+So this is a notion of difference,
+
+a way to measure difference
+between two distributions.
+
+It turns out maximum likelihood estimation
+
+can be viewed as minimizing
+this notion of difference
+
+between the data distribution
+and the model distribution.
+
+So let's go over this, let's
+sort of first introduce
+
+the KL divergence.
+
+And then I will draw a connection
+
+between maximum likelihood
+and the KL divergence.
+
+So let's say p and q are
+two different distributions.
+
+And then for p and q, we
+can define their divergence,
+
+the KL divergence, to be
+the expectation under q,
+
+and the difference of log q minus log p.
+
+So if I explicitly
+write down this formula,
+
+it could be either
+integration or summation.
+
+So let's say it equals to,
+
+if x is discrete, then it's actually equal
+
+to sum over all the possible x,
+
+because its expectation on the q,
+
+so I have qx and times log qx.
+
+I can write in this way, px.
+
+This is because the difference of log
+
+equals to the log of the ratio.
+
+Now if x is continuous, then q and p
+
+will represents the density function,
+
+then the sum becomes integration.
+
+But they're essentially the same
+
+and all the derivation are very similar.
+
+So this is the definition.
+
+If you look at this definition, it's weird
+
+because, first of all, it's not symmetric.
+
+That means if you switch
+the order between p and q,
+
+you will get a different number.
+
+So that means, so KL
+divergence between q and p
+
+doesn't equal to KL
+divergence between p and q.
+
+In general, this is not true.
+
+And that's because you are
+taking expectation under q not p.
+
+But it still has a lot
+of critical properties.
+
+One of them is that it
+turns out we can show that
+
+this definition of KL
+divergence is always positive,
+
+or always non-negative.
+
+So for any q and p, we
+can always show that
+
+the KL divergence is
+larger or equal to zero.
+
+In addition, we can also show that,
+
+if we find the KL
+divergence equal to zero,
+
+then this must imply p equal to q.
+
+On the other hand, if p equal to q,
+
+then KL divergence must equal to zero.
+
+So these are very important properties,
+
+because from these two properties,
+
+we can sort of concede KL divergence
+
+as really valid measure of
+difference between p and q.
+
+And then we can sort of
+minimize the divergence
+
+in order to approximate one
+distribution using the other,
+
+and this is exactly going to be the idea
+
+of maximum likelihood estimation.
+
+Now let's actually start with
+proving these two properties,
+
+mathematical properties, and
+then we will draw connection
+
+to maximum likelihood estimate.
+
+So it turns out the proof is going to be
+
+rely on what's called Jensen's inequality,
+
+so I need to introduce, in order to prove
+
+that KL divergence is non-negative,
+
+I need use something
+called a Jensen inequality.
+
+Jensen's inequality.
+
+That say that, if fx
+
+is convex, so fx is convex function;
+
+that means, you know, convex
+functions are functions
+
+that have this bow shape
+
+that is facing up.
+
+Then we can show that
+
+the expectation of fx,
+
+under, let's say distribution q,
+
+that is, you can sort
+of compare this with the
+
+f expectation x.
+
+So you have two quantities, in this case.
+
+One is that you take a x,
+
+evaluate it using this convex function,
+
+and then take the expectation.
+
+Another is that you take
+the expectation of x first,
+
+and then pass it through
+the convex function.
+
+It turns out, if this is really switch
+
+in the order between expectation
+and the convex function,
+
+turns out they have a inequality relation.
+
+Turns out this is always,
+
+like the expectation of
+convex is always larger
+
+than convex of expectation.
+
+So from the plot, you can almost see this.
+
+Let's say I have two points.
+
+This is x one, this is x two.
+
+So let's say I have distribution q,
+
+let's say q equals to x one, sorry.
+
+Q equals to delta x one
+
+plus delta x two divided by two.
+
+This means that under the q distribution,
+
+x will be either x one or x two.
+
+Each one's half probability.
+
+Now in this case, if we evaluate,
+
+let's say, evaluate the convex function
+
+and then take the average,
+you will get this value.
+
+So this is, this point is x two,
+
+this point is x one.
+
+If you take the average, you will get,
+
+this is fx one plus fx two divide by two.
+
+And then if you, first,
+
+take the average of x one and x two,
+
+you will find this point,
+
+because this, looking at the x's,
+
+you have x one plus x two divided by two.
+
+And then if you evaluate it,
+
+now this point is going
+to be f x one plus x two
+
+divide by two, and then
+you can sort of say that
+
+the average of expectation
+is always larger than,
+
+so the average of the f is always larger
+
+than f over average.
+
+So obviously, this is a simple case
+
+when the distribution only
+supports at two points
+
+and with uniform probability.
+
+But then it turns out you
+can generalize this idea,
+
+this result to arbitrary distribution q.
+
+It turns out this is a
+very important result.
+
+So this is very important result.
+
+Now we can use this
+result to actually prove
+
+maximum likelihood, the non-negativity
+
+of maximum likelihood estimation.
+
+So let me switch color to do it.
+
+Okay, so I want to prove KL divergence
+
+is always non-negative.
+
+How to prove it?
+
+Well turns out just write
+down the KL divergence,
+
+qp equals to,
+
+it equals to expectation q.
+
+And then log
+
+q divide by p.
+
+So what I hope is that I
+can have a convex function.
+
+But log is not a convex function,
+
+it's actually a concave function.
+
+This is because, if you plot the log,
+
+it's facing downwards instead of upwards.
+
+So to address the problem,
+I introduce a negative.
+
+So what I do is I have expectation q
+
+negative log, p divided by q.
+
+So I should have x here.
+
+So basically just switch
+the order between p and q
+
+and add a negative sign.
+
+This is equivalent to the earlier formula.
+
+And then I can apply
+the Jensen inequality,
+
+basically, if I move, because
+I know that the negative log
+
+is going to be a convex function.
+
+That's because if you switch the order,
+
+switch the sign, you will get this.
+
+So this negative log.
+
+This is log.
+
+So the negative log is a convex function.
+
+And then we can apply Jensen's inequality,
+
+this is larger equal to minus log,
+
+which is the convex function.
+
+I just push the expectation inside,
+
+inside the log.
+
+And then this actually
+equals to minus log.
+
+If I expand the expectation,
+
+let's say if we are
+doing discrete variables,
+
+so it's going to sum over qx,
+
+qx px.
+
+And this actually equals to one.
+
+That's because if you have sum over x,
+
+this q actually cancels, so you have px.
+
+But then sum of probability
+p over all the possible x
+
+actually equal to one.
+
+So this is the basic
+property of probability, one,
+
+so that equal to zero.
+
+So this means that KL divergence,
+by Jensen's inequality,
+
+is larger than zero, is
+larger or equal to zero.
+
+So this is nice, we
+proved the first property.
+
+Now it turns out the
+second property also holds,
+
+and the reason is because,
+
+let's say if we find KL
+divergence equal to zero,
+
+that means this inequality
+has to become a equality,
+
+so it has to equal.
+
+That means if I switch the order
+
+between the convex function
+and the expectation,
+
+I don't get any difference.
+
+And the only case when this happens,
+
+let's say in this case
+when we have two points,
+
+we will always have a stricter gap
+
+between the two quantities.
+
+And the only case we don't have a gap
+
+is when the x one and the
+x two equal to each other.
+
+So let's say I have another case
+
+where we have x one and x two,
+they're equal to each other.
+
+In this case, you wouldn't have a gap.
+
+So it turns out if these quantities
+
+equal to each other, we can
+imply that the distribution
+
+is always a constant.
+
+And in our setting, that means the ratio
+
+between q and p's always a constant.
+
+So that means if KL
+divergence equal to zero,
+
+that implies that px qx
+actually equal to a constant,
+
+which then implies that, let's
+say, px equal to constant,
+
+qx times, right?
+
+But then, because if
+you sum them together,
+
+you will have px equal to constant
+
+times sum over x qx,
+
+that means, because the
+sum over each probability
+
+equal to one, so one equal
+to constant times one,
+
+that means constant equal to one.
+
+So that means p equal to q.
+
+So this shows that, if KL
+divergence equal to zero,
+
+then we do have p equal to q.
+
+So now we proved this very simple property
+
+and very basic property,
+
+the KL divergence
+measure, really measures,
+
+it's a non-negative
+measure of the difference
+
+between two distributions.
+
+Now how to connect it to
+maximum likelihood estimation?
+
+So now just look at this.
+
+So maximum likelihood estimation
+
+and KL divergence,
+
+they are actually highly related.
+
+Now to say this, let's just
+rewrite the KL divergence
+
+between q and p,
+
+equals to expectation q,
+just rewrite the formula,
+
+and let's try to reinterpret it.
+
+This is the definition.
+
+Now let's assume,
+
+let's say q is the data set,
+is the data distribution.
+
+Let's say q represents the data,
+
+the underlying distribution of the data.
+
+And then p is the model, is the model,
+
+that we try to estimate.
+
+So q is given to you,
+
+even though it's given to you
+through the noisy observation,
+
+but it's something that is fixed.
+
+And then model p something
+you want to optimize.
+
+Fundamentally, when you want to
+
+estimate the data distribution,
+
+what you are really doing is to minimize
+
+some notion of divergence.
+
+So you can sort of the
+estimation problem as,
+
+let's say p belongs to
+some parametric family,
+
+p-theta, where theta belongs to some set,
+
+then you can view the learning problem
+
+as minimizing the KL divergence
+between q and p-theta.
+
+Again, q is fixed, is
+the data distribution,
+
+and p-theta is the model.
+
+So among many models,
+you want to find the one
+
+that minimize the KL divergence
+
+between q and p-theta.
+
+Well then this is actually equivalent
+
+to minimizing this whole thing.
+
+Let me just rewrite it.
+
+Oh, sorry.
+
+There's no theta here.
+
+And then, because the q and
+log q doesn't depend on theta,
+
+so minimizing this function
+is actually equivalent
+
+to minimizing theta, just
+minimizing the second term,
+
+which is the expectation q
+
+log p-theta x.
+
+Actually minus, right?
+
+And then, because it's minus,
+you can sort of equivalent,
+
+this is actually equivalent
+to all of the (inaudible) equivalent
+
+to maximize theta expectation q
+
+log p-theta x.
+
+Now this is actually maximum
+likelihood estimator.
+
+That's because it's the average on the q,
+
+q's the data distribution,
+
+of the log probability.
+
+It's exactly maximum
+likelihood estimation.
+
+So more explicitly, let's say if we have
+
+x-i that is joined from q,
+
+then this maximization can be approximate
+
+by empirical averaging.
+
+X-i, right?
+
+So this quantity is
+exactly the log likelihood,
+
+it's actually the average divergence,
+
+average the log likelihood.
+
+So what I show here is that
+
+maximizing the likelihood function,
+
+actually maximizing the
+log likelihood function
+
+is actually equivalent to
+minimizing the KL divergence
+
+between the data distribution, which is q,
+
+and the model, which is p-theta.
+
+So they are equivalent.
+
+Now, because the KL divergence
+
+is a measure of difference
+between distributions,
+
+then it makes sense to
+maximize the likelihood
+
+in order to estimating the parameter.
+
+So this is a very nice
+theoretical justification
+
+of maximum likelihood estimation.
+
+So thank you very much.
+

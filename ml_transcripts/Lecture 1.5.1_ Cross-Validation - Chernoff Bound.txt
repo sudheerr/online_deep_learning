@@ -1,0 +1,693 @@
+♪ (jazz music)  ♪
+
+Okay, great. Let's look at a slightly
+more interesting scenario.
+
+This is called the Chernoff bound.
+
+Let's say that I have random
+variables that are independent:
+
+X1, X2, dot-dot-dot, Xn,
+
+and I have that the expectation of each Xi
+
+is equal to p.
+
+It doesn't have to be the same.
+
+The Chernoff bound holds
+
+if the expectation of each Xi
+were a different value, p i,
+
+but for simplicity,
+
+let's just say that the
+expectation of Xi is equal to p.
+
+Then we're going to form this quantity S,
+
+which is going to be the
+sum from i equals one to n,
+
+of the random variables.
+
+Again, I'm going to let
+mu be the expectation
+
+of S.
+
+Just to make sure we're
+all on the same page,
+
+what is mu in this particular scenario?
+
+What is the expectation of S?
+
+Yes?
+
+>> Is it n p?
+
+>> Yes, good.
+
+It's going to be equal to p times n,
+
+and this is because of
+linearity of expectation.
+
+We know the expectation
+
+of X1 plus, dot-dot-dot, plus Xn
+
+is equal to p times n.
+
+The Chernoff bound says
+that the probability
+
+that S is greater than
+
+mu plus delta times n for some delta,
+
+or for any delta,
+
+is less than or equal to e to
+the minus two n delta squared.
+
+Furthermore, we have the probability that
+
+S is less than mu minus delta n
+
+is at most e to the minus
+two n delta squared.
+
+We can conclude from
+this that the probability
+
+S minus mu is greater than delta n,
+
+so is at most
+
+two times e to the minus
+two n delta squared.
+
+Any questions about the Chernoff bound?
+
+It basically says
+
+when you have a bunch of
+independent random variables,
+
+each one's mean is p,
+
+and you take the sum of them,
+
+you would expect the sum
+to be about p times n,
+
+so this is the expectation of S, the sum,
+
+and what the Chernoff bound says is that
+
+the probability that you deviate from mu,
+
+that your sum, S, deviates from mu,
+
+is actually exponentially small
+in the quantity n, little n.
+
+I see that I have one question here:
+
+does Chebyshev's inequality only hold
+
+for normal distributions?
+
+Chebyshev's inequality
+
+was the inequality that we looked at here.
+
+No, Chebyshev's inequality
+holds for any random variable
+
+where we can bound the variance.
+
+Back to the Chernoff bound.
+
+Basically, if you look at this bound,
+
+you can think of it as
+saying the probability
+
+that I deviate by more than delta n
+
+is exponentially small in n,
+
+and depending on my choice of delta
+
+I'm going to get different
+bounds for these probabilities,
+
+but the bottom line
+
+is this quantity down here.
+
+Now, there are many other
+forms of the Chernoff bound.
+
+This is an additive form
+
+because we're looking at
+how much you might deviate
+
+from your mean plus or minus some delta n.
+
+There are multiplicative bounds.
+
+There are Chernoff-Hoeffding type bounds
+
+that handle the case when
+the random variables,
+
+I should have said here
+each Xi is zero, one.
+
+There are other bounds
+that handle the case
+
+when the Xi can take on
+real values in some range,
+
+but for right now
+
+let's just stick with
+this simplified setting.
+
+We'll see why this is
+going to help us estimate
+
+the true error of a classifier.
+
+Any questions on the Chernoff
+bound before I move on?
+
+Okay.
+
+Let's apply the Chernoff bound
+
+to the case
+
+of estimating
+
+true error
+
+of a classifier.
+
+Again, we're going to
+have our hold-out set,
+
+let's call it S,
+
+and
+
+we'll say the size of S is equal to n.
+
+Now we fix a classifier, h.
+
+This is generated
+
+using some training set.
+
+It's independent.
+
+Okay, h was generated
+using some training set
+
+that's totally independent
+from S, our hold-out set.
+
+Now we're going to define
+some random variables.
+
+Okay, one thing I guess we
+should have said is that,
+
+before we actually define
+some random variables
+
+let's go back.
+
+Recall that there's some
+underlying distribution D
+
+from which we're
+generating training points,
+
+and that S
+
+is a sample, let's say drawn from D.
+
+Oops.
+
+S is a sample drawn from D
+independent of the training set.
+
+The random variable that
+we're really interested in,
+
+let's call it Z,
+
+is the probability, when we draw x from D,
+
+that h of x
+
+does not equal,
+
+let's say they were the unknown function
+
+we were trying to learn,
+
+as with PAC learning with c,
+
+c is the
+
+unknown function
+
+trying to learn,
+
+and h is the classifier
+that we've generated.
+
+We want to understand its true error.
+
+That error really is this probability.
+
+It's the probability
+
+when you choose a random x from script D,
+
+that h of x does not equal c of x.
+
+Do we all agree that Z
+is the random variable
+
+that we're really interested in?
+
+It corresponds to the true
+error of the classifier.
+
+Now, how are we going to estimate Z?
+
+As we said, we've drawn S.
+
+It's a sample drawn from script D.
+
+It has size n, has n independent points.
+
+If we wanted to use the Chernoff bound,
+
+what are the random
+variables, do you think?
+
+What sort of random variables
+should we decide to use here?
+
+Or what random variable should we define?
+
+While you're thinking about that
+
+I'm going to charge my
+pencil a little bit.
+
+Remember the setup for the Chernoff bound.
+
+We had n independent random variables.
+
+We took their sum,
+
+and we have these inequalities
+
+that tell us how much
+the sum actually deviates
+
+from its mean.
+
+Yes?
+
+>> Let's say Xi
+
+is equal to one if we predicted right
+
+and zero otherwise.
+
+>> Yeah, great.
+
+The suggestion was
+
+let Xi be the random variable
+
+that equals one
+
+if h is correct.
+
+Actually, I'm going to
+say that it equals one if,
+
+I'm going to change your
+suggestion just a little bit.
+
+I'm going to say Xi is going
+to be the random variable
+
+that equals one if h is incorrect
+
+on the ith element
+
+of S,
+
+and it's going to be zero
+
+if h is correct
+
+on the ith element of S.
+
+Yes?
+
+>> Why did you do it that way?
+
+>> Why did I do it that way?
+
+Good question.
+
+It's basically because I want
+to apply the Chernoff bound,
+
+and you'll see that
+this is the natural way
+
+to set up the random variables
+
+so that we can apply the Chernoff bound.
+
+Okay,
+
+now we have these random
+variables, X1 through Xn,
+
+and as we said, each Xi was one
+
+if h is incorrect
+
+on the ith point, and zero otherwise.
+
+Now let's set up S,
+
+which is going to be the sum of the Xi's
+
+from i equals one to n.
+
+What do we know about
+the expectation of S?
+
+As Ryan said earlier, this is n times p.
+
+What is p here, though?
+
+Yes?
+
+>> The expectation of X
+
+so that the mean of all the
+
+the sum of all the X's divided by n.
+
+>> Right, but I want to claim that,
+
+you're correct,
+
+I want to claim that p is
+actually the true error
+
+of h,
+
+because p is the expectation
+
+of any of the Xi's,
+
+and Xi is one if h is
+incorrect on the ith example,
+
+and zero otherwise.
+
+There's nothing special about Xi.
+
+This is also equal to
+the expectation of X1.
+
+It's equal to the expectation of Xn.
+
+Each Xi corresponds
+
+to a single, independently
+randomly-drawn point
+
+from the distribution,
+
+and you output one
+
+if your hypothesis is incorrect
+on that particular point,
+
+so p is actually the true error of h.
+
+Good, so now we can actually
+look back at the Chernoff bound
+
+and we can see what it says.
+
+It says, well,
+
+the probability that S
+
+deviates from its mean,
+
+which, as we said, was n times p,
+
+sorry, the probability that
+
+this is greater than,
+
+whoops,
+
+the probability that this
+is greater than delta n
+
+is at most
+
+two e to the minus two n delta squared,
+
+and recall
+
+p is the true error
+
+of the classifier h.
+
+Let's say we wanted to be...
+
+Now we can start plugging in values
+
+for some of these parameters.
+
+Let's say, for example, that we set delta
+
+equal to 0.1.
+
+Now we're going to have the probability
+
+that S minus n times p
+
+is greater than 0.1n
+
+is less than or equal to
+
+two times e to the minus two n
+
+times 0.1,
+
+what is 0.1 squared?
+
+>> 0.01.
+
+>> Yeah, so let's just
+say that's two n over 100.
+
+Okay, the probability
+that S minus n times p
+
+is greater than 0.1n
+
+is at most two times e to
+the minus two n over 100.
+
+How large do we have to take n
+
+before this probability
+becomes very small?
+
+How large do we have to choose n
+
+before this quantity becomes small?
+
+What does n have to cancel?
+
+>> Denominator.
+
+>> Sure, I mean, we could say, again,
+
+this corresponds to that delta
+parameter in PAC learning,
+
+so this is our confidence:
+
+how confident are we that
+our estimate is good,
+
+is within 0.1?
+
+Let's say we wanted this
+confidence parameter
+
+to be less that some value alpha.
+
+I'm not using delta because I
+already had a delta up here.
+
+Let's say we wanted this
+to be less than alpha.
+
+That means two e to the
+minus two n over 100.
+
+We want it to be less than alpha,
+
+so we can divide both sides by two.
+
+Then we can take logs,
+and I think we'll get,
+
+we'll get minus two n over 100
+
+plus the log of alpha over two.
+
+This implies that n has to be greater than
+
+something like 50
+
+times log alpha over two.
+
+Okay, if we want to be
+
+if we want to be confident,
+
+if we want the probability of
+failure to be less than alpha,
+
+and we want to be that confident
+
+that our estimate is
+actually within 0.1 times n,
+
+then we need n to be 50 times log alpha
+
+over two.
+
+That's how large we have
+to take our training set.
+
+Notice
+
+if S minus n times p
+
+is less than 0.1 times n,
+
+this is the good event,
+
+this means that the empirical error rate,
+
+or let's just say this means
+
+that the error rate
+
+on the sample, on the hold-out, S,
+
+is within 0.1
+
+of the true error rate.
+
+Let me recap what we did on this slide.
+
+We said, let's think of it this way.
+
+We wanted our estimate to be within 0.1.
+
+We took delta to be 0.1.
+
+That means we wanted the
+error rate on the training set
+
+to be within 0.1 of the true
+error of our classifier.
+
+Then we said, okay, I want
+whatever the error rate
+
+that I obtain on this hold-out set, S,
+
+whatever the error rate on
+the hold-out set, S, is,
+
+I want it to be within 0.1
+of the true error rate,
+
+and I want to be alpha confident.
+
+In order to do that,
+
+the Chernoff bound says
+that you should take n,
+
+the number of samples
+of S, your hold-out set,
+
+to be greater than
+
+50 times log of the
+quantity alpha over two.
+
+That means, by the Chernoff bound,
+
+that the probability that your error rate
+
+on your hold-out set, S,
+
+is larger than 0.1 from
+the true error rate,
+
+that probability, that
+failure probability,
+
+will be at most alpha.
+
+Are there any questions about this?
+
+Again, by taking n to be
+
+at least 50 times log of alpha over two,
+
+we're saying that with probability
+at least one minus alpha,
+
+the error rate on our hold-out set
+
+will be within 0.1 of the
+true error of the classifier.
+

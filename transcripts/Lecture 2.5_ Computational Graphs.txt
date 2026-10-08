@@ -1,0 +1,363 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+In this segment we'll look at computational graphs.
+
+Computational graphs are really this sort of miracle tool, uh, that deep learning developed in the past,
+
+sort of 10 to 20 years to compute gradients very, very sort of efficiently.
+
+And. With sort of almost no direct input from you.
+
+Now this segment is going to get is going to be one of the mathematically sort of more intense ones.
+
+So if you're looking, uh, if you're watching these videos at sort of two extra speed, I would recommend you sort of slow down a little bit.
+
+I'll try to take my time. We'll go over this in great detail.
+
+Right now to set up the stage. We looked at gradients and in the last segment we looked a little bit at how do we compute gradients.
+
+And we looked at this for the simplest possible model. It was a linear model that regressed to a single real valued output.
+
+And we had a single real valued label. And we were able to show that sort of through a bunch of steps of math.
+
+We compute the gradient. We can compute the gradient of this. It wasn't pretty.
+
+And if you try to do this yourself,
+
+for models that are sort of either regression with multiple outputs or binary logistic regression or multi-class logistic regression,
+
+you'll quickly notice that this will require a lot of math.
+
+It will be relatively complicated, and once you're done with the math, you definitely don't want to implement this yourself.
+
+Right. And so this is where computational graphs come in.
+
+So we can think of the computation that needs to happen when we compute a loss function.
+
+This L. Of theta given x and y.
+
+We can think of this as a graph. And the very first thing we'll do is we'll take this mathematical notation here.
+
+Which is the log likelihood of the softmax.
+
+Of a specific output. Why? Off our linear model.
+
+We'll take this and we'll write this down. It's just very elementary functions as if we were if we coding this up in a very basic programing language.
+
+The outermost function is an index function.
+
+Where we'll take a vector of probabilities and we'll extract exactly one element that corresponds to the ground truth label.
+
+Now the next function inside is the log. Then there's the softmax.
+
+Then there's an addition justice here. Matrix multiplication justice bias, which is added in the addition.
+
+So we written this down into a very simple function. Now, what we can do is we can draw these functions as a graph.
+
+And the way we're going to draw this as a graph is we're going to have.
+
+Our inputs to this graph, which are. X, w and p x as the input to the model W and P are the model weights.
+
+Will have DSP, sort of. The leaf nodes of the graph.
+
+And then as soon as two arguments go into a function two or like one or more argument goes into a function, we'll draw arrows.
+
+For saying that this is an argument of this function. Then all other nodes here in this graph are going to be individual functions.
+
+And so we can translate. The computation that we had before into this graph structure here.
+
+And so what this means. This just means that we take x and w.
+
+We'll add this into the Matmul function.
+
+We'll take the result of the Matmul function and add it together into the add function, together with the bias p.
+
+We'll take that the result of the add function. We'll feed it through.
+
+The softmax will feed that to the log. And in the end we'll take that output of the log and the ground truth label y.
+
+And we'll feed that into the index function. So this is just sort of a fancy way of writing this.
+
+Nested set of function calls. In graph notation.
+
+And what we'll look at here in a second is how we can then express the gradient computation of this function as a graph that looks exactly the same.
+
+And so first we'll do the gradient computation more or less manually.
+
+Uh, we'll do it by hand using chain rule. And so what we're going to do is we'll take this nested function here.
+
+And now we're going to compute the gradient. After function with respect to the parameters of the model.
+
+Which is just written out. It looks like this.
+
+And now I will apply chain rule to one function at a time.
+
+And so. The first part of chain rule is we'll compute the gradient of the index function with respect to the parameters.
+
+That is then multiplied with the gradient of whatever is inside.
+
+Then we'll take one step further. We'll again apply chain rule.
+
+That will give us the gradient off the log with respect to its, uh, inputs.
+
+Which will denote this this nabla log. Times the gradient.
+
+After softmax with respect to the parameters, we'll apply chain rule again and again and again.
+
+And in the end we're left with this expression that says. This is the gradient of the index function with respect to its inputs.
+
+This is the gradient of the log with respect to its inputs. This is the gradient of the softmax with respect to its inputs.
+
+This is the gradient of the add function with respect to its inputs.
+
+Times the gradient of the matrix multiplication with respect to its inputs, and then in the end,
+
+we're left with the gradient of the weights w with respect to the parameters that we would want to take the gradient with.
+
+All right, so this was some very complicated looking math.
+
+All it really says is that in order to compute the gradient of the parameters, we'll need to compute the gradient of index with respect to its inputs.
+
+And so this is going to be sort of. A Jacobian matrix will compute the gradient of log with respect to its inputs.
+
+This is again a Jacobian, and so if its element wise log.
+
+This is a catalog in the diagonal matrix. Here we have the gradient of softmax, which is with respect to its inputs, which is again a chicken.
+
+And then in the end sort of gradient of add. Which is uh, a Jacobian, which is sort of happens to just be, uh, identity.
+
+Uh, and then in the end we'll do gradient of matrix multiplication times gradient of the weights with respect to the parameters,
+
+that is gradient of weights with respect to parameters.
+
+That is simply just here to say that if we want to, if the parameters theta that we want to take the gradient with,
+
+uh, with respect to, if that is w, this is going to be identity.
+
+If it's B, it's going to be zero. It just sort of selects which parameters that we want to take the gradient respect to.
+
+Now we can look at this long expansion in terms of chain rule, and we can again put it inside of a graph.
+
+Now sort of the graph elements go backwards and we have the gradient of index.
+
+Gradient of log. Gradient of softmax green of at gradient of matmul.
+
+Unlike before, the arrows mean something slightly different.
+
+So what an arrow means here is that. The gradient of index here is going to be multiplied with the gradient of log.
+
+It's no longer the case that we feed one into the other because of chain rule.
+
+There is now sort of this multiplication of gradients going backwards through this graph.
+
+Right. So we have a graph sort of expresses the nested nature of the functions.
+
+Which is shown up here. And then we'll have a graph that sort of express this chain rule along the graph backwards.
+
+And this graph of chain rule chain rules is going to allow us to compute gradients in more or less an automated fashion.
+
+But the only thing that we still need to determine is, do we want to compute the gradient sort of from.
+
+This direction or from this direction. You know, the question is, does it actually make a difference?
+
+So. If you look at the size of all the jacobians and all the gradient terms here, the gradient of the index.
+
+Well, the loss function itself is one dimension and then the gradient.
+
+The inputs of the index are going to be n dimensional.
+
+And so really this Jacobian here is one by n.
+
+Then we have a Jacobian here. That's n by m and by l o by k.
+
+And now. Excuse me for simplicity.
+
+I've combined the gradients of. Hmhm the matrix multiplication together with the parameters here.
+
+And this data just sort of references the number of parameters we have.
+
+And so this is the Jacobian of the matrix multiplication times the gradient of the weights.
+
+Uh, the reason why we combine them here is sort of technical. There is actually no good notation unless we use higher order mathematical tensor
+
+notation to write this gradient down in simple matrix and vector notation.
+
+If you combine it, it is possible to write it down this way. Um, and now.
+
+We have two options. We can first multiply together these two jacobians.
+
+Then expand at this one here. Expand at this one, or we can go the other way around.
+
+Now. Does it make a difference? Well, it does,
+
+because matrix multiplication between sort of a k by um number of parameters
+
+matrix and an L by k matrix is L times k times the number of parameters at least.
+
+Right. So this is going to be. Oh. Of l k.
+
+The number of parameters which I'll just call dot dot dot again. Right.
+
+Now if we go back one, this is going to be O of m times, L times number of parameters, n times m times the number of parameters, and so on.
+
+So these are going to be fairly large matrix multiplications. If we go.
+
+From. So if the parameters backwards towards the or sort of forward towards the the gradient of the loss.
+
+If you compute the gradient the other way around.
+
+So if we start creating computation through here and collapse this chain rule from sort of the back of the graph,
+
+which is here towards the front, if we collapse the chain rule this way, what's going to happen is that this here is a vector.
+
+This is a vector matrix multiplication. And so the number of operations here is o n times m.
+
+The output here is again going to be a vector. We can again compute a matrix vector.
+
+Compute a multiplication which is again o of m times L.
+
+O f l times k o of k times the number of parameters.
+
+And so if we compute the gradient from sort of starting from the gradient of index to the parameters, this is going to be O of.
+
+N times M plus.
+
+M times L plus.
+
+And so on. All right.
+
+If we were to go the other way around. If we started with the gradient of the parameters, it would be.
+
+So the same. But. The number of parameters.
+
+Would be in their. So, um.
+
+Times. And. So.
+
+Computing the gradient. From the index back to the parameters.
+
+It's going to be about ten times faster, like it's going to be a factor times faster,
+
+where the factor is exactly the size of your earlier weight vectors.
+
+And so if you compute, the gradient will always collapse this computation graph from the end.
+
+To the beginning. And so as we collapse, as we sort of collapse this chain rule.
+
+We'll do vector matrix multiplications.
+
+And so this allows us to sort of take a gradient computation.
+
+We'll start with the gradient of the last element, which is usually the loss function.
+
+We'll compute that which is a vector. And then we'll multiplied with the Jacobian of.
+
+The next operation will multiplied with the Jacobian of the next operation.
+
+And we'll go backwards in the computation graph. So we'll build up the computation graph using for uh sort of using sort of a forward process.
+
+And then we collapse it using the chain rule using sort of a backward evaluation.
+
+This backward evaluation is called backpropagation. And this is really what enables deep learning to work.
+
+It is the fact that we can compute gradients. If we start from the very end of the computation graph and sort of go step by step by step backwards,
+
+and always compute sort of the, the product of the current gradient and the Jacobian of the next operation.
+
+Which again the output is a vector. If we do the step by step by step.
+
+We'll be able to compute the gradient with respect to all the inputs in sort of a very efficient way.
+
+The efficiency is really sort of it's as efficient as it can get,
+
+which is sort of if you have sort of matrix multiplications or jacobians, they're all sort of other products in there.
+
+It's really just the size of the Jacobian. That determines the computational efficiency.
+
+And oftentimes this Jacobian is going to be fairly sparse. So computation can be even even even faster.
+
+That's sort of together with stochastic rain, isn't this?
+
+Backpropagation is the workhorse of deep learning.
+
+So. Backpropagation is computing gradients backwards through a computation graph that we just built up.
+
+It's computationally more efficient than trying to compute the chain rule forward and through the computational graph.
+
+And it also allows us, because we back propagating these gradient terms backwards through the graph in one single pass.
+
+We can compute gradients with respect to all the weights of the network.
+
+We no longer need to compute weights in operation separate for the bias,
+
+just one sort of propagate back propagation through and through the entire computer a compute graph will give us.
+
+Gradients with respect to bias gradients back to the weights of the model itself.
+
+Now in practice it is very. It's good to understand how this works.
+
+It's understood. It's good to understand how the computation graph is built and how backwards works.
+
+You will rarely be need to sort of actually interact with this in PyTorch itself.
+
+And as you sort of start building up operations, um, you can create a tensor that has this flag which says requires grad equals true.
+
+And then PyTorch will build up a computation graph for you.
+
+It will construct this graph automatically in the background.
+
+It's completely hidden from you. And once you're ready to compute the gradient, all you need to do is you need to call backwards.
+
+Which then runs backpropagation. It computes this sort of the gradient backwards sort of computation graph.
+
+It also collapses the entire computation graph. So you can only, um, call backward once.
+
+And what it does is it internally multiplies.
+
+A vector with the Jacobian of the of the of each operation in the in the backward graph.
+
+Starting off with a one at the very output.
+
+And then sort of it populates a field that's called a career grad, which is the gradient of all the tensors that have a required grad equals true.
+
+Now, one thing for backward is you can only call it on tensors.
+
+Um, you can only call it on on scalars.
+
+Uh, you can not call it on tensors that are not single numbers because that.
+
+Would sort of violate this assumption.
+
+That the first gradient is always going to be a vector.
+
+If you output if your output is not a vector, it's not a scalar.
+
+Then you would actually have to back propagate matrices of values, uh, which PyTorch does not natively support.
+
+There's ways around us. There's ways we can hack this to get gradients with respect to to multiple outputs.
+
+But natively this is not supported by PyTorch itself.
+
+All right. So to wrap up, uh,
+
+computation graphs are sort of a beautiful tool that allows you to compute gradients completely automatically as you sort of build up to computation.
+
+If you simply call backward, it will run back propagation, which is sort of this algorithm where we multiply gradients with respect to,
+
+uh, gradients with jacobians of individual operators and sort of these gradients,
+
+then get sort of transported back through the network, and then finally sort of this really sort of allows it can be gradients of arbitrary functions
+
+you can construct without ever having to actually derive a gradient on a piece of paper.
+
+You only need to come up with a way to compute the function itself, compute what you want.
+
+You call it backwards, and magically each input that has a required grad will now have a tensor that's called dot grad.
+
+That is the gradient of that input. That's really sort of the true power of deep learning that together with stochastic
+
+gradient descent gradient computations of these networks is super simple.
+
+And so anybody sort of can compute gradients now without having to have any math skills whatsoever.
+
+That's it.
+

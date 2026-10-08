@@ -1,0 +1,348 @@
+♪ (jazz music) ♪
+
+Let me give you an example
+of a kernel function,
+
+simple kernel function.
+
+Again, so lets consider the case
+
+degree two
+
+polynomial threshold functions.
+
+So in this case, phi of x one through xn
+
+are feature map,
+
+first let's define the feature map
+
+is going to be
+
+x one
+
+x one
+
+x one x two,
+
+so this is x one squared
+
+x one x two
+
+and so on and so forth.
+
+Xn minus one times xn
+
+xn squared.
+
+So what I'd like to do is come up
+
+with some function k
+
+that takes in two inputs, x and z.
+
+X and z are both an Rn.
+
+And I'd like k of x and z
+
+to be equal to the inner product
+
+of phi of x
+
+with phi of z.
+
+Any guesses as to what,
+
+can you see what the
+kernel function should be?
+
+I think we can derive it ourselves.
+
+What is, by definition, what is phi of x
+
+inner product phi of z?
+
+What is phi of x?
+
+It's this vector here.
+
+And then we need to take
+it's inner product with
+
+z one z one
+
+z one z two
+
+zn squared,
+
+we need to take the inner
+product of these two vectors.
+
+So when you take the inner
+product of these two vectors
+
+you're going to get a very large vector
+
+x one squared z one squared
+
+plus
+
+x one
+
+x two
+
+z one z two
+
+plus
+
+so on and so forth,
+
+xn
+
+squared
+
+zn squared.
+
+Yes?
+
+>> It's like the product
+of x and z squared?
+
+>> That's it, you got it.
+
+It's the inner product
+of x with z squared.
+
+Let me just show you
+how you can derive that.
+
+So
+
+another way is just
+using summation notation.
+
+This is the sum over all i and j
+
+of xi xj
+
+zi zj.
+
+And this is equal to
+
+the sum
+
+from i equals one to n of xi zi
+
+times
+
+the sum from j equals one to n
+
+of xj zj.
+
+And this is equal to the inner product
+
+as you can see, this is
+just the inner product
+
+of x with z and this is the
+inner product of x with z.
+
+You get inner product of x with z squared.
+
+And so this is going to
+be our kernel function
+
+of x and z.
+
+So let me go over that again,
+
+we're going to define this kernel function
+
+between x and z to simply be
+
+x inner product z quantity squared.
+
+And if we work backwards,
+
+then we get this is sum of
+xi zi time sum of xj zj.
+
+We get that this is equal
+to the sum over all ij
+
+xi xj zi zj.
+
+That's the inner product of this
+
+feature expansion of x
+
+with this feature expansion of z
+
+and so it's equal to the
+inner product of phi of x
+
+with phi of z.
+
+So the kernel function on x and z
+
+is exactly what we want it to be.
+
+It's the inner product of
+these two feature maps.
+
+Or excuse me, in the inner product
+
+of the feature map, same feature map
+
+on two different inputs.
+
+One on x, one on z.
+
+So every time we're doing that
+kernel perceptron update step
+
+and we need to compute the
+inner product of phi of x
+
+and phi of z, we can just literally take
+
+x inner product z, that's a
+number scaler, and square it.
+
+That's what our
+
+quantity is going to be.
+
+And we'll be able to do our perceptron,
+
+kernel perceptron update steps
+
+just using these very simple calculations.
+
+I think you can see, it's a huge savings
+
+from working in this much
+higher dimensional space.
+
+So there are many, I mean,
+
+understanding,
+
+this is a very simple example
+
+of something called kernel methods.
+
+And you could teach a whole
+course on kernel methods.
+
+It's a huge area of study
+
+and there are many interesting types
+
+of kernel functions you can use
+
+to get different types of
+kernel perceptron update rules.
+
+And every time you chose a
+different kernel function,
+
+you're going to get a different algorithm
+
+and some choices of kernels result
+
+in more powerful algorithms
+
+and others don't work as well,
+
+it depends on what the data
+set that you're using is.
+
+Another very simple
+
+kernel function
+
+would be equal to the inner product of x
+
+and z plus some constant
+c quantity squared.
+
+So this is going to correspond to
+
+a feature map, phi of x
+
+that's equal to x one squared
+
+and so on and so forth through xn squared
+
+so it'll have all of the degree two terms.
+
+It's also going to have linear terms,
+
+we didn't have linear terms
+in our previous feature map.
+
+It's going to have root two c times
+
+x one
+
+and root two c times xn.
+
+And then it'll also give us a constant
+
+term in the feature map.
+
+So the previous feature
+map just had these,
+
+solely had these degree two terms.
+
+Now if we use this kernel function
+
+it corresponds to feature maps
+
+that have quadratic terms
+as well as linear terms
+
+as well as a constant offset.
+
+So in a way, it's a more
+expressive kernel to use
+
+because it's giving us a more
+expressive feature space.
+
+An there are also gaussian kernels,
+
+these are roughly
+
+e to the minus norm
+
+of x minus z
+
+squared
+
+roughly.
+
+The feature space of this
+is a little more complicated
+
+to describe.
+
+But this is often referred to as a
+
+radio basis kernel.
+
+But what's really interesting
+is it's a really neat trick
+
+and it allows you to
+
+throw in all different
+kinds of kernel functions
+
+and see how expressive they are
+
+in your particular
+machine learning scenario.
+

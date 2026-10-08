@@ -1,0 +1,536 @@
+♪ (jazz music) ♪
+
+Hey, everybody, welcome
+back to Machine Learning.
+
+Today we're going to talk about
+
+the singular value
+decomposition of a matrix,
+
+also known as the SVD of a matrix.
+
+This is probably the most
+used and important method
+
+for decomposing a matrix into
+sort of a simpler structure
+
+so that you can really understand
+some structural properties
+
+about the data matrix
+that you've been given.
+
+It also has a wealth of applications,
+
+it's used in a lot of different
+areas in machine learning,
+
+and we'll see a bunch of interesting
+
+applications of it in today's lecture.
+
+So let me begin by motivating the SVD
+
+with the following problem
+that you may have heard of.
+
+It's called the,
+
+change my pen here,
+
+the Netflix
+
+challenge problem,
+
+and this is equivalent to,
+
+essentially equivalent
+to, a type of matrix
+
+completion
+
+problem.
+
+How many of us are familiar with
+
+the Netflix challenge problem?
+
+Okay, so some of us.
+
+In a nutshell, imagine that you're Netflix
+
+and you'd like to predict
+
+which users
+
+will like
+
+certain movies.
+
+This type of prediction has
+a lot of obvious applications
+
+for the company, but you'd like to know,
+
+you know you've only seen, so
+imagine we have a giant matrix
+
+where the rows
+
+are people
+
+or
+
+Netflix
+
+subscribers,
+
+and then on the columns we have movies,
+
+and then an entry in this
+matrix corresponds to,
+
+let's say it's row I and
+column J, this corresponds to
+
+let's say the rating,
+
+the rating
+
+that person I or user I
+
+would give
+
+movie J.
+
+So you could imagine this is a real number
+
+and higher numbers are better.
+
+It means that that
+person liked that movie.
+
+Lower numbers mean that that
+person didn't like that movie.
+
+As you can imagine,
+this is a giant matrix.
+
+You know, Netflix has many subscribers,
+
+there are also many movies,
+and it's also a matrix where
+
+we only know some of the entries,
+
+or I should say Netflix is only
+
+privy to some of the entries.
+
+It's not the case that every Netflix user
+
+has seen every movie, there
+are just many, many entries
+
+of this matrix that are sort of unknown.
+
+On the other hand, Netflix does have
+
+some information about this matrix.
+
+You know, there are times when a user,
+
+you know, watches a movie and then sort of
+
+imagine that they can rate that movie,
+
+they can enter a score
+here, and so there are some
+
+entries of this matrix that are known,
+
+and you could imagine that
+Netflix wants to take advantage
+
+of some information here, you know,
+
+given that you've liked
+sort of movie A, movie B,
+
+and movie C, and you've
+disliked some other movies.
+
+Based on what other people
+have liked and disliked,
+
+can they predict whether or
+not you will like other movies?
+
+I'm sure you've seen
+if you've used Netflix
+
+and you go on it makes
+suggestions for you,
+
+and it's really modeling that
+as a sort of machine learning
+
+problem similar to this problem
+
+where it's trying to understand
+or predict your preferences
+
+on future movies based on your preferences
+
+and other peoples' preferences.
+
+Okay, so at a high level we have this,
+
+we have this giant matrix,
+and some entries are known,
+
+others are question marks or missing,
+
+refer to these as question marks,
+
+and the goal is to sort
+of replace question marks
+
+with numbers
+
+that really represent
+
+true preferences.
+
+Now, in general, this is
+a really hard problem.
+
+If I just show you a matrix and I show you
+
+a bunch of entries and a
+bunch of question marks
+
+and I don't tell you anything
+else about the matrix,
+
+well, what can you say?
+
+I mean, the question marks
+could be arbitrary values.
+
+There's not much you can do,
+
+but if we give you some more
+information about the matrix
+
+there are certain circumstances
+where you can begin
+
+to fill in the entries
+of the matrix yourself.
+
+So, for example, let's say
+I have the following matrix.
+
+Okay, so we have a lot of
+question marks in this matrix,
+
+there are some numbers, and I give you
+
+the following additional information
+
+and I tell you that each row
+
+is a multiple
+
+of
+
+the other rows.
+
+Okay, so every row is
+just a scale or multiple
+
+of the other rows, you
+know, so every row is a scalar
+
+multiple of every
+other row in the matrix.
+
+So that's what I'm telling you.
+
+So if I tell you that, what can we begin
+
+to deduce about this particular matrix?
+
+How can we fill in some of the entries?
+
+Yes?
+
+>> Every entry in column one
+
+is equivalent to column
+two, two in the same row.
+
+>> Well, let's try and
+fill in rows because
+
+we know that each row is a
+multiple of every other row.
+
+So, for example, you know, or just
+
+tell me some entries that I can fill in.
+
+>> So like row one column
+two would be one, right?
+
+>> How did you deduce that?
+
+>> 'Cause four and four at the bottom.
+
+>> Okay, good.
+
+Right, so one here is four time,
+
+so this one is four times this four.
+
+That means that this
+entry must be four times
+
+or must be 1/4 of whatever this entry is.
+
+So, right, we see that
+we can put a one here.
+
+What else can we fill in?
+
+Yes?
+
+>> The fourth row, the second entry is two
+
+because the row above it is
+a nine in the third entry
+
+which is three times three, so six is
+
+three times two.
+>> Good, yeah, right.
+
+So here we have a three,
+that's nine divided by three,
+
+so six, six divided by three must be two.
+
+What else can we fill in?
+
+Yes?
+
+>> The last entry in the
+bottom-most row is six.
+
+>> Okay, how did you know that?
+
+>> The row above, like,
+the second entry is two,
+
+so two times two is four,
+so three times two is six.
+
+>> Good, yep, we can
+fill this one to be six.
+
+What else?
+
+>> You can fill in the entire first column
+
+because every row the first
+two entries are the same.
+
+>> Every row the first
+two entries are the same.
+
+>> Within every row.
+
+>> Okay, yeah.
+
+Right, so this I can fill in to be two.
+
+This one, six.
+
+This one is two.
+
+Okay, we're almost done.
+
+What about the rest?
+
+Yes?
+
+>> Second row, third column, it's three.
+
+>> Yep, good, this is three.
+
+And this one?
+
+>> 1.5.
+
+>> Yep.
+
+Good, so there were a lot of
+question marks in that matrix.
+
+I gave you a little bit
+of extra information
+
+and we were able to completely
+fill out the matrix.
+
+We were able to complete the matrix.
+
+So, good, and, you know,
+the extra information that
+
+I told you is actually equivalent
+to saying that the matrix
+
+has rank one.
+
+You have the dimension of the row space
+
+with a dimension of the
+column space is one.
+
+I'm going to be talking
+a lot about rank today
+
+in terms of certain
+types of decompositions.
+
+So let me just say that, let me
+
+just define a rank zero matrix.
+
+This is not a matrix we'll be looking at.
+
+This would be the all zeros matrix,
+
+and then a rank one
+matrix, this is all rows
+
+are multiples
+
+of each other, or all columns
+
+are multiples of each other.
+
+Okay, and so we can say equivalently
+
+if all the rows are multiple,
+if we have a rank one matrix,
+
+let's call it A, then A
+equals U times V transpose
+
+where U and V are vectors, okay?
+
+U is going to be an M by one vector,
+
+and V is going to be, so this means
+
+V is going to be an N by one vector.
+
+I should've said that
+A is an M by N matrix.
+
+So for today the matrices
+that we'll be looking at
+
+are going to be M, they're going
+to have M rows and N columns
+
+and it's equivalent, you
+know, what we discussed.
+
+We said that if all the rows
+are multiples of each other
+
+that's equivalent to saying
+that A can be written
+
+as an outer product of
+vectors U and V transpose.
+
+Okay, so this is an outer product.
+
+So this means the I Jth entry
+of A is equal to UI times VJ.
+
+Okay, so U here is a column vector
+
+and V transpose is a row vector.
+
+So the outer product is multiplying
+
+a column vector by a row vector.
+
+Now we're going to be
+dealing with matrices today,
+
+and sometimes when you
+lecture about matrices
+
+it's easy to get tripped up
+on some notational issues.
+
+So I sort of want to belabor
+a couple of points here
+
+just so that we're all on the same page
+
+and we're all comfortable with
+
+how we're computing outer products.
+
+Okay, so another way, I
+just want to say another way
+
+of viewing A, so again A is
+U outer product V transpose.
+
+Could write A as
+
+a matrix where the first
+row is U1 times V transpose.
+
+So U1 is a scaler and we're multiplying it
+
+by the row vector V transpose,
+
+U2 times V transpose,
+and so on and so forth,
+
+UM times V transpose, so
+this is one way to write A.
+
+It's, again, equivalent
+to the outer product.
+
+Another equivalent way to write A
+
+would be to write it in terms of columns.
+
+V1 times U would be the first column,
+
+V2 times U would be the second column,
+
+and so on and so forth, and our
+
+last column would be VN times U.
+
+So just making sure that
+we're all on the same page.
+
+Okay, good, so this is the
+case of a rank one matrix.
+

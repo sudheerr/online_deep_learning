@@ -1,0 +1,570 @@
+Okay, so the big question now,
+
+how do we find
+
+these V1 through VKs, right?
+
+What's a computationally
+efficient way of finding them?
+
+We know what they are,
+we've characterized them,
+
+we've seen that they
+have nice applications.
+
+How do we actually find them?
+
+So let me just remind you, that we have,
+
+we're tryin' to do max of
+V1 through VK, one over M,
+
+sum J equals one to M,
+sum I equals one to K,
+
+XJVI squared,
+
+and we want to maximize this.
+
+And these should be worth a orthonormal.
+
+Okay, so I'm going to
+use matrices to represent
+
+points on our training set.
+
+So I'm going to let X,
+
+so here's where we have to do
+
+a little bit of linear algebra.
+
+So let's let X be an M by N matrix.
+
+So N is going to be the number
+of points in our training set.
+
+N is going to be the dimension.
+
+And we're going to write V,
+
+this is going to be a column vector,
+
+not necessarily of capital X,
+
+but I'm going to write
+column vectors like that.
+
+And if I write V transpose,
+
+this corresponds to a row vector,
+
+so I'm doing some very basic
+
+linear algebra preliminaries here.
+
+And then just keep in
+mind, that V transpose V,
+
+this is an inner product,
+
+so it's a scaler,
+
+and VV transpose, this
+is an outer product,
+
+and the type is matrix,
+you'll get a matrix
+
+if you take VV transpose.
+
+Okay, and so what we're going to do,
+
+is once we have this matrix X
+
+that encodes our training
+set S, we're going to look at
+
+the matrix X transpose X.
+
+Just as a sanity check,
+
+what's the dimension of X transpose X?
+
+Yes?
+
+>> N by N.
+
+>> Good, so this is an N by N matrix.
+
+Okay, and then we'll
+multiply by one over N,
+
+and this is what we'll call
+the sample covariance matrix.
+
+And the IJth entry
+
+of X transpose X
+
+corresponds to how similar
+
+this feature I to feature J.
+
+Okay, so each entry of our
+sample covariance matrix
+
+is in some sense, measuring the
+similarity between features.
+
+So entry IJ of X transpose X, as I said,
+
+is how similar is the I
+feature to Jth feature.
+
+Okay, now note
+
+that X transpose X
+
+is a symmetric matrix.
+
+Why is that?
+
+Again, just a sanity check here.
+
+Yes?
+
+>> We can try to transpose it.
+
+>> Okay, sure, so if we
+look at X transpose X,
+
+then the IJth entry, this is
+equal to the inner product
+
+of row I of X transpose
+
+with column J of X,
+
+and this is equal to the
+inner product of column I
+
+of X
+
+with column J of X,
+
+but this is certainly equal to
+
+the inner product of column J of X,
+
+with column I of X.
+
+Okay, so it's clearly a symmetric matrix.
+
+Okay, and here's sort of a fact
+
+that we'll come back to later.
+
+All eigenvalues
+
+of symmetric matrices
+
+are greater than or equal to zero.
+
+And so remember that for a matrix A,
+
+in case you've forgotten
+what an eigenvalue is,
+
+V is an eigenvector
+
+if A times V actually just equals
+
+a scale or a lambda times V
+for some lambda in the reels,
+
+and this referred to as the
+corresponding eigenvalue.
+
+Okay, then I'm going to
+need another definition.
+
+So an orthogonal matrix
+
+is one where
+
+all the columns
+
+are orthonormal, oops.
+
+Okay, so this means that for a matrix A,
+
+A transpose A should be
+equal to the identity,
+
+and also AA transposed,
+
+therefore will equal the identity matrix.
+
+Okay, so what it means for
+a matrix to be orthogonal.
+
+Okay, so now I'm going to state something
+
+called the spectral theorem.
+
+This is something we're
+not going to prove,
+
+but hopefully you've seen it
+in a linear algebra class,
+
+and that is that every
+
+matrix A, or symmetric
+
+matrix A,
+
+has an eigen decomposition,
+
+so this means that A can
+be written as Q times D,
+
+times Q transposed, where
+Q is an orthogonal matrix,
+
+and D is a diagonal matrix.
+
+And the entries of D
+
+are the eigenvalues
+
+of A.
+
+Okay, so this is the spectral theorem.
+
+Oops.
+
+Any questions about that?
+
+Have you seen it before in
+your linear algebra class?
+
+Okay, good.
+
+Okay, so
+
+let's try to compute V1 now that we have
+
+some of these linear algebra tools.
+
+So remember, X is the matrix
+
+corresponding to S,
+
+So X is M by N.
+
+Let me just start the new page here.
+
+So X is M by N,
+
+and if we multiply X by a vector V,
+
+then we get a new vector
+who's entries are simply
+
+X1 inner product V, so on, and so forth,
+
+XM inner product V.
+
+These are the rows of X.
+
+So we take each row of X,
+
+we take it to inner product with V.
+
+Now let's say we wanted to
+take the inner product of
+
+XV with itself, so
+let's look at X times V.
+
+Let's say we wanted to take
+its inner product with itself,
+
+then we'd look at XV transpose
+
+inner product XV,
+
+and this would equal sum
+from I equals one to M
+
+of X1V squared.
+
+So it's the sum of I equals one to M
+
+of all the rows of X, inner
+product V quantity squared.
+
+Okay, this is starting to look like,
+
+this is starting slowly to
+look like the PCA objective.
+
+Okay, and another way to write this
+
+is just V transpose X transpose XV.
+
+Okay, I'm just taking the transpose,
+
+and applying it to the vectors,
+
+and taking its inner product with XV.
+
+Okay, just another way of writing it.
+
+Good.
+
+So remember, we're tryin' to find a V
+
+that maximizes this quantity.
+
+That was the first part of
+the piece of the goal of PCA,
+
+was to, you know, find
+the first component,
+
+find the direction V that
+maximizes this quantity.
+
+That means we want to
+find V that maximizes
+
+V transpose X transpose XV.
+
+Okay, and this is called,
+so let's call this matrix A,
+
+this is called maximizing
+
+a quadratic form.
+
+Okay, so we're just
+looking for this vector V
+
+that can maximize this
+particular quantity.
+
+And I've called X transpose
+X here a matrix A.
+
+Okay, so let's see, to maximize
+
+over all V,
+
+norm V equals one,
+
+V transpose A times V.
+
+So maximize quadratic form.
+
+Okay, this is what we need to do,
+
+this is what we've reduced the problem to.
+
+Let's look at a simple case.
+
+The case being A is diagonal.
+
+Okay, so let's say we can
+write A as a bunch of zeros,
+
+and then on the diagonal,
+we have these values,
+
+and we'll order them
+from biggest to smallest,
+
+some of them of course might be zero.
+
+Okay, so in this case where we
+know A is a diagonal matrix,
+
+and we want to maximize with respect to V,
+
+'cause two norm is one,
+my question to you is,
+
+which V should we choose?
+
+Yes?
+
+>> So it's just a vector with the one,
+
+and the first index.
+
+>> Good, pick V
+
+equal to one zero.
+
+Why is that?
+
+Well V can, has to have norm one.
+
+Lambda one is the largest eigenvalue,
+
+so we should pick V that
+just picks off that,
+
+all of that largest eigenvalue.
+
+So another way to see
+this, is V transpose AV
+
+is actually equal to V1 through VN,
+
+inner product lambda one V1
+
+to lambda NVN,
+
+and this is equal to the
+sum from I equals one to N
+
+of VI squared times lambda I.
+
+Okay, so whatever V you choose,
+
+you're going to get the sum
+of VI squared times lambda I.
+
+And if you want to maximize,
+
+and all the lambda Is are positive,
+
+so if you want to maximize this quantity,
+
+you should just put as
+much weight as you can of V
+
+onto lambda one.
+
+Yep, so I'm just,
+
+just what I'm talking about here.
+
+Any questions about that?
+
+Is it clear to everybody?
+
+You should pick V1 with
+one in the first component,
+
+and zeros everywhere else.
+
+Okay, now unfortunately, remember A
+
+was equal to X transpose X.
+
+It corresponded to our covariance matrix.
+
+And unfortunately, we don't know that A
+
+is a diagonal matrix, it's
+some covariance matrix.
+
+But what do we do know,
+
+so in general, we don't
+know if A is diagonal,
+
+but we do know that A
+
+equals QDQ transpose,
+
+where D is diagonal.
+
+So A is almost
+
+diagonal.
+
+Okay, and instead of choosing the vector
+
+where you have a one
+in the first component,
+
+and zero everywhere else,
+the correct thing to do
+
+is going to be, so if we let E1,
+
+let's let this be the
+vector that has a one
+
+in the first component,
+and zero everywhere else.
+
+Then the correct thing to
+do is going to be to choose
+
+V equal to, well, do you guys see
+
+what the correct choice is?
+
+>> You choose so the inverse of Q
+
+multiplied by V is the E1, right?
+
+>> Yeah, so but Q is, Q
+transposes the inverse of Q,
+
+so we're going to do Q times E1.
+
+Okay, so this is going to be
+the vector that maximizes,
+
+and this is going to be the eigenvector,
+
+the top, it's called the
+top eigenvector of A.
+
+Okay, so rather than just
+choosing one, zero, zero, zero,
+
+we're going to choose Q times E1,
+
+and that corresponds precisely
+to the top eigenvector of A,
+
+or the eigenvector corresponding
+
+to the largest eigenvalue of A, okay.
+
+So I'm going to stop here for now.
+
+And what we're going to do next time
+
+is go over a few examples, numerical,
+
+hopefully some numerical examples of PCA,
+
+and we'll talk more
+formally about how we can
+
+actually come up with these eigenvectors.
+
+How do we find them?
+
+Are there efficient
+polynomial time algorithms
+
+for finding these eigenvectors?
+
+How do we do it?
+
+And that will lead us to even
+more applications of this
+
+very powerful technique.
+

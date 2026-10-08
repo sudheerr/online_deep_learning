@@ -1,0 +1,908 @@
+♪ (jazz instrumental) ♪
+
+Welcome to Machine Learning.
+
+In this lecture we are going to
+
+talk about Bayesian Inference.
+
+Bayesian Inference is a very powerful
+
+set of technique for parameter estimation.
+
+We talked about Max and Micro Estimation
+
+in the last lecture.
+
+Bayesian Inference is another technique
+
+for estimating parameters.
+
+But have the advantage of
+incorporating prior information
+
+as well as quantifying uncertainty.
+
+Let's talk about it.
+
+Recall the idea that of
+Max and Micro estimation.
+
+Let's have a review, right?
+
+Earlier we talk about
+Max and Micro Estimation
+
+and the idea is that we just maximize
+
+the likelihood function.
+
+Which is the part beta of sine theta.
+
+Here, theta is some unknown variable
+
+and data, D -- here D
+is actually the Data.
+
+D is observed and theta is unknown,
+
+it is actually an unknown,
+but deterministic variable.
+
+What is happening here
+is we are assuming that
+
+there is some theta there that is fixed,
+
+but is unknown.
+
+We use that theta to
+generate data and hopefully
+
+we can use the information from data
+
+to recover the underlying
+true value theta had.
+
+This is done by maximizing the
+
+probability of sine theta given
+
+a particular value of theta and that
+
+is something called a likelihood function.
+
+In this view of estimating unknown,
+
+but fixed parameters
+from randomized data sets
+
+is something called a Frequentist View.
+
+It is a framework for
+statistical estimation
+
+in general.
+
+Bayesian Inference is a different view.
+
+It is significantly different.
+
+In Bayesian Inference the key idea
+
+is the theta, which is the parameter
+
+is not viewed as a deterministic value.
+
+It is viewed as a random variable.
+
+This is a very unusual view because in
+
+practice theta may actually be
+
+constant, be deterministic.
+
+For example, let us say we want
+
+estimate theta, which
+is the speed of light.
+
+In this case, theta is
+actually deterministic.
+
+In Bayesian, we will still treat it
+
+as if it is a random variable.
+
+The idea is even though theta
+
+is actually fixed we don't actually
+
+observed theta directly.
+
+We only have very limited, partial
+
+information about theta.
+
+To us, there is something called
+
+a subjective absolute, which is
+
+'I don't know about it'.
+
+There is something missing for me.
+
+It looks to me that the parameter
+
+is actually a random variable.
+
+This is the idea behind
+Bayesian Inference.
+
+What is happening in Bayesian Inference
+
+we are going to assume
+theta is a random variable.
+
+Then, we are going to explicitly
+
+calculate its posterior distribution
+
+given observation using what is called
+
+Bayes' Rule.
+
+Let's look at Bayes' Rule.
+
+Bayes' Rule says that the probability
+
+of the parameter theta, give the data, D.
+
+Given a particular observation, data, D.
+
+This is something we
+are very interested in.
+
+This is something called
+Posterior Distribution.
+
+This Posterior Distribution is equal to
+
+the probability of saying the data
+
+given the parameter theta.
+
+This is actually the likelihood.
+
+Let me just re-write it here.
+
+Theta given D, this is the Posterior.
+
+Then, P-D given theta is the likelihood.
+
+This is exactly the
+function that we optimize
+
+in Max and Micro Estimation.
+
+Then, we have something called P-theta.
+
+This is something called prior.
+
+The prior is a distribution that
+
+we assign to the theta if we don't
+
+observe any information about theta.
+
+This is a default distribution.
+
+As we observe information about data D
+
+we multiply the prior, P-theta.
+
+What is the likelihood?
+
+Probability of D given theta.
+
+That gives you the Posterior Distribution,
+
+theta given D.
+
+Here, we also need to divide a constant,
+
+which is the probability-D.
+
+This is the marginal distribution
+
+of the data, which is defined as
+
+integrating over all the possible theta.
+
+For our purpose we actually don't need
+
+to look into this probability of data
+
+too much. That is because it's really just
+
+a normalization constant to make sure
+
+the Posterior Distribution is normalized
+
+to have an integration of one.
+
+More specifically, we can re-write it
+
+so that you have a more intuitive sense.
+
+Parameter given data equals to the
+
+probability of data given theta
+
+time another prior distribution
+
+of theta, divided by the
+normalization constant,
+
+which is P-D.
+
+P-D is actually the integration of D-theta
+
+P-theta, D-theta.
+
+You can sort of see that the integration
+
+is exactly what makes the integration
+
+of the posterior equal to one.
+
+Because in practice we
+only care about theta
+
+and data is actually fixed as a constant
+
+sometimes we just need to calculate
+
+the posterior as the product of P-theta
+
+and ignore the integration because
+
+it is really just a constant.
+
+It doesn't depend on theta.
+
+If I only care about
+theta I will ignore that.
+
+In the following I will do two things.
+
+One is I want to prove the Bayes' Rule.
+
+Then, I will give you
+an example, which will,
+
+perhaps illustrate the idea much better
+
+than this abstract of the framework.
+
+Let's prove the Bayes' Rule first.
+
+In Bayes' Rule both theta
+and D are treated as
+
+random variables, they
+are all random variables.
+
+The random variable is going to have
+
+a joint distribution.
+
+Meaning that there exists
+a joint distribution
+
+between theta and D,
+assuming this is true.
+
+The way to prove Bayes' Rule is by what
+
+is called Chain Rule.
+
+Basically, it turns out
+the joint distribution
+
+can be expanded using Chain Rule
+
+where you first have a distribution
+
+over theta, then you multiply it
+
+by the conditional distribution
+
+of data given theta.
+
+This is something called chain rule.
+
+On the other hand, in this case
+
+when we apply the Chain Rule we apply
+
+the first known over theta then
+
+find the data given theta.
+
+We can actually apply the Chain Rule
+
+in the other direction which equals to
+
+when we first calculate
+the marginal distribution
+
+of the data-D.
+
+Then, calculate the probability
+
+of theta given data-D.
+
+Turns out this direction is also correct.
+
+Basically if you want to visualize it
+
+let us say here is my
+theta, here is my data - D.
+
+One way to expand the
+Chain Rule is I first
+
+draw a random theta.
+
+Then, conditioned on theta
+I generate my data, D.
+
+This is the first way.
+
+Turns out this is actually equivalent
+
+to, first, the generated data - D using
+
+its own marginal distribution.
+
+Then, generating theta using the reverse
+
+probability, which is P theta given D.
+
+These two ways of performing Chain Rule
+
+are equivalent.
+
+Because they are equivalent
+we can just re-write
+
+this to say that P, theta, D, theta
+
+equals to P, D , P, theta, given D.
+
+If you expand it, if you divide both sides
+
+by P, D.
+
+If you look at this part it is exactly
+
+theta given D.
+
+The probability of theta given D
+
+is the Posterior Distribution and it
+
+actually equals to the
+prior times likelihood
+
+divided by the probability
+of D, which is the constant.
+
+Now, let us go over on
+example, a simple example,
+
+to get a better sense
+of how Bayes' Inference
+
+works and why it is important.
+
+This is a very interesting example.
+
+We are investigating if
+the sun just exploded.
+
+The setting is the following:
+
+Suppose we have a device that can detect
+
+if the sun has just exploded
+with very high accuracy.
+
+Mathematically, I can
+formulate this device
+
+as a parameter variable.
+
+Here I am representing theta, which is
+
+some parameter I will estimate.
+
+In this case, theta is
+a parameter variable
+
+that indicates if the
+sun has just exploded.
+
+It is a parameter variable
+being either zero or one.
+
+Zero is the sun hasn't exploded.
+
+One is the sun has exploded.
+
+We have another variable, X.
+
+In this case X is again
+a parameter variable
+
+that indicates if the
+alarm fires in your device.
+
+If X equals to one, that means the device
+
+detects the sun exploded.
+
+Zero, if it does not.
+
+Because this is actually a noisy device
+
+we have some probability.
+
+Basically, given a
+particular value of theta
+
+X equal to theta when the probability
+
+one minus alpha.
+
+X does not equal to theta,
+which is the opposite,
+
+when there is a probability of alpha.
+
+Here, alpha is the error of the device.
+
+Here, we actually assume alpha
+
+is known and fixed.
+
+Let us say someone made this device
+
+so they probably have
+some way to theoretically
+
+test the device in some
+way so they know the error.
+
+We will assume the error
+is something very small.
+
+Let's say alpha equal to...
+
+For example, alpha equals to
+
+.0001, for example.
+
+It does not matter,
+just some small number.
+
+You have this device setup, then you
+
+find that on the first
+day there were nine fires.
+
+The question is should
+you believe the alarm?
+
+Because there are nine
+fires and it detects
+
+the sun exploded.
+
+Obviously, this is assuming you are not
+
+directly observing the sun exploding.
+
+Your only observance is this device.
+
+The question is should
+you trust this result?
+
+On one hand, you
+definitely should trust it
+
+because this device is very accurate.
+
+Assuming alpha is a very small number.
+
+So, you should actually trust it
+
+because it is very accurate.
+
+On the other hand, you should not
+
+because the possibility the sun will
+
+actually explode tomorrow or any other
+
+day is almost zero.
+
+We have two pieces of
+conflicting evidence.
+
+How could you combine these two evidences?
+
+This is exactly what
+Bayesian Inferences can do.
+
+Before we do Bayesian Inference
+
+let us try maximum likelihood estimation
+
+in this case and see what happens
+
+if we estimate theta using
+maximum likelihood estimate.
+
+We will find that maximum
+likelihood estimation
+
+actually does not work in this case.
+
+The first approach is that we are going
+
+to try to use maximum
+likelihood estimation
+
+for estimating theta.
+
+Again, in this case
+theta is the parameter.
+
+In this case, we only have
+one single data point,
+
+which is X equals to one.
+
+We want to find the optimal theta hat
+
+by arg max because theta only takes
+
+two possible values on zero, one.
+
+The probability of X
+equals to one given theta.
+
+This is a very simple function.
+
+We can calculate very easily.
+
+Turns out this probability
+will equal to alpha
+
+if theta equals to zero.
+
+Because if theta equals to zero
+
+and X equals to one then it means
+
+you have made a mistake and the
+
+probability of making a mistake is alpha.
+
+On the other hand, if theta equals to one
+
+then, the probability is going to be one
+
+minus alpha.
+
+That is because if theta equals to one
+
+and X equals to one that
+means X detects theta.
+
+So, we have one minus alpha probability.
+
+Then, we are going to
+try to find the theta
+
+that maximizes the probability
+
+because I am assuming that
+alpha is very, very small
+
+in this case if we round
+maximum likelihood estimation
+
+we will actually detect theta equals one.
+
+That means we will just
+need to trust the alarm.
+
+Even if we think that the likelihood that
+
+the sun explodes is very small.
+
+We just have to trust the alarm.
+
+We can sort of see that the problem
+
+with this maximum likelihood estimation
+
+in this particular case is that
+
+we only use the information from the data
+
+we do not use any other prior knowledge
+
+about how likely the theta actually is
+
+based on just the prior knowledge
+
+without any observation of data.
+
+Now, we can try to use Bayesian Inference
+
+and we will get a different result.
+
+The first step of doing Bayesian Inference
+
+is to decide a prior over theta.
+
+Now, I am treating theta
+as a random variable.
+
+I need to decide a prior.
+
+Step one, is decide a prior.
+
+The prior distribution is the probability
+
+of theta without observing anything.
+
+In our case, we think the probability
+
+the sun is actually
+exploding is almost zero.
+
+In this case let us use very small number.
+
+I don't know, maybe,
+one minute or something.
+
+I don't know, something
+that is very, very small.
+
+If theta equal to one and then you have
+
+something that is almost equal to one
+
+if theta equal to zero.
+
+In fact, just think of this number,
+
+this very small number as zero.
+
+Step two is to calculate the posterior.
+
+In this case, the
+posterior theta given data.
+
+In this case, the data
+is the single data point
+
+of X equals to one.
+
+Use the base rule equals to
+probability of x equals to one.
+
+This is the probability
+of D in the earlier slide.
+
+Then, we have probability
+of X equals to one
+
+divided by theta and probability of theta.
+
+From here it is very clear if we
+
+are interested in understanding the
+
+posterior distribution of theta
+
+we do not need to actually compare
+
+or care about the normalization constant
+
+because it does not depend on theta.
+
+So, I am going to re-write it
+
+as proportional to P, X equal to
+
+one, theta, P, theta.
+
+Then, we can calculate this likelihood
+
+this posterior probability.
+
+Let's just try to calculate
+depending on different cases.
+
+What if theta equal to one?
+
+If theta equal to one from
+the likelihood function
+
+the likelihood actually
+equal to one minus alpha.
+
+I will actually now use another number
+
+to denote the very small number.
+
+Let us denote this small number to be
+
+beta.
+
+Then, one minus beta.
+
+Beta is actually the probability
+
+of the sun exploding, which
+is a very small number.
+
+In this case, if theta equal to one
+
+the likelihood is one minus alpha,
+
+which is here, and then
+we need to multiply
+
+the prior when theta equal to one,
+
+which is beta.
+
+In this case, the posterior is
+
+one minus alpha, beta.
+
+What about theta equal to zero?
+
+Well, if theta equals to zero
+
+the likelihood is going to be alpha,
+
+but the prior is going
+to be one minus alpha.
+
+One minus beta.
+
+In this case we can calculate
+the posterior distribution
+
+of theta given X.
+
+Then we can do some reasoning.
+
+If we want to decide what if theta
+
+equals to zero or one we can just decide
+
+if the posterior probability of theta
+
+equal to one, x equal to one is
+
+larger or equal or smaller to the
+
+probability of theta equal to zero
+
+given x equal to one.
+
+From here we can show that this number,
+
+which is the probability
+of theta equal to one,
+
+equals to one, alpha.
+
+One minus alpha times beta.
+
+This number, which is
+the posterior probability
+
+pf theta equal to zero equals alpha times
+
+one minus beta.
+
+We should predict theta equal to one
+
+if the probability of theta equal to one
+
+X equal to one larger P, theta equal
+
+zero, x equal to one.
+
+Which is equivalent to one minus alpha
+
+beta larger than alpha one minus beta
+
+which then is equal to
+beta, one minus beta
+
+larger than alpha, one minus alpha.
+
+Basically, this means that
+beta has to be larger.
+
+This ratio of beta has
+to be larger than this
+
+ration of alpha, which
+may not be the case.
+
+Earlier, the accuracy could be high,
+
+but not terribly high.
+
+It is not absolutely zero.
+
+It is a small number...
+
+This alpha equals to .001, but then
+
+beta is really, really small.
+
+It is almost equal to zero.
+
+In this case you would
+not have condition holds.
+
+So this is not correct.
+
+We cannot predict that theta equal one.
+
+On the other hand, in this case
+
+we can only predict that theta
+
+equal to zero and that is because
+
+if we compare these two probabilities
+
+we can find that it is
+actually the opposite.
+
+We should claim that probability of theta
+
+equal to one is smaller than the posterior
+
+probability of theta equal to zero.
+
+That means we should
+predict theta equal to zero.
+
+This is the end of the first toy example
+
+of Bayesian Inference.
+
+Next time, we are going to talk
+
+about more examples of Bayesian Inference.
+
+Hopefully you will have
+a better understanding.
+
+Thank you so much.
+

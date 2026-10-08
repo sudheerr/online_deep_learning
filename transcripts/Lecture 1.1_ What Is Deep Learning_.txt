@@ -1,0 +1,201 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So what is deep learning? Uh, when I first taught this class, uh, almost ten years ago,
+
+I actually had to explain a lot what deep learning is and sort of what you can do with it, what you cannot do with it.
+
+Uh, nowadays, I can just point to some examples where deep learning actually already impacts your life.
+
+Um, one example might be if you have your personal photo collection online.
+
+Um, you can already see that sort of deep learning algorithms will go over it.
+
+Depending on what platform you use, they will categorize it. They might recognize you in pictures.
+
+You might recognize sort of your family or other friends that you tagged in pictures.
+
+Then anytime you unlock your phone, um,
+
+it's likely that a deep learning algorithm will actually figure out if you are actually working the phone or somebody else's.
+
+Um, you can chat with sort of chat bots online that are getting increasingly, uh, smarter and smarter.
+
+Um, and you can even have sort of your own assistants on your phone that you can interact with.
+
+And these all of these technologies are at the core by now powered by deep learning.
+
+And so what is deep learning? Uh, the short answer is deep learning is machine learning.
+
+That just works very, very well. Um, and it works well because it is very scalable.
+
+And it is possible to sort of.
+
+Learn models that sort of learn from a lot of data and learn representations that are generalizable to sort of new concepts,
+
+which is something that we have never had before in machine learning.
+
+Now, the longer answer is that machine learning is actually not sort of a field in isolation.
+
+Machine learning was originally born out of the field of statistics and used to be a subfield of statistics.
+
+Now it's sort of a disjoint field of statistics.
+
+And deep learning is a subfield of machine learning, and as such it also has some overlap with, uh statistics.
+
+And to overlap. The largest overlap here is that both deep learning machine learning and statistics, they all use models.
+
+They all use statistical models to sort of to predict or measure properties of data.
+
+All right. So what do these models do? Well, in statistics, they sort of help.
+
+Help us study and understand data. So the statistics is the sort of the discipline.
+
+Of trying to understand and study data as we were recording it.
+
+And the goal is really to understand.
+
+Different properties of data uh, and statistics defines the fundamental language with which we can interact with this data.
+
+Let's, for example, look at weather data.
+
+And the original data in weather data might be measurements, might be temperature measurements may be hourly,
+
+maybe on a per minute basis, temperature measurements over years and years from a specific location.
+
+Now what statistics does is it takes this long list of data.
+
+And it gives us something to sort of summarize and understand this data.
+
+And here on the side you see a visualization of the maximum minimum temperature per day averaged over an entire month averaged over multiple years.
+
+And so the statistic that you see here sort of helps you look at what is what our temperatures like in Austin that you can see in summer.
+
+It gets pretty warm. In winter it can get fairly cold.
+
+And the summary statistic here sort of took several steps of sort of trying to sort of wrangle the data and push it into form that we can look at.
+
+Now this is not always possible. For example, if you would want to understand, well,
+
+our winters getting warmer in Austin or getting the holiday getting colder or summers getting warmer or colder.
+
+These trends are sort of harder to visualize. Maybe it is possible to look at the data in the right way and still see some patterns.
+
+But most often what we have to do is we'll have to look at statistical models.
+
+And so a statistical model is a function that maps the original data x to some other output.
+
+And here the original data might be the date that we are measuring the temperature at.
+
+And then the output might be the actual temperature measurement.
+
+And so a statistical model is simply just a model that maps sort of a quantity A the quantity B.
+
+Let a special thing about that function is that function is parametric.
+
+It has parameters which we in this class always denote as theta.
+
+And these parameters help the model adjust to the data.
+
+It helps us fit, uh, the model to the data. And all deep learning, machine learning and statistics all use models and fit models for data.
+
+Now the difference between them is how they then use the models that were fit to that data.
+
+In statistics, models are used to analyze data.
+
+They're used to sort of explain what's going on in the data.
+
+And so in the temperature measurements, they would be used to see if there has been a warming or cooling trend in Austin over the past years.
+
+And we would essentially fit the model to the data,
+
+because it's easier to understand the model and the inner workings of the model than it is to understand whatever generated the data.
+
+Now, machine learning uses models in a very different way. Machine learning uses models to make predictions.
+
+So they use models to sort of fit.
+
+A model to parse data and then make inferences about unseen new data.
+
+And machine learning does exactly the same, except for they use a very specific class of models called deep networks,
+
+but also sometimes called neural networks. They're much bigger, and they fit data much, much better.
+
+Now it helps to understand sort of the history between behind deep learning a little bit to know sort of what terms, uh,
+
+what the terms in deep learning mean, where they came from, and also sort of where the entire field, sort of how the entire field grew up.
+
+And so most of deep learning was actually came about, uh, about 70 or 60 to 70 years ago in 1970, uh, in 1957.
+
+So that's the first papers in machine learning, which are also the first deep learning papers, uh, came came into being.
+
+This is the perceptron paper. And back then there was a lot of enthusiasm about machine learning.
+
+And the people saw it like machine learning would solve almost any problem within within about ten years.
+
+Now it turns out back then data was fairly limited. Computation, compute was extremely limited, and the models themselves didn't get very big.
+
+And so. After a while, people realized that these early machine learning models were not as powerful as they made out to be.
+
+Um, two things happened. A funding for machine learning sort of decreased a little bit because they were not able to deliver on their promises.
+
+And there was a book coming out, uh, on perceptrons that sort of try to discredit a lot of the early,
+
+uh, machine learning on perceptrons, uh, the first sort of deep networks or neural networks.
+
+And that led to a sort of, uh, AI winter that lasted for almost 20 years until sort of backpropagation was discovered for the final time,
+
+which sort of helped train bigger and more interesting neural networks.
+
+And so that sort of revived the field of neural networks.
+
+Uh, but he was also at the same time that machine learning started to really catch on.
+
+We started to collect more data in digital form, which meant that machine learning model,
+
+and especially a fairly simple machine learning model or statistical models could do a lot of interesting predictions.
+
+And so the, uh, in the 90s, sort of machine learning and also in the early 2000,
+
+machine learning was always a few years ahead of what was known back then as neural networks or deep learning.
+
+And it came to a point in 2005 where if you had the title neural networks that were neural network in your title in,
+
+uh, sort of in one of the most prestigious journals or conferences of machine learning,
+
+it would mean that it was most likely going to get rejected just because deep networks never really performed on neural networks,
+
+were never really performed as well as classical machine learning methods.
+
+And so in 2005, sort of a core group of people came together and decided that neural networks was no longer a very good term.
+
+And they came up with this new term, deep learning, uh, which is just a genius way of calling any method.
+
+I mean, deep learning, it just means you learn more. Um, and so that the current, uh, the term deep learning did not exist before 2005,
+
+and it was sort of this rebranding of neural networks and sort of the old school,
+
+um, deep learning that led to sort of this new emergent field of deep learning.
+
+And by 2010, deep learning was state of the art in speech recognition.
+
+By 2012, it was state of the art in image recognition.
+
+And that really sort of in computer vision that really caught on.
+
+And so within about two years, uh, by about 2014, almost entire field of computer vision used deep networks, and that was a fairly large field.
+
+And it started expanding more and more just because more problems, more, uh,
+
+were solvable with deep networks than were with the classical machine learning approaches.
+
+And so by about 2017, deep learning really took over natural language processing.
+
+And by now there's there is not really a field of machine learning that that doesn't have deep learning,
+
+uh, sort of as at least a competitor in terms of models that, that, that are being used.
+
+All right. So Tldr, uh, deep learning is sort of uh, subfield of machine learning.
+
+And it studies deep networks, which is family of very powerful and generalizable, um, models that can fit to immense amounts of data.
+
+That's it.
+

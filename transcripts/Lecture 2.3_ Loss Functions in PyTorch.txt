@@ -1,0 +1,133 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So in this segment we'll look at how do we actually code up or how do we use loss functions in PyTorch.
+
+We already sort of looked at how to define models in PyTorch. Uh, we'll go over this again real quick.
+
+I'll define a very simple linear model.
+
+And then we'll look at how do we sort of use this model together with the loss function to get a loss value over an individual element.
+
+So let's get started. So we'll start as usual by first importing torch and we'll define a linear model.
+
+The linear model. Let's say for now, the linear model is going to have sort of ten inputs and one output.
+
+Now we'll create some fake data. Uh, and let's look at the regression first.
+
+So we'll create some fake data, some fake inputs.
+
+Um. It's too. Maybe create 20 fake inputs.
+
+And then. Create.
+
+So if 10 or 20 fake outputs. As our data.
+
+Print them real quick. So here.
+
+These are just random normally distributed numbers. And then the targets are getting randomly distributed numbers.
+
+All right. So this is our data set. Now if you would want to have.
+
+Our prediction. We would simply just call the model on the inputs X, and I'll show you these predictions real quick.
+
+These are getting sort of just. Random, seemingly number and random seeming numbers.
+
+Now, what we need to do is we need to find a way to compare y and pred y.
+
+And so in regression, what we do is we'll use the, uh, the MSE loss or the L2 loss.
+
+We can also use an L1 loss. There's two options for this.
+
+We can either use what copilot here suggested, which is the baked in version where we simply just call torch.
+
+And then functional MSE loss. And then the first argument is sort of what we predicted.
+
+The second argument is what we expect. And this will give us.
+
+Some lost value here. We can also write this ourselves.
+
+What we do. And here it's just sort of the mean square distance.
+
+All right. And we end up with the same result. Now.
+
+If we were to do. Classification.
+
+Binary classification. You would need to create slightly different labels.
+
+The labels will now have to be sort of either class zero or class one.
+
+And the easiest way to do this is to simply just see if a random number, a random normal distributed number,
+
+is greater or smaller than zero, and then sort of create labels this way.
+
+So this will create sort of random numbers between 0 and 1. Now the loss function to you is here.
+
+Is the binary cross entropy. And the important thing is which always, always use binary cross entropy with logits.
+
+This will allow us to use the linear model as we defined it up here.
+
+Without any transformations outside. So we don't need to add the sigmoid to it.
+
+The binary cross entropy with logits will add the sigmoid for us, and then take the log sigmoid off the off the right class.
+
+And we can again print a loss here.
+
+Now for, uh, for reference, a loss for the binary cross entropy with logits of about 0.7, uh, means it's always random.
+
+It's sort of a 5050 chance of getting it right. Um, the loss of smaller than 0.7 is usually good.
+
+Sort of. The model is better than 50% chance at guessing,
+
+and larger than 0.7 means that the model is actually would be better off if we've just switched flipped all the labels.
+
+All right. So this is how we set up the loss function for, um binary cross entropy loss for binary classification.
+
+Now for multi-class classification we need to change the model slightly. And for multi-class classification.
+
+The model itself can no longer be just have one output because we not need one output per class.
+
+So let's say to n number of classes. Is three for now.
+
+And now the model itself would go from our input dimension to the number of classes.
+
+The labels themselves are now no longer binary 0 or 1.
+
+They are either they're going to be zero, 1 or 2. And so.
+
+Will construct them real quick from random numbers again. The lazy way to do it is is simply just sum up to random number generators.
+
+This will generate sort of random labels from 0 to 1, to some of them being to.
+
+Now, one important difference here is I changed the labels to be integers,
+
+because a loss function for multi-class classification will expect integer labels.
+
+And so we can get the predictions of the model. But just calling it on the input x.
+
+And then here. We can again call it with the predictions and ground truth labels.
+
+Why? We need to make this long instead of integer.
+
+All right. And now. This is the last function of the multi-class classification.
+
+Like. As I mentioned before,
+
+make sure that you always use sort of loss functions that are sort of built in and always use just a linear model or just the raw model itself.
+
+Don't add a sigmoid or the softmax directly into the model itself.
+
+Have the loss function take care of this sort of half the loss function.
+
+Compute the log after softmax here. This is what the cross entropy does here for binary classification.
+
+Have the loss function. Compute the log the sigmoid for you.
+
+And the reason why we do this is it is numerically more stable to do it this way.
+
+If you do it the other way around, you can get values that are zero or infinite in a log,
+
+which will then lead to undefined numbers and it will lead to entire training crashing.
+
+So make sure that for loss functions, you always use the built in loss functions and use just the model,
+
+just a linear model itself to produce outputs. All right, that's it.
+

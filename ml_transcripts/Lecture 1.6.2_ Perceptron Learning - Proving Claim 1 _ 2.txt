@@ -1,0 +1,468 @@
+♪ (jazz music) ♪
+
+Okay good.
+
+So we reduced our problem
+
+to proving claim one and claim two.
+
+So let's look at claim one.
+
+And this was the w inner product, w star
+
+increases on every mistake
+
+by at least
+
+rho.
+
+Any ideas as to how we can prove this?
+
+Yes.
+
+>> Well, we can say something about
+
+how w star
+
+dot x has some relationship with y
+
+and then whenever we update w,
+
+we're adding y dot x
+
+and then you can do some
+substitution in that.
+
+>> Right.
+
+So we can definitely do some substitution.
+
+What should the substitution be?
+
+So we'll let w new
+
+equal w old
+
+plus
+
+x, I guess,
+
+plus y times x,
+
+x being the point where
+we made our mistake.
+
+Remember, we said this
+was the update rule.
+
+So then we should look at
+the inner product of w new,
+
+inner product,
+
+w star.
+
+This is going to be w old
+
+plus y times x
+
+inner product w star.
+
+And this is going to be equal to w old
+
+inner product w star
+
+plus y times x inner product
+
+w.
+
+And then what do we know
+about this quantity?
+
+Yes?
+
+>> In absolute value it's lower than rho?
+
+>> We can say something,
+
+so you said in absolute value
+
+it's greater than or equal to rho.
+
+We can actually say
+something a little stronger,
+
+we can say this is actually
+greater than or equal to rho.
+
+If you think about it,
+
+let's assume that x
+was a negative example.
+
+That means that x inner
+product w star is negative.
+
+But then we multiplied it by y,
+
+which is going to be negative
+
+because it was a negative example.
+
+So that makes
+
+it a positive quantity.
+
+Remember, we were assuming
+this margin condition where
+
+all of the points were at
+least distance rho from w star.
+
+Okay so regardless as to whether x
+
+is a positive or negative example,
+
+this quantity is going to be at least rho
+
+and so that's, this ends
+the proof of claim one.
+
+We showed that whatever
+your inner product was
+
+with w star, then once you make an update,
+
+you've increased that inner
+product by at least rho.
+
+How about the proof,
+
+let's take a new slide.
+
+How about claim two?
+
+The norm of w star squared
+
+increases
+
+by at most
+
+one
+
+on every mistake.
+
+Any ideas as to how we can prove this?
+
+I see someone online is asking
+
+why this quantity is
+always greater than rho.
+
+Well, we made an assumption,
+
+ignore the y for a moment,
+
+we made an assumption
+that x inner product w
+
+was always greater than or equal to rho.
+
+That's the margin assumption.
+
+Now if x was a negative example,
+
+then it means that x inner product w star
+
+is actually going to be negative rho.
+
+But then we're multiplying it by y
+
+which will be negative one
+for a negative example.
+
+So we get negative one times
+negative rho, we get rho.
+
+And if x is a positive example,
+
+it means that y is plus one
+
+so we get x inner product w star is rho
+
+times plus one, again, we get rho.
+
+So in either event, this
+quantity is at least rho.
+
+Okay, back to claim two.
+
+The norm of w squared
+increases by at most one
+
+on every mistake.
+
+How can we prove this?
+
+Yes.
+
+>> We can show from the fact
+
+that we know that x is,
+
+the magnitude of x is one.
+
+And so we only change the old w
+
+by a vector with the same magnitude as x.
+
+>> Yes, that's right.
+
+So let's again, look at
+w new is equal to w old
+
+plus y times x.
+
+This again being the mistake,
+
+x being a mistake.
+
+And we're interested in the norm
+
+of this vector squared.
+
+So this is going to be equal to
+
+the norm of w old squared
+
+plus
+
+two
+
+times y
+
+times the inner product
+
+of x w old.
+
+And then plus
+
+norm of x squared.
+
+And
+
+what do we know about x?
+
+We know it's norm one
+
+so this quantity is going to be one.
+
+And then what do we know
+about this quantity?
+
+Yes?
+
+>> It's negative?
+
+>> Yes, why is it negative?
+
+>> 'Cause if you label it by the sign of
+
+this product and the true label is y.
+
+>> Right, and we made a mistake, right?
+
+So as you're saying, in this
+particular case, remember,
+
+x is where we made a mistake.
+
+That means we labeled it incorrectly.
+
+How did we label it?
+
+We looked at the sign of
+x inner product w old.
+
+That sign must be different from y.
+
+That's the only way we make a mistake.
+
+Therefore, this quantity
+
+or the product of those two
+quantities must be negative
+
+because they have opposite signs.
+
+So this quantity is negative.
+
+Therefore,
+
+the norm of our new vector
+
+is going to be, at most,
+
+the norm squared is going to be, at most,
+
+the norm squared of the old vector
+
+plus something negative
+
+plus one.
+
+So therefore it's increasing
+
+by at most one on every mistake.
+
+This ends
+
+the proof of claim two.
+
+Any questions about that?
+
+It's a pretty slick and clever argument.
+
+Set's up a potential function.
+
+It's not too different than
+
+when we were working with a
+weighted majority algorithm
+
+and we had a potential function there too.
+
+But this one is sort of
+an additive update rule
+
+and so we have a different
+type of potential function.
+
+One interesting thing about
+
+this algorithm that I get asked a lot is
+
+is your weight vector w
+monotonically improving?
+
+Is it monotonically getting closer
+
+and closer to the true half space,
+
+say in terms of angle?
+
+And that turns out to
+not necessarily be true.
+
+On your homework we'll try
+and look at a couple examples
+
+where that's not true.
+
+But
+
+it is not necessarily the case
+
+that you're monotonically
+improving your w.
+
+But still in the aggregate,
+
+you're going to make at most
+
+one of our rho squared mistakes.
+
+So after you've made one of
+our rho squared mistakes,
+
+you really are guaranteed to
+not make any more mistakes so.
+
+It's a very strong notion of correctness.
+
+We know the mistake bounded model is
+
+a very strong model for learning.
+
+Let's look back at the,
+
+at some of those assumptions.
+
+For example,
+
+let's look back at some assumptions.
+
+One of them was that theta equals zero,
+
+our threshold equals zero.
+
+Does anyone see how we can
+get rid of this assumption?
+
+Yes?
+
+>> Well, so we could,
+
+when we actually compute a prediction,
+
+we can just subtract a bias
+instead of using theta.
+
+>> Right, so you're suggesting
+we always subtract a bias.
+
+>> Yeah.
+
+>> An equivalent way,
+
+equivalency what you're
+suggesting is that we
+
+add a new feature,
+
+let's call it
+
+xn plus one,
+
+so we'll map xn through
+
+xn
+
+to x one
+
+xn plus one,
+
+this one we can always set it to be one.
+
+And then that will allow us to always
+
+be adding or subtracting
+some constant term
+
+in the unknown w star.
+
+The other assumption that we made
+
+is that the norm of x was equal to one
+
+if the norm of x is equal to R,
+
+then you can reanalyze
+the perceptron algorithm
+
+and your mistake bound
+will be order R squared
+
+over rho squared.
+
+So just a direct reanalysis
+of this algorithm
+
+will get you R squared over rho squared,
+
+so you will pay if your
+points have larger norm
+
+but at least you only pay
+quadratically in that norm.
+

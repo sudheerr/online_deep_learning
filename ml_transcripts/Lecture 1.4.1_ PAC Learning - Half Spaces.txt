@@ -1,0 +1,320 @@
+♪ (jazz music)  ♪
+
+Another interesting function class
+to look at - why stop now? -
+
+is the Class C equals half spaces.
+
+A half space is the sign, it's
+a function that takes in X
+
+and it outputs sign of w
+inner product X minus theta.
+
+X is usually some point in
+Rn, w is some vector in Rn
+
+and theta is usually a scalar.
+
+So f is Boolean
+
+it outputs say zero or one.
+
+When does it output zero,
+
+well so f takes as input X,
+
+W is your unknown
+weight vector and theta
+
+is usually also unknown.
+
+So we'll look at w inner product x over
+
+the reals subtract theta.
+
+This is a scalar, it's a
+number and we'll output
+
+the sign, s i g n, of this value
+
+where output one if it's positive and zero
+
+if it's zero or negative.
+
+So it really takes the sign
+of this particular quantity
+
+and geometrically you can
+think of it as dividing
+
+all of n-dimensional euclidean space
+
+into two half spaces.
+
+So these are the points X
+
+where we say plus one,
+
+these are the points where w
+inner product X minus theta
+
+is positive and these are the points X
+
+where w inner product X
+minus theta is negative.
+
+Now someone had asked
+earlier about the usefulness
+
+of certain geometric concepts,
+
+these half-spaces are
+used in countless tools.
+
+They're used all the time
+in various applications
+
+as I mentioned they're at the core of say
+
+simple support vector machines
+or boosting algorithms.
+
+And what we'd like to do is come up
+
+with PAC learning algorithms
+
+for half-spaces.
+
+Even though in this
+two-dimensional setting
+
+I've drawn a half space and it looks like
+
+it should be an easy problem to solve,
+
+in n dimensions things are a
+little bit more complicated.
+
+So let me give you one approach
+for learning half spaces.
+
+So recall that w is unknown,
+
+theta is unknown
+
+and the function we're
+trying to learn is equal
+
+to the sign of summation I equals one
+
+to n w i x i minus theta.
+
+And we're given draws
+
+from script d of the form x, f of X
+
+where X is distributed
+according to script d.
+
+So one interesting thing to notice
+
+is that let's say we're given the point
+
+zero one zero one zero
+
+and we're told this is a positive example.
+
+What does this mean?
+
+This implies that w 2 plus w four,
+
+is greater than theta.
+
+Why w two and w four.
+
+Well X two is one and X four is one
+
+all the other coordinates are zero.
+
+So we're going to be left
+with w two plus w four
+
+is greater than theta.
+
+Then let's say we had zero
+one one zero one negative
+
+this implies that w two plus w three
+
+is less than or equal to theta.
+
+Why w two and w three well w two
+
+X two and X three are one here
+
+the others are zero and
+it's a negative example
+
+so when we sum them up
+
+we're left with something
+
+that's less than or equal to theta.
+
+So each labeled example
+
+corresponds to
+
+a linear inequality.
+
+So we'll get a system
+of linear inequalities.
+
+So we're left with a system
+of linear inequalities
+
+and the big question is,
+
+can we come up with some site some type
+
+of consistent hypothesis?
+
+Now you might say well
+there are an infinite number
+
+of half-spaces, so why are
+you interested in coming up
+
+with a consistent hypothesis?
+
+Script c here is infinite?
+
+Okay, In some sense that's
+true and we'll address
+
+that later on in class but for right now
+
+let's assume that all of the coefficients
+
+the Wis let's assume that
+each Wi is an integer
+
+in some bounded range.
+
+This is still a very
+interesting function class
+
+and now we've said that
+each weight is some integer
+
+and some bounded range
+so now the function class
+
+is actually finite and we could apply
+
+our consistency analysis
+
+if we could come up with
+a consistent hypothesis.
+
+So does anyone know given a system
+
+of linear inequalities how we can solve
+
+for solution to these Wi's.
+
+Yes.
+
+>> This seems to have matrix reduction
+
+all over it.
+
+>> It sounds like some
+sort of matrix problem.
+
+That's a good answer.
+
+It sort of is, actually.
+
+It turns out that there's
+a general purpose tool
+
+called linear programming.
+
+And linear programming
+algorithms can be used
+
+to solve general systems
+of linear inequalities
+
+and furthermore these algorithms
+that solve linear programs
+
+are known to run in polynomial time.
+
+So as a giant black box,
+I could just show you
+
+or give you an algorithm
+that will learn half-spaces
+
+by applying this sort
+of sophisticated tool
+
+for linear programming.
+
+And it would give us some
+solution for these Ws
+
+that would be consistent
+with our training set
+
+and then we could use our
+consistency analysis to conclude
+
+that there is at least
+an efficient algorithm
+
+for learning at least
+this class of half-spaces.
+
+So what we'll do later in class is come up
+
+with algorithms for learning half-spaces
+
+under certain conditions
+that aren't really quite
+
+as complicated as algorithms
+for linear programming.
+
+And what we'll begin
+to investigate are sort
+
+of simple algorithms that we
+can use for concept classes
+
+that are fairly complicated
+under some types
+
+of reasonable assumptions.
+
+And this will lead us to say, for example,
+
+the perceptron algorithm which is
+
+a classical algorithm
+for learning half spaces.
+
+And once we have these algorithms
+
+that can learn these relatively
+simple concept classes,
+
+we'll see that we can
+layer on additional ideas
+
+to come up with tools that
+are actually used in practice.
+

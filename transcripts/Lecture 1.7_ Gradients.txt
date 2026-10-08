@@ -1,0 +1,137 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right, so we are here. Uh, we already covered some of the basics in statistics.
+
+We covered sort of linear algebra as this basic language to sort of express lots of operations in sort of one go.
+
+Uh, we will also cover tensors, which is sort of this extension of linear algebra that is very specific to deep learning.
+
+Um, the one thing that we have not covered yet is sort of how do we actually optimize deep networks,
+
+and what are the basic tools that we need to understand this optimization?
+
+And one way to look at a deep network is just as a gigantic nested function.
+
+Um, so deep networks are sort of functions inside of functions, inside of functions.
+
+Um, and so what is shown here on the screen is sort of a function key, one that's inside of a function g two.
+
+And we can repeat this uh over and over again.
+
+And so deep networks are sort of the computation they do is they first compute the innermost function, produce a result,
+
+then they produce the compute the next function, produce a result until we're all through all of these functions.
+
+Now, the core to training deep networks is going to be computing partial derivatives or computing gradients of these nested functions.
+
+That's really what sort of a lot of deep learning is about. It's about computing gradients of gigantic nested functions.
+
+Um, and so there's sort of three different kinds of gradients that I will cover here.
+
+Um, well, it will all depend on. What is the dimension of the, uh.
+
+Um, input here? And what is the dimension of the function itself?
+
+And so the basic one is a partial derivative. Partial derivative would just be a function of a scalar as an input and a scalar as an output.
+
+Um, now we can sort of. In.
+
+We can make this slightly more complicated by having the input be a vector.
+
+So if we have a function f. That goes.
+
+From our. And.
+
+To. Are. Um, this is sort of, uh, takes a vector as an input.
+
+It produces a single value as an output. Now, the partial derivative of f with respect to its inputs is no longer a scalar.
+
+It is actually a vector. And it is defined down here.
+
+So this is the gradient of f with respect to its input vector x.
+
+And we'll always write this as a row vector.
+
+Excuse me. Now we can do the same thing.
+
+If f is a function that has that that has many outputs.
+
+So if f is now a function that maps many inputs to many outputs.
+
+The gradient of this function, or the partial derivative of this function is now a matrix,
+
+because for every input and every output, we have its own partial derivative.
+
+And this is known as the Jacobian. And so in terms of notation we use exactly the same notation as before.
+
+If the function has many outputs, each element here is sort of uh row vector.
+
+And then along the column are the different possible outputs of the function.
+
+And so to recap, sort of the sizes of gradients, um, if we have just as, uh,
+
+a vector as an input and a single value as an output, the gradient is going to be.
+
+A roll vector. So it's sort of along this dimension.
+
+If the input is a scalar and the output is uh, is a vector, then we're going to end up with a gradient that is uh column vector.
+
+And if both input and output are scalars we'll end up with a Jacobian.
+
+That is a matrix. Now, the one thing to remember is sort of along.
+
+The column dimension here. This is the dimension of the input.
+
+The. Along the road dimension here.
+
+This is the dimension of the output. All right.
+
+Now this is the basic definition of the gradient.
+
+Now we'll look at how to compute gradients of nested functions and domain tools that we'll use.
+
+Here is the chain rule. So let's say we have a function g one.
+
+A function t2, t1 goes from n values to m values.
+
+T2 goes from m values to k values.
+
+Well, how are you going to compute the gradient of this nested function or the Jacobian of this nested function?
+
+Now, the chain rule tells us that we can first compute the gradient of the inner function, or the Jacobian of the inner function.
+
+Right. And so this is done down here.
+
+The Jacobian of this function is going to be the dimension of the output times the dimension of the input, which is shown here.
+
+And now Chain Rule tells us that in order to compute the gradient of the nested function, we'll simply multiply this by.
+
+The Jacobian of the outermost function. But now it's enough to value that we feed into.
+
+The outermost function is fixed, right? So it's such a curbing of the inner function with respect to its inputs.
+
+And this is a Jacobian of the outer function respect to its inputs.
+
+And then the matrix multiplication of both of them is.
+
+Chain rule. Learn deep learning. You might have heard the term back propagation.
+
+And we'll look at what back propagation is later in detail. But back propagation essentially is the chain rule.
+
+It is chain rule computed in a very specific way. And so I would like you to take a moment if you need to sort of understand the very basics
+
+of chain rule and just think of deep learning or deep networks being much more complex,
+
+bigger nested functions.
+
+And all we do when we train these networks, when we sort of, uh, fit them to data, is we compute the chain rule on these large sort of jacobians.
+
+And we'll do this in a very efficient manner. So to sum this up, um, gradients are usually row vectors.
+
+Um, and the one thing to take away from here is that the chain rule is sort of the core component of deep networks.
+
+They allow us to compute gradients through very complex nested functions.
+
+Um, and it's really just the matrix product of jacobians or gradients of individual functions.
+
+That's it.
+

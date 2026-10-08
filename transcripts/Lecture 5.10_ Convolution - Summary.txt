@@ -1,0 +1,45 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So we've just learned like almost all there is to learn about convolutional networks.
+
+Uh, we have looked at sort of how they're built. Uh, they have very much the same structure, uh, uh, as regular deep networks.
+
+They're sort of a mix of non-linearities, uh, normalization layers inside and then sort of the learned component here instead of it being linear.
+
+This is now a convolutional layer, which is sort of a local.
+
+You can think of this as a local matrix multiplication.
+
+Like one interesting thing about convolutional networks is they keep the to keep spatial structure throughout the network.
+
+So all your intermediate outputs are going to have some sort of spatial form.
+
+Um, they're going to be image like all throughout the network.
+
+And you can sort of place striding, uh, strategically to sort of reduce the resolution and increase the number of channels.
+
+Like convolutional networks have many advantages over vanilla networks.
+
+Um. Vanilla fully connected networks, eh, they're computationally efficient.
+
+That's because all the computation is local.
+
+They are very memory efficient because kernels are quite small, and they're reused for a lot of computation inside of an image.
+
+And finally, they're data efficient. And that has almost the same reason why the wider memory efficient it's the kernels are relatively small.
+
+And since they're used all over the image, you will get a gradient for every single time they are used in the image.
+
+And so that way you can get away with a lot less data.
+
+Right. And so in practice, if you have image like data, uh, convolutional networks are really good kind candidate.
+
+They're one of the two top candidates to use for image data today.
+
+Uh, if you want to process any sort of image like signal, that could be images themselves.
+
+It can be videos. Audio signals are often also translated to an actual image like formulation.
+
+Um, and so every single time you have sort of a nicely structured formulate, uh, input convolutional networks are a really good fit.
+
+That's it.
+

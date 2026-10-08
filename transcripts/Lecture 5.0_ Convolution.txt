@@ -1,0 +1,65 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right, so we're now at a place in class where we know more or less all the basics, uh, of training networks, making them as deep as possible.
+
+Um, and so it's just trying to make them fit to data as well as possible.
+
+Now. The one thing that's sort of missing is that the networks that we've currently looked at have always been these linear networks.
+
+Um, they're also sometimes called fully connected networks because every input has a connection to every possible output.
+
+And moreover, it actually is true for every layer. Every input in every layer influences every single output.
+
+And that's simply by the definition of these linear layers which switches we have.
+
+The linear layer is just going to be some weight matrix times the input.
+
+Plus. A bias.
+
+And this weight matrix here really is sort of a matrix that's number of inputs times number of outputs.
+
+And so that's where the name fully connected comes in.
+
+Now we've looked at sort of how to connect bigger networks with non-linearities out of them, how they can express almost any function.
+
+Um, and we've sort of looked at how to make them deeper and deeper in the hopes
+
+that we'll make them actually sort of more expressive as we make them deeper,
+
+or we'll get away with fewer parameters to make them more expressive.
+
+Now, the biggest issue with linear networks is that they're computationally extremely inefficient.
+
+It is because every input is connected to every output that we need to now sort of have huge
+
+matrices in these fully connected networks that sort of take input data and reshuffle it into some,
+
+also some form of output. They're also insanely memory inefficient.
+
+Um, if you will look at an example in a moment of sort of image inputs, um,
+
+where we'll show that they consume sort of as much memory as you would have on a modern GPU,
+
+more memory than you would probably have on your, on your, on your phone.
+
+And finally they are very data inefficient. And that has to do with the fact that there's a lot of parameters to a lot of weights.
+
+And so in order to learn these weights well we need a lot of data.
+
+Um, otherwise well what's known as overfit, which means will learn something that might not generalize to data that we have not seen.
+
+All right. Now in this segment here.
+
+So we'll have two segments. We'll have one on convolutions. And then we'll have sort of another section on transformers.
+
+We'll look at different structures. And so here first we'll cover convolutions.
+
+And it's just convolution you can think of. It's a more efficient parametrization of the linear layers.
+
+So instead of having linear layers being these gigantic blocks uh on which we do matrix multiplication.
+
+Convolution sort of exploits the structure of the data a little bit to get away with a lot less computation, a lot, a lot less parameters.
+
+And it's sort of a very sparse way of, of applying linear transformations from input to the output of the layer.
+
+All right. That's it.
+

@@ -1,0 +1,173 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So thus far we have looked at how to do, uh, regression, how to do logistic regression or binary classification in PyTorch.
+
+Now we're going to look at how do we take this binary classifier and convert it into a multi-class classifier.
+
+We're not going to rewrite all the code that we've done before.
+
+We're just going to show sort of what are the small changes that we'll need to do to convert binary to multi-class classification.
+
+All right. Let's get started. So we'll again have our image loading code here.
+
+We'll have the images loaded and the labels loaded into big PyTorch tensors.
+
+Now, if we're going to do multi-class classification, we no longer need just the first two labels.
+
+We'll actually deal with all the labels that we have in our data set.
+
+Also, we will no longer request to test a single value.
+
+We don't do label zero versus label one. We'll actually classify all the 102 flowers in this data set.
+
+So we'll output. Uh, our model, our linear model will now output 102 values, one for each class that we want to classify.
+
+The last function here can no longer be binary cross entropy.
+
+It needs to be cross entropy. All right.
+
+Then the optimizer can stay the same. We'll leave the same learning rate in for now.
+
+We might change this later. And now we'll optimize.
+
+Or will compute an output for the entire data set, not just label zero versus label one, but the entire data set.
+
+All right. We'll again compute the output of the model.
+
+Now the output of the model will have a very different shape. You can look at the shape real quick.
+
+So the output of the model is going to have a 102 120 predictions.
+
+So 1020 predictions and each of which has 102 different values, one for each flower in the dataset.
+
+Now we'll take this. Output. We no longer need to squeeze it, which we don't no longer need to remove the last dimension of one.
+
+We'll take this output and we'll compare it directly with the training labels.
+
+So in this cross entropy loss we're feeding in integer values.
+
+And these integer values means that this is class zero. This is class.
+
+So this class one is class two. It is class three and so forth.
+
+Right. So this cross-entropy loss will take integer labels as an input to compute the loss value.
+
+And down here the optimizer will stay exactly the same. Now you can see that sort of the model started to slowly, slowly decrease the loss, right?
+
+We can make the slightly larger. You can see that this loss slowly, slowly creeps down.
+
+It doesn't do it as quickly as before. For binary classification, we went to from a loss of sort of 4.6 to a loss of 4.1.
+
+There's two reasons for this. Number one, the data set is much larger.
+
+Now. We no longer just look at class zero and class one. We're looking at all the classes.
+
+And so since the data set is larger the task is actually a little bit harder, especially for the linear model.
+
+The other thing is the task got harder instead of predicting just two labels.
+
+We now need to predict 102 labels. And finally it also got a little bit slower because.
+
+So we are feeding large. Batches of data through the model at every single iteration.
+
+And the first thing we can do is. We'll put the model on a TPU.
+
+Now we'll also have to put. The training.
+
+The. Training labels and images onto the TPU.
+
+And we're going to see how this trains. This will train quite a bit faster.
+
+It almost instantaneously train for 100 iterations or 100 epochs.
+
+It still didn't make the loss go down much more. But we can do two things to help with this.
+
+A let's log only every ten epochs so we don't get this many print statements.
+
+Then train for longer. Which will drive for Lost Town, and then finally we'll train.
+
+Well, we'll tune the learning rate a little bit to make it converge faster.
+
+Right. So this higher learning rate led to a much quicker convergence.
+
+Now we're just sort of a loss. Uh, sort of 0.3 or so for multi-class classification is actually quite good.
+
+Um, we can see if we can make it even larger without it exploding.
+
+Yeah that worked. And now it converged to 0.3 in about 500 iterations.
+
+All right. So this is the final model that sort of classifies.
+
+Outputs into not just two binary classes, but it classifies these outputs into a huge number of sort of on 102 different labels.
+
+Now we'll quickly load the test data set. We'll put it on GPU as well because the model is already on a TPU.
+
+And to put a model on the our data on the GPU, which is called Cuda.
+
+For data itself. This will create a new tensor for the model.
+
+It will just move all the data from the model onto the GPU.
+
+It will not create a copy of the model. All right.
+
+Our model is already on the TPU. We'll feed in the test images.
+
+And now to compute the accuracy. Here, we'll have to use two predictions.
+
+And this is no longer. Looking at if something is smaller, equal to zero.
+
+But we'll look at the argmax of the second dimension, which gives us two labels.
+
+And I can print this out real quick before I print out the mean to show you what this does.
+
+We'll do it for the first two examples. And so what this will do is for the first two examples here, this will output first a list of logits.
+
+These are inputs to the softmax these that you can think of these as on calibrated probabilities.
+
+Um the model actually thinks for example labeled zero label one half really highly likely.
+
+And there's some other labels in here that are highly likely and then some that are very unlikely, sort of these large negative values here.
+
+For the other image here, this sort of. Other classes that are likely like this here, this five is highly likely and others are less likely.
+
+And then if we take the argmax, this just looks at the highest value, which is the most likely label.
+
+For curiosity, we can. Look at the first few test labels and in both cases are actually zero.
+
+But. We'll look at accuracy overall.
+
+And so on, and our test data set in a task where we had to pick one out of 102 classes, we get about a 15% accuracy.
+
+Now, this is not amazing. It's not terrible either.
+
+So random chance is about a 1% accuracy. In this case we said are 15 times better than random chance, right?
+
+And so I hope this showed you sort of on a very simple model on this very simple linear model.
+
+How do we set up sort of multi-class classification? We've already looked at regression.
+
+We already looked at binary classification.
+
+And the nice thing about PyTorch is that for all of these examples, if we start adding in more complex models the basic training setup.
+
+The simple sort of loading your data, loading your model and then loss and optimizer.
+
+This will all stay the same.
+
+This is sort of this is going to this is going to be sort of the basic building blocks that you'll need to train your model.
+
+It's very simple. It's sort of less than 20 lines of code, each of which has sort of a very well-defined meaning.
+
+And then if we make this more complex, this core training loop will remain fairly simple.
+
+What will become more complex is the model. Here we'll define more complex models.
+
+We might change optimizers, which is oftentimes only a one line change, and will change from sort of iterating over the entire data set,
+
+which we'll do in gradient descent to sort of something more efficient,
+
+computing gradients on much smaller subsets of the data, which will help us train models quicker.
+
+Right. But for now, this is just simple gradient descent.
+
+Simple structure, simple setup. And that's the end of the second.
+

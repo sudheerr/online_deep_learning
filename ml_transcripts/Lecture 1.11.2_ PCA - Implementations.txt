@@ -1,0 +1,418 @@
+Good, so let's talk about
+some cool applications.
+
+Say application one,
+
+understanding genomes.
+
+So someone actually did
+
+the following interesting experiment.
+
+They took about 1,400 people
+
+from Europe,
+
+and each person
+
+was represented
+
+according to about 200,000
+
+genetic markers
+
+in their genome.
+
+Okay, so each person is
+represented as a vector of length,
+
+let's say 200,000, where
+each entry corresponds
+
+to a certain genetic
+marker in their genome.
+
+It's not important really.
+
+The biology of this isn't so important,
+
+what's more important is that
+each person was represented
+
+purely by genetic material,
+and the number of features
+
+was about 200,000.
+
+Okay, and so this corresponds
+
+to a matrix
+
+of dimension 14 hundred by 200,000,
+
+and they just ran PCA on this data
+
+to find vectors
+
+V1 and V2.
+
+Okay, so the two top principal components.
+
+So now each person
+
+corresponds to two numbers,
+
+and then they plotted
+
+these two numbers.
+
+Okay, so then we'll
+get a plot of every one
+
+according to these two numbers,
+
+so in the XY plane they're
+going to plot these two numbers,
+
+and then color code each point
+
+according to the country of origin.
+
+Okay, so you take one of
+these points in the plane,
+
+and if you were from
+Italy, you get one color,
+
+and if you're from France,
+you get a different color.
+
+So every European country
+gets a different color.
+
+Okay, so let's take a
+look at what this plot
+
+actually looks like.
+
+Everybody okay with the setup here,
+
+understand what's going on?
+
+Okay, so here's what the plot looks like.
+
+So this is from a paper called
+
+Genes Mirror Geography Within Europe.
+
+Here are the authors.
+
+So I'll just skip right to the plot.
+
+There it is.
+
+It turns out amazingly,
+when you plot this data,
+
+you get what looks exactly
+like the map of Europe,
+
+just rotated 16 degrees counterclockwise.
+
+Okay, so the cool, the really cool thing
+
+to notice about this
+picture is that it only,
+
+it's completely derived from genomic data.
+
+There's no, you know,
+there's nothing going on here
+
+that might signal, you
+know, where you're from.
+
+You can see, there are
+two principal components,
+
+PC1 and PC2.
+
+And you know, it just,
+it's amazing how much
+
+it's clustered around the actual countries
+
+from where you're from.
+
+So you can just see like
+the genetic similarities
+
+of people, you know, in
+the same regions of Europe,
+
+because there are a lot of
+people who have been living there
+
+in the same place for
+over a thousand years,
+
+there are many genetic similarities.
+
+So it's a pretty interesting application.
+
+They, I think they also tried
+this with the United States,
+
+and it didn't work as well,
+
+because basically a lot of
+the data just corresponded
+
+to when certain waves of
+immigration were in the country.
+
+Whereas, you know, the
+genetic data in Europe,
+
+because people have lived
+there for so much longer,
+
+it really corresponds to, you know,
+
+locally or geographically
+where people live.
+
+Okay, so it's sort of a fascinating
+and striking application
+
+of PCA, even when the number
+of components is just two.
+
+Okay, so in another application,
+
+well this is called,
+this is data compression.
+
+Okay, so one way you can try and compress,
+
+so a strategy
+
+for compressing data,
+
+so let's see,
+
+so each data point,
+
+and this is, I should've said
+
+this is image data compression,
+
+so each data point is an image,
+
+so it's a vector of pixels.
+
+So you could view it as
+a matrix if you wanted,
+
+but for simplicity, let's just assume
+
+we've taken the matrix,
+
+and it's just one long vector of pixels.
+
+So each data point is
+an image, and you know,
+
+each image has,
+
+let's say 65,000 pixels,
+
+and so each, so this corresponds to
+
+65,000 features,
+
+each feature being a pixel.
+
+And so then we'll,
+
+so we have a data set,
+
+we have a bunch of images let's say.
+
+In this case, it's going
+to be images of faces.
+
+So we have a lot of images of faces,
+
+each one has 65,000 pixels.
+
+We can just run PCA on this data set,
+
+right?
+
+It's a data set, we can run PCA on it.
+
+And I think what the people in this paper
+
+I'm about to show you
+do, is they set K to be
+
+between 100 and 150.
+
+And so now each image is roughly some
+
+linear combination
+
+of say 150 vectors
+
+of length 65,000.
+
+So this means that each
+image can be written
+
+as a vector of length
+150, instead of 65,000.
+
+And the other to notice,
+
+is that each vector of length,
+65,000, this is an image.
+
+Okay, so we're taking all of our,
+
+so it's like we're finding
+some 150 core images,
+
+and we're taking each original image,
+
+and we're going to write
+it as a linear combination
+
+of these 150 base or
+core images that we have.
+
+Okay, so what's nice,
+is that we're actually,
+
+we're certainly doing some
+sort of data compression,
+
+and so you know, there's a paper called,
+
+it's about something called eigenfaces,
+
+and I'll show you the results here.
+
+Okay, so let's see,
+these were the faces used
+
+in the training set.
+
+Yeah, so this was the average
+face they got by averaging.
+
+And then these were
+sort of the eigenvectors
+
+corresponding to your base images.
+
+Okay, so seven of the eigenfaces
+
+calculated from the input images.
+
+So then they're going to
+try and write every image
+
+as some linear combination
+of these images.
+
+And it does a pretty good job.
+
+You can see on the left, we
+have one of the original images,
+
+and on the right, it's the
+linear, so this was on the left
+
+a vector of length
+65,000, and on the right,
+
+you have a vector of length about 150.
+
+So it's corresponding to
+the linear combination
+
+of the core images that
+we found when we ran PCA
+
+on the training set.
+
+Any questions about this application?
+
+It's pretty neat.
+
+You can just take these training sets,
+
+run generic ordinary PCA on them,
+
+find some smaller representation,
+
+and it can correspond,
+you know, it's bring out
+
+something meaningful in your training set.
+
+Whether it's geographic
+location, or it's sort of,
+
+you know, an excellent
+job of image compression.
+
+Okay, it's, yes,
+
+question?
+>> Is there
+
+a requirement on the size of the data set
+
+for this to start working well?
+
+>> No, it's dependent, it's
+heavily dependent on the,
+
+you know, I'm sure they experimented
+
+with a variety of choices of K
+
+before they got to one that worked.
+
+Probably two or three
+doesn't really work well.
+
+>> Right.
+
+>> But typically, it's much much smaller
+
+than the number of dimensions
+of your original training set.
+
+Okay, are there any other images here?
+
+Yeah.
+
+I'm not sure what's going
+on with this flower here.
+
+(laughing)
+
+Oh, I see, A and B,
+
+these are actually in
+the original training set
+
+on the left here, this one is not.
+
+And this is sort of what its compression
+
+ends up corresponding to.
+

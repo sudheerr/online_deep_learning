@@ -1,0 +1,2073 @@
+♪ (music) ♪
+
+>> Welcome to Machine Learning.
+
+Today we are going to talk about
+
+a particular class of multivariate model,
+
+called multivariate normal distributions.
+
+This is a class of
+extremely powerful models
+
+that is very useful for capturing
+
+correlations between different variables,
+
+so let's get started.
+
+So let's review some basic concepts
+
+of multivariate distributions, right?
+
+So we have univariate distributions,
+
+which are distributions about
+a one-dimensional variable.
+
+And multivariate
+distributions are really just
+
+distributions of vectors,
+random vectors, right?
+
+So let's say we have some
+random variable x, right?
+
+So this random variable
+is actually a vector.
+
+Let's say x1 to xd.
+
+So this is a d-dimensional vector.
+
+Let's say just assume it's
+a continuous random vector,
+
+so it belongs to three-dimensional
+euclidean space, right?
+
+Now, in order to capture the distribution
+
+of this random vector,
+
+we need to define what's
+called a density function.
+
+So in the case of
+multivariate distributions,
+
+the density function is really
+just a multivariate function.
+
+So in this case the density function
+
+in particular is called a probability
+
+density function,
+
+it's called a PDF.
+
+So in this case, it's
+actually let's say P x
+
+equals to P x1 up to P xd, right?
+
+So, it's a function of
+multiple variables, right?
+
+And then obviously, just
+some basic concepts.
+
+Any density function need to satisfy that,
+
+for one, has to be nonactive, right?
+
+Could be larger than or equal to zero.
+
+Secondly, has to integrate to one.
+
+So in this case the integration
+
+is actually height-dimensional
+integration,
+
+so the integration domain is in fact
+
+the d-dimensional space,
+I'll stick to one, right?
+
+So in fact any function that satisfies
+
+these two conditions
+defines a distribution.
+
+So now given a multivariate distribution,
+
+we can define a mean vector
+
+as well as the covariance matrix.
+
+So the mean vector is very obvious.
+
+Basically, it's just the
+mean of each coordinate.
+
+Let's say for a given probability,
+
+the expectation of x
+
+under this distribution p,
+
+which we denote by mu, right?
+
+Is actually equivalent to the mean vector
+
+of each of these coordinate, right?
+
+P x1,
+
+expectation p xd, right?
+
+So it's really just take
+the mean of each coordinate.
+
+In particular, just to sort of renew,
+
+renew the vector,
+
+the definition of the mean vector,
+
+which is expectation P x1,
+
+it's really just integration,
+
+which is P x x1dx, right?
+
+And similarly, for the
+other coordinates, right?
+
+So this is the mean vector.
+
+And also, we need to define
+the covariance matrix.
+
+Well it turns out the covariance matrix,
+
+which we denote by sigma,
+
+it's a d by d matrix whose
+element is going to be,
+
+let me just write it down first.
+
+Xi, xj, ij, right?
+
+So remember we have d variables, right?
+
+And then for each pair
+of variable xi and xj,
+
+we can calculate the covariance.
+
+And then we put this pairwise
+covariance into a matrix,
+
+and this matrix is called
+the covariance matrix.
+
+So P of sigma is called
+a covariance matrix.
+
+Obviously, it's a d-by-d matrix.
+
+Each element is a covariance,
+between a pair of variables.
+
+So just to record the
+definition of covariance.
+
+Given two random variables,
+xi and xj, right?
+
+Their covariance is defined by expectation
+
+xi minus the expectation of xi,
+
+which we denote by mu i.
+
+And then, times the xj minus
+the expectation uj, right?
+
+Mu i, right?
+
+So this is really just the
+definition of covariance,
+
+and if you put the pairwise
+covariance together,
+
+you get the covariance matrix.
+
+Well, turns out it's
+actually more convenient
+
+to write down the definition of covariance
+
+directly using a matrix formula.
+
+It turns out we can show the following:
+
+So we can show that this covariance matrix
+
+by this definition can
+actually be wrote down
+
+in the following form.
+
+We have x minus mu,
+
+and then x minus mu transform, right?
+
+So here, each of the x, right,
+
+it's a quantum vector, it's a
+d-dimensional quantum vector.
+
+The same as mu, right?
+
+Mu is also a d-dimensional quantum vector.
+
+So if I have a plot,
+
+so this represents x minus
+mu, which is quantum vector.
+
+And then times the same
+vector, but transposed,
+
+so you will have a roll vector, right?
+
+And then you have a quantum vector
+
+multiplied by a roll vector,
+you will get a matrix.
+
+So this will give you a matrix.
+
+And then each element of this matrix
+
+is exactly following the definition,
+
+the covariance between xi and xj, right?
+
+So many times, it's
+actually very convenient
+
+to just use this matrix definition.
+
+It's equivalent to the
+definition we had earlier here,
+
+but much more useful in practice.
+
+So we'll get back to this later on.
+
+So basically, we just
+had a very brief review
+
+of multivariate distributions.
+
+It's defined by its density function,
+
+which is a multivariate function.
+
+And then two very important quantities.
+
+One is the expectation vector,
+
+another is the covariance matrix, right?
+
+Okay, so now I want to talk
+about normal distributions,
+
+which is a classic class of very basic,
+
+and very powerful, very
+useful distributions.
+
+So we will eventually
+talk about multivariate
+
+normal distribution, but before that,
+
+let's review what's a
+univariate normal distribution.
+
+I assume everyone
+already familiar with it,
+
+but just have a very fast review.
+
+So here, a distribution is called
+
+a univariate normal distribution.
+
+So normal distribution
+will use this kind of graph
+
+called N to represent
+a normal distribution.
+
+So in particular, we have
+mu, which is the mean vector.
+
+In this case, it's really just a number.
+
+So mean, and the variance sigma squared.
+
+So a distribution is
+normal when mu and sigma,
+
+has mean unit variance, if
+only its density function
+
+is defined in this way.
+
+So here, j is a normalization constant.
+
+It just serves to make sure the density
+
+integrates to one.
+
+And then, the density is actually
+
+proportion to exponential
+of a quadratic function.
+
+So the quadratic function is, for each x,
+
+it measures the distance from x to some,
+
+the mean value mu, and
+then take the square,
+
+and scale it by the
+variance, sigma squared.
+
+So if we plot this curve,
+
+this density function has this
+
+very classical bell mean curve.
+
+So it's a symmetric.
+
+And then, the peak is
+defined by mu, right?
+
+So here's x, and then,
+
+the waist of this curve
+is defined by sigma.
+
+If we have a small sigma,
+
+then the curve will be more peaky.
+
+If we have a large sigma,
+
+then the curve will be more flat, right?
+
+And by this definition we
+can actually show that,
+
+the mu exactly equal to the
+mean of this random variable,
+
+which means that it
+equals to expectation x,
+
+which equals to, by definition,
+
+integrating over x, right?
+
+And we can also show that the sigma square
+
+exactly equal to the variance
+of this distribution,
+
+which is going to be by definition,
+
+we call that the variance is
+actually x minus mu square.
+
+So the variance could be
+viewed as the covariance
+
+with itself, right?
+
+So that's why we have x minus mu,
+
+multiplied by itself, which is the square,
+
+and take expectation, this
+is the variance, right?
+
+Now in practice we may observe samples
+
+from a distribution, a
+Gaussian distribution,
+
+with unknown mu and sigma,
+
+and we want to estimate mu and sigma.
+
+In that case, we can just
+use the empirical variance,
+
+and the empirical mean, right?
+
+So let's say given, let's say,
+
+the observation xi, which is drawn from
+
+a normal distribution, right?
+
+Then we can estimate mu and sigma
+
+by the empirical mean unit variance,
+
+which is mu hat equals to
+sum over xi over n, right?
+
+And then sigma square
+hat equals to one over n,
+
+sum over i equal one to n.
+
+Xi minus mu hat squared, right?
+
+Right.
+
+We showed earlier that, in fact,
+
+this mean, empirical mean unit variance,
+
+is exactly the solution we will get
+
+by maximizing the likelihood
+of this Gaussian distribution.
+
+Okay, so now let's get into
+
+multivariate normal distributions.
+
+So it's an extension of the
+univariate normal distribution.
+
+So in this case, the x is actually,
+
+so here, x, again, now becomes,
+
+d-dimensional random vector, right?
+
+So in this case, a
+d-dimensional random vector
+
+follows a multivariate normal distribution
+
+with mu vector, mu as the mean vector,
+
+sigma as the covariance matrix,
+
+if and only if its density function
+
+can be wrote in this way.
+
+So this formula is really
+just a generalization
+
+of the univariate Gaussian
+density we showed earlier.
+
+So again, here, j is a
+normalization constant, right?
+
+And then, exponential minus
+some quadratic function of x.
+
+Again, so we have x minus mu,
+
+which is measuring the
+distance between x and mu,
+
+and then we will multiply
+
+by the inverse of the covariance matrix.
+
+So this is a little bit trickier.
+
+Earlier, the variance we have here,
+
+each of the variance is a number,
+
+so we just take the inverse of the number.
+
+But now we have a matrix,
+
+so we need to take the
+inverse of the matrix, right?
+
+So this is a classical quadratic form.
+
+Remember, let's say x is a quantum vector,
+
+mu is a quantum vector, so
+we have x minus mu transpose.
+
+That gives you a roll vector, right?
+
+And then we have the inverse of the sigma.
+
+So this is d by one, so
+it should be one by d.
+
+One by d, and d by d, so
+this is a sigma square.
+
+And then we have another
+quantum, which is d by one,
+
+so this is x minus mu.
+
+This is x minus mu transposed.
+
+So we have this quadratic form
+that retains a number, right?
+
+And then this overall, this
+defines the density function.
+
+So let's give a few number of examples.
+
+So here is the case when we
+have two-dimensional variables.
+
+So here, this coordinate is x1,
+
+this coordinate is x2, right?
+
+And then the j coordinate,
+this way, is the Px,
+
+right, Px1 and x2, the density function.
+
+So we can sort of see that
+depending on different,
+
+mu and sigma, you have different shapes
+
+of the density function.
+
+In this case, all the mu are zero, right?
+
+If we have a different mu,
+
+we just shift the density function.
+
+And then we have different value of sigma.
+
+So the mu controls the location
+
+of the center of the density function,
+
+and sigma controls the shape
+of the density function.
+
+Let's say if we have
+identity covariance matrix,
+
+then the density function
+is a standard bell curve,
+
+when the perfect is cycle, right?
+
+So here, we show the contour
+of the density function.
+
+And then, if we have a sigma
+
+that has off-diagonals, right?
+
+So here this sigma has off-diagonal .5,
+
+then we have some skewed shape.
+
+So again, this is a contour,
+
+you can sort of see that the correlation
+
+is strongest along this direction.
+
+Now if we further increase the covariance
+
+from .5 to .8, the skewness
+is further increased.
+
+So, remember, let's say in
+the two-dimensional case,
+
+the sigma, which is the covariance matrix,
+
+it equals to, let's say,
+
+let's say sigma 11, sigma 12,
+
+sigma 21, and sigma 22, right?
+
+So the diagonal elements are the variance
+
+of the variables themselves, right?
+
+So let's say sigma 11
+represents the variance of x1.
+
+Sigma 22 represents the variance of x2,
+
+and then sigma 12 and sigma 21
+
+are actually equal to each other.
+
+And both of them equals to the covariance
+
+between x1 and x2, right?
+
+More specifically, we can show
+that following the definition
+
+sigma 11 actually equals
+to the variance of x1,
+
+which is going to be x1
+minus mu one squared, right?
+
+So it actually equals
+to using the notation
+
+we had for multivariate Gaussian,
+
+it actually equal to sigma one square.
+
+Sigma one represents
+the standard deviation,
+
+so its square represents the variance.
+
+And then similarly, sigma
+12, now it's a off-diagonal,
+
+so it represents the covariance
+
+between x1 and x2, right?
+
+More specifically, equal to covariance
+
+between x1 and x2, right?
+
+So it quantifies the
+correlation between x1 and x2.
+
+That's why let's say in this case,
+
+we have a covariance of .8,
+it's a very large covariance.
+
+So you can sort of see that,
+
+all the probability mass tends
+
+to sort of concentrate along the line
+
+at this diagonal line, right?
+
+That because x1 and x2 are
+sort of highly correlated.
+
+Which is, we have .5, then
+the correlation's weaker,
+
+and when when we have zero,
+which is no correlation at all,
+
+then the contour is a perfect circle.
+
+And then, so these are the cases
+
+when the correlation sigma
+12 are positive, right?
+
+Now if the correlation are negative,
+
+in this case negative .8,
+
+then the contour just rotated,
+
+and aligned in the opposite direction.
+
+So this is the case when
+correlation equal to .5, right?
+
+Or, .8, and this is the
+case when correlation
+
+equal to point minus eight.
+
+So we'll say that the maximum,
+
+the largest variance direction
+
+is the opposite for the case
+
+when the covariance is positive, right?
+
+And you can sort of see this is the case
+
+when covariance is .5.
+
+This is the case when covariance is .8,
+
+but the variance of x2 is larger,
+
+so you then have a different shape.
+
+So this is the multivariate
+normal distribution.
+
+So it's again defined using this form
+
+that generalizes the
+univariate normal distribution.
+
+And it's defined by its mean vector mu,
+
+and its covariance vector sigma, right?
+
+So I forgot to mention.
+
+So here Z is the normalization constant.
+
+It's two pi powered by the dimension d,
+
+and then times the determinant
+of the covariance matrix.
+
+Okay.
+
+Now, how do we actually construct
+
+multivariate normal
+distributions in practice?
+
+Where do multi normal
+distribution come from?
+
+Well, a very simple way to construct
+
+multivariate distribution is really just,
+
+is by putting univariate
+normal distribution together.
+
+So here's a very simple result.
+
+Let's say we have a bunch of
+univariate normal distribution.
+
+Each of the xi follows a
+univariate normal distribution
+
+with mu i as its mean,
+
+sigma i squared as its variance.
+
+And we assume all the xi are
+independent with each other.
+
+And by independent, we mean that,
+
+so we use this notation,
+xi xj is independent,
+
+if and only if by this definition,
+
+the joint distribution equals
+
+to the product of individual
+distributions, right?
+
+Xi times xj, right?
+
+Now, if all the xi and the xj
+
+are independent with each other,
+
+and we put all the xi into a vector.
+
+So define this x to be the
+vector formed by all the xi,
+
+then it turns out xi is actually
+
+also a multivariate, normal distribution.
+
+It's a very straightforward result.
+
+And we can also calculate
+mean of the vectors,
+
+so mean and the covariance.
+
+This is really just a very simple result.
+
+So, if we want to calculate mean
+
+of the vector, it's really just,
+
+in this case, if we
+take expectation for x,
+
+it's really just taking expectation
+
+of all the coordinates, so,
+
+so the mean vector equals
+to the vector of the means.
+
+And then we have the variance.
+
+So the variance again let's say equal to,
+
+just to practice the definition.
+
+In this case, the covariance matrix
+
+actually equals to the diagonal matrix
+
+formed by all the variances
+
+of the univariate variables.
+
+So basically, because all the variables,
+
+all the xi are independent
+with each other,
+
+so all the off-diagonals
+of the covariance matrix
+
+equal to zero, because
+there's no correlation
+
+between different random variables.
+
+And then the diagonal
+of the covariance matrix
+
+are formed by the variance
+
+of all the individual variables.
+
+In this case sigma i squared, right?
+
+Okay.
+
+So, we can also talk about
+marginal distributions
+
+over multivariate Gaussian distribution.
+
+So in this case, let's say,
+
+assume we have a random vector, x,
+
+in this case, is random vector.
+
+Follows a multivariate
+normal distribution.
+
+What we can do is we can divide
+
+this vector into two blocks, right?
+
+Let's say x equal to x1 and to x2.
+
+So x1 takes the first half of the vector,
+
+x2 takes the second half of the vector.
+
+And similarly, we can
+partition mu and the sigma
+
+into, according to the
+log structure of x, right?
+
+So mu is partitioned to
+be mu one and mu two,
+
+and sigma is now partitioned
+into a block matrix.
+
+So we have sigma 11, which is
+the covariance matrix of x1,
+
+and then sigma 22 is the
+covariance matrix of x2,
+
+and then we have sigma 12.
+
+Now, this is the sort of covariance
+
+between x1 and x2, right?
+
+So let's say, define, let's say make x1
+
+belong to Rd1, x2 belong to Rd2.
+
+So then, we should have d1 plus d2,
+
+equal to d, right?
+
+And then, when we talk about
+the block structure of sigma,
+
+we have sigma 1 1
+belongs to d by d matrix,
+
+d1 by d1 matrix, right?
+
+And then sigma 12 is now
+
+d1 times d2 matrix, right?
+
+Because sigma is a symmetric matrix,
+
+that's because the covariance
+is a symmetric quantity.
+
+We can show that sigma 12
+
+actually equal to the
+transpose of sigma 21, right?
+
+Okay, so now if we follow
+this blocking structure,
+
+it turns out, again, it's
+a really obvious result,
+
+that x1, each of the block, x1, x2,
+
+are also Gaussian distributions.
+
+And the mean is just,
+let's say the mean of x1,
+
+is really just mu one, right?
+
+Kind of the mean vector
+of the same block, right?
+
+And then its covariance
+matrix is sigma 11,
+
+which is the covariance
+corresponding to its block.
+
+So it's a very simple result, once again,
+
+but it's very useful, and its
+very good to know about it.
+
+Okay, so now besides
+marginal distribution,
+
+we can also talk about
+conditional distribution,
+
+if we have a partition of the vector.
+
+So this case, we talk about,
+
+what's the probability of x1,
+
+given that x2 equal to some
+particular fixed number?
+
+Given that x2 equal to a,
+
+what's the probability of x1?
+
+Now this is a less obvious
+thing to think about.
+
+Turns out, x1 conditioning on x2,
+
+is also a normal distribution.
+
+Is also a multivariate
+normal distribution.
+
+It has some mean vector, and
+also has some covariance matrix
+
+except that that this formula
+
+becomes a little bit more complicated.
+
+So we can show that the mean vector of x1,
+
+given x2, which in this case is really
+
+the conditional expectation of x1,
+
+given x2 equal to a,
+actually using some variation
+
+can show that equals to
+the expectation of mu one.
+
+Expectation of x1, plus
+some term that depends on a.
+
+Basically, we have a minus
+its own mean vector mu two,
+
+and then multiplied by this matrix,
+
+which calculates the
+conditional expectation.
+
+And similarly, the
+conditional covariance matrix,
+
+is also a little bit more complicated.
+
+It's defined in this way,
+
+which is called the Schur Complement
+of the sigma matrix.
+
+So we will likely actually get back
+
+to the derivation of this result,
+
+but for now just remember that,
+
+the conditional distribution
+of a multivariate Gaussian
+
+is also a Gaussian, and
+we have some formula
+
+to calculate the mean and the variance.
+
+Sufficient to know about this for now.
+
+Okay.
+
+So, another basic result,
+that again is very useful,
+
+is that linear transforms
+of a multivariate Gaussian
+
+is also multivariate Gaussian.
+
+So to be specific, let's say
+assume z is a random vector,
+
+which follows a multivariate
+Gaussian with mu and sigma.
+
+And then if we construct
+a new random vector x,
+
+which is the linear transform from z.
+
+So basically, we have
+some matrix a times z,
+
+plus some other matrix b.
+
+So A and b are deterministic,
+
+but z is a random variable.
+
+And let's say, assume z, let's say,
+
+equal to z1 up to zd.
+
+Z is a d-dimensional vector, right?
+
+And then, x doesn't have
+to the same dimension as z.
+
+So depends on the size of A.
+
+So let's say A is a matrix
+
+that is d1 times d, right?
+
+And b is a d1 times one quantum vector.
+
+Then in this case, x equal to Az plus b
+
+is going to be d1 times one, right?
+
+So it's going to be d1 dimensional,
+
+because if A is a square matrix,
+
+then Z and x has the same dimension.
+
+Otherwise, they have different dimension.
+
+But no matter what's the value of x,
+
+no matter what's the value of A,
+
+and what's the value of b,
+
+x are always multivariate normal.
+
+So it's a very useful result, right?
+
+So now, here's the question.
+
+Given that x is a multi-normal Gaussian,
+
+what's its mean and what's its variance?
+
+Well, let's do it, let's
+calculate it, right?
+
+So we know that x follows, let's say,
+
+a multi-normal Gaussian.
+
+Let's say assume its mean
+is mu x, for example.
+
+Represent the mean of x.
+
+And then let's say the
+variance is sigma x, right?
+
+So what's the value, what's
+the value of mu x and sigma x?
+
+Well, let's calculate it.
+
+So, so we can show that,
+
+it's an easy thing to do.
+
+We can show that the mean of x
+
+equals to the expectation of x, right?
+
+Which equals to the expectation of Az,
+
+this is by the definition, right?
+
+Az times b, right?
+
+Now, because A and b are constant vectors,
+
+and z is random variable,
+
+using the linear property of expectation,
+
+we can move the constants
+outside of the expectations.
+
+So we have A expectation z,
+
+plus b, right?
+
+And then the expectation of
+z by definition equals mu,
+
+so we know that the mean vector
+
+equal to A times mu plus b, right?
+
+So now this calculates
+the mean vector of x.
+
+Okay, then we can also calculate
+the covariance matrix of A.
+
+Now it becomes a little
+bit more complicated.
+
+Let's see, but again, we can
+just follow the definition.
+
+Remember the covariance
+matrix equals to expectation
+
+of x minus mu x, which
+is its only expectation.
+
+x minus mu x transpose, right?
+
+Again, remember x minus
+mu is a quantum vector,
+
+and its transpose is roll vector,
+
+so the product of them
+gives you a d-by-d matrix,
+
+d-by-d matrix.
+
+And then, again, we just need
+to follow the definition.
+
+Expectation x equals
+
+to Az plus b.
+
+This is following the
+definition of x, right?
+
+And then minus mu x, we just calculated,
+
+it equals to A times mu plus b.
+
+So A mu minus b, right?
+
+And then, we have,
+
+we have the other term, just
+write it down as before.
+
+Right.
+
+So here we basically just
+plug in the definition of x,
+
+which is A times Z plus b,
+
+and then we also plug in mu x,
+
+which following the earlier definition
+
+is A times mu plus b, right?
+
+And then a lot of terms cancels here,
+
+but regular b cancels with each other,
+
+and then we can combine the A here.
+
+So we have A times z minus mu, right?
+
+And then we have A,
+again, A times z minus mu,
+
+transposed, right?
+
+So the transposed here is the transpose
+
+over A times mu minus z minus mu.
+
+And then we can push the
+transpose inside the product.
+
+We get, when we push the
+transpose inside the product,
+
+we actually need to change
+the order of the product.
+
+This is something within
+multivariate calculus.
+
+And then, so, and then,
+
+it's already very close, right?
+
+So this is the expectation
+over this bunch of things.
+
+But remember, A is a deterministic value,
+
+or A is deterministic, right?
+
+A and A transpose are deterministic.
+
+So we can push the expectation inside.
+
+We can actually move the A
+outside of the expectation,
+
+because they are constants.
+
+So then we have A times the expectation,
+
+Z minus mu, Z minus mu transpose,
+
+A transpose, right?
+
+Now remember, look at this term.
+
+The expectation of mu at Z minus mu,
+
+and Z minus mu transpose,
+
+this thing actually equals
+to exactly the covariance
+
+matrix of Z, right?
+
+So then, in the end, we
+get a very simple formula.
+
+It turns out the covariance matrix of x
+
+actually equals to A times
+sigma times A transpose.
+
+So, let's summarize the result.
+
+So,
+
+so turns out, in this case, right,
+
+we can show that if Z
+is a normal distribution
+
+when u and sigma is practice,
+
+and x equals to A times z plus b,
+
+then we can show that x
+follows a normal distribution,
+
+mu x and sigma x, right?
+
+Where mu x equals to simply
+
+just replace Z with mu.
+
+And then sigma x equals to A sigma,
+
+A transpose, right?
+
+So this is a very useful result.
+
+We can also check the size.
+
+The size matches against each other.
+
+So obviously the size of mu x
+
+equals to the size of x, right?
+
+And also, if we check the size of sigma x,
+
+it's actually d1 times d1.
+
+That's because a is like d1 times d.
+
+Sigma is like d times d, right?
+
+And then A transpose is d times d1.
+
+So if we take a product
+of these three matrices
+
+we get a d1 times d1 matrix.
+
+So this allows us to calculate
+
+covariance matrices of linear transform.
+
+Turns out this is a very useful result.
+
+So now let's use this result
+
+to have a better understanding of PCA,
+
+which is principal component analysis.
+
+So turns out the linear transform
+formula we showed earlier
+
+has a very close relation with PCA.
+
+So, so it turns out using
+multivariate normal Gaussian,
+
+we essentially allow can
+actually have a probabilistic
+
+interpretation of PCA.
+
+So let's set out the case,
+
+and then show the connection with the PCA.
+
+So let's assume,
+
+let's say Z, which is the
+variable that we had earlier,
+
+is a random variable,
+is a random Gaussian,
+
+with zero mean, just for simplicity.
+
+Let's assume mean is zero.
+
+It doesn't matter if
+we have a general mean,
+
+because we can just
+centralize the variable.
+
+And we assume we have a variance sigma,
+
+and the sigma is a diagonal matrix.
+
+Number one to number d.
+
+So here, we are assuming that,
+
+they basically have
+independent coordinates, right?
+
+And the variance of the first coordinate
+
+of z is number one, then number d
+
+is the variance of, say, d, right?
+
+And then, following the, just assume,
+
+let's say we have x equals
+to A times Z, right?
+
+So, meaning that, again, it's
+the same thing as before.
+
+We may add another constant b as well.
+
+So now here's the case,
+here's the setting.
+
+So we assume, we observe,
+
+xi.
+
+So actually, sorry.
+
+So we observe a bunch of samples from x.
+
+Let's say we use this notation
+
+to kind of distinguish
+it with the coordinates.
+
+We observe a bunch of i
+examples from x, right?
+
+We want to estimate
+
+Z, right?
+
+What's the corresponding Z
+that generate x in this way?
+
+Turns out this problem
+is actually equivalent
+
+to a principal component
+analysis, PCA problem.
+
+So let's visualize this
+problem using geometry.
+
+So in this case we are assuming
+Z have a diagonal matrix.
+
+So if we plot the contour
+
+of the Z density, it will
+be something like this.
+
+So let's say this is Z1, this is Z2.
+
+And then the variance of
+Z1, assume it's number one.
+
+And then the variance of Z2 is number two.
+
+Here, we assume number one
+is larger than number two.
+
+So number one has larger
+variation than number two, right?
+
+And then we did some linear transform
+
+of Z, and we get x, right?
+
+Now, x is going to be
+different, have different shape.
+
+That's because A is a matrix
+
+that cannot rotate, and transform,
+
+the vector in the j space.
+
+So let's say x1 and x2.
+
+So on the x space, we will have
+
+a different shape of the contour.
+
+In particular, we can sort of think,
+
+in particular when the
+A matrix is also normal,
+
+meaning that the matrix only can rotate
+
+the vectors without scaling them,
+
+then we can sort of think about,
+
+we are rotating, let's say,
+z1 to another direction,
+
+and z2 to another direction.
+
+So this is the original z1 direction,
+
+this is the original z2 direction.
+
+And this actually makes a
+connection to PCA, right?
+
+Because in PCA, we observe
+a bunch of data, which is x,
+
+and then we want to find the direction
+
+that has the maximum
+variance, maximum variation.
+
+And conceptually, what we can think about,
+
+is that we can assume that
+a class of random variables,
+
+zi that are independent with each other,
+
+and have different variances.
+
+So in particular, let's
+say z1 has larger variance,
+
+and then we assume the
+x vector is generated
+
+by rotating the directions in z.
+
+So some of the direction
+corresponds to z1,
+
+and some of direction
+corresponds to z2, right?
+
+So and then, in PCA, we
+really just want to calculate
+
+all the directions.
+
+And we want to in particular
+identify the direction
+
+that has the larger list of variation.
+
+In this case, it will be z1, right?
+
+So, this is in fact exactly a PCA problem.
+
+And we can also sort of show that,
+
+this is related to the eigen decomposition
+
+of the covariance matrix z, right?
+
+So remember, remember the
+covariance matrix of x,
+
+equals to following the
+formula we had earlier,
+
+it equals to A, the
+covariance matrix of Z,
+
+times A transpose, right?
+
+Now, if let's say this is actually,
+
+exactly our eigen decomposition.
+
+So let's say if they,
+
+if they are independent with each other.
+
+So the original sigma
+is a diagonal matrix.
+
+And then, let's say if we
+assume A and A transpose
+
+are also normal, which only corresponds
+
+to rotating the vectors,
+
+then A sigma, A transpose,
+
+is exactly the eigen decomposition
+
+of the covariance matrix of x.
+
+So what this means is that if we actually
+
+observe a bunch of data xi,
+
+we can actually calculate
+its covariance matrix
+
+and then perform the eigen decomposition.
+
+This allows us to actually estimate
+
+both the A matrix, which
+corresponds to rotating
+
+the directions in z,
+
+as well as the original variance
+
+of each dimension of z,
+
+in this case corresponds
+to the eigenvalues
+
+of sigma x, right?
+
+And the A corresponds
+to eigenvectors, right?
+
+So it has this connection with PCA.
+
+Okay.
+
+Okay, so now, we talked about
+maximum likelihood many times,
+
+and for multivariate Gaussian,
+
+we can also perform maximum
+likelihood estimation.
+
+And similar to the case of univariate,
+
+univariate normal distribution,
+
+the maximum likelihood estimation
+of a multivariate Gaussian
+
+also equals to the empirical mean
+
+in the covariance matrix.
+
+So I think this is a very useful result,
+
+and the derivation is
+also a very good practice
+
+of matrix calculus and many thing else.
+
+So I think I can very briefly
+
+show the derivation of
+maximum likelihood estimation,
+
+show that y actually equals to the mean
+
+and the covariance matrix.
+
+So, in this case, the setting is that
+
+we have a bunch of data points,
+
+that is drawn from multivariate Gaussian,
+
+we want to estimate parameter.
+
+So again, we just practice
+
+the maximum likelihood estimation.
+
+We want to maximize the mean
+and the covariance matrix.
+
+We want to write down
+the log probability Pxi.
+
+In this case, Pxi depends
+on mu and sigma, right?
+
+And then, we can write down
+
+the derivation of the
+log probability, right?
+
+So, we just need to remember the formula.
+
+This is the constant.
+
+And then we have xi mu
+transpose sigma inverse,
+
+xi mu, right?
+
+Right.
+
+And then we need to
+simplify this equation.
+
+Because we are taking the log, right?
+
+So, and then we have,
+
+we need to take the log of two pi,
+
+which gives us n minus log
+
+two pi d plus two, right?
+
+But this term is actually a constant,
+
+so we don't need to worry about it,
+
+for the purpose of optimization.
+
+And then we have the determinant term,
+
+which is going to be log
+determinant sigma, right?
+
+We have n here, because
+we sum over n terms,
+
+and each of the term equals to each other.
+
+And then we have this exponential term,
+
+because that's a log, it
+cancels with the exponential,
+
+so we have sum over,
+
+one xi minus mu transpose sigma,
+
+xi minus mu, right?
+
+So this becomes the likelihood function.
+
+And we want to optimize
+this likelihood function,
+
+which is essentially these two terms.
+
+Now for the mu vector, right?
+
+If we want to optimize mu,
+
+the second term doesn't matter,
+
+because it doesn't depends on mu.
+
+So you can just optimize this term,
+
+this quadratic term, right?
+
+It turns out, it's a
+very easy thing to do.
+
+To maximize this term, we just need
+
+to expand the quadratic term.
+
+We need to calculate
+all the quadratic terms
+
+that involves mu, which is going to be,
+
+in this case, we will have n terms
+
+of mu transpose sigma inverse mu.
+
+And then we need to calculate
+all the crossing terms,
+
+which is going to minus two,
+
+sum over i equal to one to n xi.
+
+And then sigma inverse mu, right?
+
+And then there are a few
+normal terms depends on xi,
+
+which doesn't depend on
+mu, so it's constant.
+
+And then we need to maximize
+this quadratic function of mu
+
+so it has the coefficient
+of the quadratic term
+
+is sigma inverse, and
+the coefficient of the,
+
+it should have a transpose here,
+
+the linear term is sum over
+xi and the sigma inverse.
+
+So basically, just by
+taking the derivative,
+
+we can show that the optimal mu
+
+equals to n times sigma inverse,
+
+inverse, this is the quadratic
+coefficient, and then.
+
+Right, so this is the
+coefficient of the linear term.
+
+And because sigma inverse
+cancels with each other,
+
+so that gives us the
+empirical mean, right?
+
+Now, for the case of sigma,
+
+it's a little bit more kind of involved.
+
+That's because we want to optimize
+
+a function, a matrix function.
+
+It turns out, again, we can use,
+
+we can use the same
+trick we have been using,
+
+which is taking the gradient
+with respect to sigma,
+
+and then calculate the point
+that has zero gradient.
+
+In this case, it's actually easier to,
+
+instead of thinking
+about optimizing sigma,
+
+we can think about optimizing
+the inverse of sigma.
+
+So let, let's say,
+
+Q equal to sigma inverse, right?
+
+And then we can rewrite the last function
+
+with respect to Q, right?
+
+In particular, just to,
+
+so, we call that, this is
+essentially the function
+
+that we want to optimize, right?
+
+So let's erase these things.
+
+So, if we change the variable,
+
+let's say if we change the
+variable Q to the sigma inverse,
+
+then the determinant of
+sigma equals to the inverse.
+
+The negative, the inverse
+of determinant of Q.
+
+So it will actually equals to.
+
+So if we change sigma to Q,
+
+we just change the sign
+of log determinant,
+
+and then we have,
+
+it makes the derivation
+a little bit easier.
+
+And then, let's say define this function
+
+to be a function of Q.
+
+Let's say because mu is already optimized,
+
+so let's replace mu with mu
+hat, which then, pick a mean.
+
+And then we just need
+to take the derivative.
+
+So, the L in this case is a function of Q,
+
+which is a matrix, it's
+a matrix input function.
+
+If we take the gradient, the
+gradient is again a matrix.
+
+Let's say Q is a d-by-d matrix,
+
+then the gradient in this
+case is also d-by-d matrix.
+
+And it turns out, using matrix calculus,
+
+we can show that,
+
+the derivative of log determinant Q,
+
+with respect to Q, exactly
+equal to the Q inverse.
+
+So this is some sort of basic
+fact in matrix calculus.
+
+We wouldn't go through the derivation,
+
+but you can sort of think,
+check why it's reasonable.
+
+So if Q is a number, then
+this log determinant Q
+
+is exactly equal to the log Q, right?
+
+So if Q is a number,
+
+then the log determinant
+Q equal to log Q, right?
+
+Now if you take the gradient,
+
+the derivative equals to Q inverse, right?
+
+So this is really just an extension
+
+of the derivative of log, right?
+
+And then minus one over two.
+
+Now the second term is actually,
+
+a linear function, with
+respect to Q, right?
+
+And if we take the gradient,
+
+we will just get the
+linear coefficients, right?
+
+So it turns out, if we take
+the gradient of this guy,
+
+we get the following:
+
+we get the kind of empirical covariance.
+
+So here, because the
+derivative with respect to Q
+
+is going to be a matrix.
+
+So it turns out, if you do the derivation,
+
+you can show that the
+derivative is actually,
+
+the quantum vector times the roll vector,
+
+which is again the matrix.
+
+Now from here's it already very close, so.
+
+So, if we want to do the derivation,
+
+we want to make sure the
+gradient equal to zero,
+
+and this corresponds to Q inverse
+
+equals to one over n sum
+over i equal to one to n,
+
+xi minus mu, xi minus mu transpose.
+
+Now this is exactly the empirical,
+
+empirical covariance, right?
+
+And the Q inverse is by
+definition equal to the variance.
+
+Covariance, right?
+
+So this finishes the derivation
+
+of the fact that the maximum
+likelihood estimation
+
+of the covariance equals to
+the empirical covariance.
+
+Okay, so thank you very much.
+

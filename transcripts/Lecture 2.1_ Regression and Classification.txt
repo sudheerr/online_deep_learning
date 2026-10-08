@@ -1,0 +1,649 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+In this segment, we're going to look at the basic tasks. We would not want our deep network to be able to perform.
+
+And we'll look at the simplest possible deep network that could perform this task.
+
+And we'll start with linear regression or with regression.
+
+And so in regression where we given we're given an n dimensional input set of and n real values.
+
+And our goal is to produce a d dimensional output.
+
+Uh this is of d real values.
+
+Now for most of this class we'll focus on the examples and outputs that are just one dimensional because it's easier to understand.
+
+But in general regression is defined. A circle is going from n dimensions to dimensions.
+
+And here on the side you can see an example of this, where we have temperature measurements collected throughout an entire year.
+
+And sort of the x axis here is sort of if you're in the beginning of the year, towards the end of the year,
+
+and then the y axis here is showing sort of the temperature that we measured.
+
+Right. Now, linear regression models this task as just a linear transformation from the inputs to the outputs.
+
+Now, in the case of our wet weather measurements, this could be from the day or the time of day directly to the temperature.
+
+Now it's a linear transformation. And then afterwards, after the linear transformation, we'll add what's known as a bias.
+
+And so this bias allows us to sort of add a constant to all of our outputs, or subtract a constant to all of our outputs.
+
+Now this model, the parameters of this model is just the linear transformation W.
+
+This is also known as the weights. That's why it's the w and the bias.
+
+So it's a very simple model. It has sort of two parameters a matrix and a vector.
+
+And it inputs the input as a vector.
+
+The output is a vector. Now, if you look at the temperature forecasts here for, for an example.
+
+So here we sort of zoomed in on one week after 6 or 5 days of uh, the temperature forecast.
+
+And the goal here would really just to be to sort of map from day as an input.
+
+Two. Temperature as an output.
+
+This year. Our measurements. And the last measurement is sort of.
+
+Up here. And what the linear model does is it just tries to explain the relationship between inputs and outputs, really with a line and the weight.
+
+Determines the slope of this line. And the bias determines.
+
+How much this line is shifted up or down. Right now, we'll quickly look at how to implement these linear models in PyTorch.
+
+So here I have a, uh, new notebook.
+
+I import a torch already. I import a torch that I need, which is the neural network library.
+
+Uh, which contains a lot of the functions already, although we're not going to,
+
+uh, we're not going to use, uh, we're going to use it for the linear layers.
+
+All right. And so if we would want to compute if you want to, uh, sort of design our own sort of linear regression model, you would just write linear.
+
+And now here this is number of inputs. Let's call this.
+
+Let's make it a certain number of outputs. Let's make it one because it's easier to interpret.
+
+Interpret. That's it.
+
+Now we just defined our very first linear, uh, for the very first deep network.
+
+Now we can inspect this network a little bit. We could look at its weights.
+
+Which are just a bunch of random numbers. We can look at its bias.
+
+Which is just one number. And the reason why it's one number is because we only have one output here.
+
+Now if we create a tensor. Dear ones, let's create a tensor of ones of size ten.
+
+You can see what is a tensor of ones sort of returns as we feed it to the linear model.
+
+So the input was ten ones. The output is sort of 0.7 uh or 0.73.
+
+We can try it. So. We can try zeros.
+
+And we'll get a slightly different up. Now, if we define another linear model, we can rerun this cell here and we'll get a slightly different output.
+
+The reason for this is every time we define a linear model, it comes with slightly different random weights attached to it.
+
+This is going to be important later on for uh to train these linear models.
+
+All right. Now let's go back to the slides.
+
+And so.
+
+In order to define a linear model, we simply just called torch and then linear, or if we import that and then separately, which is called not linear.
+
+And then. We can simply just feed in tensors into this linear model as if it was a function.
+
+Now, what are some of the limitations of these linear models?
+
+Well, if you go back to our original weather example, I've shown you how to fit a linear model to sort of a week at a time.
+
+But if we look at this over this trend over multiple years, fitting a linear model to it is not going to give us a lot of information.
+
+We would not see any trends that are due to seasons or other cyclical, cyclical, um, patterns.
+
+The only thing we would see is sort of the average temperature,
+
+how the average temperature changed from the beginning of measurements to the end of measurement,
+
+or even worse, if the beginning and the end of the measurement was not exactly at the same same time of the year.
+
+We would simply just see a trend that says, well, we started collecting weather measurements in summer when it was hot and ended in winter.
+
+So we thought the weather was slowly getting, uh, getting a bit colder.
+
+And so linear models are really limited in what they can capture and what they can express.
+
+They cannot do cyclical functions. They cannot do quadratic functions. They cannot do anything that that really isn't just a nice line.
+
+But they are a very good start to sort of try to understand what's behind deep networks and sort of train as a very first model.
+
+Now, let's say our goal is not to do, uh, regression.
+
+So we our output shouldn't just be, uh, real value.
+
+What if we want to classify? What if we have two classes here is class zero versus class one.
+
+And we want to distinguish well, what sort of samples are in class zero.
+
+What samples are in class one. Now the output of our model is no longer.
+
+A real value. It's either a value between 0 and 1, or it's a value either exactly zero or exactly one.
+
+And so that sort of poses a problem. Um, because regression was nice,
+
+that a nice linear model that was able to sort of regress to values between like negative infinity and positive infinity,
+
+but now all of a sudden we actually want output classes. We want to say class zero versus class one.
+
+Now, a trick we can play is that instead of regressing to a real value or to the exact output,
+
+we'll regress to the probability of a certain output taking class one and the probability of this output taking class uh zero.
+
+And this probability is again a real valued number.
+
+The only constraint that we have to that probability is that probabilities cannot be negative.
+
+And the probability cannot be greater than greater than one.
+
+And so if we want to take the problem of binary classification, sort of splitting things into two classes and put a linear model on top.
+
+What we do is we'll regress to probabilities of.
+
+Class one versus class zero. And we'll use a function call to the sigmoid function here to help us regress to probabilities.
+
+And so what a sigmoid function does is it takes values that are ranging from negative infinity to positive infinity.
+
+And it will squash them such that they're always greater than zero and no, no larger than one.
+
+And to lead the way to squashing happens. Is that first?
+
+We'll put the number into the negative exponent, which makes sure that the bottom of the equation is always positive.
+
+Hence. This entire thing is going to be always positive until we add one to it and division by
+
+any one divided by one plus some positive value is always going to be smaller than one.
+
+And so what this does is the sigmoid function.
+
+It takes values between zero uh negative infinity and positive infinity and it will squash them between zero.
+
+And one. And now we can set up a regression task with the exact same linear model that we used before.
+
+But now we'll regress to probabilities.
+
+Probabilities of a certain example being part of class one,
+
+and that the probability of the thing being a part of class zero is just one minus this, uh, probability of class one.
+
+Now, the linear model that we're going to use here is exactly the same regression model.
+
+We're just wrapping it with a sigmoid around it. The parameters are also exactly the same parameters.
+
+All right. So the model, the deep network that we look at under the hood is exactly the same.
+
+Now we're just going to wrap it with a sigmoid function that allows us to do binary classification.
+
+Now the interpretation of, uh, binary classifier or a linear model that does binary classification,
+
+um, sort of requires you to look at the problem in a slightly different way.
+
+Remember before we had linear regression, and in linear regression,
+
+the bias was sort of how much we shifted the line up and down, and the weight was exactly where we had this decision boundary.
+
+The separation between class one and class two.
+
+Now for classification. This decision boundary looks a little bit different.
+
+And. The weight.
+
+W essentially determines that the rotation of the decision boundary between class zero and class one,
+
+and so that weights w is always to sort of the normal or that, uh, the normal off the plane that separates the two classes.
+
+If you want to think of this geometrically, and then the bias is how far.
+
+We're shifting this plane sort of up and down. So one is the rotation of the plane or the orientation of the plane.
+
+The other one is sort of the shift of the plane. Now, if you look at this in, uh, with a second sigmoid in there,
+
+then really what the sigmoid does is it assigns sort of a 5050 chance probability exactly to decision boundary.
+
+And that's where sort of just w x plus p is zero.
+
+And then as we sort of move further away from this decision boundary,
+
+the more certain the classifier gets and sort of here we'll see probabilities close to one.
+
+Here we'll see probabilities close to zero. And then as we get closer we get closer and closer to 5050.
+
+Now let's look at an example and a very sort of simple example, as if we look at our weather forecast, uh, our weather forecast example.
+
+Um, instead of regressing to sort of.
+
+Temperatures from day. We can now look at an example where we look at consecutive temperature measurements between consecutive days.
+
+And we just interest. We are interested in figuring out is it going to rain or is it not going to rain,
+
+depending on how much the temperature increased or dropped from one from one day to the next?
+
+And so the way we have model this is we would have.
+
+X here to input p two consecutive days temperature measurements.
+
+Then we have a weight. That simply just compares these two measurements.
+
+Then we have a bias that sort of adjusts for are we expected to brainless or are we?
+
+Or are we expecting it to rain more or are we expecting it to rain less?
+
+And so in this example, the output here will always be probability of rain given two different possible a potential input temperature measurements.
+
+Now we can look at this again in PyTorch. Um, and.
+
+We'll look at. How do we build? A linear classification model.
+
+Now to build. A linear classifier.
+
+We'll start with uh torch and then module and so torch and then module.
+
+Any, any part uh, any sort of model that you will ever build in PyTorch is going to be a torch and a torch.
+
+And then module, um, there's some special rules on how you should sort of use these modules.
+
+Um, the very first one, that sort of copilot code, right, is the very first line in a module is always going to be calling super in it.
+
+And so this will tell PyTorch itself. Initialize the module.
+
+If you don't do this, you will not be able to use this as a as a deep network.
+
+Now. The linear classifier has a fully connected layer inside, so it's sort of a linear model inside.
+
+Which will define up here. It has a certain number of input dimensions, a certain number of output dimensions.
+
+And then the output here is going to be. We're going to get a tensor as an input.
+
+We're going to transform input a linear model linear model.
+
+But then we'll also. Pass it through a sigmoid function.
+
+And so the sigmoid function is defined and functional. And if we instantiate this model.
+
+So if you have linear classifier. And look at it.
+
+You can see here the weights of this model are just another linear layer inside.
+
+Wait. I am all right.
+
+This should work. Okay. Perfect. So this is the wait. Bias.
+
+If you feed in. A bunch of zeros.
+
+We will now get sort of this. We're lucky. This is a chance of 5050.
+
+We can feed in. Larger values.
+
+You can even feed in more values. So we can do sort of.
+
+You can feed in 100 by ten random values, which will give us sort of a bunch of probabilities that are all between 0 and 1 as outputs.
+
+Now this is the definition of the linear classifier.
+
+Now, for reasons that we'll explain later in class, you should never, ever put a sigmoid directly in your model.
+
+So in practice, if you want to define a linear classification model, you will always define it as just this linear layer.
+
+You will not add any outputs, uh, add any sort of transformations to the outputs.
+
+Uh, this has begun to become numerically unstable. And you shouldn't do this.
+
+We only did this here to show you what the model would look like.
+
+But in practice, if you're going to go and train this model, you should not add the sigmoid inside of the model.
+
+All right. So let's go back to the slides. And so this is the simple example that we just went through for the, uh, linear classifier.
+
+Now same as linear regression. Linear classifiers are not very powerful models.
+
+Um, and so one of the most fundamental things that they can actually not express is sort of any function that has sort of two separating planes.
+
+So if you'd want to separate here, the minuses that are in two corners from the pluses that are in the two opposite corners,
+
+there is no linear classifier, at least not in sort of the simple input space here.
+
+There is no linear classifier that will separate the minuses from the pluses.
+
+And so for that to separate these will need a bit more complex model and will need true sort of deep linear uh, deep deep neural networks.
+
+The next thing we're going to look at is we're going to look at multiclass classification.
+
+So before we only looked at sort of how do we separate class zero from class one.
+
+But what if we have sort of c different classes.
+
+So what if classes from one class one to class C and you would want to sort of separate them all or classify them all.
+
+And so here for this deep network, the input is again a real valued number.
+
+And the output now is going to be one sort of class in C possible classes.
+
+Now this is also something like. Like with binary classification, it's not something we can directly parameterize.
+
+We can not regress to this directly, but we can regress again to the probability that a certain output is of class C.
+
+And that probability has a very special structure. The probability.
+
+Which we call P to the C. These are C real, real valued numbers.
+
+They're all positive. And they have one additional constraint.
+
+So there are C positive numbers that all sum up to one.
+
+That's all the probability is. And so we can phrase multi-class classification as sort of a regression problem.
+
+But now we request from input to probabilities.
+
+And just like we had, uh, function that sort of that transformed our.
+
+Inputs to binary classification probabilities.
+
+We have a function that does this for multiple classes, and that function is called the softmax function.
+
+And it's just a straightforward extension of the sigmoid function to multiple classes.
+
+And so what the softmax does is it exponentiated?
+
+All the values that it gets as an input, and then it normalizes them to sum up to one.
+
+So it's a very, very, very simple function. Now linear multi-class classification problems.
+
+They again just have the very same weights as our, uh, as our linear models.
+
+They have a weight matrix W and a bias B.
+
+There is one difference though. Before for regression and for classification, we could just have one possible output here.
+
+Uh, we could always regress to sort of an output of one. Uh, in binary classification it's a probability of.
+
+So if the output in taking class one and in regression is just sort of a real, uh,
+
+real valued number for multi-class classification, we will always have to regress.
+
+To an output size C, where C is the number of classes we want to split or you want to build things in.
+
+But we can look a little bit deeper into, uh, the softmax function, a softmax function here, and see how exactly it does the transformation from.
+
+Real valued inputs to something that's a probability over in classes.
+
+And so the input to the softmax function here.
+
+R see. Real values and they can go from negative infinity to positive infinity.
+
+And the output is going to be this probability over all possible classes.
+
+The softmax itself exponentiating first all the inputs.
+
+And what exponentiation does is it takes any input from negative infinity to positive infinity, and now makes it between zero and positive infinity.
+
+And the next thing that happens here is. After we exponentiate all the numbers, all the inputs and made sure that they're positive.
+
+We're now normalizing them to all sum up to one.
+
+And so what the softmax really does is let's see if we have a bunch of inputs.
+
+So we one we to p three.
+
+Let's say these inputs are from negative. Five.
+
+To five. What the softmax does is it implicitly assigns the largest probability mass sort of the the
+
+most it says the most probable output is going to be the one with the largest value here.
+
+So this one will get the highest probability. This one is second highest.
+
+And depending on how large the spread is between the highest and, uh, the smallest, the smallest one might get a probability it's close to zero.
+
+And so it sort of maintains the order between all possible inputs, but then squashes them to all sum up to one and be positive.
+
+All right. And so one nice property of multi-class, uh, classification.
+
+Linear or non-linear, is that the softmax itself actually maintains the order of its inputs.
+
+And so if we are interested in classifying something which is producing an exact class label for a specific input,
+
+what we can do is, well, we could run it through the softmax and then find the max class label for a specific element in a softmax.
+
+But the softmax does not change the order. It doesn't change which element has the highest, uh, the highest value.
+
+And so we can just look at the highest value of the exact of the regression output here directly.
+
+And so that's sort of an intriguing property of softmax. And that's why we like it. That's why we use it.
+
+It does not change the order. It just makes sure the outputs are probabilities that are somewhat interpretable over multiple classes.
+
+Now. The geometric interpretation of softmax is similar to the geometric interpretation of the sigmoid function.
+
+But now, instead of having one direction in which we sort of have a type separating,
+
+uh, a separating plane, we now have three directions, one for each class.
+
+And the bias itself is also for each class.
+
+And so what the bias will do is it will sort of pull. These separating planes to one side or the other,
+
+and then the weight will just sort of determine what is the most sort of class one direction that you could think of.
+
+What is the most class two direction you can think of? Excuse me.
+
+Now, the softmax itself will blur this out a little bit, and it will make it more sort of probabilistic such that certain classes are tied,
+
+um, if they have roughly the same distance to one another, which is shown here.
+
+Now let's look at an example.
+
+Um, we again can look at the weather example where we have the temperature on day one measure versus the temperature on day two.
+
+Maybe we'll have some other measurements that we're going to collect. And if we want to convert this into a multi-class classification problem,
+
+the very first thing we need to do is instead of outputting a single value, we have to output multiple values.
+
+And here is an example with four different outputs. One would be for probability of rain, snow, hail or sun.
+
+And then sort of we would regress to four different values here.
+
+Then we have a bias for four different values.
+
+And again, the geometric interpretation really is that we split the space into multiple possible set of.
+
+Sectors, each one of which is sort of defined by the bias and bias of the weight of the regression.
+
+To do this in PyTorch. What we need to do is.
+
+We'll copy this linear classifier. Somewhere down here.
+
+And we'll modify it. Now.
+
+We'll change this to number of classes is the output.
+
+So now we have a linear model that goes from number of inputs to a certain number of classes.
+
+And here. Will change to the sigmoid.
+
+To the softmax. And we'll also specify that the dimension over which we want to do the softmax.
+
+So since the output here is, uh, can have multiple dimensions, it's always going to be the last dimension.
+
+So always the last dimension is the one. Where are we going to look at um, where are we going to sort of.
+
+And code the classes up. So let's see.
+
+Let's look at a for class example here. We'll feed in a vector of ones.
+
+And here the output is now four values.
+
+They're all positive and they're guaranteed to sum up to one. If we do this again with sort of.
+
+Some more. Random values.
+
+Let's actually just do 20 here. You can see again, sort of we're going to kind to get a bunch of, uh, probabilities for each individual input example.
+
+And all of them are going to sum up to one. So we can even verify this. They're all summing up to one.
+
+All right. And so the only thing we have to change to go from binary classification to
+
+multi-class classification is we made sure that we have multiple outputs here,
+
+and then we feed it through the softmax function.
+
+Just like with binary classification, you should never define your model with a softmax inside of the model.
+
+This numerically is this is numerically not stable and you should always produce or use the softmax outside when you're training your networks.
+
+All right. Now similar to.
+
+Binary classification. Multi-Class classification if we only use a linear function.
+
+Has a hard time separating set of concepts that are disjoint.
+
+So it is very good at sort of splitting the space and saying this quadrant of the space is class one.
+
+This other smaller quadrant of the space is class two and so on.
+
+But it struggles separating classes that are disjoint.
+
+So here if the pluses. Are disjoint and in between.
+
+There's a lot of negative classes. Or if we say we have sort of class sort of.
+
+Another class somewhere here. Then multi-class classification will not be able to split or to sort of model the pluses, uh, appropriately.
+
+And we will need deeper networks that will cover later in class to be able to learn such a separation.
+
+Now, there's one other important distinction here which is multi-class classification versus multiple binary classifications.
+
+And. I'll show you again in, uh, in a notebook here.
+
+What? I mean, with this. So we could, in theory, replace this softmax here instead of having a softmax output.
+
+We could now just again call the sigmoid function here.
+
+All right. Two Sigma doesn't have a dimension.
+
+And we would again get four outputs. Now the catch here is that if we do a sigmoid there are still going to be positive.
+
+They're going to be between 0 and 1 but they're no longer summing up to one.
+
+All right. And so we can do sort of multi-class classification with a sigmoid as an output.
+
+But it has a very, very different interpretation.
+
+And so what that interpretation here is. It is sort of if we do multiclass classification, we use a softmax.
+
+And so that one sort of describes. Exactly one.
+
+Like we have an output that describes exactly one category.
+
+If you're interested in sort of classifying into a bunch of categories and we only want one output,
+
+it's either category one, category two, or category three. Then we should always use a softmax.
+
+The softmax has some nice properties like we don't need negative examples for uh,
+
+because if we have examples of class two and three they're automatically negative examples of class one.
+
+So we don't need to tell the model what is not class one.
+
+We can just tell it it's class 2 or 3.
+
+Um, the outputs are always calibrated in the sense that if we want to know what is the highest likelihood output, uh,
+
+if we need to choose between, uh, a bunch of different classes, we should always use softmax and multi-class classification.
+
+Um, and categories are sort of assumed to be mutually exclusive.
+
+You can either be you can only be in one out of ten categories.
+
+Now, if you use a sigmoid with multiple outputs, that is a multi sort of model as multiple binary classifications.
+
+Now this does allow for multiple outputs.
+
+So you can have an output that says yes it is class one and yes it is class two.
+
+Or maybe it's neither of the two. Maybe it's none of the classes that you have seen.
+
+Um, in order to train this, you do not require negative examples.
+
+So for each class you need to now know which, uh, which example is part of this class and which example is not part of this class?
+
+And the biggest catch is that.
+
+If you use this and you want to use this for classification, for multi-class classification, the output is not calibrated.
+
+And what that means is that, um, if I would want to classify rain versus snow versus,
+
+um, fog in our weather example, you train, I train it as multiple binary classifiers.
+
+And now I would want to know. Well, tomorrow. Is it going to rain?
+
+Is it going to snow or is there going to be fog? I could not tell this using this model.
+
+Because the probability for rain has a different reputation than the probability for fog.
+
+The probability for snow. And they are not comparable.
+
+Um, and so most often multiple binary classifiers are used for multi, uh, label tagging.
+
+And we can look at some examples here.
+
+Um, so one example is if I would want to determine where it will rain in Texas there's multiple locations where it could rain at the same time.
+
+And so I could use multiple binary classifications here.
+
+Um, if I want to predict attributes of objects or animals that are not mutually exclusive.
+
+Again I would use multi, uh, multiple binary classifiers.
+
+Um, also if I would want to sort of if I had a sentence and I would want to detect, hey, what's this sentence copied from somewhere.
+
+Uh, I would build a model that says in literature,
+
+I searched through a large amount of literature and just cut the sentence with copy and slightly modified.
+
+Where would I find this? This is again a problem where maybe there's multiple sources where the sentence could have come from.
+
+And so again, you could use multiple binary classifiers.
+
+Now, on the other hand, if you're interested in sort of predicting mutually exclusive things such as rain, cloud,
+
+sunny for one specific location, then you would always choose a multi-class classification with meaning softmax.
+
+If you would want to predict the scientific name of an animal.
+
+Each animal only has one a scientific name, but you would again use multi-class classification in the softmax.
+
+And finally, sort of if you'd want to produce a sentence by predicting the next word, one word at a time,
+
+you would also use a softmax classifier, because there's only one next word that you need to predict.
+
+And you cannot put two words sort of on top of one another in parallel in a sentence.
+
+Hi. So in summary, um, linear models are a very, very simple function, uh, model.
+
+Uh, if they're very simple class of models, they have a weight and a bias.
+
+If you're interested in linear regression, this is really just sort of a linear transformation.
+
+Matrix multiplication plus bias. If you want to do binary classification, we'll take a regression and wrap it with a sigmoid.
+
+If you want to do multiclass classification, we'll wrap it with a softmax.
+
+And both the binary and multi-class classification. The output is going to be a probability over classes.
+
+That's it.
+

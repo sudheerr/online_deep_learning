@@ -1,0 +1,557 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So let's look at some examples of tensors in PyTorch.
+
+I'll show you how to create some tensors. Uh how to manipulate them, how to look at them.
+
+Uh, I'll even show you how to sort of convert images to tensors.
+
+Um, and to get started, um, the very first thing we'll do is we'll import torch.
+
+Um, so this will load PyTorch. We'll select our Python kernel here.
+
+And. Then to create a tensor.
+
+We can start. Oh. All right. Uh, copilot already suggested to create a tensor of three values.
+
+We can simply just sort of put a list in there. And so this will create a tensor from the elements that are in, in that, in that list.
+
+And so if we look at a it this will create a tensor with uh with values one, two and three in there.
+
+Now the shape of this sensor. It's going to be three.
+
+So it's sort of a vector of three values. The number of dimensions here is one because it's just a vector.
+
+And then finally we can look at the type. And so the type in this case is UNT 64.
+
+So what PyTorch does internally it looks at the value or the type of the value you feed in.
+
+And if I would make any of these here a floating point, this will now change type of the vector to the of the tensor to float32.
+
+And so by default you should prefer float32 tensors, unless you have a very specific reason to to make it to make it integer.
+
+Um, we can either do this by converting one value to float or by specifying the dtype in here.
+
+And so what this does, it will just create a tensor of floating point values.
+
+Now creating a tensor like this, um, for a large number of values is going to be pretty tedious,
+
+because you first have to provide a gigantic list of Python values, and then you would go and create a tensor.
+
+So there is some shortcut, uh, shortcuts to this. So we can create a tensor P.
+
+And if we are only interested in a tensor that has zeros in it.
+
+We can. Specified or created.
+
+With the function zeros. And nothing special happened here.
+
+We created the same. The same size tensor.
+
+But for this one we can now say, well, actually we want a 20 zeros and you will create a tensor of 20 zeros.
+
+Well maybe we want ten by ten zeros. And this will create a tensor of ten by ten.
+
+And we can increase this. Uh we could do sort of three by three by three.
+
+And now this will create a tensor of sort of um, three by three by three zero elements.
+
+We can also change this to ones. And if you really want to.
+
+You could also change it to random values.
+
+So these are sort of the three most common functions that you will need.
+
+Zeros ones or random values. And so this is the basics of how you create a tensor in PyTorch.
+
+I can also load a tensor, uh, from an image.
+
+So. We'll import Pil real quick.
+
+And no, we do not use Linux. She is outdated.
+
+We have an image of a cat though. Um.
+
+And so. I'll show you the sandwich real quick.
+
+This is an image of a cute little cat. Now this here is a pig image, and we'll have to do some work to convert it into a tensor.
+
+And so to convert anything into a tensor, you usually use the function s tensor.
+
+Now this will not work directly. It'll tell you that sort of the Jpeg file does not have a D cannot.
+
+You cannot infer the D type from it.
+
+And that is because PyTorch likes to convert numpy arrays, which is a different library into, uh, PyTorch tensors.
+
+But it does not know how to import images directly. And so to get around this will import numpy real quick.
+
+And first make this a numpy array. And then convert it into a tensor.
+
+And now instead of seeing this cute little kitten, you will see just a bunch of RGB values.
+
+Stored in a three dimensional tensor. Now we could also look at the shape of the stencil real quick called a C.
+
+So you can see this is the height of the height of the image. This is the width of the image.
+
+And then three is the number of color channels. The D-type here is going to be under eight, which is the basic type for emitters.
+
+But if you'd want to change this, you simply can write float here and this will create a floating point image.
+
+All right. So this is how sort of you create and and load tensors.
+
+Um, there's many more ways you can load your data into tensors. Um, but we'll sort of cover most of this in homeworks, uh, as needed.
+
+And the next thing we'll do is we'll show sort of what are basic operations for tensors.
+
+And so. We'll create a tensor of ten elements.
+
+And. So tensor if once.
+
+So we'll print a and B real quick. Let's do this.
+
+Prettier. All right.
+
+So a here is a tensor, uh, that goes from zero.
+
+To nine of ten elements.
+
+B is a tensor of just ones of ten elements.
+
+Now to add these two together. You can simply write a plus B.
+
+Uh, this here is an F string. We can also do it outside of the F string if you would prefer.
+
+It does exactly the same thing, and it will add the ones in B to every single element in A.
+
+We can do the same thing for. Multiplication just sort of boring because it doesn't change anything.
+
+Subtraction. Division.
+
+We could even do it for to raise something to a power.
+
+And here this is going to be more interesting. This is just squaring everything.
+
+All right. Um. Now, one thing to consider if we adding up numbers.
+
+If we. Have two tensors that have not quite the same shape.
+
+So if we have a tensor of five elements and a tensor of.
+
+Uh four elements. This will result in an error because PyTorch does not know how to add them together.
+
+Right. So make sure that you always have tensors of the same shape, um, that you add together.
+
+There's going to be one exception that we'll cover later in class, which is broadcasting,
+
+which allows you to sort of add together tensors of different shapes and sizes under very specific circumstances.
+
+All right. Um, now, one really cool thing about tensors is that you can add together a lot of numbers, and you can do this very efficiently.
+
+So let's. Just create tensors of a million.
+
+Random numbers. And compute.
+
+Sort of the product between the two and no time pass, right?
+
+We can even increase this probably to a billion numbers.
+
+And it's going to take slightly longer.
+
+Um, in part it's going to take longer because generating a billion random numbers is going to be, uh, slightly more ambitious.
+
+And then the addition itself is also going to take a little bit longer. All right.
+
+Now let's time this real quick. How long does it take to add together two vectors of random numbers?
+
+All right, so it takes about 400 milliseconds, uh, to add them together.
+
+Now. PyTorch itself is actually, uh, heavily optimized and sort of language that allows you to quickly offload computation onto a GPU.
+
+That's what we can do right now. So we'll take a.
+
+And. P. Put them both onto the GPU.
+
+That's that. We do this sort of with the two Cuda call or just Cuda.
+
+And now. Little time. How long it takes to add them together in Cuda.
+
+Oops. Uh.
+
+All right. It looks like the coup de setup here is currently booked out because of a driver issue,
+
+but, um, you can we'll post this on line after and we'll show you this example later.
+
+All right. Now let's look at sort of manipulating tensors and their shapes a little bit.
+
+Um, so one thing let's start with creating by creating a tensor with six elements.
+
+To go from 0 to 6. Right now the shape of this tensor.
+
+Is going to be just six. But we can look at this same tensor as sort of a two by three.
+
+Tensor. And now what PyTorch will do is they will keep the values of the tensor around, but it will change the shape to whatever you specify.
+
+And so there's two functions that do this. Um one is view and the other one is reshape.
+
+Uh they differ slightly in what they do under the hood.
+
+View will not copy the underlying data.
+
+It will simply just change the shape and reshape will copy the underlying data.
+
+All right. Um. Next thing we can do with tensors, uh, is we can start to do some basic linear algebra.
+
+Um, so let's start with, uh, random matrix, uh, two by three and we'll have uh, we'll transpose it.
+
+So it will show a and.
+
+8.mt. All right.
+
+And so, uh, make sure that if you transpose a matrix, uh, should always use the empty function.
+
+There's also a T function here, but that is deprecated, and you should not use it.
+
+Uh, if you can, if you can live without it. So just use empty, which means matrix transpose.
+
+And what it will do is it will take your matrix and you will transpose it.
+
+Um, now, other sort of, uh, things you can do with it is we can permute the dimensions of a matrix.
+
+So we'll sort of make, uh, two by three by four tensor.
+
+Now. So this will create sort of, sort of lists of two, uh, sort of two matrices of size three by four.
+
+And now we can start to permute dimensions here.
+
+And what this does is similar to the transpose where we mirrored along an axis and sort of swapped the first and the second dimension.
+
+Transpose allows us to sort of or permute allows us to swap any dimension.
+
+And so we cut 1 to 0 and this is the transpose of it.
+
+It's easiest to see what happens if you print out this shape. And so what this happens.
+
+What happened here is we just said, well we want a new tensor.
+
+But now the data that was stored along the second dimension of size three is now stored in the first dimension.
+
+The data that was stored originally in the third dimension, which was of size four, is now stored in the second dimension.
+
+And then finally the data was stored in along.
+
+The very first dimensional array is now presented in the last dimension.
+
+And so this is often helpful if we're sort of loading manipulating images or other data that is uh,
+
+sort of shuffled or rearranged in a, in a very, in a various, uh, in various forms and make it such that deep networks can process it.
+
+And so in the input to the deep network, you will often see permutations of your data, uh, to sort of most efficiently feed it into a network.
+
+Um. Now we can also add and subtract dimensions.
+
+So let's start with a simple. Matrix, uh, or a vector of, um, six numbers.
+
+This has a shape of to six. If you would want to add dimensions, you can do this by indexing into the main into the tensor with, uh, special keywords.
+
+None. And so what this does is it creates what's known as a singleton dimension.
+
+So we'll create a dimension of size one exactly where I specified a none.
+
+If you would want to put in this dimension at the end, what you would do is you would first.
+
+Right. Colon. Come on. None. And now this will add in and uh, an additional sort of none dimension in the end.
+
+We can also add uh, one, uh uh, sort of a one to the shape both in front and after our data.
+
+And that will, we can do this with us writing. None.
+
+Colin. None.
+
+And so the way you can see, uh, you can visualize this is sort of the Colin means it is your first sort of dimension that you're looking at.
+
+And then the second time you specify, they call, uh, Colin. It's a second dimension.
+
+And so we can see this real quick. So if we reshape the above matrix.
+
+To a matrix. That's three by two. So visualized sort of three by two here.
+
+We can add additional. Dimensions of size one.
+
+Sort of anywhere in here. If you would want to add it.
+
+And the beginning and the very end. You would apply to Collins.
+
+If you would want to just add it sort of in the beginning, you could just write it with one column, two columns.
+
+That doesn't matter.
+
+If you want to add it to the very end and you don't know how many dimensions there are, you would write dot, dot, dot and then none.
+
+And so that will index. That will add, that will add all the dimensions of the of the uh tensor here and then add none.
+
+If you want to do it from.
+
+If you want to enumerate from the back, you can I can use dot, dot dot and the dot dot dot will sort of fill up all the dimensions that you have.
+
+You will add in a nun, which is here, you will add in to the last dimension which is specified by the column, and then add in another non dimension.
+
+There's lots of things you can do to sort of blow up dimensions.
+
+If you only add dimensions of size one to the tensor. There's also the opposite.
+
+So we can remove dimensions from a tensor as long as they have, uh, sort of size one.
+
+And the squeeze function does this. So let's create a tensor that has three by two by one by one elements.
+
+Now we could remove the last dimension by just sort of indexing into zero, which is sort of a slightly ugly way to do it.
+
+It's more compact than most other notations, but it's a bit harder to read.
+
+There's also a very specific function. Squeeze.
+
+And now you specify which dimension you would want to squeeze.
+
+Let's say we want to squeeze the last dimension here and that will remove the last dimension.
+
+We could also squeeze the second last. You would get the same result.
+
+Now if you want to try, if you want to squeeze the first one, nothing will happen.
+
+And the reason why nothing will happen is because the first dimension is not size one, and so it cannot be just removed.
+
+Finally, there is a way to just call squeeze without any arguments and you will remove all dimensions of size one.
+
+You should never call this function. Uh, this is quite dangerous, uh, because oftentimes you don't control the input dimensions.
+
+Uh, you don't know if somebody would want to just feed in one data element and calling
+
+squeeze without any arguments will remove all the dimensions that have one,
+
+the ones you want and the ones you might not want. All right.
+
+Um, now, we already looked at sort of how to add individual, um, how to add individual vectors together.
+
+Um, there's a very specific concept on how we can add, um, sort of tensors together that don't quite have the same shape.
+
+Um, we can go back to our example where we wanted to add, uh.
+
+A vector tensor or a vector of four elements to a vector of.
+
+Five elements. And so adding them together, uh, will get you an error.
+
+However, we can add them together if they're not. If they if they if they're sort of their mismatch is along dimensions of size one.
+
+And so if you would want to add. A tensor of size four to a tensor of size one.
+
+While PyTorch will will will let you do it, and the output is a tensor of size four.
+
+This also works the other way around. So if we make this five and this one, this will also work.
+
+Now one. Very interesting. Uh. Concept here is that we can actually increase the dimensions of the tensor.
+
+And if we. Now.
+
+Add these two together. All of a sudden we'll get an output.
+
+And so what happened here? Well, before we had a tensor of five elements and added sort of a scalar to it, which is just one value.
+
+And PyTorch is like okay, fine, I'll add the scalar everywhere in the, in the in in the tensor.
+
+This is fairly basic, um, tensor or basic sort of basic math.
+
+What's happening here is what's known as broadcasting.
+
+And so. What PyTorch does internally.
+
+It says, oh, okay, you ask me. To take a tensor of size four by one, and now add a tensor to it that's of size five one by five.
+
+Now I'm going to do this. I'm going to replicate this above tensor A here.
+
+I'm going to replicate it five times along its second dimension.
+
+I'm going to replicate the bottom one four times along its first dimension.
+
+Then they have the same dimension. And I can add them together. And so that is known as broadcasting.
+
+This is a very powerful concept, uh, and it allows you to write very complex mathematical operations in fairly, in a fairly compact and small form.
+
+Um. And so. To just sort of show you.
+
+What this broadcasting does. Let me.
+
+Sort of take you through an example. Set above.
+
+A is. As values from 1 to 10, from 1 to 4.
+
+B has values one, ten, 20, 30, 40.
+
+Now adding a and B together. Well now.
+
+Take the zero that's in a here.
+
+Add it to ten, 20, 30, 40. Then you will take the one in the next element.
+
+Add it to one, 11, 21, 31, 41 and so on and so forth.
+
+Now instead of if instead of adding, we multiply to two.
+
+We actually have an operation that most of you might be familiar with.
+
+And this is the outer product. So we can write the outer product here as sort of elementwise multiplication
+
+of sort of elements in the first vector with elements in the second vector.
+
+And then we'll just create this big output matrix.
+
+Now broadcasting allows us to express any operation, just like to, just like the outer product or others.
+
+Oops. What line is here? It will allow us to express almost any operation that we can sort of fit into the right shapes.
+
+Any element wise operation we can do just sort of apply to all possible elements.
+
+Um. Excuse me. Um, now we can also sort of look at sort of simple examples of broadcasting and we'll go through, uh, some of them.
+
+So let's look at sort of, uh.
+
+Say we have an input x. That's the random numbers.
+
+It's 100 times to numbers. We would want to compute the distance between all pairs of random numbers.
+
+Um, now Colab was, uh, copilot was already good enough to actually give us that, uh, solution I wanted.
+
+But if we want to do this without broadcasting, we would have to first create a tensor T that sort of that has 100 by 100 zeros.
+
+And then we'll create this double for loop.
+
+Um, that sort of computes the distance which is the square of the difference between sort of two elements here x I and x j.
+
+And then we'll compute the sum of this. And we can.
+
+Let's make this ten. It's a bit easier to read. And so this will just create sort of this gigantic tensor of sort of pairwise distances.
+
+The diagonal is always going to be zero. So this is zero. This is zero.
+
+This is zero because the distance from any point itself is always zero.
+
+And then distances to other points sort of vary wildly. Now we can write it this way with a sort of a double for loop.
+
+It's not very efficient, and it's also a little bit tedious to write, and it's a bit hard to to read.
+
+And so we can write the same thing here using broadcasting.
+
+And what we'll do first is we'll take the input x.
+
+Now we'll add a singleton dimension. So we'll add this dimension one in the second position.
+
+And then we'll take x again add the add the one in the first position.
+
+And so we'll do that. What that does is it subtracts any sort of.
+
+It subtracts any row of X from any other row of x.
+
+Then we'll take the square of all elements in here, and then some along the last dimension, which is sort of.
+
+Then I'm gonna add, uh, then I mentioned two here, which was uh,
+
+which will just sum up the sort of the dimension of, uh, along the sort of the, the channels of X.
+
+All right. So this is a very compact way to write sort of.
+
+Fairly complex. Uh uh. Notation.
+
+All right. Now we can look at another example here.
+
+Um, and.
+
+Let's copy this overall. Let's say instead of wanting to find just the distance between, um, between sort of all pairs,
+
+we now interested in finding the maximum distance between any point in X, in any point x and y.
+
+Either way, we'd have to, uh, change. This is.
+
+We changed this to max distance. The maximum distance is some really large value initially, and then the index is minus one or.
+
+And now we would. If the distance between I and J is sort of larger than max.
+
+Max distance. And copilot already had it here.
+
+Um, but we'll just update max distance.
+
+We'll, uh, update it. And.
+
+The result. And here I should make the zero.
+
+The result is going to be sort of the maximum distance.
+
+And the two elements that have the maximum distance from one another. Right.
+
+Now if you would want to write this in, uh, in PyTorch, um, you could really just compute this pairwise distance using broadcasting and then.
+
+We'll compute the maximum value and the argmax out of it.
+
+Now here the one caveat is the arg max here is actually flattening the array first and then computing uh the distance.
+
+So we would have to divide by ten and sort of.
+
+Take modular ten because ten is our dimension. Now, if you compare sort of this amount of code up here.
+
+To set off the simple two liner with the print statement.
+
+Uh, I would argue that broadcasting and sort of manipulating everything in sort of gigantic tensors is a lot easier.
+
+Now, I don't expect you to become a pro overnight at this.
+
+So this takes, uh, quite a bit of training. Um, but I just want you to be familiar with the basic concepts.
+
+We'll have a more detailed write up of this on the webpage.
+
+We'll have more examples of this on the webpage. And we'll also sort of through the homeworks.
+
+Uh, you will get more and more familiar with sort of what you need, uh, in terms of broadcasting from sort of from PyTorch.
+
+Um. Now, before you wrap, this segment will also look a little bit, uh, sort of basic linear algebra.
+
+Uh, we'll cover this as well. And so since we already introduced tensors, we now can look at some examples of matrices.
+
+And. So this is a matrix A and B and copilot already magically figured out that I want to do matrix multiplication between the two.
+
+Matrix multiplication between, uh, two matrices in PyTorch is expressed as the at symbol and this.
+
+Will produce. An output matrix is of size two by three.
+
+Um, this also works, uh, for vectors, as you can also do matrix vector multiplication in here.
+
+Um. Let's say we would only make this, uh, size four.
+
+This will now just do matrix vector multiplication. It will not work if we do.
+
+If we have the wrong dimensions here, this will complain that the matrix has the wrong dimension.
+
+Um. However, if we transpose the second matrix, it again will start to work, uh, because PyTorch will automatically figure out that this is a vector.
+
+Um, it will interpret it as uh, row vector and then multiply it as a row vector with the transpose matrix here.
+
+Um, then there's other functions that we can use.
+
+Um. So if we would want to know the norm. Of, uh, vector, we could either write.
+
+Power to sum square root. So this will give us the norm of the vector.
+
+Um we could. There is also a function torch dot Lin alk dot norm.
+
+That will give us the norm of both matrices and vectors.
+
+And it works exactly the same way.
+
+Um, there's many more, uh, matrix and vector, um, functions that we'll cover in this class, but we'll leave this mostly as,
+
+uh, sort of, uh, some sort of write ups and homeworks and online material will also cover sort of more of the basics.
+
+Um, so in summary, um, what PyTorch really allows you to do is it allows you to sort of create tensors and manipulate them,
+
+uh, reshape them, combine them in very compact notation and behind the scenes.
+
+So it's going to be a lot of powerful computation that's happening, uh, to rearrange, to reshuffle, to recombine all that data.
+
+And, uh, yeah, I hope this helped. And that's it.
+

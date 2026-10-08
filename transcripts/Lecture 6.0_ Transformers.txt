@@ -1,0 +1,77 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So in this segment or in this section we're going to look at the transformer architecture.
+
+Uh the transformer architecture is sort of the latest and greatest deep network architecture.
+
+Um, and to sort of highlight the difference to sort of traditional architectures,
+
+I'll just go through and explain convolution once more and we'll look at what convolution can do, and then we'll look at what convolution cannot do.
+
+And so convolution is this linear operator that we slide over the image.
+
+Sort of. It has a kernel which is sort of a window that we slide over an image which has all the parameters in it that we learned for convolution.
+
+And it is really good at sort of parsing repeated structures, uh, in some in or repeated patterns in some structured input.
+
+It can do this in multiple levels because you can subsample uh, or stride uh, to convolution.
+
+And it's just good at sort of at looking at structured inputs.
+
+But now let's look at the problem that might not have sort of a fixed structured input.
+
+And the problem we're going to look at is sentiment analysis. And we'll do this specifically for movies or for movie reviews.
+
+And the problem of sentiment analysis tries to figure out is a certain sentence positive or is that sentence more negative?
+
+So did somebody like the movie, did somebody really not liked the movie?
+
+And so examples would be sort of my kid likes this movie.
+
+Well, that is a positive sentiment. Uh, my little kid likes this animated movie.
+
+Um, that is also a positive sentiment. And then my kid does not like this movie.
+
+It would be a negative. And those entire data sets and tasks set up, uh, around trying to understand these sentiments of, uh, of text.
+
+And this can be more than just positive and negative. It can be sort of a bit more nuanced.
+
+And the input here is very different from images.
+
+Images have this sort of nicely fixed resolution, uh, input.
+
+Or if it's not fixed resolution, it has this sort of fixed structure at least.
+
+And so we can run convolutional networks on this language, on the other hand is very different,
+
+as you have seen with the examples on the previous slide,
+
+we can have almost exact, uh, like very similar sentences, but they have slightly different links.
+
+They have one word inserted in the in sort of the right location, which completely changes the structure of the sentence.
+
+And so oftentimes in natural language processing that the structure of a sentence is sort of captured in this syntax tree.
+
+Um, it's unclear if this actually exists if there is sort of an AV1 correct syntax tree, but.
+
+If it were to like if we assume that we could extract a syntax tree.
+
+Even then, sort of the structure of the sentence, the structure of the input sentence is very different from an image.
+
+Certain words are, uh, sort of have the meaning together, and others sort of are unrelated.
+
+And the transformer architecture really helps us. Helps a deep network make sense of this.
+
+It helps a deep network sort of parse the structure of something that's inherently not fixed size.
+
+Um, sort of. It learns to relate certain words and understand what's in a sentence or sort of in a sequence of inputs.
+
+And in this section here we'll go sort of step by step through what the kind of transformer architecture is,
+
+how to build it up, what are the basic operations, uh, how to how do we extend these basic operations?
+
+So the basic operations, attention, how do we extend attention, make it more powerful, and then finally,
+
+how do we put it into an actual architecture where we can have sort of layers overlay over layers, over layers of attention and transformer blocks.
+
+All right. That's it.
+

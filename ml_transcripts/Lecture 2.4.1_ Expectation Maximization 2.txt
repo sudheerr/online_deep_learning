@@ -1,0 +1,739 @@
+♪ (jazz music) ♪
+
+>> Welcome to Machine Learning.
+
+In this section, we
+are going to talk about
+
+the algorithm, the derivation
+of maximum likelihood,
+
+the derivation of the expectation
+maximization algorithm.
+
+So, remember the problem
+that we want to adjust
+
+is to maximize the marginal likelihood
+
+so it's maximizing theta,
+summing over i to one to n
+
+mark probability P, Xi given theta.
+
+Then to find this... it is like
+
+a function to be L theta
+
+and we want to maximize L theta.
+
+Alright, so these are the EM algorithm.
+
+It's an iterative algorithm that allows us
+
+to monotonically increase
+the likelihood function.
+
+So, the idea, the
+mathematical idea behind this
+
+can be sort of interpreted as following:
+
+So, basically we can show that
+
+for any imputation distributions, rho
+
+so here, rho z given x is
+
+any distribution of z given x.
+
+So this is any, it's a kind of mechanism
+
+that allows us to guess
+the label z given x.
+
+Obviously there will be
+optimal imputation distribution
+
+which gives you the best estimation of z.
+
+Then given any imputation distribution,
+it turns out that the EM procedure
+
+is actually equivalent to
+constructing some lower bound,
+
+which LB represents lower bound,
+
+that depends on
+both theta and rho.
+
+Such that, for any rho
+
+this LB gives a lower bound
+
+over the true likelihood function,
+
+and also, this lower bound is tight,
+
+in the sense that if we maximize
+
+over all the possible
+imputation distribution,
+
+it gives you the exact marginal likelihood
+that we want to maximize.
+
+Because of this, the problem of maximizing
+
+the marginal likelihood is equivalent to
+maximizing theta and rho jointly
+
+maximizing the lower bounds with
+respect to theta and rho jointly,
+
+and this is obvious because L equal to
+maximized over rho,
+
+so if we maximize theta
+on both side of this equation,
+
+then it's actually
+equivalent to maximizing
+
+the joint object function.
+
+And then it turns out that EM algorithm
+
+is actually equivalent to maximizing
+this lower bound by
+
+optimizing theta and rho alternatively,
+
+meaning that it's doing a
+coordinate descent.
+
+Fixing theta optimizes rho,
+fixing rho optimizes theta.
+
+Turns out that corresponds
+to EM algorithm.
+
+So now I'm going to introduce this idea
+in more details, in particular
+
+I will first divide this lower bound,
+
+and then I will show that
+optimizing the lower bound
+
+exactly mapping to EM algorithm.
+
+Okay, let's dive in.
+
+Let's start from the formula.
+
+Let's write down the likelihood function.
+
+It is this marginal likelihood,
+
+so it's equivalent to maximizing...
+
+So I'm just writing the...
+
+(marker moving across board)
+
+marginal distribution as
+summing over the joint distribution.
+
+The marginal distribution equals
+the sum of the joint distribution.
+
+And then, remember earlier we said that
+it's easy to optimize the joint likelihood
+
+and the key difficulty for maximizing the
+marginal distribution is that
+
+we have this summation of z i
+
+that is inside the log.
+
+It would be very nice
+if you could somehow
+
+push the summation on
+the other side of log
+
+so that we can reduce to something that
+
+is very similar to
+maximizing the joint likelihood.
+
+This is the key idea, we need to somehow
+push the summation outside the log.
+
+Turns out, in order to do this we need
+to use what's called Jensen's inequality.
+
+So let's give a very quick
+overview of Jensen's inequality.
+
+Use another color, maybe red...
+
+(marker pen moving across board)
+
+Jensen's inequality which says that
+
+for any convex function, convex functions
+
+that have a bow shape that is standing.
+
+For any convex function you take f,
+
+for any f that is convex,
+
+(marker pen moving across board)
+
+we can show that
+the expectation of, sorry,
+
+the f of any expectation
+where x is any random variable,
+
+this is always small or
+equal to expectation f, x.
+
+X could be an arbitrary random variable.
+
+So basically, for any convex function f
+and any random variable x,
+
+if you take the expectation of x
+and then apply the convex function,
+
+it's guaranteed to be smaller than you
+first apply the convex function
+
+and then take the expectation.
+
+The intuition is very clear,
+
+let's say we have two
+points, we have distribution
+
+that take these two points,
+let's say equal probability.
+
+Then if we take the convex function
+and then take the expectation,
+
+we'll get somewhere here, which is
+the middle point of this linear segment,
+
+versus if we take the expectation of x and
+
+then take the convex function
+we'll get somewhere here.
+
+We can sort of say that this point
+is lower than the linear segment,
+
+which means that it gives the upper part.
+
+We need to apply this Jensen's
+inequality to this marginal likelihood
+
+so that we can get a lower
+bound on the likelihood.
+
+The idea is that we observe
+that this log function
+
+is actually a concave function.
+
+If we plot the log it
+is something like this,
+
+this is the log function, log x.
+
+It's actually a concave function,
+it's the opposite of convex.
+
+Essentially, if you take the minus sign,
+you will get the convex function.
+
+So you will have the opposite
+direction of the inequality.
+
+And we can apply Jensen's inequality
+on log x and then
+
+that allows us to derive the lower bound.
+
+So let's do it.
+
+The only gap that we have right now
+
+is that inside the log we
+have a summation over t.
+
+We now need to actually
+change this summation into an expectation
+
+and this is what we can...
+
+We can do this by multiplying the rho,
+
+the imputation distributors,
+let me write it down...
+
+t, ti, then we have p, xi,
+ti given theta...
+
+then rho ti given xi, rho ti given xi.
+
+You want to apply Jensen's
+inequality and multiply for each term...
+
+I multiply real and
+arbitrary distribution,
+
+the imputation distribution.
+
+The arbitrary rho zi given xi,
+
+and then obviously I need to give i
+rho i in order to make it equivalent.
+
+And then this now allow me to turn
+this summation into a expectation.
+
+This is equivalent to...
+
+(marker pen moving across board)
+
+expectation zi drawn from rho xi...
+
+p, xi, zi, theta, rho,
+
+zi, xi.
+
+I'm just re-writing the
+summation as a expectation
+
+over this rho, which is
+the imputation distribution.
+
+Okay, now I have a log
+expectation of something
+
+because log is a concave
+function, so negative log
+
+is actually a convex function.
+
+I can apply this Jensen's inequality
+
+except that now it's
+the opposite direction.
+
+What I can do is I can push
+the expectation outside the log
+
+and this by Jensen's inequality,
+this will actually give you a lower bound.
+
+Larger or equal to sum over i
+to one to n,
+
+expectation zi, rho, xi, log,
+
+p, xi, zi given theta,
+
+rho, zi, xi.
+
+I'm doing nothing except pushing
+this expectation outside of log,
+
+basically you just exchange the order
+of log and expectation.
+
+Now this is actually the
+lower bound I just mentioned,
+
+you define this to be LB,
+now it's actually a function of theta,
+
+and also a function of rho.
+
+Because here, I sort of introduced rho
+as the distribution
+
+on which I want to
+take an expectation,
+
+Rho here is the arbitrary distribution.
+
+This is a lower bound, but then it
+turns out this lower bound is tight
+
+in that the maximum,
+the optimal choice rho,
+
+can actually give you
+the exact value of theta.
+
+What does it mean? Well, it means that
+if you choose the rho properly,
+
+you can actually match the upper bound,
+which is the marginal distribution.
+
+It turns out this is actually
+fairly easy to see.
+
+Basically, if we choose
+rho z given x theta to be p,
+
+to be exactly the conditional
+distribution given theta
+
+z given x and theta.
+
+If we choose rho to be the
+procedural distribution
+
+given theta of z, given x and theta,
+
+then it turns out in this case,
+
+this Jensen's inequality
+is actually tight,
+
+meaning that the inequality
+becomes the equality,
+
+and the reason for this is because
+
+the ratio, which is this whole thing,
+is going to be a constant in this case.
+
+Meaning that in this case
+we can show that p, xi, ti
+
+sorry, xi, zi theta divided by
+
+zi, xi equals to p, xi, zi theta
+divided by the procedure.
+
+(marker pen moving across board)
+
+You can show that (inaudible) this is
+actually equal to p xi given theta.
+
+This is exactly the marginal distribution,
+
+the marginal distribution of
+xi that we want to optimize.
+
+If we now plug this into the formula,
+
+we can show that what this means is that
+
+if you, let's say, define this
+whole optimal choice
+
+of procedural distribution
+to be rho star,
+
+then we can show that LB
+theta rho star equals to
+
+this whole thing,
+summation and expectation
+
+z rho xi, and then this whole log,
+
+this ratio actually equal to the
+marginal distribution of xi itself.
+
+Because the marginal distribution
+doesn't depend on zi anymore,
+
+the expectation is vacuum.
+
+We can just remove the expectation.
+
+So then it becomes sum over
+n log p xi given theta.
+
+Which are then actually equal to
+the original margin of likelihood.
+
+What this shows is that, first,
+by Jensen's inequality we show that LB
+
+is always a lower bound
+of L theta for any rho.
+
+And then on the other hand,
+
+we show that if we actually
+particularly choose rho
+
+to be the procedural distribution,
+
+then the lower bound
+matches the upper bound,
+
+the lower bound matches
+the marginal likelihood.
+
+If we kind of visualize it, it's
+something like this.
+
+Let's say this is rho,
+assuming it's one-dimensional.
+
+Then maybe here is, maybe
+this is the L theta.
+
+And then we show that LB
+is always a upper bound
+
+over L theta, but it touches,
+it's tight
+
+on this particular choice of rho theta.
+
+So this again is actually
+equivalent to say that
+
+these two facts is
+equivalent to say that L
+
+equal to maximum of rho,
+LB theta and rho.
+
+And then also the optimal of theta,
+
+the optimal choice of rho is achieved
+
+by the procedural distribution
+on the theta, which is rho star.
+
+Basically, this is the
+essential mathematics
+
+we need to know about EM algorithm.
+
+We essentially just show that
+we can re-write this marginal likelihood
+
+as maximum of lower bound,
+then again we can show that
+
+maximizing the likelihood
+is the equivalent to
+
+jointly optimize the theta and rho,
+
+maximize the low bound
+for theta and rho jointly.
+
+And then the next step is to show that
+
+if we actually maximize the lower bound,
+it's equivalent to EM algorithm.
+
+Turns out this is true,
+so now the problem becomes that
+
+we want to maximize theta and rho,
+
+lower bound of theta and rho,
+
+and then we can use coordinate
+descent to solve this problem.
+
+The idea is that initialize
+theta zero, at some point
+
+and then we can iterate between
+fix theta t and optimize rho,
+
+which then becomes rho... let's see.
+
+Rho t plus one equals to
+argmax LB theta and rho over t.
+
+Here, fixing theta equal to theta t,
+
+we want to find the optimal rho
+
+and define this rho, define this
+to be the new (inaudible) of rho.
+
+And then fix rho t plus one,
+we can optimize t plus one equal to argmax
+
+lower bound theta and rho t plus one.
+
+So here's the theta. Right.
+
+Okay. Now it turns out this optimal step,
+
+it turns out the optimal
+solution for rho t plus one
+
+as the direction showed earlier is
+
+exactly equal to the
+procedural distribution.
+
+So here it's actually
+equivalent to p z x theta t.
+
+This is exactly the step of calculating
+the procedural distribution
+
+in the EM algorithm.
+
+So this is the E step, expectation step of
+the EM algorithm.
+
+It's exactly the E-step of the
+EM algorithm.
+
+And then you can also show that
+the update of theta t plus one
+
+exactly equals to the M-step
+of the EM algorithm,
+
+which is maximizing the
+expected joint likelihood.
+
+To see that, we just need to look at
+the formula for LB.
+
+If we look at the formula of the
+lower bound, which is this whole thing,
+
+we can sort of say that because, if
+we are interested in optimizing theta,
+
+then we can just drop
+this denominator, rho.
+
+That just then reduces to
+optimizing the expected likelihood.
+
+So let's write down it exactly.
+
+Let's say you have this lower bound
+of theta rho t plus one.
+
+It equals to, by the definition,
+
+equal to this one and then
+we need to expectation
+
+z belongs to ti plus rho xi,
+
+and then we have the log p xi
+and ti theta,
+
+then minus log rho ti and xi.
+
+But then because the log zi, log rho
+is actually a constant,
+
+this whole thing actually equals to
+
+summing over n, expectation z xi rho...
+
+(marker pen moving across board)
+
+plus the constant.
+
+And then, if we actually
+maximize this step,
+
+this whole thing, this log p
+xi zi and expectation over zi
+
+and sum over i data points, this whole
+thing is exactly the expected joint...
+
+(marker pen moving across board)
+
+Expected joint likelihood
+that we showed earlier.
+
+So this procedure is
+actually equivalent to
+
+expectation maximization.
+
+So now this new
+interpretation of the EM algorithm
+
+immediately allow us to
+influence some very nice properties.
+
+Because this algorithm is actually sort of
+
+alternatively minimizing, optimizing
+theta and rho,
+
+this procedure guarantees to
+decrease the lower bound monotonically.
+
+So it's guaranteed to kind of--
+
+Also, if the lower bound
+has a finite lower bound,
+
+then you will guarantee to converge your
+local optimum of the lost function.
+
+So basically, we can show two things which
+we don't have time to get into detail.
+
+Why is that this procedure
+always monotonically decrease...
+
+(marker pen moving across board)
+
+decrease the lower bound,
+
+in fact, they also monotonically decrease
+the original marginal likelihood,
+
+this is one property
+that is very nice.
+
+Secondly, under proper conditions
+
+we can show that it will
+converge to a local optimal...
+
+(marker moving across board)
+
+of L theta.
+
+It's guaranteed to converge
+into a local optimal,
+
+it cannot guarantee to
+converge into a global optimal
+
+because the marginal likelihood
+
+is often a snon-convex function.
+
+Thank you very much, I
+will see you next time.
+

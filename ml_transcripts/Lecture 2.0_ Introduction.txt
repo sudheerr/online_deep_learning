@@ -1,0 +1,195 @@
+♪ (music) ♪
+
+Welcome to the
+Machine Learning class.
+
+I'm Professor Qiang Liu
+from UT Austin.
+
+In this part of the lecture,
+we're going to discuss
+
+statistical modeling techniques
+for machine learning.
+
+So the idea is that we can
+use probability and random
+
+distributions to capture the
+uncertainty and the relation
+
+in the empirical data sets.
+
+This provides a powerful
+tool for making predictions
+
+and quantifying uncertainties 
+in complex problems.
+
+So let's have a brief overview
+of the counting of the topic.
+
+So this lecture consists of three
+different parts.
+
+In the first part, we're going to
+discuss what I call basic principles.
+
+This includes maximum likelihood
+estimation,
+
+which is a very basic technique
+for estimating parameters of
+
+statistical models giving 
+empirical data.
+
+I think this is arguably the 
+number one basic
+
+algorithm in machine learning.
+
+And then we're going to discuss
+Bayesian inference,
+
+which is a more advanced technique
+that allows us to quantify
+
+uncertainty in parameter estimation
+which is also widely used in many
+
+different areas.
+
+In the second part, we are going
+to cover two important
+
+statistical models that has been
+widely useful.
+
+The first model is called
+Gaussian mixture.
+
+So this is the idea of mixing
+and combining multiple Gaussians,
+
+and use it to capture multimodality
+in realistic data sets.
+
+Related to that, we are going to
+discuss two algorithms.
+
+One is called K-means algorithm,
+another is called expectation maximization.
+
+So these algorithms allows us to solve
+what's called a clustering problem.
+
+So this is the problem of partitioning
+empirical data sets into multiple groups
+
+so that similar data points are 
+grouped in the same clusters.
+
+And then we are going to discuss
+multivariate Gaussian distributions.
+
+These are models that allows us 
+to capture complicated
+
+stochastic relations between 
+different random variables.
+
+Let's say you are interested
+in stock market.
+
+Multivariate Gaussian will allow you
+to capture the dependency relation
+
+and the correlation of the 
+stock prices of different companies.
+
+So this provides guidance for
+
+for investigation.
+
+And then related to that, 
+we'll discuss graphical models.
+
+So these are models which include
+multivariate Gaussian as a special case
+
+that use graphs to represent 
+the stochastic dependency
+
+between different random variables.
+
+It provides a powerful regionalization 
+and computational framework
+
+for reasoning when relations
+between different factors.
+
+And then in the third part, 
+we are going to discuss
+
+nonlinear function approximation.
+
+So these are extensions of
+linear function approximation right.
+
+Consider this simple example,
+where we have this data set that
+
+clearly behaves in a nonlinear fashion.
+
+So if we approximated using
+a linear function,
+
+we obviously lose critical important 
+information right.
+
+And if we can feed this function,
+this data set using
+
+a nonlinear function,
+we will be able to capture
+
+more information from the 
+data set.
+
+So this is what we'll want to do
+in the third part.
+
+We're going to cover two 
+important methods for
+
+nonlinear function approximation
+including what's called the
+
+Kernel method.
+
+So this is a classic algorithm
+that allows us to fit complex data
+
+without parametric assumptions.
+
+And then we will talk about 
+neural network.
+
+So this is the basic idea behind
+what's called deep learning,
+
+which has been widely popular
+and successful these days
+
+for highly challenging artificial 
+intelligence problems.
+
+So in this lecture, we'll focus 
+on covering these basic tools.
+
+I hope everyone will enjoy
+the class,
+
+thank you so much.
+

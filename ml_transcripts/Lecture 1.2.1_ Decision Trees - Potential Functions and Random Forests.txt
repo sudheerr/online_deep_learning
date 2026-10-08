@@ -1,0 +1,803 @@
+♪ (smooth jazz music)  ♪
+
+Now it turns out that...
+
+the structure of the tree...
+
+is really determined...
+
+by the choice of your
+potential function, phi.
+
+Now remember we had phi (a)
+set to be min of (a, 1-a).
+
+And this corresponded to training error.
+
+Now another common potential function...
+
+phi (a) is 2 • a • 1 - a.
+
+Okay this is often referred
+to as the Gini function...
+
+or the Gini index.
+
+And there are some other functions
+that we can talk about,
+
+but let's just compare
+these two for a moment.
+
+In fact, let me graph these two functions.
+
+Okay, so remember I have phi (a).
+
+It could be min (a, 1- a),
+
+or the other one that I mentioned was
+
+2 • a • (1- a).
+
+Okay, so these are two
+different potential functions.
+
+Let's graph-- let's call this phi one.
+
+This is phi two.
+
+So phi one, I believe should
+start at the origin.
+
+Let's see if I can draw a straight line.
+
+It should get right to 0.5.
+
+Let's see if I could do better than that.
+
+Good.
+
+So this is really what phi one looks like.
+
+It starts at-- when (a) is zero,
+
+it's going to output zero.
+
+When (a) is one, it's going
+to output zero,
+
+and then when (a) is one-half
+it's going to output one-half.
+
+Okay.
+
+One sort of unfortunate
+thing about this function
+
+is that it has this discontinuity here.
+
+It's not differentiable.
+
+It has-- typically when you're
+trying to minimize
+
+certain potential functions
+in machine learning,
+
+it's often more useful
+for the potential functions
+
+that you're working with
+to be smooth.
+
+We'll see why later in class,
+
+but that gives you a lot of nice--
+
+it gives you many nice extra properties.
+
+Okay so if we look at
+phi 2 of (a)...
+
+It-- let's see if I can draw this.
+
+I'm going to try to do this free-hand.
+
+It's sort of a curve.
+
+And again it comes down here.
+
+Okay so, when (a) is zero, we get zero.
+
+When (a) is one,
+we also get zero because
+
+we have this (1- a) term.
+
+What about when (a) is one-half?
+
+We get one-half, so that's good.
+
+This phi two function,
+it looks like phi of one.
+
+It has the same properties,
+
+and it's an upper bound to
+this phi one potential function.
+
+But it's smooth.
+
+Since phi two is an upper bound...
+
+on phi one, this implies
+that if we can acheive--
+
+so small values of phi two
+imply small values...
+
+of phi one.
+
+And remember phi one corresponded
+to training error.
+
+So if we can build a decision tree
+
+where these potential functions,
+phi two, are getting quite small,
+
+well certainly it means that the potential
+function phi one is getting small
+
+because phi two is an upper
+bound on phi one.
+
+And as I said, phi two is smooth.
+
+That means it has nicer
+mathematical properties
+
+and it's usually easier to work with.
+
+Should we do an example?
+
+This ten looks a little large.
+Let's put a one here.
+
+And let's assume that
+our potential function
+
+phi (a) is 2 • a • (1- a).
+
+Okay.
+
+What is phi of probability drawn from xy,
+
+xy drawn from s
+
+y = 0
+
+Okay so what this--
+if you look at this table
+
+it means when x is zero and y is zero,
+
+there's one positive example
+in our training set
+
+and one negative example
+in our training set.
+
+At the bottom we see when
+x is one and y is one,
+
+we have four positive examples
+in our training set,
+
+and we have two negative examples
+in our training set.
+
+Okay so why don't you guys try and
+do a little computation here.
+
+What is phi of probability of
+xy drawn from s, y = 0?
+
+So this y = 0, that means it's a--
+
+Oh, sorry.
+
+This is bad notation.
+
+Let's just...
+
+Let's make this X1 and this X2,
+
+so we don't get confused
+about labels and features.
+
+And then we want to know what's
+the probability
+
+just from a random
+draw of "s" that we get...
+
+a negative example, let's say.
+
+(silence)
+
+So we have two features.
+
+The table tells you how many
+positive and negative examples
+
+are in your training set, conditioned
+on the value of those features.
+
+And what we're looking
+for is sort of...
+
+what the phi value would be here
+for a trivial decision tree.
+
+(silence)
+
+So I should say this is "s."
+
+Yes?
+
+>> 4/9.
+
+>> Did anyone else get 4/9ths?
+
+Okay, let's see how we got that.
+
+Well, how many negative
+examples are there?
+
+>> Five.
+>> Five.
+
+There are five negative examples.
+
+What's the total number--
+
+how many examples are there in total?
+
+>> 15.
+>> Right, so there are five--
+
+so the probability that you get
+a negative example is 5/15ths.
+
+This is one-third.
+
+So our potential function says
+take 2 • 1/3 • 2/3,
+
+and we're left with 4/9ths.
+
+Okay so this is the potential
+function for the trivial tree.
+
+Now what do we need to do?
+
+We need to decide, should we pick...
+
+X1 to be at the root,
+
+or should we pick X2 to be at the root?
+
+So let's look at X1.
+
+What do we need to compute?
+
+>> The probability that it's zero.
+
+(inaudible) for y = 0
+given X1 = 0.
+
+>> Let's not use y.
+
+(inaudible) negative.
+
+Conditioned on X1 = 0.
+
+Plus probability X1 = 1
+
+times phi probability
+negative given X1 = 1.
+
+Okay, let's compute it.
+
+See if you guys can compute it.
+
+I see some people online
+computed the previous one.
+
+Also got 4/9ths.
+
+(silence)
+
+Well, let's start here.
+
+What is the probability that X1 = 0
+when you choose a random point
+
+from your training set?
+
+>> (inaudible)
+
+>> It's one-third.
+>> One-third.
+
+>> I think it's-- let's see.
+
+How many points do we
+have where X1 = 0?
+
+We have one, three, four, five.
+
+We have five points where X1 = 0.
+
+And how many points
+do we have in total?
+
+>> 15.
+>> 15.
+
+So we have 5/15ths,
+so we have one-third.
+
+And now conditioned on X1 = 0,
+
+what's the probabilty that
+we get a negative example?
+
+>> Two-thirds.
+
+>> So, conditioned on X1 being zero,
+
+it means we're in the
+first two rows of this table.
+
+Conditioned on X1 = 0
+we have two negative examples
+
+out of five total examples.
+
+So what's phi of two-fifths?
+
+>> 4/25.
+
+>> It's 2 • 2/5 • 3/5.
+
+Did I do that right?
+
+Okay, someone online has
+already responded with 7/20,
+
+so we'll see if that's right.
+
+And then what's the
+probabilty that X = 1?
+
+Well, it better be two-thirds.
+
+>> (laughs)
+
+>> Okay, and what's the probability
+that we're negative
+
+conditioned on X1 = 1?
+
+>> Three out of 10.
+
+>> Negative-- let's see
+3/4 + 6 = 10.
+
+Three out of 10, so what's
+phi of three-tenths?
+
+2 • 3/10 • 7/10?
+
+>> 42/10.
+
+>> So let's do just do
+some arithmetic here.
+
+What is this sum?
+
+Does anything cancel?
+This three cancels.
+
+So we're left with 4/25
+
+on the left side plus
+what on the right side?
+
+This three cancels.
+
+S: (inaudible)
+
+P: This one cancels.
+
+This one cancels.
+
+So we're left with 7/25.
+
+So we have 11/25,
+I think.
+
+Okay so we went--
+remember so the--
+
+the trivial tree had 4/9.
+
+This went to 11/25.
+
+Is 11/25 bigger or
+smaller than 4/9?
+
+I believe it's smaller.
+
+S: (inaudible)
+
+P: It's slightly smaller.
+
+11/25 is slightly
+smaller than 4/9.
+
+So we made some progress.
+
+Picking X1 at the root has
+given us some progress.
+
+Okay.
+
+So let's write 11/25 here.
+
+And now we have to do
+the same thing for X2.
+
+Okay, what's the probability
+that X2 = 0?
+
+(silence)
+
+S: (inaudible)
+
+P: Well I think it's--
+for X2 to be zero
+
+we have 2 + 4 is 6 examples.
+
+So we summed first
+and third rows
+
+where X2 = 0.
+
+And how many total
+examples do we have?
+
+25, right?
+
+S: 15.
+
+P: Oh, 15, sorry.
+
+I was just seeing if you
+were paying attention.
+
+S: (laughs)
+
+6/15.
+
+So that's 2/5?
+
+And now we need to compute
+this potential function
+
+on points where X2 = 0.
+
+So how many negative
+examples are there
+
+when X2 = 0?
+
+S: Two.
+
+P: Two out of...
+
+S: Six.
+
+P: Right, so there are six points
+where X2 = 0,
+
+two of them are negative.
+
+So that's 1/3.
+
+So we need phi 1/3.
+
+What is phi 1/3?
+
+S: 4/9.
+S2: 4/9.
+
+P: 2 • 1/3 • 2/3?
+
+S: 4/9.
+
+P: Okay, 4/9, good.
+
+Plus...
+
+this should be 3/5.
+
+Right, the probability
+that X2 is equal to one.
+
+And so now we're in
+the case where
+
+this is X2 = 1
+this was X2 = 0.
+
+What about when
+X2 = 1?
+
+What's the fraction
+of negative examples
+
+when X2 = 1?
+
+S: 3/9?
+
+P: 3/9.
+
+So we have
+3/5 • phi 3/9.
+
+What is phi 3/9?
+
+3/9 is 1/3.
+
+S: It's 4/9 again.
+
+So it's 4/9 again.
+
+So--
+
+S: It's just 4/9
+because it's one.
+
+P: We have
+2/5 • 4/9 + 3/5 • 4/9.
+
+And we get what?
+4/9.
+
+Good, so if we picked
+X2 to be at the root
+
+we'd get-- sorry, I don't
+know why I wrote 4/29.
+
+We get 4/9.
+
+So if we pick X1 to be
+at the root we get 11/25.
+
+And if we pick X2 to be
+at the root we get 4/9.
+
+So what's the gain
+for X1?
+
+The gain is 4/9 - 11/25.
+
+And the gain for X2
+is 4/9 - 4/9.
+
+This is zero.
+
+This is greater than zero.
+
+So which literal should
+we pick to be at the root?
+
+X1.
+
+Okay.
+
+Are there any questions
+about this computation?
+
+Yes?
+
+S: So in this example they're
+assuming that we must
+
+pick either X1 or X2
+to be at the root?
+
+P: Yes, in this example
+we're assuming that
+
+you must either pick
+X1 or X2 to be at the root.
+
+Those were your
+only choices.
+
+S: So like, if you were
+to you know look at
+
+the other literals you
+might find it even better?
+
+P: If you were to look at
+some other literals
+
+you might find one
+that's even better.
+
+If-- you know, yes there
+could be examples where.
+
+As you can see it's
+a fair bit of computation
+
+to figure out by hand which
+literal to put at the root.
+
+But, of course since it's
+a recursive program
+
+this isn't something that's
+very difficult to code up.
+
+Okay.
+
+So one question is...
+
+When should we stop?
+
+And there are many answers to this
+question.
+
+One answer is:
+
+Stop when the gain is extremely small
+for all literals.
+
+So as you're doing this recursive
+procedure,
+
+your program could have some input,
+sub little delta,
+
+and you could just say
+"If my gain is less than delta, just stop,
+
+just put either zero or one at that
+particular node." And that's it.
+
+That would definitely stop this process.
+
+Um, others, in fact,
+
+my guess is that what happens
+in some of your favorite libraries,
+
+is that you do some sort of pruning,
+
+and so this is - you'll build an enormous
+tree,
+
+and you could have some parameter
+indicating, say how many nodes you want.
+
+So you'll build an enormous tree,
+let's say you only wanted twenty nodes,
+
+then you'll start at
+the bottom of the tree,
+
+move up the tree, and start pruning
+subtrees,
+
+just to eliminate nodes.
+
+And you'll prune trees
+that have the least effect,
+
+least overall effect
+on the decision tree.
+
+So there are many different heuristics
+for pruning decision trees.
+
+We're not not really going to go over
+them here,
+
+but it's an interesting avenue
+for research.
+
+Question?
+
+Okay.
+
+Finally, I wanted to mention another
+Interesting technique,
+
+that's used in practice a a lot,
+
+something called random forests.
+
+And here the idea is to build many small
+decision trees,
+
+and then take a majority vote of the
+resulting tree.
+
+I should - sorry - Of the resulting
+trees.
+
+So how do we build many decision trees?
+
+So algorithm for building many trees.
+
+Take your training set...
+
+"S".
+
+Randomly subsample
+
+from S
+
+to create S prime.
+
+So we'll pick some random subset of S,
+some random subsample of training samples.
+
+Point one.
+
+Then we'll randomly
+
+pick some features
+from X 1 through X n.
+
+So we won't use all of the features.
+We'll pick some random subset of
+
+features, of size, let's say, K.
+
+And then we'll build a decision tree
+
+using S prime and the K random features.
+
+Okay, so now we have a potentially
+smaller training set S prime, and we
+
+have potentially fewer features K,
+and we can build some decision tree
+
+using S prime and K as one of our trees
+to throw into this ensemble of trees
+
+that we'll then take the
+majority vote for.
+
+Question?
+
+>> So do we subsample with or
+without replacement?
+
+>> Some people sample without replacement
+and some people sample with replacement.
+
+It's more common to sample
+with replacement I believe.
+

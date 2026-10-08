@@ -1,0 +1,286 @@
+♪ (jazz music) ♪
+
+Let's look at a closely
+related class to half spaces.
+
+So,
+
+let's consider
+
+polynomial
+
+threshold functions.
+
+These are sometimes called
+
+PTFs.
+
+And these are functions of the form f
+
+equals the sign
+
+of some
+
+multivariate,
+
+so p,
+
+p is a multivariate
+
+polynomial
+
+of, let's say, degree d.
+
+In the case that we're trying to learn f,
+
+where f is the sign of a multivariate
+
+real polynomial of degree d,
+
+how could we use the perceptron
+algorithm as a black box
+
+to learn this function class?
+
+It's related to something I
+know we've seen before in class.
+
+Yes.
+
+>> So we can just reshape our inputs
+
+so instead of taking an input
+
+and then raising it to some degree,
+
+then you can just take
+them in already having been
+
+raised to that power.
+
+So essentially you have the
+same problem we had before.
+
+Where you have coefficients
+multiplying some input feature.
+
+>> Right, I think what you're suggesting
+
+is the use of an appropriate feature map
+
+to map our inputs into
+some larger feature space.
+
+So imagine that our data
+
+was not necessarily linear.
+
+In the lineally separable case,
+
+we know that we have some half space
+
+and we have all of our
+positive points on one side,
+
+negative points on the other.
+
+But you could also
+envision a scenario where
+
+we have some curve
+
+and we have a bunch of positive points
+
+on one side of the curve
+
+and a bunch of negative
+points on the other side.
+
+And this curve corresponds to the sign
+
+of some higher degree polynomial.
+
+So we would have a feature map
+
+that takes in x one through xn.
+
+And let's say we were interested
+
+in just degree two polynomials,
+
+then we would map x one,
+
+so map x one through xn,
+
+we would map it to x one squared,
+
+x one x two,
+
+we'd have all pairs and
+then we'd have xn squared.
+
+So we'd have
+
+roughly,
+
+well exactly, n squared
+
+new variables,
+
+let's call them y one
+
+through y
+
+capital N equals n squared.
+
+And
+
+f can then be written
+
+as the sign
+
+sum equals one to n,
+
+capital N now,
+
+of let's say wi yi.
+
+Because we knew that f was
+
+the sign of a degree two polynomial.
+
+I've mapped my inputs
+
+to degree two monomials.
+
+And so now I know that f is the sign
+
+of some wi yi, so it's
+actually a half space
+
+but it's in little n squared dimensions.
+
+So you can view a polynomial of degree two
+
+in little n dimensions,
+
+as a half space, in n squared dimensions.
+
+Then we could run the perceptron algorithm
+
+to learn this half space
+in higher dimensions.
+
+Any questions about that?
+
+So that is to say that learning
+
+PTFs or polynomial threshold functions
+
+of degree
+
+d
+
+is equivalent, okay so,
+
+yeah, is equivalent to learning
+
+half spaces
+
+in
+
+n to the d
+
+dimensions.
+
+So lets consider
+
+two quantities.
+
+So, well,
+
+two,
+
+yeah, two quantities, two
+issues that we want to
+
+look at here is first
+let's look at run time.
+
+When we are running the
+perceptron algorithm
+
+the run time was pretty simple,
+
+we just had to take the inner product
+
+with some point and complete
+the sign of w dot x.
+
+So it's was a linear time algorithm.
+
+If we want to run the perceptron algorithm
+
+into the d dimensions,
+
+our run time is going to blow
+up by at least a factor of what?
+
+We're in d dimensions,
+
+how long will it even take
+to compute the feature map?
+
+Yes.
+
+>> N to the d?
+
+>> Right, so just computing
+
+the feature map
+
+takes time
+
+n to the d.
+
+Okay, so we're really paying
+in terms of run time there.
+
+We have to compute this
+very expensive feature map.
+
+And then other issue that
+we need to worry about is
+
+what is the margin
+
+in this
+
+n to the d dimensional space?
+
+Recall that the perceptron
+algorithm always
+
+runs in time of one over rho squared
+
+where rho is your margin
+
+but now we have to worry
+about what your margin is
+
+for this new half space
+
+in this much higher dimensional space.
+
+And for all we know,
+it's gotten much smaller.
+
+So we may have to pay,
+
+so this may be costly.
+
+It really depends on what
+circumstance you're working in
+
+and what your assumptions are.
+

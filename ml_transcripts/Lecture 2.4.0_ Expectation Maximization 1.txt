@@ -1,0 +1,1578 @@
+♪ (music) ♪
+
+>> Welcome to Machine Learning.
+
+In this lecture we are going to talk
+
+about maximum likelihood estimation,
+
+which is a really powerful algorithm
+
+for estimating parameters
+of latent variable models
+
+with application in clustering problems,
+
+which is what we discussed last time.
+
+So let's get started.
+
+Let's solve the problem using clustering.
+
+The clustering is the problem of
+
+grouping a set of data
+points into similar groups.
+
+So let's see,
+
+we are gathering as
+input instead of points,
+
+Xi, each a data point.
+
+Xi represents some feature of some object.
+
+And then the goal is to
+partition these points
+
+into a few number groups.
+
+So here, K represents the number of groups
+
+that we want to partition to.
+
+Just to give an example,
+
+let's say we have a bunch of points.
+
+This time I'm using
+one-dimensional points.
+
+So in this case, here's X.
+
+So X represents some kind of feature,
+
+such as the better temperature or
+
+stock prices or anything else.
+
+And then in this case,
+
+the problem could be that I want to
+
+partition this data set into two parts.
+
+So obviously a natural
+partition would be in this way.
+
+Such that the similar points are
+
+grouped into the same class.
+
+So now, formerly this problem could be
+
+viewed as assigning
+labels to the data points.
+
+So, let's say in total we want to
+
+cluster the points into K groups.
+
+Then essentially it's equivalent to
+
+assigning each data point, Xi,
+
+to a label, Zi.
+
+Where label is an integer
+number between one and K.
+
+So for example in this case,
+
+for these left points I may want to
+
+assign Zi equal to one.
+
+For these right points,
+
+I want to assign Zi equal to two.
+
+The actual numbers of the
+labels can be arbitrary,
+
+can be permuted arbitrarily.
+
+But what's important is you need to
+
+assign labels to the data points
+
+in a way that a nearby point,
+
+let's say for example these two points,
+
+have the same label.
+
+So this is the problem.
+
+We have talked about k-means as a
+
+very simple algorithm for
+performing clustering.
+
+It turns out EM algorithm,
+
+expectation maximization, is another
+
+more principled and more powerful way
+
+for performing the same task,
+
+but with the additional advantage
+
+of quantifying uncertainty.
+
+So now I'm going to
+introduce the mathematical
+
+ideas behind EM algorithm.
+
+So in order to do that,
+
+we need to actually set up
+
+formulating the clustering problem
+
+as a probabilistic modeling problem.
+
+So here's my approach,
+
+the idea is that we have
+a bunch of data points.
+
+So the idea is that we will actually
+
+assume that's a joint
+distribution over both X,
+
+which is the data points.
+
+And the labels Zi.
+
+So now each of these points represent Xi.
+
+But then each of the data points
+
+also have some labeled Zi,
+
+that is associated with them.
+
+Even though we don't observe them from the
+
+actual observation we assume
+that's a latent labeled Zi
+
+they want to estimate.
+
+And then we assume that both of the labels
+
+and the data points are drawn
+from some joint distribution,
+
+which is represented by P(X, Z given theta)
+
+where theta is some parameter.
+
+So we need to specify some
+family of distribution
+
+that generates both data
+points as well as the labels.
+
+In this case the label is not observed,
+
+but we can assume it's still generated
+
+from some distribution.
+
+We hope to estimate it in the end.
+
+And the approach is very
+similar to the typical
+
+parameter estimation
+problem where we want to
+
+estimate the parameter theta.
+
+Once we estimate the parameter,
+
+we can estimate the label using
+the posterior distribution.
+
+We can evaluate the
+probability of the label
+
+given each the data point X
+
+and the parameter that we just estimated.
+
+So let's give an illustration
+for this simple framework.
+
+So again, just look at these
+one-dimensional points.
+
+So let's say these are the
+points that we have.
+
+So in order to specify
+the joint distribution,
+
+let's say P(X, Z) which is
+the joint distribution
+
+of X and the label.
+
+It's natural to break
+this joint distribution
+
+into two parts.
+
+One is the distribution of the label Z.
+
+And then how could you
+generate the labels?
+
+And then you can generate
+the X given the label Z.
+
+So in this example, in these data points,
+
+maybe each of the data points.
+
+We first need some probability to
+
+randomly decide which group it belongs to.
+
+So these are points that
+I decided to have Z=1.
+
+These are data points that
+I decided to have Z=2.
+
+But the value of Z under the
+
+probabilistic framework
+is generated randomly.
+
+So we need specify the
+distribution of P(Z).
+
+And it's actually easy because Z only has,
+
+in this case, if we only have two groups
+
+then Z is really just a
+discrete distribution.
+
+So we can specify using its probability.
+
+Let's say Z=K.
+
+K could be either one or two.
+
+Equal to some number, let's say pi K.
+
+So pi K is going to be
+the probability of Z=K.
+
+Obviously pi K needs to
+satisfy that there has to be
+
+normative and summation of them
+
+has to equal to one.
+
+But this overall specifies a
+
+prior distribution of the labels.
+
+So, after the label is
+generated we can specify
+
+how the data is generated given the label.
+
+It's actually very natural to just assume
+
+that conditional distribution
+is a Gaussian distribution.
+
+Let's say for example,
+
+given that Z=1 we can just
+assume that all data points
+
+having Z=1 is drawn from
+Gaussian distribution,
+
+which has centered around some mean
+
+and has some variance parameter.
+
+Similarly for Z=2,
+
+we can assume that's another
+Gaussian distribution,
+
+with a different mean and variance.
+
+So in this case we can
+specify P(X given that Z=K).
+
+Given that Z=K what's
+the distribution for X?
+
+Well a simple assumption is that it
+
+could be just a Gaussian distribution.
+
+A Gaussian distribution here,
+
+capital M represents a
+Gaussian distribution
+
+whose parameter is Mu K and sigma K.
+
+So Mu K and sigma K are the parameters
+
+of the Gaussian for the
+data points when Z=K.
+
+So in this case for Z=1 I
+have Mu one and sigma one.
+
+And for Z=2 I have Mu two, sigma two.
+
+So this is a actually enough for
+
+specifying the joint distribution.
+
+Now, more specifically I
+can just write down (X, Z=K).
+
+So this is the joint distribution when Z=K
+
+and X takes a particular value.
+
+I like to write down Z=K because
+
+it's a discrete distribution.
+
+It's easier to consider the case when
+
+it equals to a particular value.
+
+So in this case the joint distribution
+
+will exactly equal to P(Z=K)
+times P(X given Z=K)
+
+will equal to pi K times
+the Gaussian distribution.
+
+So here pi K is the probability
+the label is generated.
+
+A label Z=K is generated and then
+
+we have the probability of a
+Gaussian for the case when Z=K.
+
+Now overall this defines the
+probability distribution.
+
+So overall this defines the distribution
+
+and we actually introduce
+a bunch of parameters
+
+that we don't know beforehand.
+
+So the parameter which
+theta includes pi K.
+
+Mu K and sigma K.
+
+K from one to capital K.
+
+So these are the unknown parameters.
+
+And we don't observe them directly.
+
+Then this whole joint
+distribution is going to...
+
+I will write it here,
+
+this whole joint distribution depends
+
+on some parameter theta
+that we don't observe.
+
+Now the problem is could
+you actually estimate theta?
+
+Including all these sigma, Mu and pi.
+
+If we actually estimate theta,
+
+we will able to actually infer what's
+
+the possible label Z for given X.
+
+So this the general idea.
+
+Okay, so how to estimate theta?
+
+Well, let's think about a simple case
+
+that is actually super easy to solve.
+
+If we actually observe both Xi,
+
+which is the data point,
+
+as well as the related Zi,
+
+which are the labels.
+
+If we observe both Xi and Zi,
+
+then it's easy easy to
+actually estimate theta.
+
+By maximizing the joint
+likelihood function.
+
+So here, P Xi Zi is the joint distribution
+
+of the observation which
+is Xi and Zi the observed.
+
+So let's just give the iteration.
+
+The iteration is actually very simple.
+
+Let's see, again we have these data sets.
+
+So if we already observed that these
+
+left points belong to Z=1.
+
+These right points belong to Z=2.
+
+Then let's say we want
+to estimate both pi K,
+
+pi K is actually very easy to estimate,
+
+we just count the percentage of Z.
+
+It's easy to say that
+pi K actually equals to
+
+let's just try pi one.
+
+Pi one is equal to the
+number of points that Z=1.
+
+Divided by the total number
+of points which is N.
+
+So in this particular case,
+
+both Z1 and Z2 have four points
+
+so it's equal to one over two.
+
+Also, it's very easy in this case
+
+to estimate both Mu and sigma.
+
+So let's say we know that the probability
+
+of the points when Z=1 are going to follow
+
+a Gaussian when Mu one and sigma one.
+
+And then estimate Mu one and sigma one
+
+really just involves estimating the
+
+empirical mean and the variance
+of the data points when Z=1.
+
+So Mu one is going to
+equal to sum over points.
+
+Sum over all the points.
+
+So indicator function (Zi=1) Xi
+
+divided by the number of
+points have that label one.
+
+So here I introduced
+the indicator function
+
+which equals to one if Zi=1
+
+and equal to zero if Zi
+doesn't equal to one.
+
+So then if I sum over all the data points,
+
+weighted by the indicator
+function it's like
+
+taking the sum of all
+these data points when Z=1
+
+and then divided by the
+number of data points
+
+that have Z=1 which is overall
+the ratio as a mean value.
+
+And similarly we can calculate
+the sigma one squared
+
+which is the empirical variance
+
+of the data points that have Z=1.
+
+So we tried them right here.
+
+So basically the variance of
+all the data points when Zi=1.
+
+So it's easy to in this case,
+
+if we actually know the label,
+
+it's easy to estimate all the parameters.
+
+Now, if we think about this
+problem mathematically,
+
+view this problem as
+estimating and maximizing
+
+the joint likelihood you can also
+
+see mathematically why this
+problem is an easy problem.
+
+So let's just look at
+this problem together
+
+since why it is easy mathematically
+
+like this approach that we just
+
+mentioned right now is a heuristic
+
+but then let's say why it easy from
+
+the maximum likelihood
+estimation perspective.
+
+So we know that
+
+P(Xi, Zi = K theta).
+
+This is something we
+can actually calculate.
+
+This equals to pi K.
+
+Normal distribution, Mu K
+and sigma K squared.
+
+And then we can write down
+the joint likelihood function.
+
+The joint likelihood
+function is going to be
+
+the joint probability.
+
+It's going to be the sum
+of all the data points.
+
+And then here, I'm actually
+going to introduce
+
+an indicator function.
+
+Sum over K=1 to capital
+K indicator function
+
+(Zi=K)
+
+and then log P (Xi, Zi=K given theta).
+
+So this is really just a rewrite
+
+of the joint likelihood
+function we have here.
+
+So basically I'm introducing
+this indicator function
+
+if Zi=K then it's one, otherwise zero.
+
+Then I'm summing over all the possible K.
+
+Because the indicator function only
+
+applies when Zi=K.
+
+So this whole summation is actually
+
+equivalent to the
+original joint likelihood.
+
+And then I can plug into...
+
+I can plug this formula that I have,
+
+this log, and then we have pi K.
+
+Xi | Mu K, and sigma K squared.
+
+Now we need to actually
+maximize this problem.
+
+It turns out this is
+actually easy to solve.
+
+The way to look at this is we can
+
+break the log into a
+summation of two parts.
+
+So it will become sum over
+i=1 through N,
+
+K=1 to capital K indicator
+function (Zi=K).
+
+And then log pi K.
+
+And then plus log, Xi,
+Mu K and sigma K squared.
+
+It becomes this.
+
+Now if we actually maximize over pi.
+
+Change the color.
+
+So let's see if we maximize pi K
+
+so it's a sum of log pi K.
+
+So this optimization problem
+is actually fairly easy.
+
+We can show that if we maximize pi K
+
+without a further duration,
+
+we can show that pi K exactly equals two.
+
+Sum over i=1 to N indicator function Zi=K.
+
+So you can do the duration
+yourself, it's easy.
+
+This actually matches the empirical,
+
+heuristic idea that we had earlier.
+
+Then if we also maximize
+the Mu K and sigma K
+
+this is going to be a maximum likelihood
+
+estimation problem for
+Gaussian distribution.
+
+Again it's very easy to show that
+
+the optimal solution is going to be
+
+exactly the empirical mean and
+
+the empirical variance for the data points
+
+that has Zi=K.
+
+So overall, if we actually observe both
+
+data points Xi and the label,
+
+we can estimate all the
+parameters fairly easily,
+
+either just using this
+heuristic argument of
+
+empirical mean and empirical variance
+
+or just formally deriving
+the joint maximum likelihood.
+
+But the idea is that having
+the complete information
+
+estimating the parameter
+is a fairly easy problem.
+
+Now in reality, unfortunately the problem,
+the setup of the problem
+
+of clustering is that we don't observe
+
+the latent variable Z.
+
+We only observe the data points Xi.
+
+So in this case we have
+incomplete information.
+
+And then the Zi in this case
+
+is going to be called
+missing information.
+
+We don't observe them.
+
+Now in this case we still
+want to estimate theta,
+
+even though we don't
+have complete information
+
+about this probability model that we have.
+
+It turns out in this case we can still
+
+estimate the parameter theta
+using maximum likelihood.
+
+Except that now the
+likelihood that we optimized
+
+should be defined on whatever we observe.
+
+In this case it has to
+be defined on the Xi.
+
+The marginal distribution of Xi.
+
+So in this case we want to
+maximize the log probability
+
+of the observation which is owning Xi.
+
+And this equals to the
+marginal distribution of Xi
+
+which is actually summing over all
+
+the possible configurations
+of Zi that we are missing.
+
+So just to compare this with
+
+the earlier complete information case.
+
+So earlier we had sum over i=1 to N
+
+log probability of Xi and Zi given theta.
+
+So in this case Zi is observed.
+
+Xi is also observed so we just need to
+
+maximize the probability of
+the joint distribution of Xi.
+
+Now in the missing number case
+
+we only observe Xi so
+the maximum likelihood
+
+estimation is going to
+maximize the likelihood of Xi.
+
+The probably of Xi actually equals to the
+
+marginal probability of Xi which is
+
+summing over all the possible Zi.
+
+So compared to the
+complete information case,
+
+here we need the sum over all the
+
+possible labels Zi that we don't know of.
+
+It turns out this summation makes
+
+the problem much more difficult.
+
+So earlier we showed that if we maximize
+
+this joint likelihood we essentially
+
+have closed form solution.
+
+Now if you actually maximize the
+
+marginal distribution then we
+
+actually don't have a
+nice closed form solution.
+
+And we need to use numerical algorithms
+
+to optimize this object function.
+
+So let's go over this.
+
+Let's actually write down this formulation
+
+for the example that we had
+
+and see why it is actually difficult.
+
+So remember, let's just start with
+
+the marginal distribution.
+
+Probability of X given theta.
+
+So this is the marginal distribution of X.
+
+By the law of total probability
+
+it will actually equal sum
+over the joint distribution.
+
+Summing over all the possible Z.
+
+Now it's actually easier
+to introduce label K here.
+
+So I will do these are equivalent to K.
+
+Summing over all the possible random Z.
+
+And then in the case
+
+of the Gaussian example we showed earlier
+
+this joint distribution
+actually equals to pi K.
+
+Normal distribution.
+
+X Mu K and sigma K.
+
+So this is something that we
+actually want to optimize.
+
+So here we sum over all the possible K.
+
+And for each of the terms we modify
+
+the probability pi K times the
+
+likelihood of the corresponding Gaussian.
+
+And then in order to maximize
+the marginal distribution
+
+we actually need to sum
+over the data points.
+
+Log probability Xi given theta.
+
+So this is the marginal likelihood.
+
+It will actually equal
+to sum over i=1 to N log.
+
+Log of P X which is
+actually into sum over K.
+
+K=1 to capital K.
+
+And pi K Gaussian distribution
+Mu K and sigma K squared.
+
+So this is actually
+over the object function
+
+they want to optimize.
+
+In particular we want to
+maximize this function.
+
+Bring this back to pi K,
+
+Mu K and sigma K for all the K jointly.
+
+Turns out this is actually not
+
+a closed form solution for
+this optimization problem
+
+and the key difficulty that the summation
+
+over K is actually inside the log.
+
+If we can push the summation
+somehow outside of log
+
+then the problem with reduce to
+
+the earlier joint maximization of
+
+the joint probability which has
+
+a closed form solution.
+
+But in this case,
+
+this is a much more difficult problem.
+
+So in the case of Gaussian,
+
+the marginal distribution
+that we have here
+
+is called a mixture of Gaussian.
+
+So P X given theta equal
+to the sum over things.
+
+So this whole thing...
+
+This probability of X which is
+
+the sum over a bunch of
+Gaussian distribution
+
+is called a mixture of Gaussian.
+
+It's a mixture model.
+
+So if we actually (mumbles)
+
+it's going to exactly look like,
+
+let's say you have two Gaussian,
+
+you are doing some weighted combination.
+
+It will exactly look like this.
+
+So you have two modes in this case.
+
+So one mode and two mode.
+
+You have some high probability
+
+to draw from either of the modes
+
+according to percentage
+of probability pi K.
+
+In this case,
+
+for this simple case we can exactly
+
+write down the formula.
+
+It's going to be sum,
+
+let's say have half.
+
+So let's half probability
+to be on the left mode.
+
+So this is exactly write down the formula.
+
+We need to actually the multiply
+
+the normalization counts then.
+
+Which is two pi squared sigma one.
+
+So this the probability
+that's Mu one and sigma one.
+
+This is the probability
+of first the Gaussian
+
+times the percentage.
+
+In this case we assume it's one or two.
+
+Plus another Gaussian mode.
+
+So this actually defines
+a mixture of Gaussian.
+
+Or Gaussian mixture distribution.
+
+And the problem is essentially
+
+how could you actually
+maximize the likelihood
+
+of the Gaussian mixture distribution.
+
+It reduces to this problem.
+
+Now obviously if we really
+want to solve this problem
+
+using some simple naive algorithm
+
+we can just do grade and descent
+
+over this object function.
+
+It's just that the algorithm is not,
+
+you need to determine the step size,
+
+it's not guaranteed to converge.
+
+So select the step size properly.
+
+Turns out EM algorithm,
+
+expectation maximization
+is an iterative algorithm
+
+very similar to grade and descent
+
+That allows us to maximize
+the marginal distribution,
+
+this mixture likelihood
+much more conveniently.
+
+It's a very nice algorithm.
+
+So what I'm going to do is that I will
+
+first introduce the iteration,
+
+the procedure of the EM algorithm.
+
+And then I'll show the
+duration of why it makes sense.
+
+So here the idea is very similar to
+
+let's say iterative algorithm
+such as grade and descent.
+
+In order to maximize
+that likelihood function.
+
+So again, the goal is to maximize.
+
+So now it's really just
+he optimization problem.
+
+So just rewrite the maximization problem.
+
+So this the problem they want to solve.
+
+And the idea of EM algorithm is that
+
+we start some initialization.
+
+Theta zero, some random guess.
+
+And then we repeat.
+
+Iteration you repeat the
+following procedures.
+
+For each theta T, and the T's iteration,
+
+we sort of think about that we can have
+
+have to some mechanism to
+input the missing labels.
+
+Remember that the K difficulty here
+
+is that we don't observe
+the latent variable Z.
+
+We don't observe the Zi.
+
+But in EM algorithm we
+iteratively estimate Zi
+
+using the posterior distribution
+of the current parameter.
+
+Meaning that let's say
+theta T is the parameter
+
+that we have right now.
+
+I can use theta T to actually calculate
+
+the posterior distribution Z given Xi.
+
+So let's say given that theta T is my
+
+parameter what's the
+posterior distribution of Z.
+
+I can use this to actually calculate
+
+the posterior distribution of Zi.
+
+And then I can essentially
+just impute this Zi
+
+into the sort of data set and then
+
+maximize the joint likelihood.
+
+So this is what we want to do.
+
+Basically here I update the theta,
+
+by maximizing this joint likelihood
+
+by randomly joining sampled Zi
+
+from this posterior distribution
+
+that is conditioning on the
+previous iteration of theta T.
+
+And then because in
+principle we can impute
+
+infinite number of Zi.
+
+So I can just take the
+expectation of the imputation.
+
+So summing over all the data points Xi.
+
+And then for each Xi I just impute
+
+a Zi randomly from the
+posterior distribution
+
+conditioning on the previous
+iteration of theta T.
+
+And then take the expectation.
+
+And then I maximize this
+expected joint likelihood.
+
+The next iteration theta T is going to be.
+
+So the maximum of this
+expected joint likelihood
+
+is going to be my next value.
+
+And then I repeat this
+process iteratively.
+
+And doing conversions.
+
+So it's unclear why this works
+
+and also it's unclear just
+from this general procedure
+
+why it has an advantage.
+
+We it turns out this procedure
+
+can be actually implemented very easily
+
+for simple models such
+as Gaussian mixture.
+
+Meaning that we can actually solve
+
+both of the steps in closed form.
+
+So I can implement both steps very easily.
+
+And then we can actually
+show that this procedure
+
+can monotonically decrease
+the last function.
+
+Now in the following I'm going to
+
+practice this algorithm,
+
+this procedure in the
+example that we had earlier.
+
+And then we will go to the duration.
+
+So let's try to implement this algorithm.
+
+So again just start with
+the example we had earlier.
+
+This is the example.
+
+This is the data point we have.
+
+Let's start from the first step.
+
+Which is given some theta T,
+
+we want to estimate the
+posterior distribution of Z.
+
+So this is actually easy.
+
+So let's assume at some point
+
+I have two components that look like this.
+
+So this Mu one and sigma one.
+
+Mu two and sigma two.
+
+So remember theta T equals
+to the collection of pi,
+
+equal to let's say pi K T
+represents the value pi K
+
+and the T is iteration
+and the Mu K T sigma K T,
+
+K=1 to capital K.
+
+So T, T, T, T.
+
+So at the T's iteration let's say here are
+
+the values of theta T.
+
+And then I want to calculate
+the posterior probability
+
+of Zi=K give that Xi and this
+particular value of theta T.
+
+So this is the posterior
+distribution of Zi=K
+
+for any data point Xi
+
+and given the value of theta T.
+
+So in this case we can use base rule
+
+or actually we can just the rule
+
+of conditional probability.
+
+So the conditional probability equal
+
+to the joint probability.
+
+This is something that we need to
+
+remember from the probability class
+
+And then we need to sum over Xi.
+
+We need to marginalize all the theta T.
+
+So basically the posterior
+distribution of Zi=K
+
+is equal to the joint
+distribution of Zi and Xi
+
+divided by the marginal
+distribution of Xi.
+
+Which is summing over all the possible Zi.
+
+So here because K is a dummy variable
+
+let me just us another notation.
+
+So I will use L to
+distinguish it when there's K.
+
+Now in the case of Gaussian this will
+
+actually become in the
+example that we have
+
+this simple one-dimensional example.
+
+It will become pi K.
+
+Remember this is the normal distribution.
+
+The joint distribution.
+
+And then we have the normal distribution
+
+Mu K sigma K because it's T's iteration.
+
+And then sum over L pi L Xi Mu K T L T.
+
+So here we have L.
+
+L sigma L.
+
+So this actually allows you to
+
+calculate the posterior distribution.
+
+So basically let's say just
+to go back to this plot.
+
+Let's say for example this point,
+
+basically the probably
+of Z=1 is going to be
+
+the likelihood ratio.
+
+Basically proportional
+to the likelihood ratio
+
+between this Gaussian.
+
+Left Gaussian and right Gaussian.
+
+So this point will have higher probability
+
+belonging to the Gaussian on the left
+
+versus let's say this point will
+
+have higher probability belonging to
+
+the Gaussian on the left.
+
+So we can calculate this.
+
+So let's just be more concrete.
+
+Let's say Zi=1 given Xi and theta T
+
+is going to equal to...
+
+Equal to pi one.
+
+The Gaussian likelihood,
+
+I'm explicitly writing it down.
+
+It'll be something like this.
+
+Let's say I minus Mu one squared.
+
+divided by two sigma one squared.
+
+Then divided by the
+normalization constant.
+
+Which is square root of two pi sigma one.
+
+And then we have the second Gaussian.
+
+We need to sum over all the possible L.
+
+Essentially this is how it looked like.
+
+If you want to actually calculate it
+
+exactly this is how it looked like.
+
+So basically just need to
+calculate this whole thing.
+
+Okay, we can calculate the
+posterior distribution.
+
+And then we once we calculate
+the posterior distribution,
+
+We can calculate this expectation
+
+and calculate the joint likelihood.
+
+So for convenience let's define
+
+let's say gamma I K equals to
+
+posterior distribution of Z I=K
+
+given Xi theta T.
+
+Then we can exactly calculate
+this joint likelihood
+
+it's going to be sum over,
+
+define this to be the likelihood function
+
+equals to sum over i=1 to N.
+
+And then we need to take expectation
+
+on this posterior distribution
+
+because I'm defining gamma to
+be the posterior probability.
+
+Then it will be equivalent to sum over K=1
+
+to capital K gamma I K
+T log P Xi Zi=K theta.
+
+And then we need to maximize this.
+
+It turns out it's easy
+to solve this problem
+
+because it's essentially maximizing
+
+the joint likelihood of X and Z,
+
+except that we now are averaging over
+
+using gamma instead of
+the indicator function
+
+as we had done earlier.
+
+But essentially, let's
+say for the Gaussian case
+
+we can easily show results going to the
+
+details of duration that
+pi K for the next iteration
+
+actually equals to,
+
+if we actually maximize this likelihood
+
+we can show that it's actually equal to
+
+sum over gamma i K T i=1 to N.
+
+So this is like the total
+percentage of data points
+
+that belongs to the K's cluster.
+
+And then sum divided by N
+which is the total number
+
+of data points.
+
+And then similarly we can show that
+
+Mu K T plus one which
+maximizes this likelihood.
+
+Joint likelihood equals to a weighted sum.
+
+Which is going to be
+gamma i K T Xi divided by
+
+sum over i=1 gamma i K T.
+
+So again it's a weighted sum.
+
+Now in this case we are weighting by the
+
+posterior distribution.
+
+Similarly we can calculate the variance.
+
+It's a messy formula so you
+can do the duration yourself.
+
+The point is that this maximization step
+
+can be implemented fairly easily.
+
+And then we just repeat
+this process iteratively.
+
+So basically every time we calculate
+
+the posterior distribution,
+
+which in this case is
+summarized as gamma i K T.
+
+And then given gamma i K T we want to
+
+maximize the expected joint likelihood
+
+which then is involving solving this,
+
+calculating, updating pi
+Mu and sigma in this way.
+
+And then if we iterate
+it's guaranteed to actually
+
+converge into the global optimal solution.
+
+Actually it's only converged
+to a local optimal solution.
+
+I will talk about this later.
+
+But this the simple
+procedure for EM algorithm.
+
+So in the next section I will talk
+
+about the duration of EM algorithm.
+

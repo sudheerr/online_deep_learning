@@ -1,0 +1,303 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So in this hands on, hands on segment, we'll build one of the simplest statistical models that,
+
+uh, we'll ever build in this class and that, uh, that is a nearest neighbor classifier.
+
+And so we'll start I'll start by walking you through sort of the setup, um, what data is how you load data.
+
+Um, I don't expect you to fully understand.
+
+There's a lot of this will become clear as we cover more material in class, but this is sort of a teaser on what sort of models look like,
+
+how we can think of about models, how we can think about these predictions of these models.
+
+All right. With that, let's get started. Um, I have a little bit of starter code here.
+
+And what the starter kit does is it loads torch version, which is, uh, package.
+
+It has, uh, quite a lot of vision data sets. It has some vision models.
+
+And from that we'll load the flowers, uh, 102 data set, um, which is a data set that just has sort of,
+
+uh, collection of sort of beautiful flower pictures categorized into 102 different flower categories.
+
+Um, here there's a little bit of complicated code here because we want all images to have the same size,
+
+um, 128 by 128 pixels, uh, which we then can use to sort of reason and compare these images with.
+
+I also, uh, have a function here that converts sort of, uh, the data, uh, sort of data from this data set into an image we can look at.
+
+And so if I run this, we can look at the first image in the data set.
+
+Um, we could also sort of look at the second image in a data set, which is sort of a different flower.
+
+Now if we look at how this data set. Or elements of this data set look like.
+
+So each element of the data set itself has a certain length.
+
+So there is a bit over a thousand images in this data set.
+
+And each. Entering this data set has two values.
+
+The first one is a torch tensor, which is the pixel which contains the pixel values of all of the entire image.
+
+So this you can think of. This is just a gigantic array of pixel values three times one, 28, 21, 28.
+
+And then a second value. Here is a label. So it this label goes from zero to uh, 101.
+
+And it will describe what class a flower it is. So that's the basic data set that we're working with.
+
+Now the very first thing you should do when you,
+
+when you're working with data is we should just look at it and we're going to write a little bit of code to just look at this data set here.
+
+So we'll import matplotlib. And we can just visualize a single image.
+
+In matplotlib, but we could also visualize sort of the first 20 images.
+
+And so for that we'll create some subplots. We'll make it 1 or 2 by ten.
+
+And then. Well. Do for I in range or.
+
+Well, actually just in room rates of the images. So for I tend to pay much and label in enumerate data set up to 20 not ten.
+
+And what this piece of code here does is, they'll visualize it one after the other.
+
+We'll first display the image of the data set element, and then the title of the image is going to be the label itself.
+
+I forgot the I here. Of list is no object read.
+
+Uh, that is, uh. The way PyTorch loads data sets is it creates an iterator, an iterator instead of a list.
+
+And so that's why the column 20 here did not work.
+
+If we convert it into, um, into a list manually, we can index into the first 20 images.
+
+So the enumerate would work, uh, on the PyTorch data set.
+
+But this bracket column 20 would not. And so here, um, we can see that so that the first ten images are one kind of flower.
+
+And then the second ten images are another kind of flower.
+
+If you would go on and visualize some more. Um.
+
+We would see more classes and also more images likely after for off class number one.
+
+All right. So these are sort of the different, uh, the different flowers, the different images.
+
+Um, what we'll do here is we'll train a classifier to simply distinguish class number one,
+
+which is the first ten images from class number two, which is the second ten images.
+
+Right. And so we'll sort of say class.
+
+Zero is. The first ten images.
+
+Class one. Is the next ten images.
+
+All right. In our training dataset. We'll ignore all other classes for this exercise.
+
+But in general, you would want to train a classifier that has all sorts of different classes and can reason about more than just two classes.
+
+All right. Let's reset this lens.
+
+Right. Let's run this real quick.
+
+And while this is running, we're ready to sort of start thinking about how do we implement our nearest neighbor classifier.
+
+Uh, a nearest neighbor classifier.
+
+What it does is it takes a new test, image X, and it will go through all the images of class number one, all the images of class number two.
+
+And it will figure out what these class number one the closer.
+
+Or is class number two closer. Or is one image and class number one close or one image in class number two closer.
+
+And the best way to implement is actually mix classes one and two together with their labels.
+
+And then within class one and two, look at the x that has the smallest distance between the test image and the data set, and return that label.
+
+So. The nearest neighbor classifier for x.
+
+Well, in this case, uh. Uh, copilot is wrong.
+
+First, we'll need to compute the distances between.
+
+All. Sort of. Images.
+
+Let's call this images and our input x.
+
+And so the distance is simply just the input minus the image squared.
+
+Summed over the entire, uh, the entire image and the square root here,
+
+where you can actually forget it because we're going to look at the closest image. And so then the square root.
+
+And for the closest image the square root does not matter. All right.
+
+Now, uh, the next thing we'll do is we'll find the, uh, element with the smallest distance.
+
+Um, there's two ways to do this. Um, since we'll actually just print this out real quick.
+
+And just look at the two ways we could do this. And to test us, we'll use an image from the test set.
+
+And run this. And so what? This will return. Oh, I did not load the test set up here.
+
+Um, the reason why I noticed that I didn't load the test set. There was a bug in the starter code.
+
+Is that the first element here has a distance zero. That should almost never happen.
+
+So distance, serum, etcetera. Identical images. Uh, which means that the test set must have been, uh, the same as the training set right now.
+
+So I'll reload the test set real quick.
+
+We can rerun this down here, and now we can see all the distances between a test image and all the training images that we had.
+
+Now we could find the argument of this and then retrieve the label of the argument.
+
+Um, there's a slightly different trick in PyTorch or in Python where instead of producing tests,
+
+the distance will produce a tuple of a distance and a label.
+
+We'll return this tuple. And now we sort of have distance and label associate with one another.
+
+Now we can look at the minimum element in this list. And then return.
+
+The value of this minute, the label of this minimal element.
+
+And so this is a nearest neighbor classifier. So you can write your own statistical model in literally sort of two lines of code.
+
+Um, you need to load the data set and the labels. And then you simply just compute a,
+
+compute the distance between the new data element that you want to test and the entire data set, and then return the minimum.
+
+Now we can look at how well this works. Um. We can look at the accuracy and, um, we can do this over the test set.
+
+We don't want to do it over the entire test set. Let's compute it over.
+
+Test that the first 20 images of the test set. And then just divide by 20 here.
+
+And so this will tell us how accurate our classifier is. Um, this is going to take a little while initially because of this list, uh, test data set.
+
+Um, because it will load the entire data set in this list constructor and then only use the first 20 elements.
+
+Um, but it should eventually load.
+
+And once the data set, the test data set is loaded, um, we can then go and sort of compute this nearest neighbor classifier.
+
+The nearest neighbor classifier itself should be relatively fast, um, because it only compares one test image to about 20 other, um, images.
+
+And then finally we want to output this accuracy.
+
+And the accuracy is sort of it's not terrible.
+
+It's not amazing either. Um, one thing to double check real quick is that the labels.
+
+Off. The first 20 images are actually also within the range of zero and one.
+
+Otherwise, our classifier would not have the ability to predict the correct labels.
+
+All right. So that we don't have to wait for this any longer.
+
+I'll actually convert the data set into a list while I load it here.
+
+We'll have to do this once. And then this is going to be stable.
+
+All right. So while this is while this is computing we can think of, how do we implement this.
+
+Uh, and obviously have. We can think about how to implement a k nearest neighbor classifier,
+
+and so k nearest neighbor classifier takes the concept of the nearest neighbor classifier.
+
+But instead of looking just at the one closest element, it now looks at sort of the k closest elements Anthony takes it,
+
+returns the result that is sort of the most frequent of the k closest.
+
+So if the k closest elements are all of class zero, it will return a zero.
+
+If two of them are zero and one of them is one, it will still return a zero.
+
+And then if all of them are, uh, 1 or 2 of them are one, it will return a one.
+
+All right. So let's do that. Let's implement the k nearest neighbor classifier and we'll start from our nearest neighbor classifier.
+
+K nearest neighbor classifier has a parameter. Okay.
+
+Set to three now. And now we'll again compute the distances between our test image and all the training images.
+
+But now, instead of just looking at the closest, we'll look at the k closest.
+
+The easiest way to do this. Is to sort the distances.
+
+Look at the first k. And now we actually just want to look at the labels of the first k.
+
+And so just will return the labels after first k images.
+
+We'll come in to software now to test this function.
+
+And I should call it canon. And you can see now it's instead of returning just a single label.
+
+It will return three labels. And we want to know what is the most frequent label here.
+
+Now, if you had n classes, uh, finding the most frequent, uh, would require some function calls.
+
+If you only have two classes, the most frequent label is the median.
+
+Uh, we can find the median again by simply. Sorting closest.
+
+And looking at the element that's in the middle. So this is the result of our K-nearest neighbors classifier.
+
+Just to verify that this actually works. I'll feed in a bunch of different images.
+
+Might get a bunch of different results. And indeed, this will return the median.
+
+All right. So this is our k nearest neighbor classifier.
+
+We can again look at the accuracy of the k nearest neighbor classifier. And it's a little bit better than what we had before.
+
+What we had before is actually worse than chance.
+
+Now the curious K-nearest neighbors classifier gets roughly two chance, uh, while guessing, uh, what the right output is.
+
+Um, the reason why these classifiers are not not very good at this on this data set
+
+is because raw pixel distances between images are really terrible metrics,
+
+uh, to figure out if two things are the same.
+
+And so later in class, we'll build very sophisticated models that actually go in and analyze these images to figure out what's in them.
+
+Right now, just looking at sort of raw distances and pixel values.
+
+That's a very poor proxy to figure out what, um, what is sort of what is close and what is not.
+
+Um, now the final thing we're looking at is we'll look at uh, k nearest neighbor regression.
+
+So instead of um, computing the class output,
+
+let's now just look at sort of an output that's sort of more decide are we more similar to class A or B, more similar to class B?
+
+Instead of having a strict class output, a regression will now output a real value and in terms of the k nearest neighbor regressor.
+
+The Kenya's neighbor regrets. So actually is almost the same as the k nearest neighbor classifier, except for the last line here.
+
+And so the last line here. We'll just compute the mean between.
+
+The labels, uh, among all the labels. And so that will now give us a regression model.
+
+The regression model doesn't have an accuracy anymore but. Oh, and we'll need to convert this to float.
+
+And it doesn't have an accuracy anymore. But it has sort of a measure of how flour like how flour a like or how flour b like a certain output is.
+
+So this is how you would implement a regression model. And again for all three models they are very simple.
+
+They're sort of three lines of code maximum.
+
+Um and this is just there to sort of give you a feel for how to deal with data, how to build these models,
+
+and a feeling that these models are actually not something too complex and complicated.
+
+Uh, they're very easy functions that map inputs x, in this case to real, well, real valued outputs, sort of y here.
+
+Um, I hope this was helpful. And with, uh. That's it.
+

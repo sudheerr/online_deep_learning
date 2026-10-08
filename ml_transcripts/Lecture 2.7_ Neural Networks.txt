@@ -1,0 +1,2429 @@
+♪ (slow music) ♪
+
+Welcome to machine learning.
+
+In this lecture we're going
+to talk about neural network,
+
+which is a class of extremely powerful
+
+nonlinear approximation
+
+that has been really widely used
+
+in very successful machine learning.
+
+Let's get started.
+
+The idea here is that
+
+we want to extend linear regression
+
+which is using linear functions
+
+to approximate complex data sets.
+
+And the extension to
+nonlinear approximation
+
+as we said earlier
+
+is based on a very simple idea.
+
+Basically, we can use what's
+called basis functions.
+
+Here x is a set of feature
+
+and then we can map the
+feature into some sort of
+
+abstract latent variable
+
+using some nonlinear functions Phi I.
+
+And then we can perform
+a linear regression
+
+over these basis functions.
+
+A typical example of basis function are
+
+polynomial functions.
+
+In this case we get polynomial regression
+
+which is a particular class
+of nonlinear functions.
+
+And we have talked about kernel methods.
+
+It represents a particular example
+
+of adaptive basis function
+
+which is the idea that you can design
+
+your basis function adaptively
+
+based on your dataset
+so that you can capture
+
+the pattern from the
+data more efficiently.
+
+In particular, in the kernel method
+
+the idea of using adaptive,
+
+designing adaptive basis
+function is extremely simple.
+
+Basically in the kernel method
+
+we just take these basis function
+
+to be the kernel function K
+
+again Kx Xi represents the similarity
+
+from a particular x to a
+particular data point Xi.
+
+And in the case of kernel
+
+we just use this kernel function
+
+evaluated at each of the data points
+
+to construct the adaptive basis.
+
+Now in the case of neural network,
+
+we have another sort of simple way
+
+to design adaptive basis functions.
+
+The idea is that we simply just assume
+
+each of the basis function
+
+has a parametric form
+
+and this parametric
+form has some parameters
+
+and then we just jointly
+train the parameter
+
+of the basis function together
+
+with the other parameters we have.
+
+Here, each of the phi I,
+
+which is the basis function,
+
+we assume it has some parametric form.
+
+X phi is some general function
+
+and then each of them
+has some parameter Vi
+
+and then Vi is some additional
+parameter we introduced
+
+for the basis function
+
+and then we assume we have a bunch of
+
+such basis function
+
+and then in this case
+
+we join the function over W
+
+which is the original linear coefficient
+
+as well as V,
+
+which is the coefficient
+of the basis functions.
+
+And then the idea is
+really just treat w and v
+
+as parameters and then we can use
+
+optimization to estimate w and v jointly.
+
+The idea again in this standard setting
+
+let's say we want to
+estimate W V in this case
+
+we just minimize the loss function.
+
+V, expectation over the data set.
+
+Y minus F(X, W, V) square.
+
+This is one example where we can
+
+minimize the mean square error.
+
+This is really the general
+idea of a neural network.
+
+It's nothing complicated.
+
+It's really just parametrizing
+
+the basis function using
+some simple parametric
+
+functions and jointly learn,
+
+estimate the parameters
+of the basis function
+
+as well as the data coefficients.
+
+Okay.
+
+This is the general idea.
+
+But to implement it,
+
+we need to actually decide
+
+how do we actually want to parametrize
+
+the basis function.
+
+It turns out the way we parametrize
+
+it is particularly simple
+for neural networks.
+
+Basically in the case of neural network,
+
+we assume this basis function,
+
+each of the basis function
+
+has some very simple form as follows.
+
+Let's say we have Xl sum over Wl plus W0.
+
+It has this very simple form
+
+where we assume each
+of the basis functions,
+
+let's remove the index
+i because it's general.
+
+Each of the basis function phi in
+
+the case of our neural
+network is assumed to
+
+have this very simple form.
+
+Let me explain what it means.
+
+Here I'm assuming each of
+the feature x is a vector.
+
+This is the case.
+
+This is the practical case D.
+
+The feature is a vector x one to x d.
+
+We have d different features.
+
+And then what we do here is that
+
+when we design the basis function
+
+we first apply a linear
+function over the features.
+
+We do a simple linear transform
+
+just like what we did
+for linear regression.
+
+And then this will give
+you a particular number.
+
+Basically, you are designing
+
+a set of weight which is W.
+
+W is going to be W1 to Wd.
+
+We have a set of coefficients which is w.
+
+Actually we should
+change the notation to v
+
+because this is what we did earlier.
+
+Okay.
+
+We have a set of coefficients V,
+
+and then we also have
+
+an additional bias term which is v zero.
+
+And then basically these forms
+
+sum over each coordinate,
+
+weighted sum of order coordinates,
+
+this gives you a single number.
+
+And then after we get this number,
+
+we apply an arbitrary, a
+simple nonlinear function.
+
+Here sigma is a simple nonlinear function
+
+that is called activation function.
+
+Example of activation function is,
+
+there are a few number
+
+of commonly used activation functions.
+
+One is the max zero and
+t, which is called RELU,
+
+rectified linear unit, RELU.
+
+This function looks like this.
+
+Basically we have,
+
+so here is zero, x axis is t.
+
+T represents the linear function
+
+and then here is a zero.
+
+Basically, this function says that
+
+if t is smaller than zero,
+
+I will set it to be zero.
+
+If t is larger than zero, it equals to t.
+
+More specifically, sigma
+t equals to either zero
+
+if t is smaller or equal to zero,
+
+equals to t if t is larger than zero.
+
+This is a very basic and
+simple nonlinear function.
+
+There are many other
+choices such as sigmoid,
+
+which is going to be exponential T,
+
+one plus exponential T.
+
+This is actually equivalent to
+
+one over exponential minus t.
+
+These are equivalent.
+
+This is called sigmoid.
+
+And the shape of the sigmoid
+function looks like this.
+
+It starts from zero when t
+is very very small, negative.
+
+And then at a point when t equals to zero,
+
+it equals to one over two,
+
+and then when t is infinitely large,
+
+the activation of the
+sigmoid actually saturates.
+
+It will saturate to one.
+
+The difference between RELU and sigmoid
+
+is that the RELU will continue to grow
+
+when t is infinitely large,
+
+the activation of RELU will
+grow to infinitely large,
+
+versus the sigmoid will
+saturate, it's bounded.
+
+This is really just another
+example of activation function.
+
+Another less commonly used
+
+activation function is simply
+
+the thresholding function, which equals to
+
+let's say equal to one
+if x is larger than zero,
+
+zero if x is smaller or equal to zero.
+
+I'll change this to larger.
+
+In this case we have
+
+kind of a discontinuous
+version of sigmoid.
+
+Sigmoid can be viewed
+
+as a smooth version of
+the thresholding function.
+
+Basically, the idea of neural network
+
+is that each of the basis function
+
+consists of a linear map and then apply
+
+a nonlinear activation function.
+
+And each of these basis function
+
+in the case of neural network obviously,
+
+each of the phi is called a neuron.
+
+So each of phi is called a neuron.
+
+And then again this sigmoid
+
+is called activation function.
+
+And the parameters of the
+neuron which are the v
+
+are called the weights
+of the neural network.
+
+And in neural network we have
+a bunch of these neurons.
+
+Each of the neuron has a different weight.
+
+Here we have, each of the
+i represents a neuron,
+
+and then each of the neuron
+has a different parameter Vi,
+
+and then sum them together
+
+gives you the overall neural network.
+
+Let me write again.
+
+Basically, the neural network
+
+consists of the linear
+combination of a bunch of neurons.
+
+We have f x which is a
+function of both w and v
+
+equals to sum over i from one to
+
+let's say we have m neurons.
+
+For some reason we decide m
+
+where m is actually a parameter
+
+that you need to decide as a user.
+
+Basically, m controls the
+complexity of your model.
+
+The more neurons you
+have the more complex,
+
+more flexible the function you have.
+
+But it introduces more parameters.
+
+w i sigmoid, and this linear function,
+
+which is, in order to do it
+
+I can sort of (inaudible) so Il Xl plus Vi0.
+
+Here each of the V, Vi equals to Vi0
+
+Vi1 all the way up to Vid.
+
+Here we have sum over l from one to d.
+
+Here each of the neuron has
+a set of weight which is Vi
+
+and then the overall parameter
+is actually a matrix.
+
+The overall set of parameter
+
+which we use a cap to v
+to represent the matrix.
+
+Here V should be a matrix consists of
+
+the set of m neurons.
+
+Basically, each of the neuron has a weight
+
+Vi which is a vector,
+
+and overall the set of neurons
+
+consists with the weight
+
+of all the neurons is a matrix.
+
+And then in this case,
+
+we have two sets of parameters which is,
+
+one is the linear coefficient Wi.
+
+Another is the weight matrix.
+
+And then when we train the neural network,
+
+we will write down the loss function,
+
+plugging this definition here,
+
+and then we get a function
+over both W and V.
+
+And then we can numerically optimize this
+
+by using gradient descent for example.
+
+Obviously this optimization
+is very complicated.
+
+There's no closed form
+
+but we still hope to solve
+them using gradient descent.
+
+In fact in practice people
+find gradient descent,
+
+in particular if you have a large dataset
+
+using stochastic gradient descent
+
+is actually sufficient for you to get
+
+a reasonably good estimation
+of the parameters.
+
+Okay.
+
+So this is really just the idea.
+
+So there are a bunch of
+things we need to highlight.
+
+One is that when we
+optimize the neural network
+
+solving this optimization problem,
+
+this optimization turns out
+to be always non-convex,
+
+almost always non-convex,
+
+meaning that we can only
+hope to find a local minimum
+
+when we want to solve the problem.
+
+Let me try to say why this is the case.
+
+So one sort of important thing is that
+
+learning neural network is
+a non-convex optimization.
+
+This is a very important
+fact that we should know.
+
+Now, why is it non-convex?
+
+Let me give you an example.
+
+Let's say we're learning a
+very simple neural network
+
+which has two neurons.
+
+We just have two neurons.
+
+Let's say we have sigma X.
+
+Maybe each of them really
+just has one single parameter,
+
+maybe just V1 plus X minus V2.
+
+Let's say we have,
+
+we don't even have W for example
+
+just a very simple neural network.
+
+So here this neural network
+has two parameters V1 and v2.
+
+We are actually assuming the coefficient
+
+on the feature (inaudible) one
+and we just want to learn
+
+estimate the bias term and the weights
+
+of each of the neural
+network is one (inaudible).
+
+Okay.
+
+Even for this simple neural network,
+
+solving the optimization
+is actually non-convex.
+
+Again, just to give you a sense,
+
+the loss function is going
+to be empirical averaging
+
+here expectation D represents
+the empirical averaging
+
+over the dataset.
+
+Sigmoid X minus v1, x minus v2 squared.
+
+We want to minimize this function.
+
+It's actually a non-convex function.
+
+Okay.
+
+Now, why is it non-convex?
+
+Let's explain.
+
+The fundamental reason is that
+
+if you look at this function,
+
+the order of these two
+neurons doesn't matter
+
+meaning that if I just permute the order,
+
+having v1, v2 versus v2, v1
+
+you will get the same neural network.
+
+This is the idea.
+
+Let's assume at some point we have,
+
+we get the optimal solution which is
+
+v1* and v2* is optimal.
+
+If we visualize this let's say here
+
+because we have two parameters,
+
+I can sort of think about I have ...
+
+So the loss function is defined
+
+in a 2D plane.
+
+And then assume we have a data point,
+
+the optimal point is here,
+
+assuming it's achieved optimal
+estimation at this point.
+
+Now because the neurons are symmetric,
+
+you can permute them
+arbitrarily, is optimal,
+
+then v2* and v1* is also optimal.
+
+That's because you will get
+the same neural network.
+
+Now what that means is that
+this point that is symmetric,
+
+this line is the v1, v2 diagonal line
+
+and it means that if
+this point is optimal,
+
+then the symmetric point is also optimal.
+
+Okay.
+
+Now, if we connect these two lines,
+
+you'll get one dimensional function,
+
+one slice of this function.
+
+So if the loss function
+is actually convex,
+
+assuming this is the case,
+
+then it has to be convex along this line.
+
+Now what that means is that any convex
+
+combination of these two points
+
+is going to be also our optimum point.
+
+If we take a slice of this function
+
+and this function, it may
+look like something like this.
+
+It may look something like this
+
+where you have this optimal point,
+
+but the diagonal term is not optimal.
+
+Here, the diagonal point is not optimal.
+
+Or it could be the case
+where both of the point
+
+is optimal and all the middle
+points are also optimal.
+
+In the first case, it's non-convex.
+
+The loss function is actually non-convex.
+
+In the second case it's convex.
+
+That means if the loss function is convex,
+
+any convex combination of
+these two symmetric points
+
+has to be also optimal.
+
+In particular, the diagonal point,
+
+the point that is the intersection
+
+of the diagonal line,
+
+where is the linear combination
+of these two neurons
+
+has to be optimized as well.
+
+And that means basically,
+
+if the loss is convex, then
+the linear combination of
+
+these two symmetric points
+
+has to be optimized as well.
+
+What that means is that
+V-*, V-* is also optimal
+
+where V-* is defined to be the average,
+
+the average of these two data points,
+
+Which is the intersection point here.
+
+But this is actually unlikely.
+
+The reason is that at
+this symmetric points
+
+these two neurons have the same value.
+
+Now what that means is that you
+
+are effectively using a
+single neural network,
+
+a single neuron, which is very restricted.
+
+The idea of using multiple neurons
+
+is that you can capture
+different patterns.
+
+The function becomes increasingly flexible
+
+when you have more neurons.
+
+If you are restricting
+these two neurons to
+
+have the same value,
+then you are restricting
+
+the function class.
+
+It's unlikely, even sometimes
+very special cases possible,
+
+but in general case it's unlikely that
+
+the case when you restrict
+two neurons to be the same
+
+is actually optimal point.
+
+Now this explained that the loss function
+
+is unlikely to be convex.
+
+So in reality it happens that the slicing
+
+of these two points has
+to be in the first case
+
+which is the middle point is less optimal
+
+than the individual optimal
+
+and versus the second
+convex case is unlikely.
+
+This is why actually
+optimizing your network
+
+is actually a non-convex
+optimization problem.
+
+However, still even
+though it's non-convex,
+
+in practice we can still
+solve the optimization problem
+
+using gradient descent and that allows us
+
+to find a local optimum,
+
+but in practice people find that
+
+even though it's a local optimum,
+
+it's actually often
+sufficient for practice.
+
+So in particular we can
+use gradient descent
+
+to solve the optimization.
+
+We call that,
+
+the loss function is
+actually a joint function
+
+of both w and v.
+
+So we need to minimize both W and V,
+
+and then we just perform
+joined gradient descent
+
+on both w and V.
+
+Basically, in gradient descent,
+
+the idea is that we intuitively
+
+just update the parameters
+
+following the negative gradient direction.
+
+Basically, you we joined
+to the update W and V.
+
+Both of them follows the
+negative gradient direction.
+
+Obviously, in order to do this,
+
+we need to calculate the gradient.
+
+That is actually complicated.
+
+But in reality,
+
+these days we have automatic
+differentiation tools
+
+that has been just done automatically.
+
+We don't need to worry about the gradient.
+
+But one thing that we need to
+
+sort of keep in mind is
+that when you implement
+
+the gradient descent
+
+the initialization is very critical,
+
+because let's say you
+have a convex landscape
+
+where you initialize the parameter
+
+decides which local optimum
+you will end up with.
+
+In practice when people initialize
+
+the parameters of a neural network
+
+people use sort of random initialization
+
+which is basically just set
+
+let's say the parameter of v
+
+to be a small random value.
+
+Initialize V to be small random values.
+
+This is actually very important
+
+because if you initialize
+
+all the different V deterministically,
+
+or initialize them to a large value
+
+then the gradient descent
+is easier to get stuck.
+
+Let's say in the case of,
+
+this is particularly important
+for sigmoid functions,
+
+if you initialize the
+weigh to be a large value,
+
+let's say here, then the function
+
+has already saturated.
+
+Then it's very difficult
+
+to perform gradient descent because
+
+at saturation points,
+
+the gradient is almost zero,
+
+the function is almost flat.
+
+That's no way to kind
+of have good gradient.
+
+Versus if you initialize the
+weights to be close to zero,
+
+a small initialization,
+
+then in the beginning you
+get this very large slope,
+
+and that allows you to move faster
+
+using gradient descent.
+
+And also another thing
+
+we should pay attention to is that
+
+at the initialization,
+
+we need to make sure the parameter of
+
+different neurons is
+initialized differently.
+
+And the reason is simple.
+
+Let's say you have these two neurons.
+
+If we initialize them to the same value,
+
+then they will keep the same all the time.
+
+That's because if we want
+V to have the same value,
+
+the gradient of them is also the same.
+
+They are just symmetric.
+
+That's why if (inaudible)
+they will just get stuck.
+
+They can never differentiate,
+
+unless you have some random noise
+
+added to the update,
+
+different random noise added
+to the updates of U and V.
+
+On the plot, let's say if
+you initialize V1 and V2
+
+to be the same value, let's say here,
+
+then the gradient direction can,
+
+then the parameter can only move
+
+along this diagonal line.
+
+It can never get out of it.
+
+Make sure the different neurons
+
+are initialized differently.
+
+Overall, training a neural network
+
+is kind of empirical work
+
+in that you do need to be very careful
+
+about initialization.
+
+You also need to be
+careful about the step size
+
+because that will also
+influence your results.
+
+And these kind of heuristic
+and practical engineering work
+
+has been done particularly
+successful recently,
+
+and that's why we can nowadays train
+
+various large scale neural networks.
+
+But there's also some
+theoretical results recently
+
+showing that training many neural network
+
+despite it's actually
+a non-convex function,
+
+the optimal point that derived
+
+from gradient descent,
+
+often stochastic gradient descent
+
+is actually not very far
+away from the global optimum.
+
+We do have some sort of guarantees
+
+about using gradient descent.
+
+Okay.
+
+Now I want to talk about
+some intuition about
+
+why a neural network is
+a reasonable thing to do.
+
+And to do that let's (inaudible)
+
+a simple example from image classification
+
+or digit classification.
+
+Digit classification,
+
+so the problem is the following.
+
+Let's say we have some
+handwritten images of digits.
+
+This is a classical example.
+
+This is a one.
+
+It could be either one or seven, depends.
+
+So the idea is that we want
+to classify given an image.
+
+An image is a collection of pixels.
+
+In practice you have an image.
+
+Each of the images is represented
+
+by a collection of pixels.
+
+In this case each of the pixel has a value
+
+that indicates the color or the brightness
+
+of the image at this particular location.
+
+So this is going to be our input.
+
+X is an image.
+
+In computer we can represent,
+
+we can just flatten this image,
+
+which is a matrix into a vector.
+
+This is something that we can do,
+
+just represent this whole,
+
+flatten the image as a vector.
+
+Now this is actually the actual input
+
+that we can use in a computer.
+
+This is X and then we
+hope to apply a function
+
+to predict whether it's one, two,
+
+oh, actually from zero.
+
+Zero, one to nine.
+
+So given a sort of input,
+
+we want to decide output,
+a class of the image.
+
+Now, when we use a neural network,
+
+it's almost like using
+
+sort of a sequence of templates
+
+where each of the neurons is a template.
+
+It's almost like we
+are comparing the input
+
+with different templates
+
+and decide which one is the closest one.
+
+Let's explain the idea.
+
+Let's say, each of the
+weights is also a vector.
+
+This is Vi represents the I's weight
+
+of a particular neuron
+
+It's also a vector.
+
+Here we are ignoring the bias term,
+
+which means that it can also
+be visualized using a digit.
+
+Now, in practice, this digit,
+
+the value of these weights
+
+is going to be estimated
+by minimizing the loss.
+
+But let's assume,
+
+at some point we can
+sort of set the weights
+
+to be somehow similar to
+some realistic digits.
+
+Maybe the weight of one of the neurons
+
+is actually a digit two,
+
+kind of class, sort of
+typical shape of digit two.
+
+And then some other neuron
+
+may have a shape that is
+very similar to a classical,
+
+a typical digit one.
+
+And then obviously, we can
+have 10 different digits.
+
+We can assume we have
+10 different neurons.
+
+Each of the neurons has a weight
+
+that represents a particular digit,
+
+so then all the way up to nine.
+
+In total, we have 10 different
+templates or neurons.
+
+And then what we are doing is actually,
+
+basically just compare the
+input with different templates.
+
+Basically, we take the input x
+
+and then we take the inner product
+
+with each of the template.
+
+Here basically you can sort
+of view as X Vi transpose X.
+
+This is the inner
+product between X and Vi.
+
+And then remember, we
+have additional bias term.
+
+Basically, we can sort of flip the sign,
+
+for example just (inaudible).
+
+This is the same.
+
+We can sort of rewire the
+neural network in this way.
+
+What's happening is the following.
+
+Basically, we take the input.
+
+We take the inner product
+with each of the templates
+
+that measures the same (inaudible)
+
+with each of the templates.
+
+And then we minus the bias term.
+
+This basically shifts the
+activation a little bit,
+
+and then we apply these
+activation functions.
+
+Let's assume we are applying
+
+the thresholding activation function,
+
+which is basically saying that,
+
+which is something like this.
+
+So basically if we apply
+the thresholding activation,
+
+it really just becomes
+Wi indicator function.
+
+Vi X larger or equal to V0.
+
+It will become something like this.
+
+Basically what it says is that
+
+if the inner product of Vi
+and X is larger than V0,
+
+then the neuron fires,
+
+means that the output is nonzero, is one.
+
+If the similarity is smaller than V0,
+
+then we have zero activation,
+which doesn't fire.
+
+And then these are summed together
+
+to give the final output.
+
+Now what this means is that,
+
+let's say if you are deciding,
+
+you have an input that is similar to one,
+
+then as we compare these
+different templates,
+
+we find that the first neuron,
+
+the similarity is the largest.
+
+It fires and all the others doesn't.
+
+It is this idea
+
+that comparing different templates
+
+and then picking the one
+
+that has this largest similarity
+
+allows the neural network
+detects different patterns.
+
+But theoretically, we can also show that
+
+this particular definition
+of a neural network
+
+is actually fairly flexible,
+
+meaning that if you have
+infinite number of neurons,
+
+you can actually approximate arbitrary
+
+nonlinear functions.
+
+What that means is the following.
+
+Here's the claim that I want to make.
+
+Beyond this particular example,
+
+I can actually claim theoretical,
+
+some fairly strong theoretical results.
+
+One of them is that
+
+if we have infinite number of neurons,
+
+if the M is large enough,
+
+then the neural network f(X, W, V)
+
+can approximate,
+
+any functions, any regular functions,
+
+let's say any continuous function.
+
+Let's say think about
+the one dimensional case.
+
+Let's say we have some arbitrary function.
+
+Let's say this is f*(x)
+
+which is some true function,
+
+ground truth function
+
+that we want to approximate.
+
+It turns out,
+
+if we have sufficiently
+large number of neurons,
+
+then we can always find some,
+
+there always exist some parameter W and V
+
+to actually approximate this function,
+
+no matter how complex the function is.
+
+Once we allow to have a large
+enough amount of neurons,
+
+we can approximately arbitrary function.
+
+Now why is this the case?
+
+It turns out it's a very simple idea.
+
+Let's say you have this function.
+
+I can always approximate this function
+
+using a step function.
+
+I can sort of just
+discretize this function,
+
+so that I can approximate
+
+this function using a
+bunch of step functions.
+
+And the step function
+can be actually written
+
+as a linear combination of
+the thresholding functions.
+
+You can sort of ...
+
+It can be (inaudible) as some you know ...
+
+Let's say you have each
+of the data point is,
+
+each of the thresholding function,
+
+each of the step function is actually,
+
+let's say Xi smarter than
+
+let's use another different weight.
+
+Let's say Ai X minus Bi.
+
+The step function is a linear combination
+
+of such indicator functions.
+
+Each of the x is an interval.
+
+Basically, the linear
+combination of the step
+
+function can be written as let's say, Fi,
+
+i equal to one to m.
+
+Basically, what this
+says is that let's say,
+
+I can use a plus one, A i plus one.
+
+This is exactly what we have.
+
+Basically, here, A i, A i plus one.
+
+When we approximate a continuous function
+
+using step functions,
+
+we are selecting a bunch
+of switching points.
+
+Now, between two successive
+switching points,
+
+we are setting the function value
+
+to be a constant which is Fi.
+
+If X is larger than Ai,
+
+and smaller than Ai plus one,
+
+the value is set to be Fi.
+
+This approximates,
+
+if we take more and more points,
+
+we can approximate the function
+
+increasingly better.
+
+Now, it turns out this thresholding
+
+function can be written as a combination
+
+of the sort of binary activation function.
+
+Because this can be written as
+
+Ai larger than X minus X, sorry (inaudible)
+
+x larger than Ai, x
+larger than Ai plus one.
+
+We can actually verify this.
+
+If X is smaller than
+both Ai and Ai plus one,
+
+both of these two indicative
+functions are zero.
+
+The overall you give zero.
+
+If x is larger than both,
+then it's also zero.
+
+Only if Xi is larger than Ai
+but smaller than Ai plus one,
+
+it's actually one.
+
+These two thresholding
+is actually the same.
+
+So now this actually can be written as m
+
+becomes Fi minus Fi minus one.
+
+Just rearranging these terms.
+
+And this is the actual neural network.
+
+What it means is that for
+any arbitrary function,
+
+I can always hand craft
+
+a kind of function form like this,
+
+which is actually a neural network
+
+to approximate the function.
+
+This means that there
+must exist some parameter
+
+that can approximate a continuous function
+
+arbitrarily well.
+
+Obviously another question is
+
+if we can actually find some better way
+
+than this naive methods,
+
+and this is done by the
+
+loss function minimization.
+
+Hopefully by minimizing the loss,
+
+we can get somehow better than this.
+
+But at least this
+argument shows there exist
+
+a set of parameters that can at least
+
+approximate a function arbitrarily well.
+
+This is the case of the
+thresholding function.
+
+And you can also have the same argument
+
+for the other activation functions.
+
+For example if we use a sigmoid function,
+
+we can just think about smoothing out
+
+these thresholding functions.
+
+Instead of having the
+(inaudible) thresholding
+
+I can sort of approximate
+the function using
+
+a kind of smooth step function.
+
+Now if we want to use the value
+
+which is a piecewise linear function
+
+then we can still use the step functions.
+
+We can just use some
+piecewise linear functions
+
+which can be actually
+written as the linear
+
+combination of the values.
+
+It turns out for most of
+the activation functions,
+
+once the activation function is nonlinear,
+
+it always satisfies this condition.
+
+Okay.
+
+Here are some intuition
+about neural network.
+
+Now, in practice people find that
+
+it's actually useful to kind of represent
+
+the neural network using graph.
+
+And this is why it's
+called a neural network.
+
+It turns out ...
+
+Graphical representation
+of neural networks.
+
+This is actually very similar to the
+
+graphical module of Gaussian (inaudible)
+
+that we mentioned earlier.
+
+The idea is that we can represent
+
+each of the variables using a node
+
+and then represent the dependency between
+
+different variables using connections.
+
+And that allows us to easily visualize
+
+different kinds of models.
+
+Let's say we start from the simplest case.
+
+Let's say linear regression.
+
+Even for linear regression
+we can represent
+
+them using a graph.
+
+Let's say we have y equals to
+
+sum over Vi Vl Xl, l from one to d.
+
+Now this simple relation
+can be represented
+
+using a graph where each of the nodes,
+
+we represent each of the dimension
+
+of the feature using a node.
+
+Each variable is represented by a node.
+
+And then here y is a function of a linear
+
+combination of all the input.
+
+And this can be represented
+
+as a directed graph.
+
+Here what happens is that
+we have each of the edge
+
+represent a particular term
+
+in the linear combination.
+
+Let's say the first one is
+related to the first term.
+
+And we can say that the weight of
+
+this connection is V1.
+
+And the edge from Xd to y
+is the connection is Vd.
+
+This represents a simple kind of graph
+
+for the linear regression.
+
+And for neural network
+
+we can do fairly similar things
+
+except now that we have more nodes.
+
+And each of the neurons
+
+can actually correspond a node.
+
+Let's look at the neural network.
+
+In the case of a neural network,
+
+y equals to sum over,
+
+we have a bunch of different neurons.
+
+And then each of them sigmoid
+
+sum over l equals one to D
+Vl Xl plus V0 for example.
+
+In this case,
+
+we have each of the term
+
+let's say here each of the
+output of each of the neuron
+
+can be represented defined as let's say
+
+Zi for example.
+
+And then we can sort of visualize
+
+this whole process again as a graph.
+
+So X1 to Xd represent the input
+
+and then we can also represent
+
+the output of each neuron as a node.
+
+Here's Z1 up to Zm.
+
+And then they have connections.
+
+For example, the connection from X1
+
+two Z1 is V11.
+
+Here I am using a label I here.
+
+And then the connection from
+Xd to Zm is going to be Xmd.
+
+The connection from Xd
+to Z1 is going to be V1d.
+
+Basically, in this case
+it's a fully connected
+
+bipartite graph.
+
+Each of the neurons is connected
+
+to each of the hidden node.
+
+And then obviously we should
+also have another bias term.
+
+Basically, let's say we
+have another node represent
+
+the constant and then the connection,
+
+and it's also connected
+to every hidden node.
+
+Here I represent Vm0,
+here I represent V10.
+
+But sometimes often we
+just ignore the bias term
+
+when we plot the neural network.
+
+Okay.
+
+And then we now have the Z1 Zm
+
+and they are connected to the output Y.
+
+Because the output Y
+
+is a linear combination of the Zi.
+
+We can also represent this using another
+
+layer of connection.
+
+Here from Z1 to m the connection is W1.
+
+From Zm to Y the connection is Wm.
+
+Again here, yeah that's it.
+
+Here we have this whole graph is literally
+
+called a neural network.
+
+And then we have different layers.
+
+The first layer, use a different color.
+
+Let's say the first layer
+
+is called the input layer.
+
+And then the last layer
+is called the output.
+
+And then this layer is
+called a hidden layer.
+
+Basically extract different
+kinds of information
+
+in order to predict the output better.
+
+In practice, we never observe,
+
+in the training set we
+don't observe Z1 to Zm.
+
+That's why it's called hidden.
+
+And hopefully the
+estimation that we trained
+
+can predict these values better.
+
+Okay.
+
+Now, given this, we can
+actually extend this graph
+
+to larger and deeper layers.
+
+Basically, this is the case
+when we have one hidden layer.
+
+But we can actually insert multiple layers
+
+and that gives you what's
+called deep neural network.
+
+Deep neural networks.
+
+Okay.
+
+Now, this is actually
+one of the most powerful
+
+tools in machine learning
+
+and artificial intelligence these days.
+
+The idea is that we can
+have multiple layers.
+
+Graphically, we can sort of,
+
+if we plot the neural network,
+
+this is what we had earlier.
+
+That's a fully connected graph.
+
+And then this is X, these
+are Z the latent variables.
+
+And this is Y.
+
+And deep neural network is
+
+extending this simple graph
+
+to have more hidden layers.
+
+What that means is that
+
+instead of outputting Y after Z,
+
+we can just treat Z as feature,
+
+and then we can have another
+layer of neural network.
+
+What we can do is that
+
+we can have something like this
+
+where we actually have
+
+two layers of neurons in this case.
+
+Lets say Z1 one Z2 and then Y.
+
+In this case X is first mapped
+to some latent variables
+
+just the same as the
+previous neural networks.
+
+And then Z1 is mapped
+
+to another set of new latent variables.
+
+Again the map could be
+just the same as before,
+
+except that we are
+treating Z1 as the feature.
+
+Z1 is treated as X,
+
+and then in this way
+
+we can construct another
+layer of neural network.
+
+Now, this neural network,
+
+this Z2 is then mapped to Y, the label Y.
+
+And if you are not satisfied with this,
+
+we can even just continue.
+
+And we can have another layer
+
+and you can just go forever.
+
+Just increase the number of layers.
+
+And here different layers
+
+can also have different number of neurons.
+
+And then the network
+could be fairly complex.
+
+And then you can even connect
+different number of layers.
+
+And then if you do this,
+
+you can have millions
+or hundreds of layers.
+
+Actually in the state
+of art computer vision
+
+or natural language processing,
+
+we can get fairly large neural networks
+
+and turns out these large network
+
+can sort of capture fairly complex
+
+patterns in the data set.
+
+Okay.
+
+How does this work mathematically?
+
+Well it turns out it's just
+like what I said before.
+
+The idea is that let's say in this case,
+
+first we have a neural network
+
+that maps X to Z1 which
+has some parameter.
+
+Let's say this parameter is W1 and V1.
+
+This is just a standard neural
+network as we said before
+
+except that now we actually map X to Z1.
+
+Sorry, it's actually, no.
+
+Let me rewrite.
+
+We first have Z1 equals to some map of X,
+
+depends on the set of
+neurons from the first layer.
+
+And this is in particular,
+
+it's defined in this way
+
+because Z1 is actually a vector.
+
+This map is the same as neural network
+
+except that's no linear coefficient.
+
+It will be sigmoid V11
+X transpose plus V01.
+
+Let's just ignore the bias term because,
+
+make it easy to write.
+
+V1 1 transpose X.
+
+What it means is that
+I take the first neuron
+
+of the first layer
+
+and then multiply it with the input
+
+and then apply the sigmoid
+or other activation function.
+
+This gives you the first activation,
+
+the first hidden node in the first layer.
+
+And then similarly we have
+
+V let's say m1 one transpose X.
+
+And here I'm assuming the
+first layer has m1 neurons.
+
+The second layer has m2 neurons.
+
+The third layer has m3 neurons.
+
+Basically from the input
+to the first layer,
+
+it's really just take a bunch of
+
+linear functions and map it into
+
+using the activation function.
+
+This is the first layer.
+
+And then the other layers
+are defined in the same way.
+
+For example, the second
+layer Z2 is again a map from
+
+now it's actually a map from Z1.
+
+And then we have another set of weights.
+
+In this case these are represented by V2.
+
+Let me label it on the graph.
+
+Here, V1 represents all the weight
+
+form the first to the second layer.
+
+And then V2 represents
+
+all the weights from the first hidden node
+
+to the second hidden node.
+
+And then it's defined in
+the same way as before
+
+which is basically sigmoid,
+
+in this case it's V2.
+
+The first neuron at the second layer
+
+times Z1 1 for example.
+
+This represents the first
+hidden node in the first layer.
+
+Sorry, it should be this way.
+
+Now, it should be right.
+
+Basically, you just take
+the first hidden node
+
+and multiply by some linear coefficient
+
+and take the activation.
+
+This gives you the second hidden node.
+
+And then you just repeat this forever,
+
+for several times until at some point
+
+you will get the output.
+
+Let's say we have Z3 Y,
+
+and then you'll just repeat this process.
+
+Let's say in this case we
+have three hidden layers.
+
+Then we have y equal to
+sum over the last layer.
+
+Let's just still use the W,
+
+so Wi and Z3i, m3.
+
+Basically, we have m3 different
+layers, different units.
+
+That's why we have sum
+over m3 different terms
+
+and that gives you the output.
+
+Defining a deep neural network is fairly,
+
+kind of becomes complicated because
+
+you have to write lots of formulas.
+
+And fortunately this is made easy
+
+in this modern deep learning platforms
+
+where you can specify a
+structure of neural network
+
+just using some simple language,
+
+some configuration,
+
+and then you don't actually need
+
+to write down all these equations.
+
+Okay.
+
+Now, we have these very
+deep neural networks.
+
+And the way to change these
+neural networks is again
+
+using gradient descent
+
+the same as before except that
+
+you need to take a gradient
+of this huge neural network
+
+which becomes complicated.
+
+Obviously, we are not going
+to do it using your hand.
+
+Instead it can be done fairly easily
+
+using automatic differentiation tools.
+
+But one concept I want to mention is that
+
+when we calculate the gradient
+of a deep neural network,
+
+it's almost like
+back-propagating the error
+
+from the output to the input.
+
+That's why people call it, it has a name
+
+which is called back-propagation.
+
+It's nothing,
+
+when we talk about back-propagation,
+
+it's really just nothing,
+
+equals to calculating gradient
+
+of deep neural networks.
+
+When people calculate the
+gradient of deep neural networks
+
+people call it back-propagation sometimes.
+
+And the reason is simple.
+
+Let's actually try to calculate gradient
+
+of a deep neural network
+to see what happens.
+
+Let's say we have a very
+simple neural network
+
+where each layer has only one neuron.
+
+In this case we have X goes to Z1.
+
+Z1 goes to Z2.
+
+And then it goes to Y.
+
+Obviously, each of the layer
+
+is going to have some parameter.
+
+Let's say we have V1 here, V2 here
+
+and all the way up to Vm for example.
+
+And then you are going to
+calculate the loss function.
+
+The loss function which depends on V.
+
+Here I'm ignoring W.
+
+Actually I'm writing W as the coefficient
+
+of the last layer.
+
+But the loss function is going to be
+
+the empirical average in Y of F X
+
+based on all the parameters, M.
+
+And then square.
+
+And then we need to take a gradient.
+
+Let's say you want to
+take gradient for V1.
+
+The gradient of V1 L(v) which represent
+
+the gradient of the loss
+
+which is like to the first layer.
+
+This is actually the layer whose gradient
+
+is most difficult to calculate.
+
+And then we can just do chain rule.
+
+If you have this quadratic loss function,
+
+taking the gradient is really just
+
+two times empirical averaging.
+
+And then f(X, V) is going to represent
+
+the collection of all
+the parameters using V Y.
+
+And then we need to take the
+gradient of D X V to D V1.
+
+Here, we're just applying chain rule.
+
+Because the quadratic function,
+
+We're going to need two
+times the linear function,
+
+the linear term and then
+we need to apply the
+
+chain rule so we have a
+
+derivative of F (inaudible) v1.
+
+Now, this is actually equivalent
+
+because the output is Y.
+
+This is actually equivalent
+to calculating X V, d V1
+
+This is actually equivalent to calculating
+
+dY/dV1 because the y is the output,
+
+and then this is what's happening.
+
+When you calculate the
+derivative of X1 for y,
+
+because between V1 and Y
+
+there are lots of intermediate values.
+
+This is where we need to use chain rule.
+
+It turns out the derivative can be written
+
+as a bunch of products.
+
+M minus one all the way up to dZ3/dZ2
+
+and then dZ2/dZ1 times dZ1/dV1.
+
+That's a lot terms,
+but this is really just
+
+applying chain rule.
+
+The derivative of Y
+versus derivative of V1
+
+equals to how the derivative Y
+
+depends on its immediate parent,
+
+which is the Zm and then
+Zm to the m minus one
+
+all the way up to Z1 and
+then (inaudible) to V1.
+
+We need to calculate all the terms.
+
+And this correspond to back-propagating
+
+some single form the output
+
+all the way up to the parameters.
+
+This is why it's called back-propagation.
+
+Okay.
+
+This is basically just
+
+what we wanted to talk about
+
+for neural networks.
+
+It's a very powerful tool.
+
+I strongly encourage you
+to look at some of the code
+
+and study some of the basic frameworks
+
+for deep networks such as
+
+TensorFlow or PyTorch,
+many of the other things.
+
+It's very good to play with them
+
+to actually see the power
+of these modern techniques.
+
+Okay.
+
+Thank you much.
+

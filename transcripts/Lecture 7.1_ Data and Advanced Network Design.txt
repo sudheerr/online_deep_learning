@@ -1,0 +1,579 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So in this segment we'll look at data.
+
+And we'll also sort of look at a little we need to understand a little bit more about how our networks work.
+
+Now there's something that we sort of, uh skipped in the main section, uh, of this class and sort of just assume that it magically works.
+
+And we'll explain you what this magic is now.
+
+This is really going to be sort of part one of this three part series on just looking at your data,
+
+collecting your data, making sure that you sort of set up your,
+
+your data in the right way,
+
+and then also sort of trying to understand sort of how the model works and designing better and better versions of your model.
+
+And so the very first thing you should do when you tackle a new problem with deep learning is you should look at your data.
+
+If it's images, you can just randomly look at sort of a random subset of images.
+
+Um, you should also, if you're looking at images, looking sort of at the smallest and largest file sizes,
+
+and you should look at if you have associated labels, you should look at the sort of very rare labels.
+
+Uh, you should try to look at outliers in your data, and you should try to solve your target this task manually.
+
+Right? Uh, the same would actually apply to text data.
+
+Uh, other things would like for text data, you might also have to be sort of.
+
+There is sort of good text data in terms of caption.
+
+Data might also be sort of other noisy data that you would have to filter out.
+
+Um. The same also applies to audio data.
+
+Again, looks at. I've tried to look for outliers. Smallest largest file sizes might be a good one.
+
+Um, and then also sort of just rare things. And we'll go through this for images.
+
+Uh, for now, the very first thing you should do is you just look at random images in your data set.
+
+You look at sort of arbitrary images to see how do these look like.
+
+These are images from the flower data set. Uh, there's two things to note here is they're actually all fairly high resolution.
+
+They're they're like beautiful images. And some of them sort of focus on individual flowers.
+
+And some contain more than one flower.
+
+This year contains more than one flower. And so this is just something to note.
+
+Sort of like is it? Is it all sort of fairly uniform?
+
+Or are there different kinds of pictures in there? They can see even more detail.
+
+But just looking at the at the images with the largest file size.
+
+Uh, these are usually just the largest images, but they're also images that have sort of interesting high frequency noise.
+
+Uh, here. Like, these are sort of.
+
+Yeah, just larger images in general and more interesting if you look at the images with the smallest file size,
+
+because the images with the smallest file size are often the ones that were somewhat edited.
+
+Uh, all of these sort of are either captured in a, in a studio or somebody edited the background or just played with the focus of the camera.
+
+Now, depending on your data size, uh, data set, you might also find the smallest file size to be something quite surprising.
+
+Um, if you download data from Flickr, for example, it can happen that, uh, the smallest file size is,
+
+is just sort of a blurry little, uh, picture that says, well, this picture no longer exists.
+
+Okay. And so this is just something to be aware of. Then you should really try to solve your task manually.
+
+Um, you should try to sit down instead of just see. Well, can I classify these flowers?
+
+Can I teach myself to sort of look at maybe a subset, maybe just one versus the other flower?
+
+Can I sort of solve it? What is hard for me. And that will help you design a better and better network.
+
+It is also really important to look at your data.
+
+If you don't download data freely from the internet, um, it has happened in the past, that sort of internet scraped data sets,
+
+uh, sort of that were not curated, that were not manually labeled, uh, contained data that was actually illegal to download.
+
+Um, and sort of is usually labeled as not safe for work.
+
+Um, and so you absolutely need to look at your data and try to sort of even those tools online,
+
+you can use you can try to filter out data that's not safe for work.
+
+Uh, this is quite important. You'll get into a lot of trouble if you don't do that.
+
+If you download data from the internet, if you download sort of established data sets, this is less of an issue.
+
+Um. All right. All right.
+
+So now we collected the data. We looked at the data. Well, what are we going to do next?
+
+We're going to feed it into the network. But how are we going to feed the data into the network?
+
+Well, thus far we gave you the data. We sort of gave you, uh, a way to preprocess the data.
+
+Um, if you ever download your own data, you will have to format the data yourself.
+
+And if you're using a convolutional network, for example, that means you need to make all the images more or less the same size,
+
+unless you want to have different output size of your convolutional network.
+
+If you want to batch it, you definitely have to make it all the same size, because otherwise you could not batch it into the same batch.
+
+And then after that. You sort of need to normalize your data.
+
+And we'll look at why you need to normalize your data. So let's look at a very simple example.
+
+Let's say we have uh two inputs to our network X1 and x2.
+
+These are both real valued and the network just has one output.
+
+The output is Y. Now, the gradient of this network, if it's just a linear network, is just.
+
+Set of E, which is the last term, which is sort of the delta in the loss.
+
+Times. The input. Right.
+
+And so this is just you can do the math yourself if you'd like,
+
+but the loss of sort of a linear layer is input times the gradient that gets gets back property okay.
+
+Gets back propagated here. Now consider the case where both x1 and x2 are positive.
+
+Well, the loss here for this linear layer, the loss is either positive or negative.
+
+There's no two different loss values. It's a single value.
+
+And so what will happen here is if you just train this linear network and your inputs are all
+
+positive then the gradient is either is going to be either all positive or all negative.
+
+Which means that the gradient is highly correlated. So you will not be able to learn sort of independent gradients for both of the inputs.
+
+That leads to very slow training. Now this obviously is a toy example.
+
+This is sort of a linear layer with two inputs and and sort of one output.
+
+But in practice this even happens if you have sort of more sophisticated network architectures.
+
+If you if your inputs are, for example, all positive or have a very, very sort of.
+
+Peculiar structure. The first layer of your network might not learn very well.
+
+Now, what's the solution to this? Well, the solution to this is to normalize your inputs before you feed them into the network.
+
+And the very first normalization that we should do is we should subtract the average.
+
+So we'll take the input and you will subtract the average value of the input.
+
+Now for color images, that average value is just the average color value to average red,
+
+green and blue value over all your images in your data set over all the pixels of all your of all your images.
+
+And so you'll just subtract three values from the colors that you feed into the the network.
+
+And so that will make sure that you will get sort of an almost equal amount of positive and negative gradients in your first layer,
+
+which will lead to much faster training.
+
+Now, the second, uh, issue with uh, um, with input to your network is that they can lead to very uneven training if they're not, well, normalized.
+
+Let's look again at the same example where we have just two inputs, x1 and x2.
+
+We can have the same sort of gradient. That's sort of the error that we make in our loss times.
+
+To actual input. Now consider a case where the magnitude of x1 is much smaller than the magnitude of x2.
+
+So x1 is tiny. X2 is pretty large. So what's going to happen here?
+
+Well, what's going to happen here? Is that the Los. For x one, it's going to be a lot smaller than the last for the weight that corresponds to x2.
+
+And so after some training.
+
+So if the weight two that corresponds to the second input, we'll actually make quite a decent progress because it has a big gradient.
+
+And so it gets two step, it gets two steps. It gets it takes some big steps.
+
+On the other hand. The weight that corresponds to input number one is going to be pretty tiny,
+
+because it gets to make only tiny, tiny little steps as it goes along because its gradient is pretty small.
+
+And so after a while, what we'll have, what we'll have here is that we'll have inputs x1 and x2.
+
+X1 will get well. We'll get multiplied by a tiny value. It is already pretty small.
+
+It will get multiplied by a tiny weight. X2 is already pretty large.
+
+It will get multiplied by a large weight. And so what happens is that this linear layer or this first layer will at some point just
+
+completely ignore the for that the smaller of the two inputs and only look at the bigger one.
+
+Now. If you trained for long enough, eventually the gradient for maybe for weight two will get small and uh,
+
+will get small enough, or it will start to oscillate and cancel each other out.
+
+And the gradient for weight one will then sort of or for, for weight one will sort of start to grow.
+
+But this is going to be this is going to take a long, long time.
+
+Right. And so if your inputs are sort of mis calibrated, if one is much larger than the other, this will lead to slow training.
+
+Now, what's the solution to this? Well, the solution to this is just normalize your normalize by the standard deviation of your inputs.
+
+Now for color images. Again you can compute that standard deviation over all the pixels over your entire data set.
+
+And then you're going to normalize each pixel individually.
+
+So for the red channel of the image, you'll subtract the average red color in your data set and then normalize by the standard deviation of red.
+
+Then you go to green and then you go to blue. And do you do this for all the color channels?
+
+All right. So that's how you standardize your inputs to make sure that your network will learn.
+
+Now for language models, this is less of an issue because for language models,
+
+we usually tokenize and embed these images in an embedding layer, which is already, uh, initialized randomly.
+
+And this random initialization will sort of take care of the fact that things are more or less zero mean and have a certain standard deviation.
+
+All right. So now we have we looked at, we collected the data, looked at it, and now we know how to feed the data into the model.
+
+Now we'll look a little bit at the actual model design or more sort of at the inner workings of the model.
+
+And so the way you design your model is you sort of pick your favorite model, like either a convolutional network or a transformer.
+
+Uh, nowadays, transformers are slightly preferred if you have the data to train them just because they're easier to set up.
+
+Um, you have to sort of look at the speed and accuracy trade offs,
+
+and you can really just sort of use any of the models that we covered in this class.
+
+And now what? The one thing we have sort of swept under the rug is that you actually need to initialize the network.
+
+PyTorch does this automatically for you, and the automatic initialization is often sort of,
+
+uh, pretty good, but it helps to understand what initializations of networks actually do.
+
+Because if something goes wrong, if you need to go to new network initialization is can be one source of error.
+
+Great. And so one thing we could say, well, let's take our network and let's just make all parameters zero.
+
+What's going to happen if we make all parameters of our network a zero?
+
+Well, that's a recipe for disaster.
+
+Um, and the reason for this is that if we make all our, uh, all inputs, uh, so all weights zero, what we'll have is the activation.
+
+C1 is going to be. Zero.
+
+And then sort of down here, we'll go through a blue.
+
+If we're lucky, the gradient will survive, and to the max between 0 and 0 will actually focus on the first element here.
+
+And then we'll have the two is equal to zero.
+
+And I'll move on. We'll move on all the way to the loss.
+
+Now, what is the gradient of weight number two?
+
+Well, the gradient of weight number two is the activation that comes in. The outer product of the activation that comes in and.
+
+Sort of the loss that gets back propagated.
+
+That the activation that comes in. That is zero, right?
+
+The loss doesn't really matter what that element. What that value is.
+
+Because zero times whatever the losses is going to be zero.
+
+So there is no way we're going to learn anything in the second layer.
+
+The second layer has a gradient of zero. And we'll just have to deal with this.
+
+Right now. Even worse, as we go back, the loss gets back propagated.
+
+As it gets back propagated, it gets multiplied by the weights, uh, by the weight of the second layer, which is now is zero.
+
+And so now we're back propagating a gradient of zero. So even though the first layer has an input, that's not zero.
+
+That's it's your data. The gradient now is zero.
+
+And so you cannot initialize your network to all zeros.
+
+You can only do this if you have exactly one layer. It will work for exactly one layer.
+
+But as soon as you have two layers that sort of follow one after the other,
+
+even if it's a linear network, even if you add like the fanciest non-linearity you can think of,
+
+if you initialize your network to all zeros, your gradients will always be all zeros, and you will never learn anything.
+
+All right. Not next thing to next.
+
+Possible way to initialize the network as a whole. If zero was such a bad idea, why don't we initialize it to just a value?
+
+That's not zero. Why don't we just set all our weights to a value that sort of.
+
+We can send them to one. Right now.
+
+The issue with that is that. If you set your weights to all the same value, the output z1 here will have will be a vector of all the same values.
+
+Because all the all the, uh, the columns of the matrix of the weight matrix are going to have the,
+
+the same value, actually, all the rows of the, all the rows after the weight matrix will have the same value.
+
+All right. So Z1 is going to be completely symmetric.
+
+It's going to have all the same values in it. The same is true for z2.
+
+And so if we then back propagate uh any value here what will happen.
+
+Is that all. The wait updates are going to be the same for all the columns of the weight matrix.
+
+So for all the rows of the weight weight matrix. And so there is going to be this symmetry.
+
+And so we'll learn we'll be able to learn if we initialize our network to constant will be able to learn exactly.
+
+Sort of one linear projection. And it's always going to be all the same.
+
+So all the z ones are always going to be going to have exactly the same value.
+
+There's no way to break the symmetry. Right.
+
+And so in optimization standpoint, this is actually considered to be a saddle point.
+
+It's a very unstable saddle point. Adding any noise to it will get you off it.
+
+Um, but if you don't add any noise to it and your hardware actually is computing things accurately, um,
+
+you will never be able to learn anything that sort of breaks the symmetry and produces activations that are not all the same.
+
+So initializing the network to a constant value. Also not a great idea.
+
+Well, how should you initialize the network? Well, the best initialization that we know is to initialize the network randomly.
+
+It's to initialize a network with sort of. And normal distribution.
+
+All the weights follow a normal distribution, with usually mean zero and some standard deviation.
+
+Now. We could look at what this actually does to the network.
+
+Um, and so there's two ways. Normal distribution is sort of the, the default.
+
+There's also way to initialize the networks uniformly, um, sort of within sort of a certain range around zero.
+
+Now for simplicity. For this analysis, uh, we'll always initialize all weights zero mean, and we'll sort of set a bias to set the bias to zero.
+
+Now, the one degree of freedom we have is what is the standard deviation of weights in our network.
+
+Like, do we use a constant standard deviation for the entire network?
+
+Do we change this per layer? Um, is there some rule to set these.
+
+And so. These standard deviations really determine how well the network learns.
+
+And so recall from sort of vanishing in exploding gradients that we sort of had this interesting dynamic,
+
+uh, sort of if weights were too small, they would sort of go away, they would vanish.
+
+And if weights were sort of too large, they would lead to exploding activations.
+
+And then if the weights were just just right here in the middle,
+
+this is what led to sort of good networks, good training, good good gradients propagating back.
+
+And so we would want to set these standard deviations of the weights initially such
+
+that we're sort of in a regime where sort of activations don't grow unbounded,
+
+where there's sort of all of the same or, uh, of the same magnitude.
+
+Or alternatively where sort of the gradients would back propagate them through the network.
+
+All sort of are of the same magnitude. Now, we could sort of.
+
+Figure this out, um, sort of by hand.
+
+Um, and sort of just tune the network and sort of figure out, well, how do we set this?
+
+Um, but luckily there is automatic ways to do this.
+
+Um, and it involves sort of quite a bit of math.
+
+Um, and there's two versions of this. There's the, uh, Xavier initialization.
+
+And the coming initialization is also sometimes called the initialization.
+
+Um, both have slightly slight twists on the same sort of mathematical con, uh, concept.
+
+And what they do with these initializations is they first analyze sort of for random inputs.
+
+If I gave you arbitrary inputs and I initialized the network more or less randomly.
+
+What would the standard deviation of each of the activations be?
+
+As I go through the network. So what would be the standard deviation of C1B the standard deviation of a z to b.
+
+And then once we have that we can initialize the weights such that these standard deviations here are all going to be more or less the same.
+
+Now doing this in a sort of mathematically, I'll give you sort of the sketch and a high level overview of how this is done.
+
+Uh, the actual math will take way too long to sort of dig in and go through, and we'll have this, uh, both on the course website.
+
+There's also papers that actually just go through the derivation of this.
+
+And so at a very high level, um, the way this math is done is we're assuming that the inputs are random Gaussian.
+
+And then we also assume that our weights are random Gaussian with a certain standard deviation.
+
+And now the sort of transformation that we consider is we have a weight matrix.
+
+Times the previous layer's output valued.
+
+Now both the weight matrix and the rail, you will do something to the standard deviation of our activations.
+
+Now for the weight matrix. Um. Sort of. The.
+
+Math is sort of given here. So what this will do is if we multiply the weight matrix with a random Gaussian input,
+
+we will get a random Gaussian output that has now a new standard deviation.
+
+The standard deviation depends on the size of our input, like how many elements were in our input.
+
+The standard deviation of the weight matrix and the standard deviation of the input itself.
+
+But there's a second part to this and this half here. This is because of the value.
+
+So if you add in a value and we're going to look at the variance of the output after the value,
+
+what's going to happen is that the variance of the output that we pass through the value is going to sort of the value is going to be in expectation.
+
+Delete half of our values or make them zero. And so that will have the variance.
+
+The derivation for this is uh is sort of given here in two parts.
+
+Um, this here is the part for the value where.
+
+We can show that sort of the standard deviation here is sort of cut in half.
+
+And the reason the way you can do this is you sort of take the expectation of the square value of the, uh, the, uh, output of the value.
+
+This is max between x and zero, um, which is sort of the integral from negative infinity to infinity of this in terms of the expectation.
+
+This is symmetric, uh, because of the square. So you can make it from zero to to infinity.
+
+You integrate this out. Or you can say you can define that.
+
+You can take it. You can take this. Again because of symmetry.
+
+Gilda will go over to full domain, but now you have to double counted.
+
+You have to take a half. This down here is the expectation of the inputs.
+
+And so you can see that the standard deviation of the inputs is sort of cut in half.
+
+Now this is the part of the that involves the value ladder, the part that involves the matrix multiplication.
+
+Here you can really just write out the variance of some of the matrix multiplication.
+
+Uh, for each part a potential output.
+
+Um, and sort of you can pull out the sum out of the, uh, the, uh, the variance because each of the inputs is independent,
+
+and then the rest is really just sort of massaging the math to show that the output is n, where n is sort of the number of input dimensions here.
+
+It's n times the standard deviation of the weights times.
+
+The standard deviation of whatever comes out of the value. Now again on the course page will link the actual paper that arrives.
+
+All of this. The conclusion you should take from this is as we sort of pass random inputs through the network,
+
+we can have an analytic solution for how what the standard deviation of the output is going to look like.
+
+And so we know more or less what the scale of the output is. Look, it's going to look like.
+
+And now what we can do is we can choose. The standard deviation of our weights, such that the scale of the output doesn't blow up.
+
+And there really sort of, um, two ways to do it.
+
+Or there's three ways to do this. Um, coming, uh, initialization is two modes.
+
+The most common one is the one on activations where we sort of just make sure that the standard deviation of our weights is sort of roughly two over.
+
+The size of our input. And so we just initialize our weights to sort of two over the number of inputs we have.
+
+Um, and that will make sure that throughout the network sort of the activations are more or less scaled the same.
+
+There is a variant of this that computes the same for the gradients.
+
+So scaling the inputs, uh,
+
+with uh regard to the size of the uh of the previous activation will sort of make sure that all activations of the same order of magnitude.
+
+But that doesn't mean that all the gradients match. And so you can we could repeat this math and sort of do this for gradients.
+
+And turns out it's actually fairly, uh, a fairly neat sort of variant of this,
+
+which is instead of using the size of the input of the latest series of the size of the output of the layer and scaled by that
+
+and that option two will sort of make sure that all the gradients that get passed could get back propagated through the network,
+
+have the same magnitude. Now coming was actually not the first one to, uh, to go through this and through this math.
+
+The first one was, uh, Xavier initialization.
+
+And there they actually sort of found a compromise between the two instead of normalizing by one over the input or one over the,
+
+uh, the output, they sort of suggest that we should just normalize by sort of the, uh, input and output dimensions together.
+
+Now, in practice, um, can you show that initialization option one is used almost anywhere, almost everywhere in PyTorch.
+
+This is the default initializer. But if you'd want you could go in and sort of initialize anything like to whatever you would want.
+
+So all of these initializations are implemented in PyTorch itself.
+
+Now there is one, uh, special layer that you can actually initialize almost however you would want.
+
+Um, and that's the final layer. It is perfectly fine to initialize the final layer to zero.
+
+You can only do it to the final layer, uh, and only to one.
+
+Like only only like if there's just one final layer.
+
+It will not create any symmetries. It will not create any issues with gradients all being zero.
+
+In fact, if you initialize the final layer to zero, what will happen is that initially it will only get gradients with respect to the final layer,
+
+and as the final layer grows, it will sort of start to learn and it will start to let gradients through to the last to the rest of the network.
+
+Only do this if you're using SGD. Uh, if you use any advanced optimizers.
+
+Initializing the final layer to zero can actually cause a lot of harm.
+
+Uh, because some of the advanced optimizers use statistics of gradients.
+
+And if gradients initially are zero, these statistics are horribly messed up.
+
+Um, so if you use optimizers like Adam, uh, which we'll cover, uh, in a little bit in this,
+
+in this class, you should not initializing last layer to zero or only do it with extreme care.
+
+All right. So to recap, what we looked at is sort of we looked at how to set up your data, how to look at your data, how to normalize your data.
+
+And then also we explained a little bit like the missing pieces of how your networks work.
+
+Network design we covered in most of this class.
+
+Initialization is something you need to know is sort of how it works to debug and improve the model in some edge cases.
+
+And so important points to take away. Always look at your data.
+
+This is very important. Um, and if possible, look at all of your data.
+
+Um, because if it's internet data, it is very possible that a part of it is just not safe for work.
+
+And you want to find this out sooner rather than later. Normalize your input data.
+
+Uh, whatever you do, if you don't tokenize your input data.
+
+Uh, normalize it such that you subtract the mean and divide by the standard deviation.
+
+And then the default initializer in PyTorch is usually good enough.
+
+But it is important to understand how these were derived, so that if there is any issues arising in your network that you can go and diagnose this.
+
+That's it.
+

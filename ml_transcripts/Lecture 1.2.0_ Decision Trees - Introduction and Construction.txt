@@ -1,0 +1,831 @@
+♪ (smooth jazz music) ♪
+
+Hey everybody, welcome back to
+machine learning.
+
+Today, we are going to be talking
+about decision trees.
+
+I love decision trees.
+
+They're a super powerful way of
+classifying data.
+
+They're used a lot in practice,
+
+and they have a lot of nice
+theoretical properties.
+
+Today, what I'm going to do is two-fold.
+
+First, I'm going to start by talking about
+
+some heuristics
+
+for learning decision trees,
+
+(sound of writing)
+
+and we'll try to talk about some
+theoretical properties,
+
+but we'll be focused primarily on
+
+heuristics for learning decision trees
+
+and some algorithms for
+
+carrying out those heuristics.
+
+So let me remind you what a
+decision tree is.
+
+A decision tree
+
+is a Boolean function.
+
+That means it outputs +1 or -1
+
+or sometimes we'll just say that it
+outputs 0 or 1
+
+but it's going to output, for
+today's purposes,
+
+it's going to output two values.
+
+There are different types
+of decision trees
+
+that can handle multiple output values,
+
+but we're not going to discuss them.
+
+And the input for today's lecture,
+
+it's going to be points in
+[0,1] to the end
+
+so x, your input, is always going to be a
+
+bitstream of length n of 0s and 1s
+
+and a decision tree is going to encode
+some function f of (x)
+
+mapping to, let's say, 0 or 1,
+
+as follows,
+
+so a decision tree, as you might imagine,
+
+is a tree. It's got a root node,
+
+this root node has children,
+
+and so on, and so forth.
+
+And in each node in the decision tree
+
+we'll put a literal, for example, x4
+
+maybe here, I'll have x1
+
+maybe here, I'll have x3
+
+then at these leaves, I'm going to place
+
+a fixed value, let's see
+
+0, 1, 1, 0
+
+How does this decision tree encode
+a Boolean function?
+
+Well, you start at the root of this tree,
+
+it says, look at the bit that's in x4
+
+If x4 is 0, we're going to move
+left in the tree
+
+If x4 is 1, then we'll move right
+in the tree
+
+and we'll reach a node.
+
+If this node has a literal in it,
+
+then we'll look at that bit in the input
+
+and we'll move accordingly.
+
+If it's a leaf, if it says 0 or 1,
+
+then we'll just output 0 or 1
+
+depending on what the leaf says to do.
+
+So the size of the decision tree
+
+will be the number of nodes
+
+in the tree
+
+and another important
+quantity will be the depth,
+
+sometimes referred to as height.
+
+The depth of the tree
+
+This is equal to the length
+
+of the longest path
+
+from the root
+
+to a leaf.
+
+Okay, for this decision tree
+that I've drawn here
+
+The depth is two
+
+because every path from root to leaf
+
+has length two.
+
+Okay
+
+so the machine learning problem
+
+is going to be given a set of
+labeled examples
+
+Build a tree
+
+with low error
+
+and I'll be more formal in just a moment.
+
+So typically, I like to use the letter "S"
+
+this is going to denote the training set
+
+and S is going to be a collection
+
+so in this case, x will be a collection
+
+of strings and 0,1 labels.
+
+So we'll have x1, y1, dot, dot, dot
+
+and I like to use the letter "M"
+
+sorry,
+
+I like to use the letter M for
+number of training samples
+
+So x m, y m, and remember that each
+
+y i isn't 0, 1
+
+and each x i is going to be in 0,1
+to the n
+
+So I typically, I like to use n to denote
+the number of features in
+
+each training example and
+
+m to denote the size of the training set.
+
+Then, we can define something called
+
+the error rate.
+
+This is also-- there are
+many terms for this
+
+sometimes this is called training error,
+
+and sometimes this is called,
+and we'll talk about this later,
+
+the empirical error rate.
+
+These all typically mean the same thing
+
+and more formally, these are equal to
+
+so let's say that, let's fix T, let's
+assume that T is a decision tree
+
+then error rate is equal to
+
+the number of mistakes that T makes on S
+
+divided by the size of S.
+
+So it's the fraction of points that
+T gets wrong on S
+
+(coughs)
+
+Any questions so far about the set up or
+the definition of error rate
+
+or training error?
+
+Good.
+
+So here's a natural approach for
+
+building decision trees
+
+given a set S
+
+Okay so, let's assume, so we
+fixed S, it's labeled
+
+and's here a really simple case:
+
+Let's assume, for simplicity,
+
+that the tree is a leaf.
+
+Okay, so we don' t have to
+query any literals,
+
+We just have to output +1
+
+or we just have to output 0 or 1
+
+so it's a really trivial decision tree,
+
+it's either always going to output +1
+
+or it's always +1 or always 0
+
+That's the big decision tree that we're
+going to pick.
+
+(to the class) How should we decide
+how to pick 0 or 1?
+
+>> It's just the value of the leaf
+
+>> Well, which should we choose,
+given a training set S?
+
+How do we know when to choose 0
+or when to choose 1?
+
+>> Whichever one...
+>> Yes?
+
+>> Oh, just look at the sample, at the
+training set, and choose the first example
+
+>> Just choose the first example?
+
+>> Take an average of x, like x amount,
+or all the training set
+
+>> I think what you're going for here
+is you want to choose
+
+the majority of the labels.
+
+If your tree can only output 0 or 1,
+
+and there are many more labels
+that are 1
+
+then you should pick 1.
+
+If there are many more labels that are 0,
+you should pick 0.
+
+That's the simple criterion
+you should use.
+
+Okay, let's assume we want to build a
+more interesting decision tree.
+
+By that I mean, we're actually going to
+put a literal, you know: sum x i
+
+at the root of the tree and branch.
+
+Now we have a more interesting
+question.
+
+How should we decide which literal
+to put at the root of the tree?
+
+Yes.
+
+>> Um, the one that has the highest
+influence on the outcome.
+
+>> "The one that has the highest
+influence on the outcome."
+
+That's not a very technical answer,
+but in some sense, it is correct.
+
+You do want to put more influential
+variables at the root of the tree.
+
+What you really like, let's imagine
+that you had a training set that had
+
+50 zero labels, and and 51 labels,
+you'd really like to put a literal
+
+at the root of the tree that ended
+up sending all 50 zero labels to one
+
+side, and all 51 labels to the other
+side.
+
+You'd like to put a literal at the root
+of the tree, that's going to discriminate
+
+between zero and one labels.
+
+And that's sort of the intuition for the
+algorithm that I'm going to describe next.
+
+So, the big question is how to decide
+what literal to put at the root
+
+of the tree.
+
+Once we answer this question,
+then it's going to be easy to construct
+
+a decision tree, because
+we'll just recurse.
+
+So we'll use this - whatever criterion
+we come up with, we'll use it to put
+
+a literal at the root of the tree,
+
+then on the left sub tree, we will
+use the same criterion,
+
+and on the right sub tree, we'll use the
+same criterion,
+
+but we'll only look at examples.
+
+If we move left, we'll only look at
+examples where the literal at the root
+
+of the tree is set to zero, and if we move
+right, we'll only look at examples where
+
+the root of the tree is set to one.
+
+So let me be more specific.
+
+We're going to define
+a potential function.
+
+Phi of a.
+
+And the potential function
+that we use is going to
+
+determine what criterion we used
+in order to put literals at
+
+the root of the tree.
+
+So, for right now, the simplest
+example is going to be
+
+5a is the min of a
+and 1 - a.
+
+Okay, so what we are
+going to do is
+
+pick a literal. Let's say:
+
+Xi.
+
+Then we will compute Phi
+of the probability when
+
+we chose an example from s
+that y is 0.
+
+Okay, so, for example, let's
+assume we have ten
+
+positive examples.
+
+And let's assume that we
+have five negative examples.
+
+Then, what is Phi of probability
+x, y, drawing from s.
+
+y = 0...?
+
+Yes.
+
+>> Two-thirds?
+
+>> Are you sure about that?
+
+The answer was two-thirds.
+>> (inaudible)
+
+>> Right. What is the probability
+that y = 0?
+
+>> 0 is a negative example.
+
+>> Right, so what is the probability
+that y = 0?
+
+It's one-third, right?
+
+Okay, so the probab--
+so we have this...
+
+So this equals Phi of the probability
+that y = 0, that's one-third.
+
+And then what is Phi of one-third?
+
+This equals the min of one-third
+and two-thirds,
+
+so this just equals one-third.
+
+Okay, so for example if we had
+switched this,
+
+and I had said there are five
+positive examples
+
+and ten negative examples,
+
+then what would Phi of
+probability (xy) - s (y = 0) be?
+
+Yes?
+>> Two-thirds.
+
+>> Okay, it would be... Nope,
+that's not right. It's not two-thirds.
+
+It would be Phi of two-thirds,
+which is equal to the min
+
+of one-third and two-thirds,
+which is equal to one-third.
+
+So this quantity, Phi of the
+probability of xy drawn from s
+
+that y = 0, this is the error rate...
+
+for the tree with just one leaf.
+
+So if you were to make a tree
+that was trivial,
+
+it was only allowed to output
+zero or one,
+
+this is what its error rate would be.
+
+As we said, if you're only allowed to
+output zero or one in your decision tree,
+
+you're just going to pick the leaf
+that's the majority of the labels.
+
+So for example in this case, if there
+were five positive examples
+
+and ten negative examples,
+we would just output zero,
+
+'cause there are more negative examples,
+and our error rate would be one third.
+
+Right? If there are five positive
+examples and ten negative examples,
+
+we output zero,
+
+then we're always just going to say zero,
+
+so we'll only be wrong
+on the positive example,
+
+so our error rate would be one-third.
+
+If for example...
+let's do a different example.
+
+Let's say we had 12 positive examples
+and 4 negative examples,
+
+then in this case our optimal decision
+tree is the one that's always going to
+
+output one, and its error
+is going to be what?
+
+It's only going to make mistakes on
+the negative examples,
+
+so its error would be one-quarter.
+
+It'll make 4 mistakes out of 16,
+it will be one-quarter.
+
+Okay. Good. So this is-- We still
+haven't picked the literal yet.
+
+The first thing that we did was we
+computed this Phi of probability of y = 0.
+
+So we have Phi of probability
+xy drawn from s of y = 0.
+
+This is the error rate...
+
+of the trivial decision tree.
+
+So what we're hoping for is that
+we can do better than this.
+
+So now we're going to pick a literal.
+
+Let's say we'll start with x1,
+so we'll put x1 at the root.
+
+Then we'll branch.
+
+And what label should we put here?
+
+Let's say we're only going
+to branch once on x1.
+
+What's the label that
+we should put here?
+
+So what label... whoops.
+
+What label to put here,
+in words? Yes?
+
+>> We should put just whatever--
+the value that shows up the most
+
+when like x2 is 0.
+
+>> Okay, I think you mean x1.
+
+>> Is it x1? My bad, x1. Yeah.
+
+>> Yes. So condition on x1 equaling 0,
+output the majority value.
+
+Right? And on this leaf we should
+have condition on x1 equaling one,
+
+output the majority value.
+
+Does that make sense?
+
+If we're putting x1 at the root
+of the tree, we move to the left,
+
+then condition on x1 equaling zero
+in our training set s,
+
+output the majority value of all
+the points conditioned on x1 equaling 0,
+
+and to the right condition on x1
+equaling one in the training set s
+
+and output that majority value.
+
+Okay. In this case,
+what is the new error rate?
+
+So using mathematical symbols,
+we've put x1 at the root here,
+
+what is the new error rate of this tree?
+
+Yes?
+
+>> Is it just the... the number
+the zeros--
+
+is it just like the weighted prob-- like
+the weighted number of...
+
+So like if you take the number of zeros--
+the number of times you'll guess wrong
+
+when x1 is 0, and you took that over like
+the total number of samples
+
+with the 0, with x1 = 0,
+
+and then like you did the same for
+x1 = 1, and you just weight those.
+
+>> Right. It's a weighted average
+of the error of each of these new leaves.
+
+Okay? So it's-- let's just be explicit
+and write it out.
+
+So it's the probability when we draw
+x and y from s
+
+that x1 = 0, times Phi
+of the probability that xy...
+
+x and y drawn from s, that y = 0
+conditioned on x1 equaling 0,
+
+plus the probability we draw
+xy from s that x1 = 1,
+
+times Phi probability
+xy drawn from s, y = 1...
+
+Sorry.
+
+y = 0, conditioned on x1 equaling 1.
+
+Okay? So this is your new error rate.
+
+So here was our old error rate.
+
+That was the error rate
+of the trivial decision tree,
+
+and then this new giant quantity here
+is the new error rate.
+
+And we'll define... so let me
+write here... let me put a box.
+
+We'll define the gain of x1 to be
+the old rate
+
+minus the new rate, using x1.
+
+Intuitively this is the gain, the gain
+in the training error that we've made
+
+by moving from the trivial
+decision tree to the decision tree
+
+where we put x1 at the root.
+
+Okay? So this is what I'm defining,
+I'm calling it the gain of x1.
+
+What should we do next if we're
+trying to figure out what literal
+
+to put at the root?
+Yes, Ryan?
+
+>> Do the same thing with
+each one of the other x's and see
+
+which one has the highest gain.
+
+>> Exactly. So we're going to go
+through each literal, x1 through xn,
+
+we're going to compute the gain of x1,
+the gain of x2, and so on and so forth,
+
+and we'll look and see which
+literal maximizes the gain,
+
+and that's the one that we're going to
+put at the root of our tree.
+
+Once we've done that,
+we can move to the left,
+
+now we'll have...
+
+So if we were using x1 let's say,
+then we'd have our training set
+
+when we move to the left,
+restricted to x1 = 0.
+
+So this is going to be a subset
+of the original training set.
+
+And then we'll have-- on this side
+we'll have another training set s
+
+restricted to x1 = 1.
+
+So we branched on x1.
+
+So s restricted to x1 = 0 means that
+we've taken out all the point--
+
+We've taken out all the points
+where x1 is 1 on the left hand side,
+
+and on the right hand side we've
+taken out all the points from s
+
+where x1 was 0.
+
+Okay? So we have two different
+training sets now,
+
+one for the left subtree
+and one for the right subtree.
+
+And then I'm just going to repeat
+
+exactly what we just did.
+
+Now I need to figure out
+what literal should be
+
+at the root of this tree,
+
+and what literal should be
+at the root of this tree.
+
+And we'll just keep going.
+
+Now I have a question here:
+
+"Is this computationally feasible?"
+
+That's a really great question.
+
+It depends on what...
+
+it really depends on what
+these functions are.
+
+This gain function, in this case,
+
+the gain function is going to be
+repetitively easy to compute.
+
+But also, sort of how large of a tree
+do you want to build?
+
+You know, you can imagine that you could
+
+start building trees that
+were extremely large,
+
+even exponentially large in the number
+of features that we have.
+
+That's not going to be
+computationally feasible.
+
+So we're going to need some
+sort of stopping criterion.
+
+And we'll talk about that
+a little bit later.
+
+But for right now, I just want to focus
+on this particular algorithm.
+
+Question?
+>> How big does "S" need to be?
+
+>> How big does "S" need to be?
+
+That's a difficult question to answer.
+
+Let me get back to that.
+

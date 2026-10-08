@@ -1,0 +1,206 @@
+♪ (jazz music) ♪
+
+Okay, so one other thing
+I'd like to talk about is
+
+how to choose eta, the step-size.
+
+So again, this is,
+
+all right, someone online is pointing out
+
+that I have a typo.
+
+Thank you.
+
+That should be minus.
+
+Good.
+
+Thank you.
+
+This is more art
+
+than science.
+
+So we can use our favorite tool,
+
+we can use cross validation to pick eta.
+
+There are many techniques
+
+for adaptively choosing eta,
+
+and they've been highly
+successful in practice.
+
+One other technique that's
+been very successful
+
+in practice is something called momentum.
+
+And the idea is motivated
+by the following example.
+
+Let's assume that your gradients
+
+are sort of zigzagging like this.
+
+It would be really great
+since it looks like
+
+this direction, sort of the y direction
+
+looks sort of irrelevant
+from this picture,
+
+the relevant direction
+looks like the x direction.
+
+That is to say, wouldn't it be great
+
+if instead of sort of
+zigzagging up and down,
+
+we could actually, our gradient descent
+
+would then figure out somehow,
+
+oh, we should just kind of move this way
+
+and stop moving up and down,
+it's sort of a waste of time.
+
+And that's what this
+technique known as momentum
+
+is supposed to do.
+
+So momentum
+
+has a velocity variable v.
+
+Initially our velocity is zero.
+
+And then the ith velocity is
+going to be some parameter alpha
+
+times vi minus one
+
+minus, let's say eta
+
+times the gradient that we've computed
+
+at the ith times step.
+
+Okay, so for example, in this case v-one
+
+is going to be minus eta times gi
+
+which is just what we would use
+
+in ordinary gradient descent.
+
+But now we're going to update vi
+
+as alpha times vi minus
+one minus eta times gi.
+
+And this
+
+takes a weighted
+
+moving average
+
+of eta gis.
+
+In fact, it's an exponential
+
+moving average.
+
+Okay, so this velocity is taking some sort
+
+of weighted average of
+minus eta times the gradient
+
+that you're computing at each time step,
+
+and then your parameters w-new
+
+is going to be w-old plus vi.
+
+Okay, so initially at the first iteration,
+
+it's going to be exactly
+like gradient descent,
+
+but then it's going to
+start subtracting off
+
+these weighted moving
+averages of our gradients.
+
+And it turns out if that by doing this,
+
+when you're sort of taking these averages,
+
+for example, in this scenario,
+
+when you're taking these averages,
+
+the positive and negative y components,
+
+because you're taking an average,
+
+sort of get zeroed out,
+
+and you end up just moving
+in the relevant direction.
+
+Okay, so this notion of momentum
+
+has been very useful in practice.
+
+It's a very simple technique.
+
+There's also something called
+accelerated gradient descent,
+
+which can sort of be thought of
+
+as a more sophisticated type of momentum.
+
+It's very mysterious
+
+and it's a little bit beyond
+the scope of this class.
+
+If you are planning on
+further studying optimization,
+
+you'll probably run into
+accelerated gradient descent.
+
+So we've spent a lot of
+time today talking about
+
+gradient descent and we've
+applied it to simple problems.
+
+We're going to see gradient
+descent pop up again
+
+when we want to start analyzing
+more complicated problems,
+
+build up to learning and
+training neural networks,
+
+in particular the back
+propagation algorithm.
+
+And we'll start seeing some
+more interesting applications
+
+in future lectures.
+

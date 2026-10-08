@@ -1,0 +1,35 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+Think. All right.
+
+So we've just sort of looked in the past, uh, section we've looked at how do we train deep networks.
+
+Um, let's be really ambitious and see, well, what happens if we train the deepest imaginable network?
+
+Let's say we train a 100 layer deep network. Well, what's going to happen?
+
+Well, the answer is pretty anticlimactic.
+
+It won't train.
+
+Um, and in this segment here in this section, we'll actually look at why you'd want to train if we build really deep networks and what,
+
+what we can do to help them sort of train how what we what we can do to help deeper, uh, train deeper and deeper networks.
+
+And we'll sort of in the very first thing, we'll look at what happens in very deep networks here.
+
+We'll look at just linear networks as a case study because they're easy to understand.
+
+Most of the intuitions will apply to non-linear networks as well.
+
+Next we're going to look at Normalizations, which is one trick, sort of how we can structure or regularize the network to train, uh, deeper networks.
+
+And then finally we're going to look at the residual connections, which is sort of a complementary trick to training deeper and deeper networks.
+
+Now, what this will really allow us to do is it will allow us in the end of the second, uh,
+
+and if this section, we're able to train hundreds or thousand layer deep networks if you choose to do so.
+
+And we'll go through each one of these sort of steps one by one.
+
+That's it.
+

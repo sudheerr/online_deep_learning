@@ -1,0 +1,349 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So thus far we've looked at how to set up models. What model fits to what task?
+
+We've looked at data sets and loss functions and how they connect these models to actual desired outputs.
+
+And now the final thing that we'll look at is how do we minimize loss functions.
+
+And this minimization of loss functions is called training the model.
+
+This is, uh, sort of a big optimization that we, we do inside of deep networks for now, inside of linear networks.
+
+Right now let's look at sort of models again in detail and losses.
+
+So the model itself for this segment is just a linear model.
+
+It takes two inputs. It multiplies them with a matrix and then adds a bias to it so that it just rotates and shifts elements around.
+
+Now for different tasks.
+
+We'll use this linear model and add on different, uh, loss functions, which will correspond to sort of different transformations of the output.
+
+So either into a probability, it's uh,
+
+for binary classification into sort of a larger probability vector for multiclass classification or into just a real valued number if it's regression.
+
+Now for loss functions. Low losses are good, and high losses usually means the model is not performing very well.
+
+The loss function sort of ties the model's performance over all data elements in a data set, all sort of nicely together in this beautiful function.
+
+That's just. L of theta, where theta are the parameters of our model.
+
+And in our case theta is just. The weight matrix that we multiply the inputs by plus a bias.
+
+And so. The loss sort of ties together the model and the data set into this one.
+
+Nice function. Now, if we train the model, what we're going to do is we're going to take this one function that ties all of this together,
+
+and we're going to go and minimize it. We're going to find what parameter will give us the smallest possible loss.
+
+And so conceptually, what the optimizer does is it finds a parameter setting that minimizes the loss.
+
+And so it interacts with the loss function here.
+
+And it interacts indirectly with the model because it will go and update the model or change the parameters of the model such that.
+
+It fits the data best. And the workhorse for all of deep learning is gradient descent or variants of gradient descent.
+
+This is really sort of one of the simplest possible optimizers that you can think of.
+
+Um, so gradient descent does is it starts uh, with a certain parameter setting.
+
+And Anthony updates parameters along the negative gradient.
+
+After loss with respect to the parameters. So we compute the gradient of the loss with respect to the parameters.
+
+That gets us some direction in in in in this sort of parameter space.
+
+And we'll just take a small step in that direction. And then we'll compute kind of compute the loss.
+
+Again it is if epsilon sort of which is the learning rate here.
+
+If this is small enough this will lead to a smaller loss.
+
+And then we're going to compute the gradient again. Find the next direction to walk into.
+
+And so in pseudocode this can be written really in sort of.
+
+3 or 4 lines. We have a certain number of iterations that we'll do.
+
+And for each iteration we'll compute the gradient.
+
+And we'll take a step in the negative green interaction with some learning rate epsilon.
+
+Now the learning rate epsilon really just tells us how far we should walk.
+
+A small learning rate often means that we sort of walk slowly.
+
+We make slow and steady progress. A large learning rate is that it means that we walk sort of faster.
+
+But we might. What? Might walk a little bit too far along the current gradient.
+
+And we'll look later in class. And how to tune and how to sort of set this learning rate.
+
+And the one thing we haven't talked about in gradient descent is how do we actually initialize it?
+
+But what is sort of the how do we start? Gradient descent.
+
+Right. Um, we know how to sort of move from one parameter setting to the next, which is this for loop here.
+
+But where do we start this from? Now in practice, we'll always just start from a random location.
+
+So we'll take our, our, um, our parameters and we'll initialize them randomly,
+
+either according to a normal distribution or according to a uniform distribution,
+
+not a scale of this normal distribution to scale of sort of this uniform distribution that matters a little bit.
+
+There's good heuristics, uh, that we'll look at later in class on how to sort of set these scales for these, uh, these, these initial distributions.
+
+Now, for now, it doesn't really matter what the scale here is. All right.
+
+That's pretty much gradient descent. So what we do is we'll start at a random location.
+
+And then we'll take gradient steps one after the other. And then update the, uh, the, uh, parameters in the negative gradient location.
+
+Uh, degree and negative gradient direction. And so we'll look at, uh, a short demo here, uh, where we've just code the simple algorithm up.
+
+So my ETAs have prepared.
+
+A function for, uh, for me here. Um, we can plot this function real quick.
+
+So we call this function here f of x. Um, we can plot it real quick.
+
+This f of x looks sort of like this winding curve here.
+
+Let's actually plot it between -1 and 1. It's a bit easier to see.
+
+And our goal for gradient descent will simply be to start at a random location,
+
+and then sort of slowly walk down the slope until we end up here at a minimum.
+
+Right now. The first thing that we need to do is we'll need to compute the gradient of this function.
+
+Uh, this looks relatively complicated.
+
+Sort of has an X square in there times three and a sine, uh, times five, but luckily.
+
+It is actually not complicated and too complicated for copilot, which should give us the gradient of it.
+
+All right. So this is the gradient after function f.
+
+Now let's code up gradient descent. So remember that we need to start with.
+
+We need to start at a random location. So we'll do torch.
+
+Trained and. All right.
+
+We'll start with a random, uh, number.
+
+And then. For a number of iterations.
+
+We'll now take x and we'll subtract the gradient of x.
+
+Times our learning rate. And we'll not plot this for now.
+
+End. Let's just print out the initial x and the final x.
+
+All right. So now. We started out at sort of negative one.
+
+And we ended up at around -3.5, which is somewhere here.
+
+Now we can also plot this. Let's plot this real quick.
+
+To visualize how gradient descent works. So.
+
+We'll quickly save all the access to we've visited. And then we'll plot.
+
+Right. Now.
+
+This time the random number generator started out close to doing a minimum.
+
+You can print out. The first and the last.
+
+So this time we were lucky. We're close to this local minima here and we ended up at the local minima.
+
+We can run it again. This time we started out at negative point five.
+
+Then we ended up at 4.25.
+
+Now, one thing you notice is that we started out somewhere here.
+
+Through the iterations, we ended up somewhere over here and back here.
+
+Now, this happened because our learning rate was relatively large.
+
+If we decrease the learning rate a little bit. We're getting a much smoother pass.
+
+So this time we were sort of unlucky and started out very far out.
+
+We took very tiny steps, tiny steps, tiny steps until we ended up at the global minima here.
+
+We can run this again. Again? We started here and ended up at a global minima.
+
+We'll do it one more time. Couple more times.
+
+I want to sort of start at the higher end.
+
+Run it again. Can. Oh, it doesn't want me.
+
+Doesn't want to sample a high number now. Now I did. So now this time we're slightly unlucky.
+
+What happened here is that we started out somewhere over here, and now the gradient pointed in this direction.
+
+And we got stuck at this local minima here. So this is actually a property of gradient descent.
+
+Uh, that is we're not always guaranteed to sort of end up at the global minima.
+
+Well, we sometimes end up sort of at a local minima. That is sort of.
+
+A point over here where the gradient is zero, where we sort of can no longer optimize, uh, the function further.
+
+But if we've moved very far away, there would be another minima.
+
+That's, that's slightly that's slightly better. Right.
+
+Good. All right. So I hope that's explained.
+
+Sort of gradient descent a little bit.
+
+Uh, and so gradient descent really sort of starts out at a certain initial location and then it sort of updates in the direction of the gradient,
+
+which will make the function sort of decrease in its value over and over again as we move on.
+
+All right. And again if we initialize sort of if we change initialization is good, we're sort of close to the uh, to a good, uh, global minima then.
+
+Gradient ascent. We'll find sort of a good, uh.
+
+Well, we'll find a global minima. If we initialize somewhere far away, uh, grainy descent might get stuck in a local minima.
+
+All right. So best case scenario. Gradient descent.
+
+If it's initialized close to minima, it will find it. Oftentimes sort of it can get stuck in local minima.
+
+Now. Luckily, in deep learning, this doesn't matter.
+
+Um, there are certain local minima that gradient descent get can get stuck on that are not good.
+
+Uh, where your model will end up in a spot that it's, uh, where it's absolutely stuck and cannot improve.
+
+Almost always though, if you initialize your model right, it will.
+
+You will find a local minima. That's more than more than good enough for the data set you have, and the sort of the model capacity you have.
+
+So local minimus, turns out, are not a big problem for deep learning.
+
+Um, what is a d? Uh, a problem for deep learning?
+
+Is that so? The the learning rate of gradient descent can either be too small or too large.
+
+And so if the learning rate is too small, you will it will take way too long to reach a minima if it's, uh, local or global minima.
+
+And training is very slow. If the learning rate is too high.
+
+It is also leads to sort of slow convergence, but now lead to slow convergence because gradient descent will sort of jump around in very,
+
+very different parameter settings because gradients can get bigger and bigger.
+
+And in the worst case scenario, this can actually lead to sort of your model, uh, being filled with floating point numbers that are not a numbers.
+
+These are called Nans.
+
+And this usually means that your model sort of we call it the model explodes, uh, which means that your training was not set up.
+
+Right. Um, and you end up with a model that sort of.
+
+It's absolutely useless, uh, because it has numbers in it are not a number.
+
+And anything that you multiply with not a number is going to be not a number.
+
+And so your model will just output output, not a number at the end, uh, when no matter what do you feed in.
+
+All right, so this is gradient descent. Um, the only sort of remaining question is where do we get the gradient from?
+
+In the example I've shown you in the notebook, we were lucky we could use copilot.
+
+And copilot would just compute the gradient of that simple function that we use to demonstrate gradient descent.
+
+Now we're not in deep learning, we're not that lucky in general.
+
+And we actually have to compute these gradients. And so if you look at a very simplified model, sort of, uh,
+
+let's look at a linear regression model where we only have a single output, a single real valued output.
+
+Which means that the weight vector or the weights are just a vector.
+
+The bias is a scalar, and sort of the loss function is this squared function.
+
+That's the difference between the predictions of our model here and a scalar sort of ground truth label.
+
+Let's go through a little exercise real quick to see what the gradient of this is.
+
+All right. So we'll take this model and it will now compute the gradient.
+
+Off to Los. All right.
+
+And this is really by far the simplest model imaginable to compute the gradient of.
+
+Huh? And I already sort of painted over this.
+
+And so the gradient after last function. With respect to the weights, which is this vector here?
+
+Well, it is the gradient of the expectation of the, uh, loss function of each individual element.
+
+Now, since the expectation is linear, we can pull this gradient inside of the expectation.
+
+We can then expand the last function. The square here will expand this.
+
+We can apply sort of the the product rule and this will be two times.
+
+The gradient of the square, which is just a linear function. Which is shown here.
+
+Times the gradient of whatever is inside of that function. And so just as the gradient of this.
+
+Dot product between the weights and x, which turns out just to be X transpose.
+
+And so the gradient of this by far the simplest model here is.
+
+The expectation over the entire dataset of.
+
+Function. It measures how good we fit the model. Times the inputs of the model.
+
+But this took a little bit of, uh, of, of math to get through this sort of step by step by step.
+
+And you can just imagine, well, what if this was not just a linear model?
+
+Well, what if this is general linear regression where we have a weight matrix here and a bias vector.
+
+What if it's binary logistic regression or multiclass logistic regression, where we take the log of the sigmoid or log of the softmax.
+
+Well, computing these gradients, that's going to be sort of an entire page or two pages of math.
+
+Anthony Machin translating this into into code. This gets very complicated very very quickly.
+
+And so really, the biggest sort of issue in gradient descent is not necessarily the algorithm, the algorithm we could code up, but in two minutes.
+
+Right. It is computing these gradients.
+
+And the next segment will really spend a lot of time trying to understand how can we compute gradients of models,
+
+in this case, just the simple linear models?
+
+How can we compute them efficiently, and how can we compute them without ever having to write down any complex math?
+
+All right. So in summary.
+
+In terms of optimization, deep learning uses gradient descent and variants.
+
+So we'll look at many variants in this class of gradient descent. But the basic algorithm will always stay the same.
+
+We initialize the weights of the model to something random either normal uniform.
+
+And then we iterate the computing the gradient, taking a step in a negative gradient direction,
+
+and all just repeat until we end up at a local minima that we like, and then we call it quits.
+
+That's it. We have trained the model. We have something that fits the data that produces the outputs y.
+
+Given the inputs x that the data set says we should produce.
+

@@ -1,0 +1,223 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So I've just looked at sort of how to build deep networks,
+
+and we have looked at this magic seeming theorem that says that they can express any continuous function.
+
+Right.
+
+So we've looked at sort of how deep networks can approximate any mapping from continuous values to continuous continuous inputs to continuous outputs.
+
+But oftentimes we don't actually just want to restrict ourselves to continuous outputs.
+
+Um, we might want to look at classification and sort of have sort of a non uh like sort of a class output which is not continuous.
+
+And there's many other ways in which we might want to restrict the outputs of our networks.
+
+And so in this segment here we'll really look at how do we sort of how do we get networks to output what we want, not just some sort of real value.
+
+And for this, uh, we'll introduce a little bit of notation. Um, so inputs here to our networks are always going to be x.
+
+This is going to be a vector x. Outputs now are going to be values O.
+
+And so for certain tasks this might be just one value.
+
+And these are always real values. So it might be one real value.
+
+Uh for other tasks might be sort of c different values or any sort of number of different values.
+
+And for notation here we'll use f of theta to denote the deep network.
+
+And then the entire function we want approximate that might be learned.
+
+Nonlinear is going to then have sort of a different definition here.
+
+So the entire function. That we want to annotate here is this psi.
+
+And this is a combination of the output of the deep network.
+
+And. An output transformation. So we'll take the deep network that can approximate any function that goes from real values to real values.
+
+And we'll sort of add on in the very end, another function that will translate our real values to what we actually care about.
+
+Now, the simplest possible output transformation that we can think of is the output transformation.
+
+For regression and for regression, we don't do anything for regression.
+
+We'll take the output as this. There is no transformation whatsoever.
+
+We'll just spit out the output and say this is the output of the of the overall model.
+
+But what if we would want to regress to only positive values?
+
+So a deep network can approximate functions from real values to real values.
+
+But it might not always be sort of able to output only positive values in all for all possible inputs.
+
+We might not be able to train it to a high enough accuracy.
+
+There will always be positive values, but we can guarantee that there will always be positive values through construction.
+
+And so if you would want to regress to only positive values, this is now a model that goes from inputs that are in R to the n.
+
+Two outputs that are in R plus. Now, I'll give you a moment to think of what might be possible output transformations.
+
+A small hint, as we have already seen one in class that would do this, and we'll look at another one in a moment.
+
+Right. The one we have seen in class here is we could just add another non-linearity in the end.
+
+Another ReLU. That's the max between zero.
+
+And our output here. And that will guarantee whatever we output is always going to be positive.
+
+Now there is a softer version of ReLU, which is the log of, uh, sigmoid or log of one plus, um, sort of, uh, one plus e to the.
+
+Oh, we're always the output of the network. And this also by sort of mathematical definition, uh, since this in here will always be.
+
+Positive here. This entire function here will always be greater than.
+
+Greater than. Zero. Okay. And so both will guarantee that you will always have positive values.
+
+Now, can you think of sort of when one might be slightly better than the other?
+
+Well. One is slightly. The ratio is slightly better if we want to produce exact values of zero to get an exact zero out of the log track here.
+
+This is going to take a lot of numeric precision, and it's going to take a very, very small value of a sort of close to negative infinity.
+
+On the other hand, if you look at when will a certain output transformation be differentiable?
+
+The value. Here, we'll give you a gradient only for values that are positive and for anything that is negative for any output that is negative.
+
+The gradient of this output transformation of the output transformation will always be zero.
+
+So if for whatever reason you would need a gradient to go through the output transformation.
+
+You would have to choose the soft version of the earlier. All right.
+
+Another example for uh, possible tasks is binary classification.
+
+We've already looked this, uh, looked at this in the previous two sections here.
+
+The input is a value of r uh, to the n.
+
+The output is either a label zero or a label one.
+
+Like in the network itself. We'll have a hard time expressing this directly as a function,
+
+but we can transform the outputs of the network to make it much easier for it to express sort of binary classification.
+
+And here again we have two choices. Choice.
+
+Number one is with threshold output. So we'll just see if the output is positive.
+
+Then we'll assign it label one. Which is shown here in the indicator.
+
+If it's zero or negative. Will assign it label zero.
+
+Now there is a separate, uh, way we can do this, which is sort of the smoother way instead of thresholding,
+
+making all positives, sort of, uh, one or negatives zero.
+
+We can have a smoother version, which is the same sort of as logistic regression here.
+
+And so we can feed the output here through a sigmoid. Which will give us sort of the smoother separation,
+
+which will give us this probabilistic interpretation of the output as probability of class one versus probability of class zero.
+
+Now, as we've seen with positive regression, uh, these two will have different trade offs.
+
+Option number one is nice because it will always only output either 0 or 1.
+
+But there is no way we'll get a gradient through any of this.
+
+Sort of thresholding is a non differentiable operation. There's no way you will get a gradient through a threshold.
+
+So if you ever need to update something with a gradient, you cannot threshold.
+
+You would have to use the more the software version, the probabilistic version which is logistic regression or the sigmoid down here.
+
+Now if you look at general classification or multi-class classification here.
+
+The input is again going to be. And real values.
+
+The output is going to be a class label from one to C.
+
+Now we can again sort of look at output transformations that will sort of take real valued.
+
+Outputs of the network and transform it into a set of labels from one to see.
+
+There's really three options here, and for all of which, the network will have to output C, a c dimensional vector as its output.
+
+And then we can either take the argmax of this vector, which is sort of which output is the largest, and that will snap it to the right class.
+
+We can take, uh, one hot vector.
+
+So we can say, well, we'll put a one in place where sort of the largest the value is, and then a zero in place of all others.
+
+Or we can take a soft version of this, which is the softmax.
+
+Now here the trade offs are actually slightly more intricate. Again the argmax is going to be the non differentiable version.
+
+It's the one output that sort of we can never get a gradient through.
+
+The same is true for the one hot classification. This is also non differentiable.
+
+It's almost impossible to get a gradient through sort of a one hot vector.
+
+Now there is an interesting distinction between the two, and that is what happens if two labels have exactly the same value.
+
+So if the network thinks class number five and class number seven have exactly the same value, they might,
+
+the network is sure that either of these two is sort of the most likely, but it cannot make a distinction between 5 and 7.
+
+In the argmax it will tie break it arbitrarily.
+
+You know I like to be the one with the smallest index. Might be the one with the largest index.
+
+Or if you're unlucky, it might be the one where sort of slightly slight floating point errors or floating point inaccuracies sort of show up.
+
+If we go with a hot one hot definition, we can have it such that both of them will be activated at one here, and we would flag sort of ties directly.
+
+Now. Finally, this is beginning to become even more pronounced in the softmax, where we start off instead of outputting raw labels,
+
+we would output actual probabilities for classes, and these probabilities would tell us if certain certain elements are tied for the highest spot.
+
+Softmax is also the only after three operations that is differentiable.
+
+So if you ever would need to get a gradient through the output representations, which is actually not recommended.
+
+But if you ever needed to do that. You have to use softmax.
+
+Now in practice, you should never, ever put your output transformation into the model itself.
+
+The model is the network. Which is this?
+
+This is a beautiful mix of linear and non-linear, uh, operations.
+
+And that after you're done with this. The output transformation is always going to be separate.
+
+And the reason for this is that most output transformations are either not differentiable at all, or they're very hard to differentiate through.
+
+Uh, they can be numerically unstable.
+
+Uh, they can sort of they can arbitrarily shrink or grow the gradient, depending on sort of what you do with, uh, what operations you do.
+
+And it is very hard to train your model directly with output transformations attached to them.
+
+So you should always output raw values for binary classification and for, uh, multi-class classification.
+
+These are all values are called logits. Uh, for regression these are just called the regression values.
+
+And you should always output the raw values. And then transform them in the actual sort of inference when you need the transformed values.
+
+And then for training, there's going to be a matching loss function for each of these output transformations.
+
+All right. So I'll put two representations. Um, deep networks are able to sort of approximate any real valued functions.
+
+But sometimes we don't actually want real values as outputs.
+
+And output representations or output transformations. Convert these real values into whatever we want.
+
+And you should never, ever train your network with output transformations in the network itself.
+
+And that's it.
+

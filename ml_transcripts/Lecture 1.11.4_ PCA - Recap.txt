@@ -1,0 +1,406 @@
+♪ (jazz music) ♪
+
+Hi everybody, welcome
+back to Machine Learning.
+
+Today we're going to continue
+our discussion of PCA:
+
+Principal Component Analysis.
+
+We began by giving some intuition for PCA
+
+and discussing at a
+high level what it did.
+
+Today I want to dig into
+the math a little bit more,
+
+talk about efficient algorithms
+
+for computing the decomposition
+that we need to do PCA,
+
+and then we'll start to
+talk about another algorithm
+
+that sort of is related to PCA,
+
+but takes it into another direction.
+
+So let's continue with our analysis here.
+
+So if you recall last time,
+
+to pick up where we left off,
+
+we were interested in the following,
+
+we were studying the following
+optimization problem.
+
+So we wanted to maximize
+over all vectors V
+
+of two norm one, so we were
+interested in maximizing
+
+over all directions,
+
+the quantity V transpose AV,
+
+and the matrix A, if
+you recall, corresponded
+
+to a covariance matrix
+
+X transpose X.
+
+And sometimes people will use
+
+the normalized covariance matrix
+
+one over n times x transpose x.
+
+We're going to sort of ignore that issue,
+
+it's not very important for lecture today.
+
+Okay, so we can try and, and last time,
+
+we also discussed
+
+the sort of easy case
+
+when A was a diagonal matrix.
+
+So for example, if we considered
+
+the matrix three, zero, zero, one,
+
+sometimes it's worth getting,
+just to build some intuition,
+
+sort of drawing a picture for
+what this matrix represents.
+
+So you might recall from your,
+
+in your algebra class, that,
+
+this matrix is going to map,
+
+so here's the unit circle.
+
+Sort of a bad drawing, but,
+
+okay, and how will this
+matrix, three zero zero one,
+
+how will it transform the unit circle?
+
+Yes?
+>> It'll turn it into
+
+an ellipse, where like
+the horizontal intercepts
+
+are pulled apart by a factor of three?
+
+>> Right, so it'll turn the
+unit circle into an ellipse,
+
+where if this was minus one zero,
+
+it'll go to minus three, zero.
+
+This will go to three, zero.
+
+And then we'll sort of get this,
+
+elliptical, well, it will be an ellipse.
+
+So it maps the unit circle
+
+into an ellipse.
+
+Okay, good, so,
+
+you might also recall from linear algebra
+
+that there are objects
+called rotation matrices.
+
+And these are orthogonal matrices,
+
+yeah, so these are orthogonal matrices
+
+that rotate your coordinate axes.
+
+So for example,
+
+if we have a two-by-two matrix
+
+cosine theta, sine
+theta, minus sine theta,
+
+cosine theta, this is going to rotate
+
+your axes, I believe this
+is rotate theta degrees,
+
+counterclockwise.
+
+And we could also look at the matrix,
+
+cosine theta minus sine theta,
+
+sine theta, cosine theta.
+
+This turns out to rotate
+
+your axes theta degrees clockwise.
+
+Okay, but they're not going to
+stretch out your axes at all,
+
+they're just going to rotate them,
+
+the orthogonal matrices.
+
+They're not going to change
+the norm of your points.
+
+Okay, so we started by looking
+
+at the matrix three zero zero one,
+
+so for the matrix three
+zero zero one, the solution
+
+to the optimization problem
+we were talking about,
+
+I think it's pretty clear that,
+
+the correct choice of V here is one, zero,
+
+and that corresponds precisely
+
+to this stretching out
+on the horizontal axis.
+
+It's the direction of maximal variance,
+
+it's the direction that your matrix
+
+is sort of maximally scaling your data.
+
+It's just the x-axis in this
+case for this simple matrix,
+
+and so the V that we're
+looking for is one, zero.
+
+Another way to prove
+this algebraically is,
+
+if we look at V transpose AV,
+
+and A is diagonal,
+let's say A is diagonal,
+
+with eigenvalues lambda
+one through lambda n,
+
+all greater than or equal to zero,
+
+then V transpose AV is going to be the sum
+
+from i equals one to n
+
+of Vi squared lambda i.
+
+And we know that the
+sum of the Vi squareds
+
+are going to be equal to one,
+because it's a direction,
+
+and so this V transpose AV
+
+is basically an average
+of these lambda i's.
+
+And so if you're going to take an average
+
+of a bunch of numbers,
+
+and you want that subsequent
+value to be maximized,
+
+you should just put all of your weight
+
+on that largest number,
+
+and in this case, as I said,
+we wanted V to be one, zero,
+
+because the largest, this
+is a diagonal matrix here,
+
+three is the largest value,
+
+so this corresponds to picking off,
+
+choosing the value three
+and ignoring the value one.
+
+Okay, so that's going to be our
+direction of maximal variance.
+
+Any questions about that simple example?
+
+Good, so remember we have these,
+
+as I mentioned, we have
+these rotation matrices,
+
+and what I'd like to say is that,
+
+for any covariance
+matrix that you give me,
+
+so for any matrix of
+the form X transpose X,
+
+so any covariance matrix,
+
+you can actually write
+that covariance matrix
+
+as a diagonal matrix times
+some rotation matrices.
+
+So it's really a diagonal
+matrix that's been rotated.
+
+So for example, so let's
+do another example,
+
+if we look at the matrix
+two, one, one, two,
+
+you can write this as, whoops,
+
+you can write this matrix,
+'cause I've done this beforehand
+
+as one over root two,
+minus one over root two,
+
+one over root two, one over root two,
+
+times three zero zero one.
+
+That was that diagonal matrix
+that we just discussed,
+
+times one over root
+two, one over root two,
+
+minus one over root
+two, one over root two.
+
+Okay, so notice that one over root two
+
+is the cosine of what number of degrees?
+
+>> 45.
+>> Yeah, 45 degrees, good.
+
+So this is a rotation
+45 degrees clockwise.
+
+This does some stretching,
+
+in particular, it stretches
+the horizontal axis,
+
+and this rotates counterclockwise.
+
+Okay, and so the picture
+
+in this axis now is going
+to map the unit circle.
+
+I think what happens is
+you get something like,
+
+you get an ellipse, you
+get a rotated ellipse.
+
+Okay, but still, this matrix
+has this nice structure.
+
+Okay, and one other thing that you can do,
+
+I want to mention, there
+are some online calculators
+
+for doing some basic matrix operations
+
+that will sort of come up with these,
+
+we talked about it last time,
+
+come up with these eigenvalue, eigenvector
+
+decompositions of your matrix,
+
+you can for example,
+
+sorry.
+
+Okay, I realize this, well,
+
+here at one particular
+website that I like,
+
+BlueBit, has an online matrix calculator,
+
+you type in two, one, one, two,
+
+they happen to be offline right now,
+
+but you can see down here
+
+that it has all sorts of operations
+
+for you to choose from.
+
+Something we'll be talking about later,
+
+the singular value decomposition,
+
+you can compute eigenvalues
+and eigenvectors.
+
+That's really what we wanted and,
+
+when you do that, and
+you have it calculate,
+
+for this matrix two one one two,
+
+you'll come up with this factorization
+
+that we talked about in class.
+
+Okay, so there are plenty of tools online
+
+for you to mess around with,
+
+coming up with certain
+factorizations for matrices.
+

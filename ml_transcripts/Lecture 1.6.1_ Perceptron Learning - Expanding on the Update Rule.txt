@@ -1,0 +1,571 @@
+♪ (jazz music) ♪
+
+Okay, now I need to tell
+you what assumptions we have
+
+because we're going to need
+some assumptions to prove
+
+that this algorithm actually works.
+
+Some assumptions.
+
+Well first, for simplicity,
+I'm going to assume
+
+that there exists a w star.
+
+So this is the true unknown weight vector
+
+that's labeling all the points.
+
+And we're going to assume that the norm,
+
+so this is the two norm,
+
+is equal to one.
+
+Okay?
+
+So the true weight vector
+is going to have norm one,
+
+that's one assumption.
+
+Again, for simplicity I'm going to assume
+
+that every x that we see
+
+has norm one.
+
+So the two norm
+
+x
+
+is going to be equal to one.
+
+I'm going to assume
+that theta equals zero,
+
+so the threshold equals zero.
+
+Now these three assumptions,
+
+the first assumption is
+without loss of generality
+
+because we're taking the sign.
+
+So if I increase the magnitude of w,
+
+it's not going to affect the sign.
+
+The second assumption is not
+without loss of generality
+
+but will show how to handle input points
+
+that have larger norm.
+
+The third
+
+assumption here, theta equals zero,
+
+we can easily get around
+that assumption too,
+
+it's not a big deal.
+
+I'm doing it for simplicity.
+
+I'll describe later how we can
+get rid of this assumption.
+
+The main assumption,
+
+haven't written yet,
+
+is that there's going to be a margin.
+
+I'm going to call the margin rho
+
+and it's going to mean that all points
+
+are at least
+
+distance
+
+rho
+
+from w star.
+
+So that means that every point
+
+that's presented to the learner
+
+is going to abide by this assumption.
+
+So we'll have a guarantee
+
+that all the challenges
+that the learner gets
+
+obey this assumption.
+
+Even if you're a positive
+example or a negative example,
+
+you're going to be at least distance rho
+
+from the true weight vector, w star.
+
+Let me just draw a little picture.
+
+So imagine
+
+this circle corresponds to all
+points x that have norm one.
+
+And lets imagine that
+
+this
+
+is our
+
+hidden vector.
+
+So this is our half space,
+
+here are the positive examples,
+
+let me redo this.
+
+We're assuming that all
+points have norm one,
+
+so they're going to lie
+
+on the surface of this sphere.
+
+So here are the positive examples
+
+and here are the negative examples.
+
+And w star
+
+is going to be the normal vector
+
+to this separating half space.
+
+So this vector here
+
+is going to be w star.
+
+I guess actually, we also said that w star
+
+had norm one so let me draw this
+
+to scale if possible.
+
+So this is w star.
+
+And you can see, I've left
+
+some space here.
+
+This
+
+distance
+
+or this distance
+
+is going to be rho.
+
+So all positive
+
+or negative points
+
+have distance
+
+at least rho
+
+from the true half space.
+
+Equivalently because
+
+all the norms
+
+of the points we assume to be one,
+
+equivalently,
+
+the inner product of any
+x with w star that we see,
+
+the magnitude of this is
+going to be at least rho.
+
+So that's the fundamental assumption,
+
+it's called the margin assumption.
+
+It's a geometric assumption
+
+but it's a fairly intuitive assumption.
+
+It means we have this
+classifier or this half space
+
+that not only is correctly
+classifying all of our points
+
+but it's doing it with some cushion.
+
+So it could correspond
+to a classifier that
+
+really can classify things
+with a lot of confidence.
+
+Are there any questions
+about this notion of margin,
+
+geometric margin?
+
+This is the main assumption
+
+that we're going to be working under.
+
+Okay, so the main theorem,
+
+this is the perceptron
+
+convergence theorem.
+
+Is that the mistake bound
+
+of the perceptron algorithm
+
+is order one over rho squared.
+
+So that means that
+
+if all of the examples obey
+this margin assumption,
+
+then the learner using
+the perceptron algorithm
+
+will make at most order one
+over rho squared mistakes.
+
+So that's going to be the mistake bound.
+
+I see I have one question here,
+
+is there a minimum for rho?
+
+Not sure exactly what you mean by that.
+
+Rho can be exponentially
+small in the dimension.
+
+So rho can be extremely small.
+
+But in that case, if
+rho's extremely small,
+
+then, sure, your perceptron convergence,
+
+your perceptron algorithm
+could make many mistakes.
+
+If rho's exponentially small,
+
+it's conceivable you could
+make exponentially mistakes.
+
+On the other hand, if you're
+in a favorable situation
+
+where you have some idea
+or some inkling that rho
+
+might be inverse polynomial or constant,
+
+then the mistake bound of your algorithm
+
+is going to be polynomial
+
+or perhaps even a constant.
+
+One nice thing about this mistake bound
+
+is it's independent of the
+dimension that we're working in.
+
+Remember, we're working in
+
+rn and dimensional space
+
+but the mistake bound of
+
+the perceptron algorithm is actually
+
+on the order one over rho squared.
+
+Also good news, the proof
+is not too complicated.
+
+So why don't we go through it.
+
+Let me just remind you
+what the update step is.
+
+W new
+
+equals w old
+
+plus y
+
+times x.
+
+Okay.
+
+So let's
+
+say w
+
+is the current state of the learner
+
+and recall that w star
+
+is the true
+
+normal
+
+to the half space.
+
+So we're going to have two claims.
+
+On every mistake
+
+w inner product, w star
+
+increases
+
+by at least
+
+rho.
+
+And claim two,
+
+is going to be that the norm squared of w
+
+increases after
+
+every mistake
+
+by at most one.
+
+So these are our two main claims.
+
+One is that on every
+mistake, the inner product
+
+of w, w star increases by at least rho.
+
+And claim two is that the norm square
+
+increases after every
+mistake by at most one.
+
+So good question for you is
+
+how do we
+
+obtain
+
+the
+
+order one over rho squared mistake bound
+
+given
+
+claims one
+
+and two?
+
+Any ideas?
+
+As to how we can obtain a mistake bound
+
+given these two claims.
+
+And let's let
+
+t
+
+be the,
+
+so let's imagine we're
+running this algorithm
+
+and we stop at a certain point
+
+and let t be the number of mistakes
+
+we've made
+
+at some point
+
+during execution.
+
+Any ideas on
+
+what can we say about the quantity
+
+w inner product, w star
+
+after t mistakes?
+
+Yes.
+
+>> That it's at least t interrupt?
+
+>> Good.
+
+It's at least t times rho.
+
+How did you get that?
+
+>> Each mistake increases it by
+
+rho and it makes t mistakes.
+
+>> Exactly.
+
+By claim one, we know that
+w inner product, w star
+
+increases by at least rho.
+
+So
+
+we know that it's at least t times rho.
+
+Very good.
+
+Okay.
+
+What else can we say about
+w inner product, w star?
+
+Yes.
+
+>> The magnitude of
+
+w is at most the square root of t.
+
+Or norm squared is less than t.
+
+>> Good.
+
+So we know that this is at most
+
+norm of w times norm of w star,
+
+I often call this the
+Cauchy-Schwartz inequality.
+
+And as we said, this
+
+norm is
+
+one
+
+and Ryan, as you said,
+
+we know that the square of the norm of w
+
+is at most t.
+
+Therefore, the norm of
+w is at most root t.
+
+So this would go to root t.
+
+So now we have t times rho
+
+is less than or equal to
+
+square root of t.
+
+Yes.
+
+>> Didn't you just do some algebra
+
+and square the t's, simplify
+
+and then you get that
+
+t is less than or equal
+to one over rho so that--
+
+>> Good, you square the t's, simplify
+
+and you get the t is less than or equal to
+
+one over rho squared.
+
+And that's your mistake bound.
+
+It's really as simple
+as combining claims one
+
+and claim two.
+
+Claim one and claim two.
+
+Yes?
+
+>> How are you able to
+
+remove the w star from
+that first equation?
+
+You said it's a one.
+
+>> We're assuming, remember,
+
+good question, how are we assuming,
+
+how did I know the norm of
+w star was equal to one?
+
+I think that was one of our assumptions.
+
+Assume that the w star,
+
+for simplicity we assume that
+the w star was equal to one.
+
+But actually, you can
+always sort of assume
+
+that w star is equal to one because
+
+scaling the norm of w star
+will not affect the sign.
+
+On the other hand, scaling w
+star could affect the margin.
+
+But then we pay for it in
+terms of the mistake bound.
+
+But, a simpler answer
+is well, I just assumed
+
+it was equal to one. Which we did.
+

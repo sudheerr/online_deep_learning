@@ -1,0 +1,167 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So we've already looked at how to do, uh, linear regression in PyTorch.
+
+Uh, it was a fairly short setup. Uh, we have to prepare the data.
+
+Then we have to set up the model, the loss, the optimizer continuous.
+
+A very compact for loop. In this segment we'll look at how to do the same thing for logistic binary logistic regression.
+
+Right. And so we'll start again with the data set.
+
+Uh this is exactly the same starter code as before. Uh we have the data set loading here.
+
+Then we sort of have a short visualization of the data set.
+
+And then finally we'll sort of pack the data set into a PyTorch tensor.
+
+And for binary regret, for binary uh, classification, we'll again just look at label zero versus label one.
+
+And we have these down here. All right.
+
+Now, just like we did with regression for binary classification.
+
+We'll set up the model again. As.
+
+Linear. Classifier that has right now a single output, right?
+
+It can be either 0 or 1, but we only need one value to regress to a sort of positive means class one.
+
+Negative means class zero. I will set up the Los.
+
+Now here. This is going to be the BCE loss with logits.
+
+And what this does is it compute. It combines the computation for sigmoid that would give us probability of class one versus class zero,
+
+and the log or the cross entropy of that sigmoid.
+
+And it's combined such that this this is numerically more stable. And then finally we'll do all two.
+
+We'll get the optimizer. We'll again sort of set the learning rate slightly conservatively and make sure that the optimizer doesn't lose momentum.
+
+Then we'll have a, uh, we have a for loop over epochs.
+
+Now copilot, was again able to give us most of the code that we need compute the model output.
+
+So this is. No, it's just we can call it output.
+
+That's fine. We'll do a loss value here. And we'll debug what epoch we are in and what the loss values.
+
+All right. And so what this for loop does is it again computes the forward pass of the model which is the output.
+
+Now this time it's again just a floating point value just like regression.
+
+The model outputs exactly the same thing. What changes here is that the loss function changes.
+
+The loss function now converts this value to signal value into probability of class one versus class zero.
+
+And then it takes the log of that probability under the correct label here.
+
+Right. Then here.
+
+Compute gradient and update weights.
+
+All right. Good. So let's see if what this does.
+
+Right now, it's blazingly fast. It's optimized loss.
+
+It starts at 0.7. And so 0.7 is just, uh, the probability of random chance.
+
+It's the log of a half. And so it starts out predicting something at random chance.
+
+And then it slowly, slowly, slowly decreases. Down to about point three.
+
+A point three is actually not a very good prediction, is not a very confident prediction.
+
+Um, it corresponds to probability, probably around like 30%.
+
+Um, we want to get much, much closer or much, much closer to zero, uh, than that.
+
+Now, one thing is that it converged very slowly. Now, one thing we can try to convert too slowly.
+
+Well, increase the learning rate a little bit.
+
+Now it converts much faster. It could go down to 0.3 into about ten iterations.
+
+We can be even a little bit more adventurous. See if this still converges.
+
+So it converges even faster. Huh? Not quite so.
+
+It converged faster initially. And then it went to, uh, a loss of about 11, but then it just recovered again.
+
+And then converge to a very, very small, uh, small value.
+
+Let us hear the fact that the last 1 to 11 is actually quite worrying, and means that the training for gradient descent was quite unstable.
+
+The gradient steps initially were way too large. Uh, we overshot the target by, uh, huge distant distance.
+
+But we're somewhat lucky, uh,
+
+that this sort of model that was very far away from the ground truth was still able to then recover and slowly reduce the loss value again.
+
+So the learning rate of 0.0. 0.10 of 0.01 is not ideal.
+
+So maybe we'll try something slightly smaller.
+
+It still overshoots a little bit in the beginning, which is not ideal.
+
+So we'll just set it to 0.01. And now I will get sort of a decent, although a little bit slower convergence.
+
+All right. Now we can again load the test data set and the test labels, and you can measure the accuracy.
+
+So the accuracy of all the logits, which is sort of the value between negative infinity, infinity that will then be converted into a probability.
+
+Those logits of the model. Our computer by just feeding the images through.
+
+Now, if you look at these. These are going to be values that are either sort of very negative very positive.
+
+Negative means it's class zero. Positive means it's class one.
+
+And so we can compare these and measure the accuracy. So we can see if.
+
+It's not squeezing. If the predictions if they're smaller than zero, that convert to a float, if that's equal to the test labels.
+
+Actually we can convert it into. Let's see how many of them did we predict correctly?
+
+So here this will measure the label the prediction that we we got.
+
+This is the label on a test set. And the average is the average accuracy over the entire data set.
+
+You need to convert this from boolean to float real quick before you compute the mean.
+
+And so I guess I should have tested.
+
+Yes, the boolean needs to be greater than zero, because smaller than zero is label zero, which convert it to an integer.
+
+Um. Will then sort of end up.
+
+If it's greater than zero, it will be labeled one. Convert to an integer.
+
+All right. Now this model is actually pretty decent at at sort of distinguishing class number zero versus class number one.
+
+It's about a 75% chance of getting it right. All right.
+
+And so again, if you compare this to the regression example here, there's very few change to changes here.
+
+We'll have to change the loss. And then we had to change.
+
+We didn't even have to change the way we feed in the labels here.
+
+So the only thing we had to change from regression to binary classification is we had to change the loss function.
+
+The inputs and outputs of the model are still the same. And then finally, if we wanted to compute the accuracy here,
+
+we had to do a little bit of trickery on how you get the labels and how we compute the accuracy.
+
+Right. But overall, the structure of the model, the structure of the training setup is exactly the same between regression and binary classification.
+
+And the next segment will also show that if we take multi-class classification, uh, we look at multi-class classification.
+
+This is again going to be exactly the same setup.
+
+There's going to be very minor tweaks you can do to the model to convert it from binary classification,
+
+or from regression to multi-class classification.
+
+That's it.
+

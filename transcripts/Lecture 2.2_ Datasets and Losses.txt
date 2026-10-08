@@ -1,0 +1,173 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So we just looked at different sort of linear models, different, uh, sort of tasks they solve.
+
+And in this segment, to a look at how do we take one of these linear models and express what we wanted to express.
+
+And there's really two components to this.
+
+Uh, one is we'll have to have a data set that sort of expresses the relationships between inputs and outputs of models that we expect,
+
+and then we'll have to have a loss function that describes on how good our model is it in outputting the right thing.
+
+Um, now. For the data set.
+
+Um, this is just sort of a simple recap. Data sets are sort of samples from a data generating distribution.
+
+Um, that can be sort of large image collections.
+
+And all of these samples in this class always come with associated labels.
+
+And the goal of the model is to infer the labels from the data.
+
+Now, the way we tell how good a model is at inferring the right thing from the data that we give it, is through a loss function.
+
+And the last function really has two components. One is sort of the last element wise loss.
+
+This is denoted as lowercase l. And what it does.
+
+It measures how good the prediction of our model is on 1X1 single data item.
+
+And so here it measures for the for data item x I.
+
+It measures well how good is our model at predicting the associated label.
+
+Why I.
+
+Now we can take the entire data set and compute the average of this loss for each individual data element, and that is known as the expected loss.
+
+Just shown down here. Now, in practice, will always optimize the expected loss over the entire data set.
+
+And as expected, loss is a function of the parameters of the model.
+
+Sort of a model that fits to the data very well has a low loss.
+
+A model that for all parameters that fit the data, uh, not so well have a high loss.
+
+The second parameter here is the. Is the data set.
+
+Sorry. Oops.
+
+Yeah. So the second parameter there is the data set. And the data set itself really is what ties the model parameters to the loss function.
+
+Sort of. It connects the model to what we expect it to do.
+
+Now. In general, a low loss means the model fits the data very well.
+
+A high loss means it's a very bad fit, and our goal is always going to be to minimize the loss of a model on a specific data set.
+
+The way we'll write this is we'll write the loss as a function of the parameters of the model.
+
+So certain parameters are going to fit are going to lead to a model that fits very well.
+
+Other parameters are going to lead to a model that fits very uh does not fit very well and will oftentimes
+
+omit the data set here just because we're training or fitting this model to just a single data set.
+
+And it makes notation slightly easier if you just look at sort of the loss which is laid out here.
+
+Now different tasks have different loss functions associated with them.
+
+If you look at a regression task, um, which is outputting a real value here.
+
+In the linear regression model, this is just a linear transformation of the input.
+
+Here the loss is measured by either Euclidean or set of and uh, an L1 distance between what the model predicts and what we expect it to predict.
+
+And so you can think of this as just a distance between two points in space.
+
+One point is the prediction of the model. The other point is the ground truth label.
+
+Now for binary classification. The output of the model is such just transformation of the linear model through a sigmoid and a sigmoid
+
+gives us a probability if a certain output or certain input is closer to class one versus class zero.
+
+Now, in this case, um, what we do, what we use a lot as a loss function is, is the binary cross entropy loss.
+
+The binary cross entropy loss is.
+
+The negative log likelihood of the sigmoid after right class.
+
+And so this down here looks a little bit scary. So you have this terms of y times log y hat.
+
+Um minus one minus y times log one minus y hat.
+
+But all this actually means is that if the label for a certain data point is one, then we'll simply look at the top part.
+
+And we're optimizing the log of y hat, which is the log likelihood of the model, uh, that, uh, model's binary classification.
+
+If the label here is zero, the top part is zero.
+
+And we're only looking at the bottom part and we're maximizing one minus the log.
+
+Of the probability that the model here predicts. And so that's all it does.
+
+It's a bit of notation to just show that we always want to maximize the log probability of the correct label.
+
+Now for the softmax classifier. We'll have multiple outputs.
+
+And so the model will produce a probability a vector of probabilities over n classes.
+
+And the loss function here is the cross entropy loss. And what the cross entropy loss says is one of these classes is going to be correct.
+
+And for this class that is correct. I'm going to maximize the log likelihood of that of the softmax of this class.
+
+So this is the log. Of y c of the correct class.
+
+Now, this is just a bit of notation to essentially just write what we want them off to optimize.
+
+Here is the negative. Log. Of.
+
+Y hat, which is a vector.
+
+And now we're going to take the index. Why Intuit where wise to ground truth label.
+
+It's just a bit of gymnastics or math to just sort of write this in a mathematically cleaner way.
+
+Now these are loss functions that are all applied to individual elements.
+
+Now the expected loss, which we also often just call the loss function or the loss itself.
+
+Ties. Losses.
+
+Of individual elements together across the entire data set, and gives us sort of an impression on how well does our model fit to the entire data set.
+
+And so each loss function here is a function of the parameters of the model and its inputs, and expected inputs and outputs.
+
+The loss function is now just a, uh, function of the parameters itself, conditioned on a data set.
+
+But that conditioning, again, we often leave out. Uh, for sort of notational conciseness.
+
+Now, what we're going to do next is we're going to take this model, we're going to take the loss.
+
+And we'll look at how do we optimize,
+
+how do we fit parameters to of the model such that they fit the data set as well as as model as good as possible.
+
+And we're going to do this by minimizing the overall loss over the entire data set.
+
+And then sort of trying to find the best parameter setting, the best parameter setting that gives us the minimal loss.
+
+And so in deep learning we'll use gradient descent. And we'll cover this sort of and variants of gradient descent.
+
+We'll cover this in more detail later.
+
+The only thing that we sort of still need to do to complete this, this entire section here is we need to compute.
+
+We need to figure out how to compute gradients.
+
+And once we have gradients we need to figure out how do we actually minimize functions if we have gradients and function values.
+
+All right. So just to recap a little bit, uh, for uh, data sets and losses,
+
+data sets are really sort of giving us a picture of what we would want, what we expect from inputs and outputs.
+
+And then if you do a regression, we'll use a loss to measure the distance between the inputs and outputs.
+
+This is often called as the L2. Or it can also be the L1 loss which is sort of Euclidean distance, or the uh the taxi distance then.
+
+For binary classification, we'll use a sigmoid and binary cross entropy.
+
+And then finally, for multi-class classification, we'll use the softmax and the cross entropy.
+
+That's it.
+

@@ -1,0 +1,807 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So in this segment, we'll put everything together.
+
+Um, we'll sort of start with some code I've written that we have written in class before and really going to look at the how do we set up,
+
+uh, project in PyTorch,
+
+sort of what are the steps we'll go through and sort of we'll assume the model that we have is sort of given will not change much about the model.
+
+Um, we'll start with sort of already sort of written training code that we, that I took from it for a previous segment.
+
+And then I'll go through step by step by step,
+
+sort of what are the additional things that we will need to add to sort of make this model perform well?
+
+What do we need to add to sort of see how well this model even performs.
+
+All right. And with that, let's get started. The model that we're going to look at is a simple ConvNet.
+
+Um, it has a residual block in it. Which is the skip connection here.
+
+It has sort of two convolution and normalization layers.
+
+And really all it does is it does. Convolution normalization.
+
+Value convolution. Convolution. Normalization ReLU. Added, uh, with an added residual connection here.
+
+And then we have right now we'll have sort of.
+
+One layer that protects the input image into a specific size.
+
+And then we just have a bunch of blocks of convolutions.
+
+After that, each block of convolution will stride in the first layer, and then we'll, uh, doubled the number of channels.
+
+In the end, there's going to be, uh, one cross, one convolutional.
+
+Convolution of kernel size one that outputs 102 values, which is exactly the number of classes that we'll have in the flower data set.
+
+And then we'll put all of this together in a sequential, uh, in a sort of a, in a sequential channel,
+
+uh, and then sequential, which will just run all of these layers one after the other.
+
+Nine. The forward pass. We do one more thing. We average all the outputs along the spatial dimensions.
+
+So this network, depending on the number of blocks, uh, will not downsample the image all the way to just one, uh, one element.
+
+It might actually output sort of uh, a little image of features.
+
+And to get something that we can classify here, we'll just average this at the very end.
+
+Now the training code is also fairly standard. We have some code to load the flowers data set here.
+
+Then we initialize the ConvNet. We initialize an optimizer and then we just start training.
+
+We have a training loader which will batch our inputs. We'll shuffle each batch.
+
+Um, we'll do training in order. Data loading in parallel.
+
+And then we have a bunch of epochs of training. And here this for one epoch, we'll just go.
+
+Through all the batches in this epoch. Load the data.
+
+Put it onto the on device. Forward loss.
+
+And then zero grad backward and step. And then in the end, we sort of collect all the losses, uh, for an epoch into this epoch loss.
+
+And we're not going to do anything with it for now. Right.
+
+Now, I've also used the fire tool here, um, to launch.
+
+My training job. Fire really allows it just. It's a very cheap way to add arguments here.
+
+If I would want to add an argument. Um. And blocks.
+
+I could then fire would just allow me to use in blocks as a command line argument.
+
+And very just as I'm training. All right.
+
+Now, as we sort of go through this making it work section,
+
+the very first thing we'll do is we'll first need to look at the data before we start training.
+
+Let's actually just look at the data lined up past. We've done this in a two pattern notebook.
+
+I'll show you a different way now to look at data, which will also allow us to look at sort of training curves and training losses later.
+
+And this is TensorBoard. So TensorBoard is one out of many tools that allows you to sort of create a log that you can look at in the browser later.
+
+So as you're sort of as you're training your network, you can output arbitrary, arbitrary metrics or arbitrary images,
+
+arbitrary sort of arbitrary things that your network produces in a common location.
+
+And then you have a browser interface to look at all that data. And the very first thing we'll do is we'll set up TensorBoard.
+
+So TensorBoard, uh, is sort of integrated into PyTorch.
+
+It originally already idea originated with TensorFlow, but it's now integrated into PyTorch and it's a standalone package that you can install.
+
+Then the very first thing you need to do to use TensorBoard is you need to create what's known as a summary writer.
+
+Now for the summary writer. We could add.
+
+The network graph, which is this is how our network looks like.
+
+We could. Add some images.
+
+So here this would add all the training images or the first 32 training images.
+
+We can also add individual images. We can add we could add any anything matplotlib can output um you name it.
+
+And now the one important thing is, if we want to write something to TensorBoard, we should always call the writer to flush.
+
+And so what this will do is will just this will create a ConvNet. Then.
+
+It will feed in sort of an empty image, because that's what, um, the summary writer needs to trace out the structure of this ConvNet.
+
+And then you will add a graph to just showing the network structure.
+
+Now. You'll have to do this only once. Uh, this is not something you'll have to redo over and over again.
+
+Uh, during training, you will do this in the beginning of training.
+
+And then here we'll just add some training images here to look at the images in the browser.
+
+Now let's just call this training. Let's call Trent.
+
+Well, train will do now. It will load a load it. These data sets.
+
+It created. Uh. Summary. Writer. And I forgot it to give it to, uh, log tier.
+
+We want to store it in logs. So this will tell it.
+
+Now it stores the output in runs. Um.
+
+Which is. Fine.
+
+Actually, I were considering runs. All right.
+
+We can run this again. Now it's out of stores.
+
+It's run by date. The time we ran this.
+
+And then the machine we ran it on. The other thing we need to make sure is that we run TensorBoard.
+
+To look at these runs. A TensorBoard is running over here.
+
+And now we can see these two runs here. Let's focus on one of them.
+
+This is what we logged. So this is a bunch of images.
+
+From the data set itself. And so if you want to look at the data and you want to do it in a nice format in sort of a nice browser environment,
+
+I would highly recommend just use TensorBoard for it. Um, it's it's super easy to set up.
+
+There's other online alternatives. There's one GB.
+
+Um, if you really if you're ever going to run a training job that.
+
+Sort of you would need to sort of monitor widely or sort of on the road.
+
+It's very good at 10 to 1 DBS. Nice, because it's sort of one nice central location.
+
+Um, well, for now, for this class, uh, TensorBoard is probably good enough.
+
+All right. So this is the image that we logged. Now, if you look at graphs here.
+
+This if we would want to look at the ConvNet structure. This is the ConvNet that we looked.
+
+Sort of. It shows. This is.
+
+The block structure we have in a ConvNet. So we have convolution going in ReLU.
+
+And then each block is sort of a bunch of.
+
+Conf group. Norm value. Conf group non value.
+
+Now, the reason why this goes, uh, why the graph goes through really twice is.
+
+In here. I created one really layer because I was being lazy.
+
+Uh, and fat reuse that if I would use really one and really two here.
+
+The graph would look slightly different. Let's look at.
+
+And now the graph really just looks like a residual connection. Conv group norm ReLU conv group from earlier with residual connection.
+
+It's always a good idea to sort of log this once.
+
+Um, when you're sort of starting to develop uh, your, your, your network just to make sure that there's no bug in there, like, it's like that.
+
+It's just that this shows the structure you would expect. All right.
+
+So this is how you look at your data. Uh, initially this is how you would look at, uh, sort of part of, um, part of your network.
+
+Now, obviously we'd also at some point want to look at the labels of your data.
+
+Um, there's two ways to do this. You could either log images per class, uh, which might be quite.
+
+Nice to look at. Uh, easy to parse. Or you could insert a label here.
+
+Now an interest of time. We'll we'll skip we'll skip this.
+
+All we'll do instead is we'll start to train our network.
+
+And now for each epoch, what we'll do is we'll log the loss that we have for this epoch.
+
+So here it is a tensor that says um epoch loss.
+
+Now we have two choices in logging. We could average the log per, uh, the loss per epoch, or we could log it every single time.
+
+Um, we, we sort of, we take, uh, we process a batch.
+
+Now in here, we'll actually log it every single time.
+
+And the way you would do this is you would call a writer at scalar and then training loss that refer back slashes here.
+
+Training loss his loss that item. And we'll make sure at least.
+
+Once every epoch. This gets written onto into our logs.
+
+And we can call train again. We'll reload TensorBoard.
+
+And we'll wait for a moment. All right.
+
+Now something interesting is going to happen here. As we train so that we have we only see one value.
+
+We don't see really a graph. We only see this one value here.
+
+And it does change. It's like 3.1, 3.6, but we actually would do what we would want.
+
+Is we would like to see a time series and the code to copilot.
+
+Actually, that copilot suggested here had a bug in it. And.
+
+The bug was that we need to give the add scaler here.
+
+At scalar expects another argument, which is global step, which is what is the x axis that we would want to use.
+
+Now. Actually, let's just call it global stuff.
+
+Yeah. Every single time we log, we'll just include increased global step by one.
+
+And so what this really does is it just counts how many steps of training we already took.
+
+Slightly. If you run a lot of epochs, it's slightly annoying to convert epochs to global step and back.
+
+Um, but there's really no no no perfect solution.
+
+All right, now let's run training again.
+
+Right. The next job is up. And now all of a sudden we can see a curfew.
+
+All right, so this is the training loss. As.
+
+We start training. Now in here you can see two plots.
+
+Um, one is sort of nice and smooth, and the other one is a little bit jagged.
+
+And that's because TensorBoard allows us to smooth our inputs.
+
+So instead of seeing this very wild training curve.
+
+We can smooth it out. And this is really the the noise here comes again from either the batches that are not all the same,
+
+or it comes from the fact that stochastic gradient descent or Adam does not make not every step,
+
+not every batch, is sort of a step in the right direction.
+
+All right. And so it does. We can actually see that our network is training.
+
+We're learning something about the flowers data set, and we sort of our loss goes down, uh, quite well.
+
+Now we can log other things. Now the next thing that we could log is we could log accuracies, sort of after every.
+
+Single epoch. We could compute both the accuracy on the, uh, training set, and we can log the accuracy on the validation set.
+
+So instead of just computing the loss here. We'll also compute.
+
+The accuracy and let's actually use extend. Um.
+
+Dot cpu dot dot dot numpy.
+
+So what this will do is it will compute the predicted label.
+
+Compare it to a ground truth label. Make this.
+
+This is. Boolean. We don't quite need to make it to float.
+
+We'll put it on a TPU detach. And so what this will do is it will remove it from the computation graph.
+
+And this is important because we can not make anything that's attached to the computation graph a numpy tensor.
+
+And then we'll add all the values of this numpy tensors into our training accuracy list here.
+
+And just to show you how this looks like. We'll train this for one.
+
+Iteration. And then.
+
+Print out. I don't need to start here.
+
+We'll do this for one iteration and then print out the training accuracy.
+
+And you can see in the first iteration, most of the time we our prediction was actually false.
+
+There's a very few times where we sort of got lucky and predicted things right,
+
+but after the first iteration, like we shouldn't expect this to work well.
+
+All right, let's actually still make this a float. All right.
+
+And so what we can do is. We can add a lock on training accuracy.
+
+Let's just do NP dot mean here train accuracy.
+
+And now the global step here just the x axis.
+
+We'll just use epoch. We'll also have to quickly import numpy.
+
+All right. And so this will together with the training loss now also log our training accuracy.
+
+Let's try this again. And while this is training, we'll write a code to compute the validation accuracy.
+
+And then together, the training accuracy and the validation accuracy will show us how much we're overfitting.
+
+So first, the training loss here showed us that we're actually training.
+
+We're improving the training accuracy. We'll show that we're doing better during training.
+
+So the optimizer works sort of step two in making it work is is sort of working.
+
+And in part it's because we just used Adam here, which is a good optimizer,
+
+and in part because we already trained this network before and we didn't have any bugs in.
+
+And now the next thing is we'll see how much we're overfitting. And so we need to compute.
+
+We need to create a validation data set loader.
+
+There's no need to shuffle the validation set. And we'll copy most of the stuff from that training loop up there.
+
+Down. There's no need to compute the loss.
+
+And this here is now validation accuracy. Right.
+
+So this is really sort of a very abbreviated, um, loop that we have from the training loop.
+
+It's a very abbreviated version where we really just to put stuff on a TPU.
+
+Call the network and then see how well its outputs, uh, how how close its outputs are to the ground.
+
+Truth. And we'll log this again.
+
+Right. Let's quickly look at our most recent log here.
+
+Here we could see this just logs training accuracy and loss.
+
+Now you can see during training the loss went down really nice. And the training accuracy sort of went up and up and up.
+
+Right. Now, one thing we can do in here to make this slightly faster is.
+
+Instead of calling net forward here directly, we can put PyTorch in inference mode first.
+
+So with torch dot inference mode.
+
+We'll call for it. And so we'll torture. The inference mode does is it disables all sorts of gradient computation.
+
+So those you can not call backward on anything that was uh computed with torch at inference mode.
+
+And it also sort of it enables a lot of accelerations that otherwise would not be enabled.
+
+Now, the other thing we'll need to make sure is that when we train.
+
+The model is in training mode and when we evaluate.
+
+Call it net. When we evaluate.
+
+It's in evaluation mode. Excuse me.
+
+All right. So now we get one to sort of we build the entire pipeline from the beginning to the end.
+
+We sort of have something to look at our data with.
+
+Now we can babysit our network. And make sure it's training which is showing the training loss here.
+
+We can make sure that the training loss also sort of has a good correlation with the accuracy on the training set.
+
+And then we'll be able to see how well we're fitting and how much we're overfitting to the training set.
+
+And let us train for a moment. Now, what we'll see here is that this network will most likely overfit quite drastically to the flowers data set.
+
+And the reason for this is. When we load the data set, all we do is we're taking the image.
+
+We're resizing it onto a fixed size, which is 128 by 128.
+
+Now, the reason why use 128 by 128 is because training is quite a bit faster if we make the input smaller.
+
+And practice you might want to like if you ever going to use Convnets for any real image applications by now.
+
+128 by 128 is considered way too small to to get any performance out of your network.
+
+And so we're resizing the image. And then we're converting it into a tensor.
+
+That's all we do. We do the same for training and validation.
+
+And now we're going to run multiple epochs over our training set.
+
+Every single time with exactly the same image. And so this will lead to overfitting.
+
+You can already see it here a little bit. Sort of the training accuracy goes up.
+
+It continues going up. Uh, it's past 0.3.
+
+The validation accuracy is about half of the training accuracy.
+
+And we let this train a little bit more to see where it plateaus.
+
+Now, the very first thing we could do to sort of help with overfitting is save our model every now and then.
+
+And so we could for after every single epoch, we could save the model so that once the training run is complete,
+
+we have something to go back to and say, hey, the model actually performed best.
+
+Maybe around. Epoch 50.
+
+Son. It's unlikely that about 50 is the right way. At the right place to go is probably.
+
+It will probably continue increasing in performance for much longer.
+
+And so the way and the way we do this is sort of will log the model maybe every ten epochs for now.
+
+And then we would do early stopping by just picking the model that has such a highest validation accuracy.
+
+So this is early stopping.
+
+And so when we do, when we call torch safe, uh, there's two options.
+
+Uh, we can either save just the weights of the model, or we can save the entire model.
+
+Um, the difference really is that saving just the weights, um, sort of is, is much cleaner.
+
+Um, and if we then load the weights again, uh, we would still sort of operate using this model here.
+
+This code, uh, if we call torch save on the model itself, it will also save the model.
+
+But what it will do is it will pickle the network architecture. So if we will save this network architecture and then it will pickle loaded.
+
+Um, which can lead to sometimes a little bit unexplained or weird bugs.
+
+Um, if you're using just one model architecture, I would recommend you just use, uh, you you save the state dict.
+
+Um, it's sort of a lot cleaner.
+
+Um, now, if you were to use learning rate schedules or, um, sort of, uh.
+
+Optimizers like Adam W,
+
+you could also save the state of the learning rate schedule and the optimizer to make sure that you can continue training from exactly that point.
+
+Now, if you just consider if you're just worried about sort of early stopping and picking the best snapshot, you'd obviously don't need to log.
+
+You don't need to save all the optimizer states. All right.
+
+So this is how you would implement sort of the early stopping, um, where you simply just snapshot every, uh,
+
+sort of you save the state of your network every few epochs, and then after you're done, you would pick the best.
+
+All right. Now the model is almost done training.
+
+Um. And you can see sort of a really interesting trend here.
+
+Um, what happened here is during training,
+
+the model started to sort of increase in its accuracy until sort of it reached close to 100% like until it got the model,
+
+got everything absolutely right. The same was true for the loss.
+
+It sort of it started going down down, down, down. And at some point the model was just it was just done.
+
+It was happy uh, with where it is. And it perfectly fit the training that the training set.
+
+Now if you compare this up here to the validation loss down here,
+
+you can see that the validation loss actually still started going, uh, still continued going up even though.
+
+The loss here was absolutely plateaued, and the loss to accuracy here was also plateaued.
+
+This is a fairly common occurrence. So it can actually, just because you reach 100% accuracy on your training set doesn't mean that you're done.
+
+It doesn't mean that validation will not still keep on growing.
+
+And so here it grew to about, uh, 80%, uh, 80, 80 steps.
+
+And then after our 80 epochs and then after that, you can see it sort of plateaued or almost went down again.
+
+Right. And now the gap between validation and training is pretty huge.
+
+Um, like, we get 100% training accuracy and less than 30%, uh, validation accuracy.
+
+Early. Stopping here doesn't really help that much. Um, I think we get to the final training.
+
+Accuracy here is. Around 25.4%, and the top is sort of at 25.7%.
+
+So we almost sort of it's early stopping really wouldn't help much here.
+
+So what we can do instead is we can start to mess with certain.
+
+Network parameters. We could first see if adding data augmentation in here would help.
+
+And we'll create two different transformations.
+
+We'll add a validation set transformation and a training set transformation.
+
+The easiest thing we could do is we could flip damages. And.
+
+Um, I need to look up real quick what the command is, because autocomplete doesn't tell me right now.
+
+All right. Random horizontal flow. All right.
+
+And so. Oh oh.
+
+That explains why autocomplete didn't work.
+
+Yes, I meant random horizontal flip. All right.
+
+So now what this will do is we'll resize the image and then randomly, uh, with the 50% chance it will flip it.
+
+And so this means that we now sort of created two images out of one data point.
+
+So we created sort of a flipped version and the original version.
+
+Now they still depict exactly the same flowers. And since we expect flowers to be more or less symmetric, uh, at least along the, uh,
+
+along sort of the y axis, um, this should not cause any issues if you ever have data,
+
+like if you had data, for example, of cars that were only right facing, uh, random horizontal flip might not be a good idea.
+
+Uh, if you if you guaranteed that your test set, for example, also only contains cars that are right facing,
+
+um, but for most images, random horizontal flip is actually a pretty good idea.
+
+And we can compare our networks again.
+
+Now, while we do this, let's actually look at sort of what other transformations we could apply.
+
+So talks in random.
+
+All right. So image documentations here, uh, are all implemented in torch vision.
+
+Uh, the two. Biggest ones are the random resize crop, which will take an image.
+
+It will crop sort of a region out of the image, and then resize it into a fixed, uh, a fixed set, a fixed size.
+
+And then there's various color augmentations that are also implemented in here.
+
+Now most often you will not need color recommendations.
+
+Random resize. Crop and. Your flip are going to be or are going to be sufficient.
+
+Now, Torchvision would also implement things like image uh, input normalization, uh, which we can add in later.
+
+All right. And so here is the full list of sort of augmentations.
+
+Resizing. Um. Sort of.
+
+This is sort of just.
+
+Considering the size of the image slightly that this is random shortest size, uh, which is resizing but keeping the aspect ratio.
+
+Um, uh, the same. Um, there's random resizing.
+
+What you often would want is just random resize crop, which combines a lot of these together.
+
+Um. There's a bunch of cropping, uh, for evaluation.
+
+Used to be popular to crop the image multiple times and then.
+
+And then run the network over all of them.
+
+If you have a network that's fully convolutional like we do, this is not, uh, not that important for data sets like ImageNet.
+
+It also used to be, um, sort of quite popular to crop out to center.
+
+Again, if you run your network fully convolutional. This matters less.
+
+Um, there is random horizontal and vertical flips.
+
+Vertical flip. I wouldn't perform, uh, very often.
+
+This really sort of puts, uh, flips the image upside down, which will change its structure quite drastically.
+
+And then there's also random rotations, um, or random affine transformations.
+
+And these, these can be, uh, quite useful. They're just quite annoying to tune.
+
+Um. And then down here are color augmentations.
+
+Um, they're also they can be, uh, useful in the flower cities of flowers actually have fairly unique colors.
+
+Um, they might not help as much. And they're also, uh, a little bit annoying to tune.
+
+And then there is sort of just this composite function we'll just sort of which will combine a sequence of, of transformations.
+
+All right. Now, with that being said, let's look at how well our flick up flip augmentation did.
+
+Um, in here during training, nothing really much changed.
+
+Uh, our, uh, sort of our optimizer is equally good at optimizing regular and flipped images,
+
+even though the training set sort of almost became twice the size.
+
+It really didn't bother it.
+
+But validation performance here increased, uh, by a healthy margin, and it will likely continue increasing as we continue training.
+
+All right. So this was, uh, this was a success.
+
+Uh, the random, uh, horizontal flip, uh, worked quite well.
+
+Now let's see if we should also. Add in the random resize crop.
+
+Not what random resize crop would do is it would essentially replace.
+
+Our resize initially. Now the anti-aliasing here, does this really sort of just helps us?
+
+Uh, it's a filter that we apply to make to make sure that, uh, the resizing doesn't introduce any aliasing.
+
+And now this will create a huge number of augmented augmented images.
+
+And after we insert random resize crop, it's very unlikely that the network will see the exact same image twice.
+
+Because what we do now is we'll we'll sort of crop out part of an image, a random part of the image and resize it to 128 by 128.
+
+Um, and so after this operation, there's really there's, there's very little chance that.
+
+The network will see the same image twice now.
+
+It does change the training distribution compared to the test distribution.
+
+So random resize crop will now always look at cropped images, will always only look at part of the training data.
+
+And then in the end we hope that this somehow generalizes to looking at the entire, uh, validation image.
+
+And we'll see if this works. If not, we'll have to change the parameters of random resize crop to not crop, uh, as aggressively.
+
+All right. So this was this was the result of the run.
+
+With. Uh, just random, uh, horizontal flipping.
+
+And now we'll go through the run with random resizable.
+
+And while this is training, all I can explain sort of what are other things we could do to make this perform better?
+
+A. The first thing we'll need to do at some point is we'll need to make sure that the crop inputs here sort of match the inputs here.
+
+And so that would mean that we either use a central crop here.
+
+And then, uh, and then sort of hope that this random crop and the central crop are roughly on the same,
+
+uh, on the same sort of, uh, of the same size that a central crop.
+
+Is a function. That's. Defined.
+
+Up here. It's center crop. And you will just take, uh, it will crop out the center of an image.
+
+Now, other things we could do is we don't actually have any normalization of damage yet,
+
+so we don't sort of subtract the mean and, uh, and divide by the standard deviation of our inputs.
+
+Um, and so our inputs right now, the inputs, our network are all positive.
+
+This is not ideal. Um, and so one thing we could do is we could add normalization.
+
+Here. This is the normalization constant that uh is computed from ImageNet.
+
+We could assume that this is roughly the same uh as.
+
+What we would want. And so.
+
+All right. Now, if you add normalization, make sure that you add it to both the training and the validation.
+
+Uh, transformation. And then other things that we could do is we could sort of start playing with the optimizer a little bit.
+
+We could add in the weight decay.
+
+So if you could have a higher weight decay here, we could also see if there's certain parts of the model that could benefit from top drop out.
+
+Now, since we used a convolutional model, the only place where really dropout could be applied is the very last layer here.
+
+Down here because that's the only one cross, one convolution that we have.
+
+Other things that we could do, uh, to make this better is sort of.
+
+In the end instead of using our own ConvNet.
+
+We could start using a pre-trained convolutional network and Torch to torch vision library also has some pre-trained, for example, residual networks.
+
+And then instead of creating our network from scratch here.
+
+We would download a pre-trained network from the Torch Vision library and then adapt or fine tune that pre-trained network.
+
+Now, this is not something that will, uh, will allow you to do in this class.
+
+Uh, in this class, we really want you to sort of design and build up your own networks.
+
+And now, one thing to note here is that once we started adding this random resize crop, all of a sudden the network trains much, much slower.
+
+And the reason for this is it's really just it's much harder to train on more images.
+
+So we really managed sort of to push out this.
+
+This point at which the network can memorize the entire data, set it.
+
+Now it almost seems like it seems to the network like that entire data set just got sort
+
+of infinitely larger by by just because we just look at different parts of the image,
+
+never show it the entire structure twice. And so.
+
+That means that it has a harder time learning about flowers from that from the training data set.
+
+But it also means that it's overfitting a lot less.
+
+And so you can see here the validation performance.
+
+Yes. It's struggled a bit in the beginning. It started to sort of it actually performed worse in the beginning.
+
+But it keeps on climbing more or less at the same rate.
+
+And so if you trained this for much longer.
+
+So all the runs we do, I do here sort of train within five minutes if I trained as maybe for an hour or two, which we'll do right after,
+
+after this segment and you will see that this curve will go up much higher and plateau sort of at a much later point.
+
+And so the amount by which we overfit, for example, here.
+
+Is. Only about.
+
+2025. Uh, it's like .25.
+
+While for all the curves up here that the amount we overfit was really short of point seven at this point.
+
+Right. And so what I'll do right after this class is I'll sort of train a final, uh, after this segment, I'll train this final log, and then I'll.
+
+Peter will paste this on.
+
+I post this on the course webpage on sort of what, all the different augmentations, uh, how all the different augmentations performed.
+
+Now. I hope this was, uh, quite instructive on how do you actually set up your model.
+
+Um, once you start training, you should really get into the, uh, into sort of into the mindset of logging everything you can about your data set.
+
+And instead of other things you could log, for example, would also be a confusion matrix,
+
+like the accuracy itself only tells you how well you did on predicting the right label,
+
+but it's often also instructive to look at, well, what did you predict instead?
+
+And so a confusion matrix would do that. And so here instead of logging the training accuracy would essentially log the entire set of.
+
+Combination of this is what I predicted. This is what the ground truth label is.
+
+And then down here, instead of adding a scalar,
+
+you would directly you would add an image where you just show how often you confused what label with what.
+
+The same you can do for the validation. You can again, you could just produce sort of, uh.
+
+Full confusion matrix here and then log that as an image.
+
+Then the other thing I hopefully was able to show is once you log things,
+
+the process of making the model better and better is really sort of an interaction between your logger or sort of the,
+
+uh, the, the sort of the metrics of your training.
+
+And your code. See? We'll see what went wrong.
+
+You'll try to tease from the matrix. And what went wrong?
+
+Sort of. Yeah. You overfit. You'll log more data to figure out how we overfit.
+
+And then you're essentially going to improve idea or data augmentation.
+
+Your model, your optimizer to make your model perform better and better and better on the validation set.
+
+And once this entire process concludes. Once you're happy, once you're set off.
+
+You have extremely good validation performance. Then you'll take your model and run it on the test set.
+
+Right. And I hope this showed you how this loop works.
+
+Uh, it's sort of it can be tedious in the beginning, but once you get into the into the into the grooves,
+
+this is actually this is what really deep learning is all about.
+
+It's about sort of going through the process of sort of iterating over and over and over again on training this,
+
+this one model or trying to solve this one task,
+
+need to have a really good set up so that you don't overfit, that you can measure out, uh, overfitting.
+
+And you need to have a good set up that you can always get a signal on how to make more progress.
+
+All right. That concludes the segment.
+

@@ -1,0 +1,161 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So in this segment we'll start with the little convolutional network that we build in the previous segment.
+
+And we'll actually apply all the design principles that we have just seen in class.
+
+So let's get started. Uh I just copied over the code from the previous class, uh, where we have this ConvNet class,
+
+and then we have sort of the number of channels that we want in layers.
+
+We have a kernel size that we specify in stride. Um, and then sort of we feed in sort of this little image here that's 28 by 28.
+
+And the very first thing we'll do here is we'll actually make this an image based ConvNet.
+
+We'll give it three channels. Let's say we'll use 64 by 64 images, 64 by 64 size.
+
+And here we'll change this. Input channels are three.
+
+Now the next thing will change is will not set the the number of, uh, the channel size freely.
+
+We'll start with the channel size of the first layer.
+
+Number of channels for layer zero. And let's make this.
+
+64 for. We'll also not specify the kernel size anymore.
+
+What we'll do is we'll have we'll specify how many blocks we would want.
+
+Right. Now the CNN layers.
+
+We'll have one special layer. This is our first convolution.
+
+It will go from three inputs to the channels.
+
+Of the first layer. Kernel size here will make this 11 stride will stride by a factor of two for now and padding will strive.
+
+It will pad by five. All right. So this is our first layer.
+
+Now instead of adding additional layers and values in here what we'll do is we'll add blocks of computation which would also add a value here.
+
+This will add blocks of computation. So we'll add a class block here.
+
+That's a torch and module. The block will have a certain number of input channels.
+
+Output channels. Kernel size. Stride padding will not do padding as kernel size.
+
+Kernel size minus one divided by two. All right?
+
+Right now, this is just a block that has to come from the rail unit.
+
+Uh, we'll make this more interesting later. And then here.
+
+We'll now. Instead of adding.
+
+And regulators will just add self dot block. That's not even specified kernel size here, kernel size would always be three.
+
+All right. Now we we do still need, uh.
+
+Uh, classifier in the end here. So we'll have the first and the last layer.
+
+Uh, special. But everything else in between is just going to be blocks.
+
+Repeating blocks. All right.
+
+Oops. What did I just do?
+
+All right. So PyTorch tells us given groups equals one,
+
+which is the default parameter expected weight to be at least one dimension and got weight of size zero by 65 by three by three.
+
+All right. So this hints that this is the very first layer.
+
+Our input here we specified as zero somewhere.
+
+Uh. It does not look like it.
+
+Okay. It's not in the definition of the network.
+
+Let's just print the network for now and maybe we'll spot the mistake.
+
+All right. Uh. In here.
+
+Okay. So the number of channels that we output here is out channels is.
+
+Sarah. Uh.
+
+Yes. We should not have set it to see to it.
+
+This is. So C2 is equals to C1 for now.
+
+All right. Now this will create a network that has the same number of channels all throughout.
+
+And now we can call forward on it. We can look at its shape.
+
+And the output is going to be cut.
+
+In two because we stride at the very first layer.
+
+All right. So now let's make these blocks a little bit more interesting.
+
+So let's say for every block we do we strike by a factor of two.
+
+And now we'll increase the number of layers by a factor of two.
+
+I have a number of channels by a factor of two. All right. So this will create.
+
+An output that has a smaller spatial dimension here.
+
+But all the intermediate layers of the network if you print out the network.
+
+Are going to have more and more channels. All right.
+
+So this is how your typical, uh, ConvNet will look like.
+
+You will start to increase the number of channels, and at the same time, you will stride and thus decrease the spatial resolution of the input.
+
+Now, if we make this block here slightly more interesting, what we can do is.
+
+We can make this a bunch of convolutions. So instead of.
+
+Making it a single. Convolution.
+
+We can now sort of have three convolutional layers in here.
+
+The one thing to note here is we'll need to set the into.
+
+First one layer takes input channels as an input,
+
+and then we'll output our channels and all the other kernels will have outer channels will only stride the very first layer.
+
+All the other layers will not stride. And so.
+
+In our block. We can feed the input through the layer one conv layer two, and then conf layer three always followed up by a ReLU.
+
+And. We'll add sort of.
+
+We'll just return the result of this. Now we can print out the network again.
+
+Now the way this looks like is we'll have a conf as input and then we'll have multiple
+
+convolutions that'll sort of follow one after the other in these repeating blocks of computation.
+
+Line to homework. Uh, you can go ahead and sort of start adding normalizations in here.
+
+And these blocks, you can start adding residual connections.
+
+Uh, and all the, all you would do is you will essentially take this block structure and in here add things like residuals, things like.
+
+Uh normalizations. The basic structure of your contract will almost always be.
+
+You'll have one convolution as an input, then on non-linearity,
+
+and then you'll have a bunch of blocks that do the heavy lifting in inside, and you will have one convolutional layer as an output.
+
+If you're interested in getting one single classification output, you will do adaptive average pooling, which is global average pooling.
+
+If you want to keep all outputs he will just not add this adaptive average pooling right.
+
+And most of the interesting computation happens inside of the block of the convolutional network.
+
+All right. That's it for the segment.
+

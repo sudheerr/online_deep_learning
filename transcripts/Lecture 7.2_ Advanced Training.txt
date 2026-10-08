@@ -1,0 +1,553 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right, so we've arrived at the second part of this.
+
+Making it work. Uh, works. Uh, section. We looked at the data, we have the initialization sort of figured out.
+
+We have the data nicely normalized, and we already picked the model that we like.
+
+In this segment, we'll really look at sort of how do we train this model.
+
+We already know stochastic gradient descent. And we'll sort of go beyond stochastic gradient descent.
+
+We'll look at sort of more advanced optimizers, look at what's wrong with stochastic gradient descent.
+
+And then we'll look at optimizers that solve sort of what's wrong with stochastic gradient descent.
+
+Now, stochastic gradient descent works really well in in a lot of cases, especially for smaller models,
+
+if you don't have sort of if you don't need it to, to sort of train as fast,
+
+uh, as, as as humanly possible if, sort of even if you have time and you have sort of smaller models and not a lot,
+
+uh, and smaller data, it sort of it works quite well.
+
+Um, here for recap, this is how stochastic gradient descent with momentum looks like.
+
+It's sort of really just goes through your data, batch by batch by batch.
+
+And for every batch you will sort of just add, uh, compute the gradient, add the gradient,
+
+uh, to a momentum term, and then update your weights with this momentum term.
+
+One issue with stochastic gradient descent is that you do need to tune your learning rate.
+
+And what that means is sort of if you pick your learning rate to be too slow, the network will start to converge very, very slowly.
+
+And you're just going to wait and you can, uh, your TPU will come a little bit and, and you're just sort of see the loss go down very, very slowly.
+
+Now, one way to fix this is say, well, I'm going to increase the learning rate.
+
+I'm going to up this learning rate, but only up to a certain point, because if you increase the learning rate to something that's too high.
+
+Your model will sort of jump around wildly all over the place in terms of what its weights are.
+
+If you're lucky, this will just sort of create frustrating experiences where sort of your model will sort of converge
+
+and all of a sudden it will jump again and it will it will get into a state where it's not converged.
+
+Um. It's frustrating and eventually you might still get be able to get a good solution.
+
+Um, most often what will happen is if you're learning rate is too large, one of the values will eventually go to infinity.
+
+If you're lucky, your network will like you will see this.
+
+You'll see the loss being, uh, infinity. And then the next time you compute the gradient, the gradient will be not a number.
+
+And so that's sort of the evil value in deep networks and ends.
+
+And it will mean that the network exploded and everything was for nothing.
+
+And you have to restart training. Um.
+
+And so we'll look at this training dynamic a little bit.
+
+Um, and for this, uh, we sort of collected statistics, uh, learning rates and weights and all of this and learning curves for a very simple,
+
+uh, setup, which will actually put on the class webpage where we sort of study.
+
+Well, what happens if we make learning rates too large?
+
+And we'll study this in one simple network.
+
+First the network gets the input. It's a linear network.
+
+And you need to predict ten outputs which are ten digits of mNIST.
+
+And what we'll show here on the side is the convergence rate of this very simple network.
+
+And this is done for multiple learning rates. And so I'll start from the top here.
+
+So this is. A learning rate that just converges slow.
+
+Yeah, we can wait longer. Uh, we could train for a much longer, spend more compute.
+
+And it's eventually going to get to a good solution.
+
+The second learning rate here, the green one works a little bit better and the red one is close to the optimal learning rate,
+
+where we sort of go down relatively quickly and then we stay in a good place.
+
+Now. Here if we set the learning rate to one.
+
+Something interesting happens a initially.
+
+The loss will just go up wildly. And this is just because we took the first step.
+
+It was too much, and we ended up in a completely weird, um, place of the, uh, in the parameter space.
+
+Now, after a while, the network actually recovered.
+
+It didn't go to another number to end. It did recover.
+
+It sort of came down.
+
+And just as it was sort of trying to convert it again, sort of bam, shut up and exploded a little bit and again try to calm down.
+
+It exploded again. Exploded again. This will continue.
+
+All right. And so this is an indication that you're learning rate is too high.
+
+Now, why do these spikes happen? Um.
+
+And so. There is sort of two measures we can look at here.
+
+We can look at the gradient, uh, the magnitude of the gradient, and we can look at the magnitude of the weights.
+
+And so for most. Initializations, the magnitudes of the weights instead of the uh stays fairly low.
+
+For the one where we have a learning rate of one. The magnitude of the weights shoots up initially and then if it stays fairly stable,
+
+it actually to magnitude as the weight sort of gets a little bit smaller.
+
+Um, and every now and then there's like this, this weird little spike,
+
+initially it shoots up just because like initial gradient steps are just very large.
+
+And you'll end up sort of with almost like an initialization that's just sort of scaled up.
+
+Uh, it's not quite random anymore, but it's sort of it's just some weight weight value.
+
+It's not super good. It's just large. And then it will it then it stabilizes.
+
+But what happens to the magnitude of the gradients is even more interesting.
+
+So every now and then sort of the gradients will get smaller and smaller and smaller.
+
+But if we choose a step size that's too large, every now and then the gradients sort of shoot up.
+
+They shoot up three times, and the places where these gradients shoot up actually correspond to these spikes in loss.
+
+And because of these training dynamics, what happens is that instead of.
+
+As we train. If we take very, very large steps every now and then we'll get a large gradient, because maybe the input aligns very well with,
+
+with the, uh, the, the gradient or maybe sort of there is sort of, uh, like there is one element that's just completely wrong.
+
+And you had it has a high gradient. And so one thing we can do is we can measure sort of a ratio between the gradient and the weights.
+
+And here. In these places here. We'll have a very high ratio of gradient versus weight,
+
+which means that within one step or two steps of our SGD procedure, we'll actually completely overwrite the weights.
+
+We'll have an update that's as large as the existing weights.
+
+And so that creates these these spikes in the uh, in the loss,
+
+the fact that sort of 1 or 2 gradients of a subset of our data will all of a sudden create this,
+
+these, you know, have a huge influence on the weights.
+
+And that's all because the learning rate is too large. And so what's the solution?
+
+Well, the solution is really just to pick the largest,
+
+like to try a bunch of learning rates and then pick the largest learning rate that doesn't have this weird spiking behavior in here.
+
+Now you could measure this directly. You could go in and sort of measure these these ratios of sort of weight magnitudes and gradient magnitudes,
+
+or you can just look at the loss and see does it do this weird spiky behavior.
+
+This is what most people do. We will not measure the, the the norms of the gradients and the weights.
+
+Usually you'll initially just look at the loss curve and look at these spiky behaviors.
+
+If you have this spiky behavior, then what we'll do is we'll just reduce the learning rate and then we'll reduce it up to some learning rate.
+
+That's sort of that's uh, that's sort of just acceptable.
+
+Now, if you start out with a learning rate that's fairly flat, then you don't make any progress.
+
+You'll just jack up the learning rate until you find these spikes happening.
+
+And then. You're going to stop. You're going to stop sort of one step before you can see these spikes and these instabilities in training.
+
+All right. This is all fair and good.
+
+If you have just a single layer. So with SGD and a single layer you can do this.
+
+But what if we start looking at two layers?
+
+Um, we can actually have a situation. And this is, again, a real example that we trained on mNIST, where you have two layers.
+
+And for the first layer, we could use a learning rate of 0.1 and 0.01 works two,
+
+but it's actually a little bit slow, like it wouldn't update the first layer very well.
+
+And now if you look at the second layer. 0.1 will lead to an explosion.
+
+0.1 will lead the network to sort of not train well and be very unstable.
+
+But 0.01 works well if you use stochastic gradient descent.
+
+The only solution that we have is we'll have to use the lowest learning rate.
+
+We have to use the one learning rate that sort of makes all layers train.
+
+In this case this is 0.01. And so that means that some layers will train uh slower than they could potentially learn.
+
+Now, one option is we could fiddle with learning rates.
+
+We could set learning rates per layer. And in fact, in early days of deep learning, this was common practice.
+
+People chose different learning rates for different layers. You should be very happy that today we don't have to do this anymore.
+
+This is not a good solution. Um. I mean. I could show you how to do this.
+
+This is how you do it in PyTorch. But tuning different learning rates for different layers is not a fun exercise.
+
+All right. So nowadays we actually have better optimizers.
+
+We don't use vanilla stochastic. Stochastic gradient descent for networks that have wildly different scales.
+
+In sort of what gradients versus weights they could tolerate.
+
+And so it all started with sort of very early optimization algorithms.
+
+Uh, our prop is one of the earliest ones where we simply just scale.
+
+All the gradients by sort of their magnitude.
+
+And so what this will do is it will sort of. Force all the gradients to sort of make more or less, uh, consistent updates.
+
+And our prop also has the momentum term of SGD in there still, uh, in practice it doesn't work all that well.
+
+Um, there's a variant of this, um, which is sort of which is rmsprop, which will also have.
+
+Uh, momentum term. On this gradient magnitude.
+
+And that actually is the optimizer. That almost is the one that works best.
+
+There is this there's like a tiny modification that people did, uh, after this,
+
+and then they renamed it, um, to, to sort of the optimizer that's used almost everywhere.
+
+Um, and so what Rmsprop does is it says, well, the estimation of the gradient magnitude over one batch is not very stable.
+
+So let's, let's simply just average this the same way we, we used momentum before.
+
+We'll just average this to a more stable estimate.
+
+Now. Fun fact this is actually never there was this, uh, to my knowledge, this was never published in any, uh, paper.
+
+Um, the reference for this is, is Jeff Hinton's, uh, lecture notes.
+
+Um. All right now.
+
+The issue with Rmsprop is that the way it uses momentum is, is not very, um, effective.
+
+Uh, and there is a variant of this, uh, it's called atom, uh, that uses the momentum sort of, uh, in a more effective way.
+
+And what Adam does is instead of taking the gradient and dividing by the momentum term, uh, directly, this is what our rmsprop does, is Adam says,
+
+well, let's actually use the running average of the momentum and the running average of this magnitude of the weights and then normalize after.
+
+So instead of taking each gradient and normalizing each gradient by the magnitude of, uh, um, by sort of this running average.
+
+Of weights.
+
+We now simply just use two running averages V, which is the magnitude of weights, and M which is our standard momentum term, and we'll divide the two.
+
+This is almost sort of, uh, all Adam does.
+
+There is one minor modification. They correct for the momentum term to look at this in a moment, but.
+
+At a high level. All this does is it really just sort of.
+
+Computes two momentum terms one for the gradient magnitude, one for the gradient, and then it normalizes the gradient by its average magnitude.
+
+And so what this will do is it will sort of scale all the gradients of all the layers, such that they all can make almost equal progress.
+
+Um, one issue is that in practice, the momentum term for.
+
+The magnitude is going to be slightly.
+
+Sort of. We we average over a much longer time horizon, uh, for the gradient magnitude than we do for the gradient in practice.
+
+Uh, the difference is about ten x. And so initially, instead of this version zero of Adam, if you did this the magnitude term here.
+
+Would be much smaller than the gradient term until you reached sort of about a thousand or more iterations.
+
+And so that will lead to very weird scaling of the initial sort of normalized gradient here.
+
+And so what Adam Dos is they introduce two correction factors for this.
+
+Which really just makes sure that these running averages don't grow over time.
+
+They're sort of just running averages of what we have seen thus far during training.
+
+Um, it also means that we have to keep track of what iteration we're in.
+
+But Adam does this in the background.
+
+And so all Adam does is it computes running averages of the gradient magnitude, running averages of the gradient.
+
+It corrects both of them for the number of elements that are in the running average.
+
+Here Anthony divides one by the other. It sort of normalizes the gradient step that we're currently taking by sort of the, uh.
+
+The square root or by the norm of the gradient. Over the past few iterations.
+
+And then we'll add this with a factor of epsilon. Now, one fun fact about Adam is the first step of Adam.
+
+Uh, what we're doing is we're doing element wise.
+
+We divide the gradient because there is no history.
+
+There's no momentum. Right in the first step by the magnitude of the gradient for each element.
+
+And so what this will do is the first step of Adam will always use a gradient.
+
+It's plus or minus one. Um, it's a fun fact.
+
+Uh, it's also, it's sort of limits the amount of sort of the,
+
+the maximum learning rate you can reasonably use, because if you have a step of plus or minus one initially,
+
+you probably don't want to make the learning rate too large because otherwise it will completely destroy your initialization.
+
+And so Adam is sort of one of the most widely used optimizers.
+
+Um, there's variants of it, um, which we'll look at.
+
+Um, and there's also sort of a beautiful example in how deep learning sort of all emerged from more practical,
+
+um, sort of, uh, examples rather than theory, which is Adam is actually mathematically wrong.
+
+Um, you can show on certain examples, Adam will diverge.
+
+Uh, there is a way to fix it. Uh, the parameter is called AMS grad equals true.
+
+Uh, for the Adam optimizer, most people don't use it because AMS uh grad equals true.
+
+The fix is actually, in practice works worse.
+
+And so most of deep learning uses an algorithm that works extremely well in practice but is mathematically broken.
+
+Um, and if you like math, like, take a moment, uh, then you should probably just make your peace with this.
+
+Um, because people in, uh, have sort of tried over and over again to sort of get better optimizers that are like mathematically correct.
+
+Nice. And none of them has been able to sort of dethrone Adam or like, it's variance, uh, sort of across the board.
+
+Now there is one version of Adam that is, uh, sort of more popular by now than vanilla Adam, which is Adam.
+
+Um, it really just has to do with weight regularization or weight decay.
+
+Adam w um, sort of adds a weight decay factor, and instead of adding it into the gradient directly, it adds it into the actual weight update here.
+
+We'll look at what the weight DK is later in in this segment.
+
+Um, it's sort of a way to regularize your network to sort of prevent exploding gradients.
+
+And so Adam, who is sort of by now more or less just the default optimizer.
+
+Um, the only issue, it's sort of Adam and Adam family optimizer is,
+
+is it it they are a little bit more memory intensive because now if you have a certain model, you need memory for the weights.
+
+You need memory for the gradients. Um. You need memory for momentum, and you need memory for sort of momentum of the, uh, of the,
+
+uh, we need memory for momentum or for gradient and momentum of the squared gradient.
+
+And so you need about for the memory study.
+
+On the other hand, if you don't use momentum, we only need two times the memory, the gradient and the, uh, the weights.
+
+If you use momentum, it's three times. There's also an additional optimizer.
+
+Uh, it's called lion. And what lion does is it's sort of it looks quite similar to sort of a mix of.
+
+Adam and SGD. Um, you have a momentum term in there that you sort of build up the gradient momentum,
+
+and then you just take the sign of this, uh, gradient momentum and update.
+
+Just, uh, you update the current.
+
+Model which design Anthony updates the sort of momentum term here.
+
+Now, the way this came about is that this was actually not an optimizer that was hand designed.
+
+This was found using sort of actual optimization.
+
+Some some like things like program synthesis.
+
+Um, this is an optimizer that sort of was learned to optimize a large set of tasks very efficiently.
+
+And it was optimized over basic principles, basic primitives such as momentum terms, signs,
+
+and all sorts of other, uh, other things that this was found to be the most optimal.
+
+Um, it's slightly more memory efficient than an atom because you only have one momentum term.
+
+Um, it is a little bit sensitive to batch size and people, if you have the choice, if you have the memory.
+
+People still prefer Adam over Lyon. Um, but if you are squeezed from memory, at some point, you might want to try out Lyon.
+
+All right. So can we do better than setting learning rates per layer?
+
+Yes. We'll just use a different optimizer. We'll use ad in W or lion.
+
+And all you need to do here is in in PyTorch.
+
+You really just need to write torch Optim Adam W and replace SGD with that.
+
+And so what will happen is really it sort of it will learn to scale different weights
+
+of different layers and will sort of at different learning rates of different layers,
+
+and it will sort of make everything sort of converge, um, much quicker.
+
+All right then. Let's see, there's still one learning rate that we need to tune, which is the learning rate of.
+
+Adam w here. So now we got away from sort of tuning learning rates per layer.
+
+We now still need to tune this one learning rate. And we still have to say the same thing happen.
+
+If we set it to low it will converge slowly. If we set it to high will converge, it will not converge.
+
+And so sort of what learning rate should you use for this.
+
+Well the rule of thumb is you train for a few epochs and you just use the largest learning rate that will train.
+
+You can also measure sort of validation accuracy instead of test accuracy.
+
+And we'll get to that in the next segment. On why this is a good idea.
+
+So you should sort of look at sort of your training and then measure sort of how good does your training, the,
+
+does your model do on some hand held out data and you'll choose your learning rate
+
+such that it sort of increases the performance increases as fast as possible.
+
+It's also possible that for a for a for your problem, a fixed learning rate will not, uh, will not yield a good solution.
+
+And so there's various ways to schedule the learning rate to start out with a fairly high learning rate,
+
+learn until you no longer make progress and then reduce the learning rate.
+
+And so there is, uh, three different learning rate schedules that um, are sort of.
+
+Popular. Um, one is sort of the steep learning rate, which is just you train until you no longer make progress,
+
+then you sort of cut your learning rate either by a factor of ten or by a factor of two.
+
+And then you just sort of you tune how long you train until you cut.
+
+Uh, there's also automated ways to sort of try to cut automatically.
+
+Um, but oftentimes the automated ways don't work as well as you just setting this manually,
+
+you could decrease it linearly, uh, which is a decent choice.
+
+And then finally, the for most of the sort of the really large models, um, for most of the larger industrial applications of deep learning,
+
+a cosine learning rate schedule is often preferred where we follow a set of this cosine curve.
+
+And the cosine learning rate schedule is sort of interesting because it will end up at zero.
+
+So like for all other learning rate schedules, you can sort of try to sort of.
+
+Pushed them out a little bit towards the end and sort of prolong training for the cosine learning rates.
+
+A schedule like this will end up at zero, and in the end you will just not train.
+
+Uh. For regular network training. This is not that big of a deal if you ever train set of reinforcement learning applications.
+
+Um, learning rates close to zero will make your your classifier almost collapse into, uh, deterministic policy.
+
+And in that case, cosine learning rate schedules are maybe something to look out for.
+
+There's also some people that, uh, sort of discovered cyclical learning rate schedules.
+
+However, these cyclical learning rate schedules, they're a little bit iffy to tune.
+
+Uh, you can try it, but I would probably try step, uh, step or cosine first.
+
+Now, one thing that, um, you might also sort of at some point encounter is sort of a trade off between batch size and convergence.
+
+So let's say you have a really good schedule that you trained on,
+
+like your tiny little machine that doesn't have a lot of memory and a lot of GPU memory.
+
+And now you'd want to sort of double the batch size you want to go.
+
+You train on the cluster, you double the batch size or sort of scale it by a factor for a to name it.
+
+Well, what should the learning rate be for that? And so there is sort of heuristics that can help you.
+
+And one of them is the linear scaling rule. Um, which essentially says that.
+
+If you sort of double your, uh, your batch size, you can double your learning rate.
+
+And the reason for this is that the variance that you have within one batch and across different batches is sort of cut by a factor of two,
+
+almost if you double your batch size. And so that variance is often thought of like for at least smaller learning learning rates.
+
+That variance is what limits the size of your learning rate.
+
+And so if you sort of multiply the mini batch size by k, you can multiply the learning rate by k.
+
+Now obviously this will end at some point. Like if you're learning rate is going to approach something close to one.
+
+This is not going to work. Um, but for sort of smaller learning rates there is this sort of linear, almost linear relationship.
+
+Now, one reason why you would want fast, uh, larger batch sizes.
+
+Because larger batch sizes actually lead to faster convergence.
+
+Also because you can increase the learning rate. Um, sometimes if your network is not calibrated, uh, super.
+
+Well, it does also, uh, it can also help to sort of warm up your network where you start to increase your learning rate initially.
+
+Um, this can help, for example, set the momentum terms for atom.
+
+Um, it can also help sort of just collecting gradients and sort of making slow progress initially.
+
+Um, if your network explodes, uh, very rapidly, this is often combined with the cosine, uh,
+
+schedule where we have sort of a warm up phase, and then we'll follow the cosine schedule down again.
+
+It's possible that you will have to deal with this at some point.
+
+This is often done in much larger industrial settings, uh, to train much bigger models.
+
+All right. So to recap, um, optimizers, sort of the good optimizers such as Adam or Lyon, they will scale internally.
+
+They're, they acting like scaling learning rates individually for each parameter.
+
+Um, and you should just use Adam w by default.
+
+Uh, lion, if you have small memory and if it's an application or task for which Lyon works.
+
+Well, um, and then you pick the learning rate that's sort of as close as possible to the one that sort of explodes and no longer trains.
+
+You pick the largest learning rate you can. If you need to use a schedule,
+
+I would say see if somebody else already came up with a good schedule for the problem that you or the model that you want to train.
+
+If nobody came up with it, you have to tune probably a called a cosine learning rate schedule.
+
+Um, warm up is usually a good idea for these schedules.
+
+That's it.
+

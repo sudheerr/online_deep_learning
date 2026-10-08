@@ -1,0 +1,260 @@
+♪ ( jazz music) ♪
+
+Hey, everybody.
+
+Welcome back to machine learning.
+
+Today we're going to
+talk about how to test
+
+what the true error of a model
+classifier you've built is.
+
+That is to say, you have a bunch of data,
+
+you've run some machine
+learning procedure on it
+
+to build some classifier,
+
+and you'd like to know
+
+what's the true error of that
+classifier on future examples.
+
+We touched upon this a little
+bit on a previous lecture,
+
+but today we're going
+to go into more detail,
+
+specifically about a technique
+called cross-validation,
+
+and we'll also look at
+some tools from probability
+
+that'll help us bound the probability
+
+that the true error deviates too much
+
+from the error on a training set.
+
+Let's begin by
+
+discussing the hold-out,
+
+let me get my pen right,
+
+the hold-out approach
+
+for testing, or I should say approximating
+
+the true error of a classifier.
+
+For simplicity, let's assume
+
+we're working in the
+framework of classification.
+
+The hypothesis,
+
+h is going to output
+
+either zero, one,
+
+or plus one, minus one values.
+
+You may recall that the hold-out approach
+
+is pretty simple.
+
+You just leave
+
+some part of the training set
+
+out during train time,
+
+and then,
+
+let me erase this,
+
+first you leave some part
+of the training set out.
+
+You hide it.
+
+You don't let the learner look at it.
+
+Then the learner generates a classifier.
+
+Then, when you want to evaluate
+
+the true error of this classifier,
+
+then you test the classifier
+
+on this held-out set.
+
+Whatever fraction of mistakes
+your classifier makes
+
+on this held-out set
+
+is going to be your
+estimate for its true error
+
+on unseen examples.
+
+Let's look at some tools from probability
+
+to figure out how confident we are
+
+that the estimate from our hold-out set
+
+really is good, or really
+is close to the true error
+
+that we're trying to understand.
+
+This may be a bit of a review
+
+from your class on probability,
+
+but let's go over it anyway.
+
+The first
+
+inequality that I want to mention
+
+is Markov's inequality.
+
+We're going to let X
+
+be a random variable
+
+that takes on only positive values.
+
+Then, if X is a random variable,
+
+it's a non-negative random variable,
+
+then we have that the probability that X
+
+is more than a factor of K
+times the expected value of X
+
+is at most one over K.
+
+If X is a non-negative random variable,
+
+and you get a sample,
+
+you take a random draw of X,
+and you look at its value,
+
+the probability that
+that value that you get
+
+is actually more than K times its mean
+
+is at most one over K.
+
+This is not a difficult
+inequality to prove.
+
+It's another way to talk about averages.
+
+The next inequality that
+I want to look at is
+
+Chebyshev's inequality.
+
+Here we're going to have to make use
+
+of something that I
+hope you've seen before:
+
+the variance of a random variable,
+
+which, I'll just remind you,
+
+is the expected value of X
+
+minus the expected value of X squared.
+
+In words, it's on average
+
+how much does a draw of X
+
+deviate from its expectation,
+
+or its average, and that quantity squared.
+
+This is the variance of a random variable.
+
+It's, on average, how much
+does it deviate from its mean,
+
+take that quantity squared.
+
+That's the variance.
+
+You may recall
+
+that the square root of the
+variance of a random variable
+
+is equal to the standard deviation
+
+of X,
+
+which I'm going to write as sigma.
+
+Okay, we have a random variable X.
+
+We understand its variance,
+its standard deviation.
+
+What Chebyshev's inequality says is
+
+the probability that X,
+
+and I'm going to let the expectation of X
+
+be mu.
+
+The probability that X
+deviates from its average
+
+by more than t times
+its standard deviation
+
+is less than or equal
+to one over t squared.
+
+If we have a random variable,
+
+we understand that its mean is
+mu and its variance is sigma,
+
+then we can also say that the probability,
+
+when you sample X,
+
+that it deviates by more
+than its expectation,
+
+so it deviates from its expectation
+
+by more than t standard deviations,
+
+is less than or equal
+to one over t squared.
+
+These are what I would
+say are the two basic
+
+concentration inequalities
+for random variables.
+

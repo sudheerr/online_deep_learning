@@ -1,0 +1,553 @@
+♪ (jazz music) ♪
+
+Okay, so thus far,
+
+our idea
+
+has been to
+
+look at lines
+
+and
+
+this idea works
+
+for say linear functions.
+
+We looked at tangent lines
+
+and simple convex functions.
+
+And basically one of the main ideas
+
+behind gradient descent
+is the following: even
+
+if we want
+
+to minimize
+
+more complicated functions,
+
+assume they are
+
+locally
+
+linear.
+
+So we want to minimize
+very complicated functions.
+
+Locally, we're going to assume
+
+that these functions are linear.
+
+In some sense that's what it means
+
+for a function to be differentiable,
+
+that is in a very, very
+small neighborhood,
+
+the function should look linear.
+
+What's another way of saying this?
+
+Well, remember Taylor,
+
+do you remember Taylor
+expansions of functions?
+
+So imagine we have the
+function f at point x.
+
+We can Taylor expand
+around the point f of x.
+
+We have f of x plus epsilon.
+
+Epsilon is going to be
+some very small value.
+
+This is equal to f of x
+
+plus epsilon times f prime of x
+
+plus epsilon squared over two factorial,
+
+f double prime of x plus epsilon
+cubed over three factorial,
+
+f triple prime of x plus
+and so on and so forth.
+
+Now notice that so, f
+that we've considered f
+
+at a fixed point x,
+
+so this expression,
+
+this is an expression in terms of epsilon.
+
+And here we see that
+
+this is a linear function of epsilon.
+
+And when epsilon is very small,
+
+these terms are going to be negligible.
+
+So in some sense Taylor's theorem tells us
+
+that if we're looking at
+very small neighborhoods,
+
+if we're looking at very
+small values of epsilon,
+
+it's totally legitimate to assume
+
+that our super highly
+complicated function f
+
+actually is a linear function.
+
+Any questions about that?
+
+Okay, now fortunately,
+
+Taylor's theorem
+
+also holds
+
+in higher dimensions, in d dimensions.
+
+I'm not going to write out the expression,
+
+because it's somewhat complicated.
+
+But even in d dimensions
+it still makes sense
+
+to assume that the function looks linear
+
+in a local neighborhood.
+
+So instead of taking
+derivatives, normal derivatives,
+
+as we were doing in the univariant case,
+
+for higher dimensions
+
+we must look at gradients.
+
+So I'll just remind you of
+some of the calculus involved.
+
+The gradient
+
+of function f
+
+at point w,
+
+I'm going to write it like,
+
+let's see how do I want to write this?
+
+Okay actually I think I want to write
+
+the gradient of f at point
+x, I'm going to use x here,
+
+is written grad f of x.
+
+And this is equal to a vector.
+
+It's the partial derivative
+of f with respect to x-one x.
+
+So on and so forth.
+
+Partial derivative of f
+with respect to xd point x.
+
+Okay, so it's a d-dimensional vector.
+
+Any questions about the gradient?
+
+Let's do some examples and
+actually compute some gradients,
+
+just so we're all on the same page.
+
+Of course, the simplest
+function that we could look at
+
+is a linear function.
+
+Let's try and compute
+the partial derivative f
+
+with respect to xi, what do we get there?
+
+Yes.
+
+>> Is that the i
+component of the vector w?
+
+>> Yes, it's wi.
+
+And so that means that the gradient of f
+
+is equal to the vector w.
+
+Notice that the partial derivative of f
+
+with respect to xi doesn't
+depend at all on xi,
+
+it's just wi.
+
+So the gradient of f is
+actually going to be equal
+
+to the vector w.
+
+Okay, let's look at a slightly
+more complicated example.
+
+I know that was a simple one.
+
+Let's assume that f of x
+is equal to x transpose Ax
+
+minus b transpose x.
+
+Another way to write this is that f of x
+
+is equal to the sum
+from i equals one to n,
+
+sum j equals one to n,
+
+aij xi xj minus the sum
+
+from i equals one to n.
+
+So I'm assuming that everything
+is n dimensional here,
+
+bi xi.
+
+And we'd like to compete
+the gradient of f of x.
+
+So this is a little bit more
+of a complicated expression.
+
+Oftentimes what it's useful to do
+
+when you need to compute
+the gradient of something
+
+is to compute it coordinate by coordinate,
+
+and then sort of look afterwards
+and see what you have.
+
+So if that's our strategy to
+compute things coordinate-wise,
+
+a natural question is what is
+the partial derivative of f
+
+with respect to the variable xk?
+
+Why don't you guys take a minute
+
+and see if you can actually come up
+
+with this partial derivative?
+
+Does anyone want to take a stab at it?
+
+Do you want another minute?
+
+Go ahead, Ryan.
+
+>> I think I have an
+idea of what it could be?
+
+>> Okay.
+
+>> I think it's something
+along the lines of
+
+sum from i equals one to n of aij xj,
+
+all that minus bi.
+
+>> You're on the right track, almost, yes.
+
+>> The first term is the product of x
+
+with k line of a.
+
+The second term is the product of x
+
+with k column of a.
+
+And the last term is the minus dk.
+
+>> Okay, is that what you got?
+
+>> Yep.
+
+>> I'm sorry, I'm saying
+to the person behind you,
+
+is that what you also got?
+
+>> Yeah.
+
+>> Okay, so yes, that's
+the correct answer.
+
+Let me write it down
+
+and then I'll go through the derivation.
+
+So what I have is sum from
+j equals one to n akj xj
+
+plus sum from i equals one to n of aik xi
+
+minus bk.
+
+Let's go through this term
+by term to see how we got it.
+
+The bk I think is fairly simple to see.
+
+We had this sum here and we're taking
+
+the partial derivative with respect to xk,
+
+it's just a linear function,
+so only bk is going to remain.
+
+The rest of the terms will be zero.
+
+So, how did I get these first two terms?
+
+Well, let's look at this.
+
+Double sums are always
+a little bit cumbersome,
+
+but let's look at this
+double sum that we have here.
+
+Let's call this double sum star.
+
+So case one
+
+is that i equals k.
+
+So in the outer summation,
+let's consider the case
+
+where we have i equaling k.
+
+In that case, all these
+aijs are going to be akj.
+
+And we're going to have an xk and an xj,
+
+because i is equal to k.
+
+So we'll have an x, this will be xk,
+
+and so we're taking the
+derivative with respect to xk,
+
+so we'll be left with akj,
+
+and then xj.
+
+The only slightly,
+
+only slight twist here is
+
+when i equals k and j equals k,
+
+then in star, in this
+expression that we have,
+
+we're going to have akk xk squared.
+
+And so when we take the partial derivative
+
+with respect to xk,
+
+we're going to have a two times akk xk.
+
+Okay, so we're going to have these terms
+
+at akj xj,
+
+but when i equals k and j equals k,
+
+we're actually going to have two of them.
+
+So hold on a second, and we'll see,
+
+so we actually have two
+akk xk terms sitting here.
+
+We only see one in this summation,
+
+that's because I've moved the
+other one to this summation.
+
+Okay, so let's look at the case two,
+
+when i does not equal k.
+
+So when i up here in this double
+summation does not equal k,
+
+the only terms that will be
+left are when j equals k.
+
+So we'll have the sum
+from i equals one to n
+
+of aik, 'cause we're only interested
+
+in the case when j is k.
+
+Remember i is some value not equal to k,
+
+so what we'll only be left
+with terms where j equals k.
+
+And then we'll be left with that xi.
+
+But we won't have a,
+
+we won't have
+
+akk xk term,
+
+because i does not equal k.
+
+So we'll get all of these aik xi terms,
+
+but we won't have akk xk.
+
+That's okay, we had two of
+them from this case one.
+
+So we put one of those terms in this sum
+
+and one of those akk xk terms in this sum.
+
+And that's why you get
+this nice expression,
+
+sum of all these terms,
+
+plus sum of all these terms minus bk.
+
+Is there some step that
+I should go over again?
+
+Okay, so if you look at this
+first expression, it's saying,
+
+you're taking the
+
+inner product of the kth row of a,
+
+so this term is kth row of a,
+
+inner product
+
+with x.
+
+And this is the kth column of a,
+
+inner product with x.
+
+So another way to write
+this would be the answer
+
+turns out to be, well
+this is the kth row of a,
+
+inner product with x, so
+we're going to multiply
+
+all the rows of a with x,
+so we'll get a times x.
+
+These are columns of a
+
+inner product of x,
+
+so this is plus a transpose x.
+
+And then we're going to have minus b here.
+
+So this is the answer for the gradient.
+
+Whoops.
+
+So this is our gradient at the point x.
+
+And if a is symmetric,
+
+so if a is a symmetric matrix,
+
+we'll just get two ax minus b.
+
+And you can kind of see some,
+
+so this is considered a matrix derivative,
+
+because we had this matrix a here
+
+and we have these vectors x.
+
+And you can kind of see this
+first term is sort of like
+
+a quadratic, or it is a quadratic in x,
+
+so there's an x squared here.
+
+So when we take the derivative
+
+we end up with two times a times x,
+
+and then minus b transpose
+x, we get a minus b.
+
+So there's a,
+
+there are many ways of
+doing matrix derivatives,
+
+we won't be covering too
+many of them in class,
+
+but this is one simple form.
+
+It's useful to grind it out in detail once
+
+just so we get some practice
+at taking partial derivatives.
+

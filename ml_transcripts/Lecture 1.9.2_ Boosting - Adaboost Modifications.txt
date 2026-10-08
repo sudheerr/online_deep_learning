@@ -1,0 +1,820 @@
+♪ (jazz music) ♪
+
+Now, why did I say this
+was a simplified version
+
+of AdaBoost?
+
+Well, that's because we
+assumed that at each iteration,
+
+the accuracy of your classifier
+was exactly 1/2 plus gamma.
+
+It turns out that you can
+make small modifications
+
+to this algorithm so that
+if in some iterations
+
+you actually get a very,
+very accurate hypothesis,
+
+this algorithm will
+take advantage of that,
+
+it adapts to it, that's
+why it's called AdaBoost,
+
+and it will converge to a small error
+
+and a quicker number of iterations.
+
+So if it happens to be the case,
+
+then on some of your iterations
+
+you're actually getting a
+very, very good classifier,
+
+this algorithm, well, AdaBoost algorithm
+
+will take advantage of that.
+
+So more precisely, in AdaBoost,
+
+we will set the beta parameter,
+
+the multiplicative factor, beta,
+
+to be equal to the error
+on the Tth iteration
+
+divided by the accuracy
+on the Tth iteration.
+
+So you can see this beta
+parameter could change
+
+throughout the course of
+the boosting algorithm,
+
+depending on what the
+accuracy and error are.
+
+And then the output, instead
+of being a straight majority
+
+of your classifiers, turns
+out to be the sign of the sum
+
+T alpha T HT
+
+minus 1/2,
+
+where alpha T is equal
+to log one over beta T
+
+divided by the sum over T,
+
+log one over beta T.
+
+This assumes that each HT is
+outputting a value plus one,
+
+minus one.
+
+So this is a slightly
+technical expression,
+
+but I just wanted to present it
+
+because it shows that with
+some very minor modifications
+
+to the algorithm we just talked about,
+
+you can get an algorithm
+that will take advantage
+
+of classifiers that have high accuracy
+
+during your boosting procedure.
+
+Okay, so one question
+that we should be asking
+
+is how do we guarantee
+
+that H final
+
+generalizes?
+
+So we had this training set,
+
+and we ran this boosting procedure over it
+
+and we got many classifiers
+and we took their majority.
+
+How do we know, or how can we
+guarantee that this classifier
+
+that's the majority of
+all these classifiers
+
+is actually going to have small error
+
+on future training points?
+
+Yes.
+
+>> Could we just use
+some sort of cross-validation?
+
+>> We could try using cross-validation,
+
+but as you know, it's sort
+of hard to prove anything
+
+about cross-validation.
+
+Yes.
+
+>> Can we just
+use a larger training set
+
+for your algorithm?
+
+>> Right, we need to make sure
+
+that M, the number of training points,
+
+is sufficiently large.
+
+So for example, if we ran
+our boosting algorithm
+
+on a training set of size 100
+
+and we ended up generating a classifier
+
+that took the majority of 100 classifiers,
+
+we should be pretty concerned.
+
+It means that the size
+of our final classifier
+
+is much larger than the
+size of our training set.
+
+So there's a reasonable chance
+that we're over-fitting.
+
+On the other hand, nothing
+in this boosting procedure
+
+really depended on M, the
+size of the training set.
+
+So as long as your accuracy, gamma,
+
+is independent of the
+size of the training set,
+
+then we have the freedom
+to choose M large enough
+
+to make sure that after
+T iterations of boosting,
+
+the number of classifiers times
+the size of the classifier
+
+is still going to be less than M,
+
+the number of training points.
+
+So I guess we should say
+
+if gamma,
+
+the accuracy,
+
+is independent
+
+from M, size of the training set,
+
+and in most cases that I can think of,
+
+this is the scenario, the
+accuracy of your classifier,
+
+if it's a weak classifier,
+if it's only 51% accuracy,
+
+well that 1% is still
+independent of the size
+
+of the training set,
+
+then we can choose M to
+be sufficiently large.
+
+Okay, and it's not too
+difficult to work out
+
+what the choice of M should be
+
+to guarantee that it's sufficiently large
+
+to ensure generalization.
+
+Okay, so this AdaBoost
+
+is actually a special case
+
+of an algorithm,
+
+also due to Freund and Schapire,
+
+in fact, it's in the same paper,
+
+called Hedge.
+
+So what they actually do in the paper
+
+is present this algorithm called Hedge,
+
+and then they show how you can derive
+
+a lot of applications from Hedge,
+
+one of them being AdaBoost.
+
+So I thought that it would be nice
+
+if I actually showed you
+what the Hedge algorithm is.
+
+It's from their paper
+that introduces AdaBoost,
+
+and if not prove, at least tell you
+
+sort of the main guarantee
+of the Hedge algorithm.
+
+So to understand this algorithm, Hedge,
+
+we have to move back to
+the sort of best experts
+
+setup.
+
+So let's assume that we have
+experts C one through CM.
+
+Okay, you can imagine that each expert
+
+is trying to determine what the price
+
+of the stock market is
+going to be tomorrow.
+
+And at each
+
+iteration,
+
+the expert
+
+CI suffers
+
+a loss, which I'll call LI,
+because it's the Ith expert,
+
+and let's say that we're at iteration T,
+
+so we'll call this loss LIT.
+
+And this is just going to be
+a number between zero and one.
+
+So again, you could
+imagine that each expert
+
+is trying to pick the price
+of the stock market tomorrow,
+
+and depending on how it does,
+
+we could say its loss is let's
+say zero if it's perfect,
+
+if it's a dead-on prediction
+of what the price is,
+
+and it could suffer a loss as large as
+
+we'll call one, maybe
+it predicts something
+
+that's in the completely wrong direction.
+
+So we're sort of normalizing the losses
+
+to be between zero and one.
+
+But each expert is going
+to suffer some loss
+
+at the Tth iteration between zero and one.
+
+So very abstract setup.
+
+So LT is just going to be a vector
+
+of losses
+
+suffered by all experts
+
+at the Tth iteration.
+
+Okay.
+
+Now the high level idea, or the goal here,
+
+is that we want to play, we want to have
+
+a mixed strategy
+
+of experts.
+
+So at each round, instead
+of having to pick an expert
+
+and saying okay, I'm going
+to go with this expert,
+
+you're allowed to have a
+mixed strategy of experts,
+
+or a weighted average of the experts.
+
+And then accordingly, you
+suffer a weighted average
+
+of their losses.
+
+So we're going to have a
+mixed strategy of experts,
+
+let's say a weighted
+
+average of experts.
+
+So we're going to get to
+have a weighted average
+
+of the experts, and then the goal
+
+is that the sum of our losses
+
+after capital T iterations
+
+should be close
+
+to the best expert
+
+in hindsight.
+
+Okay, so after capital T
+rounds, all of the experts
+
+are going to suffer some losses.
+
+We're going to suffer a weighted average
+
+of all their losses, and our goal
+
+is that the sum of our
+weighted averages of losses,
+
+so our total loss, should
+be close to the loss
+
+of the best expert in hindsight.
+
+So if there was one expert who
+after all of these iterations
+
+was doing super well, then
+we should do pretty well.
+
+If all of them were doing poorly,
+
+then all bets are off, we're
+not going to do that well.
+
+Okay?
+
+So,
+
+at each iteration,
+
+we maintain a set of weights,
+
+say W one through WM.
+
+And then our,
+
+so we have one weight for each expert,
+
+and then our weighted average,
+
+well this is going to be WI divided by
+
+the sum of the weights, let's just say.
+
+So all the weights are positive.
+
+So we'll call this PI.
+
+Okay.
+
+So okay, so again, we have
+weights W one through WM
+
+and that corresponds to a
+probability distribution.
+
+So this is our weighted time T,
+
+this corresponds to a
+probability distribution PT,
+
+and PTI is equal to the
+weight divided by the sum
+
+of all the weights.
+
+And so the loss we suffer
+
+at the Tth iteration
+
+is what?
+
+Let's see if you guys are following along.
+
+What's the loss going to be?
+
+So if our weighted
+average of experts is PT
+
+at the Tth iteration, what
+is the loss going to be
+
+that we suffer at the Tth iteration?
+
+So let's just go back.
+
+Each expert, C one through
+CM, suffers a loss LIT.
+
+So that means LT is a vector of losses.
+
+So LT is the losses that are suffered
+
+by all the experts at the Tth iteration.
+
+And now we're not choosing an expert,
+
+we're choosing some weighted
+average of the experts.
+
+That weighted average is encoded by PT.
+
+So if the loss that the expert suffers
+
+encoded with the vector
+LT, what's the actual loss
+
+that we suffer at the Tth iteration?
+
+Yes.
+
+>> The weighted
+average of the experts' losses.
+
+>> The weighted average
+of those experts' losses,
+
+which is in mathematical notation?
+
+Good, yes, it's PT dot product LT.
+
+This is exactly the weighted average
+
+of loss,
+
+oops,
+
+of experts.
+
+So this is the loss that we
+suffer at the Tth iteration.
+
+Let's say that there are
+capital T iterations,
+
+so the total loss that we suffer,
+
+whoops,
+
+so total loss
+
+we suffer
+
+after capital T iterations
+
+is equal to the sum from T equals one to T
+
+of PT interpunct LT.
+
+Okay, this is the, everybody
+agree this is the total loss
+
+that we're going to suffer?
+
+It's the weighted average
+of all their losses
+
+summed after capital T iterations.
+
+Okay, and what Hedge tells you to do,
+
+it says that the new weight
+after the Tth iteration
+
+should be equal to the old weight
+
+times beta, so you multiply each entry,
+
+by beta to the LIT.
+
+So maybe another way of,
+so I guess I should say,
+
+let's write this.
+
+Let's write it this way.
+
+So the new Ith weight for expert I
+
+should be equal to the
+old weight for expert I
+
+times beta to the LIT.
+
+So you actually take your new,
+
+to get your new weight,
+you look at your old weight
+
+times this multiplicative factor beta
+
+raised to the power L sub I T.
+
+So if the loss suffered
+but the Ith expert is zero,
+
+then what happens to the weights?
+
+>> They stay the same.
+
+>> They stay the same, right.
+
+And if the loss suffered
+by the Ith expert is one,
+
+then you're going to multiply
+by the full factor beta.
+
+So it's similar to what we were doing
+
+in the boosting procedure.
+
+So this is the Hedge algorithm.
+
+It just tells you hey,
+this is how you should
+
+update the weights, and
+you have to be careful
+
+with how you choose beta.
+
+And the main claim
+
+is that the sum from T,
+
+so this,
+
+well I'll just rewrite it.
+
+Okay, maybe I'll just do it this way.
+
+So this is your loss
+
+is at most
+
+the min over all experts,
+sum T equals one to T loss,
+
+so it's your loss, the
+loss that you suffer
+
+is going to be at most the loss
+of the best expert in hindsight
+
+plus order
+
+square root of T log N.
+
+Okay, so after capital T iterations,
+
+this is the main theorem,
+after capital T iterations,
+
+your loss, so the sum of
+all of those average losses
+
+that you're incurring,
+is actually going to be
+
+at most the loss of the best expert,
+
+because we're taking a min over I,
+
+plus this term, order
+square root of T log N.
+
+Now you might say well wait a minute,
+
+your loss, sure, it's going to be the loss
+
+of the best expert, but you're adding this
+
+square root of T log N term here.
+
+So as capital T is getting large,
+
+this is getting larger, aren't you,
+
+it looks like your loss is
+getting larger and larger.
+
+But the point is if we divide,
+
+let's look at your average loss.
+
+On average, right, we should divide by T.
+
+So your loss divided by
+T is going to be the loss
+
+of the best expert divided by T
+
+plus this term divided by capital T.
+
+And notice that square
+root of T divided by T
+
+is going to be, gets smaller
+and smaller as T gets larger.
+
+Okay, so the point is that yes,
+
+the sum of your total losses
+is the best expert's total loss
+
+plus square root of T log N,
+
+but if we divide by the
+number of iterations,
+
+so on average, your average loss
+
+is getting closer and closer and closer
+
+to the average loss of
+the very best expert,
+
+because this term right
+here is actually getting,
+
+this term right here is actually
+getting smaller and smaller
+
+because T is larger than square root of T.
+
+So let me say that one more time.
+
+Your average loss, if we
+average divided by the number
+
+of trials, capital T, is
+actually the average loss
+
+of the best expert plus something
+
+that's going to zero pretty quickly.
+
+Okay, so it's a very strong way
+
+of comparing the loss on average
+
+that you're going to incur
+with the loss on average
+
+of the best expert.
+
+Are there any questions about this?
+
+So what's nice about this Hedge theorem
+
+is that it's a very, very
+general abstract framework.
+
+Just you have these M experts,
+
+I'm sorry, this N should be M.
+
+We have these M experts,
+
+they each suffer these
+sort of arbitrary losses,
+
+but I'm able to come up
+with a weighting algorithm
+
+so that my average loss is competitive
+
+with the best expert in hindsight.
+
+And by using this particular theorem,
+
+you can actually come up with,
+
+you can easily derive
+the AdaBoost algorithm.
+
+Again, you put weights on
+points in a training set,
+
+so a similar type of thing happens.
+
+Now it turns out that boosting algorithms
+
+and also in particular
+this Hedge algorithm
+
+have had many applications
+in computer science
+
+and machine learning, and this is sort of
+
+the tip of the iceberg of
+what boosting algorithms
+
+are able to do, and also sort
+of the range of applications
+
+for this Hedge algorithm.
+
+So if you look into the literature
+
+for boosting or for Hedge algorithms,
+
+this Hedge algorithm, they'll fall under
+
+the general category of
+
+multiplicative weight update algorithms.
+
+That's in contrast to some
+of the other algorithms
+
+that we've seen, which
+were additive update rules
+
+such as gradient descent or
+the Perceptron algorithm,
+
+but these multiplicative
+weight update algorithms
+
+also have a nice variety
+of powerful applications.
+

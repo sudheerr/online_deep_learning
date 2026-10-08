@@ -1,0 +1,161 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+Make. All right, so we have reached the end of class.
+
+Um, I just want to quickly recap on sort of what we've covered,
+
+and then I'll going to give you some context of sort of where this stands in the greater sort of field of deep learning.
+
+And so we've sort of gone through sort of build up our knowledge of deep learning.
+
+Uh, we'll start out with sort of background that's sort of a lot of the math notation.
+
+Um, we went sort of through the same concepts, uh, multiple times.
+
+We had sort of the first example where we build up sort of just a simple linear classifier.
+
+Then we looked at how do we make this classifier deep, sort of how do we build deep networks.
+
+What are optimizers for deep networks? We looked at residuals and normalizations that helped us make networks even deeper.
+
+Uh, and then we looked at the most two most popular architectural blocks convolutions and transformers.
+
+And then finally we looked at how do we take these networks and actually apply them to a real world problem.
+
+Now, sort of this does give you sort of the basic understanding of what deep learning is.
+
+Most of the technology that we've sort of covered covered in this class is relatively stable.
+
+Uh, this is sort of the solid foundation on which all deep learning research nowadays is built upon.
+
+And so the technologies that sort of we covered were developed roughly from 2012 to about 2022 on, uh, to about 2022.
+
+We still covered some things that were a bit more recent than this in class.
+
+Um, uh, or sort of alluded to some of the things that are more recent,
+
+but sort of solid foundations of deep learning really sort of came about in the ten years from 2020 to 20, uh, 2012 to about 2022.
+
+And around 2020 to 2022. Sort of things really start to solid solidify.
+
+Optimizers that we we use were sort of they have been around for five years back then, uh,
+
+sort of network architectures started to really sort of converge and solidify,
+
+and it came to a point where sort of the basics are very well understood.
+
+We know how to build deep networks that sort of can process text.
+
+We know how to build deep networks that can process images. Um, we know how to build deep networks that can sort of process audio.
+
+We also know how to how to build deep networks that that sort of split all of these, um, modalities out.
+
+We know how to build networks that sort of produce images.
+
+We know how to build deep networks that produce text or audio and sort of that foundation is more or less unchanged.
+
+What really is sort of. Where all or most of the research nowadays lies is sort of in application areas.
+
+It's taking this basic understanding and applying it to sort of specific problems in computer vision, in robotics, in RL, instead of it a genetic, uh,
+
+task such as sort of like trying to teach natural language models to sort of interact with
+
+applications and tools or coding Lems it's applications in natural language processing,
+
+generative models that can either be generative models of text, of images of audio, or even a set of models that sort of cross multiple modalities.
+
+That's really sort of it's deep in the applications now where a lot of the innovation happens.
+
+Um, it has been a few years since we sort of saw really big architectural changes that stuck.
+
+Uh, there's clearly people working on this. Um,
+
+and there is sort of new proposals every now and then on what new architectures
+
+change through new changes to this solid foundation here might look like.
+
+Nothing really stuck in the last few years. Uh, sort of it has been sort of lots of little blips, uh, of off things.
+
+And sort of the general sense is that we actually have the tools now to solve all the important problems that we want.
+
+We just don't quite know how to apply these tools in the right way.
+
+And that makes it super exciting.
+
+That makes the field of deep learning super exciting. Like, we figured out the basics,
+
+but we don't fully understand yet on how to take these basic tools and apply
+
+them in the most effective possible way to solve the biggest possible problems,
+
+and the biggest problems will probably revolve.
+
+The first impact is likely going to be in sort of large language models, um,
+
+that will most likely impact our lives pretty significantly in the next few years.
+
+We might also be in sort of vision and language models, uh, might be sort of vision,
+
+language and robotics models that sort of will start to really catch on.
+
+And it's in these applications that sort of a lot of the, the hot new science happens, at least in the core of deep learning.
+
+This is an extremely fast moving field, uh, and it's super competitive.
+
+So if you want to sort of be part of it, uh, there's two ways to do it.
+
+One is sort of passive where you sort of just can't catch up with the literature.
+
+If you actually want to contribute to this, this is going to require quite a bit of resources.
+
+It will require a lot of stamina, um, to sort of keep up with where the state of the art is.
+
+But there is also a really exciting area emerging of sort of downstream fields, uh,
+
+fields that sort of use the technologies that were developed in this sort of core of deep learning, and it's more sort of application driven.
+
+So they take the technologies that were sort of developed around the core applications of deep learning being computer vision models,
+
+being large language models, and then apply this to sort of downstream applications to make a real world impact.
+
+Uh, for deep learning, there is things ranging from medicine to biotech, uh,
+
+to even agricultural applications that now all use deep learning somewhere inside.
+
+Um, here in Texas, we even have people apply, um, deep learning to geology, um,
+
+with the obvious goal of finding oil, um, sort of where they look at underground scans of,
+
+uh, tulips, which are logical, uh, sort of, uh, rock formations to see where the most likely part is to find more, uh, mineral resources.
+
+Um, and there is an endless possibility of applications.
+
+Now, this is it's getting more crowded as well as more people catch up.
+
+But this is clearly an area where impact is.
+
+There's huge impact to be had, and it's not as cutthroat and competitive as sort of the core, uh, of, of machine learning.
+
+And the really exciting thing is much of this technology, much of the way we use these basic solid foundations, this is still evolving.
+
+This is still things we haven't quite figured out.
+
+Uh, like data sets are evolving with it, uh, with it are sort of sort of different sort of kinds of models,
+
+different ways of training these models and that it's a really exciting time to sort of
+
+know the foundations and then go dig deeper into one or more of these application areas.
+
+And I really hope by now, sort of you have everything you need to sort of design, implement and train your own deep network on any data you wish.
+
+And that is the tool that is sort of the basic analyst you'll need to really go into either the core of deep learning,
+
+uh, or any of the broader applications. And I'll end the same way I started the class.
+
+I just want you to have fun. Like, this is an exciting time to be in deep learning.
+
+And deep learning is one of the most exciting fields to be in.
+
+Uh, so yeah, whatever you do with the with the skills you learned in this class, I just wanted to have the have fun doing it.
+
+All right, that's it.
+

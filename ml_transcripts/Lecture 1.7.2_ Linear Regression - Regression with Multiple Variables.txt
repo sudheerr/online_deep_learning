@@ -1,0 +1,717 @@
+♪ (jazz music) ♪
+
+So this was the case for
+simple linear regression and
+
+it already has some nice
+connections to these
+
+fundamental properties
+of random variables.
+
+Let's look at regression...
+
+with multiple variables.
+
+So unfortunately, there's no
+really nice analogy that
+
+we can make here.
+
+I mean later on in class
+we'll say something but
+
+there's not a really nice analogy
+we can make with this formula
+
+and the general setting where,
+here again we had assumed
+
+x was a scalar, now we're
+going to assume x is a vector.
+
+So x now is going to be
+an n dimensional vector.
+
+Y is still going to be a scalar.
+
+So we're going to be fitting a
+line to n dimensional data.
+
+(paper rustling)
+
+Okay so, x-- oh I guess there is
+one thing we should say here,
+
+very briefly.
+
+So we set the derivative
+equal to zero.
+
+And we solved for beta 0
+and beta 1.
+
+And we said that's going to
+be the minimum for
+
+this quantity, this loss.
+
+So that's going to be the line
+that minimizes that loss.
+
+Now granted from Calculus
+we know that when you
+
+take the derivative and
+and it equal to zero,
+
+you're going to get a
+critical point.
+
+How do we know that this
+is actually a minimum?
+
+Yes?
+
+>> Is there a maximum at all?
+
+Wouldn't it just be the line
+would be infinitely far away
+
+from all the points?
+
+>> Okay. That is true.
+
+Another thing that we can--
+the line-- as you make
+
+beta 0 and beta 1 the line
+can get larger and larger
+
+and obviously you're going to
+start making more mistakes.
+
+If we wanted to be really
+rigorous, another thing
+
+we can do is take the
+second derivative,
+
+we'll get something called
+the Hessian,
+
+and we can look at all of
+its eigenvalues.
+
+They're all going to be--
+it's going to be a positive
+
+semi-definite matrix.
+
+And since this function is
+convex it tells us that it's
+
+going to be a global minimum.
+
+So we'll get back to that
+later in the course,
+
+but I guess for right now,
+at a higher level, one thing
+
+you can do is take the second
+derivative and apply
+
+the second derivative test.
+
+And you'd see that it's
+actually a global minimum.
+
+So I just wanted to say that.
+
+In case someone
+complains about it.
+
+Okay, so here we are
+back at regression with
+
+multiple variables,
+x and dimensional vector,
+
+y as a scalar.
+
+So x-- now I'm going to
+consider a matrix.
+
+X.
+
+And x...
+
+is going to be on
+M by M matrix.
+
+So it will have M rows.
+
+Each row is...
+
+equal to Xi drawn from D.
+
+Okay, so each row is going
+to be one of our
+
+n dimensional
+training points.
+
+And it's going to have
+m columns because
+
+each point is in R-n.
+
+It's got n features or
+n coordinates.
+
+Okay, so it's an n by
+n matrix that encodes
+
+the xs from our training data.
+
+Now we're going to have
+a vector, we're also going to
+
+have a vector y.
+
+R-m
+
+And this is going to
+correspond to the labels
+
+for these m points.
+
+And our goal is going to
+be to find a vector
+
+w in R-n that minimizes
+quantity x * w - y
+
+two norms squared.
+
+Okay, so x times y
+is a vector.
+
+We're subtracting off the
+vector of labels y.
+
+We're going to get a vector
+and we want it's square
+
+norm to be small because
+we're trying to minimize
+
+the square laws.
+
+So just as a sanity check,
+is it clear that this is
+
+the right matrix formulation
+of the problem that
+
+we were looking at?
+
+You know, if I look at
+x times y,
+
+that means take the first
+row of x multiply--
+
+take it's inner product with
+w and then that's
+
+going to give us a value.
+
+And we'll subtract the first
+coordinate of y.
+
+And so those are going to
+be sort of the residuals,
+
+and we're going to square
+them up, take their sum.
+
+And that's going to be the
+square law that we get
+
+by choosing w.
+
+Okay, so just to make
+this totally clear,
+
+x1 for example is going to
+be equal to x1-1.
+
+So it n has n coordinates.
+
+And we're going to have
+some labeled y1.
+
+And so we've picked
+some w here,
+
+so the loss that we get by
+picking w is going to be
+
+y minus x1-1-w1
+plus that...
+
+x-n-1-w-n
+quantity squared.
+
+So I'm just trying to make
+the analogy from
+
+the simple linear regression
+case, where we were
+
+looking for beta 0
+and beta 1.
+
+Here we are looking for,
+we have n variables,
+
+we're looking for w1
+through w-n.
+
+Yes?
+
+>> Don't we have
+a threshold?
+
+>> The constant term?
+
+We're not going to worry
+about that for right now.
+
+That's easily handled.
+
+Okay, so everybody
+okay with this formulation?
+
+Okay good.
+
+So now we have a
+nice compact problem.
+
+We have--
+
+so we want to minimize--
+oops let me write this
+
+a little better.
+
+We want to minimize over w.
+
+X-w minus y squared.
+
+And...
+
+okay, so how should
+we do it?
+
+How should we find w?
+
+Yes?
+
+>> I guess the same
+method as before.
+
+We set the derivative to h,
+scalar of w to zero.
+
+>> Okay so, what you're
+suggesting is an end
+
+dimensional approach to the
+simple linear regression case
+
+where instead of taking two
+derivatives we're now
+
+going to take
+many derivatives.
+
+That approach will work,
+works just fine.
+
+The compact way of writing
+that is to use something
+
+called matrix derivatives.
+
+It's a totally fine way of
+solving this problem,
+
+but it's just a little
+cumbersome to write down.
+
+And what I want to do is
+show you how to find w
+
+by appealing to a simple
+geometric property.
+
+I just want to draw a picture
+and have it be totally obvious
+
+how to figure out what
+w should be.
+
+So I'd rather just draw
+a picture, but we could
+
+take matrix derivatives
+and many people do
+
+explain it that way.
+
+Okay.
+
+So here's my picture.
+
+So remember that X-w--
+or here's a question for you,
+
+X-w is a vector
+
+in the span of the columns
+of x or the rows of x?
+
+Which is it?
+
+(silence)
+
+(chuckles)
+
+It's the columns of x.
+
+>> I was so worried of
+getting it wrong.
+
+Probably (inaudible)
+don't know what it is,
+
+but we're (inaudible)
+the answer.
+
+>> Well someone online got it.
+
+It's yes, it's the columns of x.
+
+Good.
+
+Okay, so let's draw
+a little picture here.
+
+Here's the span of x.
+
+And let's say that here's
+our-- well let me do that.
+
+Here's our point y, okay.
+
+Remember y is an R-m.
+
+And y isn't necessarily
+in the span of x.
+
+Why should it be?
+
+If it's in the span of x
+it means we can
+
+perfectly interpolate those
+points we were given by a line.
+
+But why should that be the case?
+
+There's no reason for that.
+
+Y can be some point that's
+totally outside the span of x.
+
+And all of these points in here,
+are in the span of
+
+the columns of x.
+
+So these are all different
+points that I could get to as
+
+I choose or vary over
+different ws.
+
+Which points should I pick
+in the span of x
+
+to best approximate y?
+
+Geometrically speaking.
+
+Yes?
+
+>> It's the projection of y.
+>> Right.
+
+We should take the orthogonal
+projection of y down to
+
+the span of x, and
+whatever that point is,
+
+this is the optimal point.
+
+So let's call this X-w.
+
+So this is definitely the w
+that we should choose.
+
+If I choose any other w
+than my distance to y
+
+is going to be larger.
+
+Okay, so if you believe that,
+then let's look at
+
+the vector y,
+so this vector up here,
+
+minus this vector X-w.
+
+Okay, that's this vector.
+
+This is y minus X-w.
+
+And notice that it's
+orthogonal to x.
+
+That's just a summary
+of what we said.
+
+So the vector y minus
+X-w is orthogonal to x.
+
+Do we all agree with that?
+
+Okay, what's another way
+of writing that the vector
+
+y minus X-w, which was
+this vector right here,
+
+how do we write that y minus
+X-w is orthogonal to x?
+
+Well another way of writing
+that is just that x transpose
+
+times y minus X-w
+is equal to zero.
+
+Think about it, if the
+vector y minus
+
+X-w is orthogonal to x,
+it's definitely orthogonal
+
+to all the columns of x.
+
+And x transpose means,
+take the inner product of
+
+each column of x with
+y minus X-w.
+
+So all those columns of
+x should be orthogonal to
+
+y minus X-w.
+
+What does it mean to
+be orthogonal?
+
+It means that their
+inner product is zero.
+
+Any problems with that?
+
+Makes sense right?
+Simple.
+
+Okay, now I claim we're done.
+
+Why?
+
+Well, I'm just going to
+do some arithmetic.
+
+So, from this equation I get
+that x transpose y
+
+minus x transpose
+X-w equals zero.
+
+This implies x transpose
+y equals x transpose X-w.
+
+And now how do I solve for w?
+
+Yes?
+
+>> Multiply by the inverse of
+x transpose?
+
+>> That's it, we left multiply by
+x transpose x inverse.
+
+So I'll get x transpose x
+inverse x transpose y equals w.
+
+We solve for w, that's it.
+
+Question?
+
+>> How do you know that x
+transpose has an inverse?
+
+>> Good question.
+
+How do I know that x
+transpose x is invertible?
+
+Before I get to that,
+let me just say that
+
+these are called the
+normal equations.
+
+Okay, and there are--
+well there a couple of issues
+
+with the normal equations.
+
+So first issue, what if x
+transpose x is not invertible?
+
+This is-- actually it turns out
+it's going to be okay.
+
+We'll end up using something
+called a pseudo-inverse,
+
+instead of a true inverse.
+
+And we'll talk about it more
+later in the class.
+
+What it means is that there
+are going to be multiple
+
+choices of w that will all give
+you this minimum square loss.
+
+And we'll talk about what a
+pseudo-inverse is and
+
+how to compute it later in class.
+
+Okay the other issue I sort of
+want to bring attention to is
+
+here let's give an
+estimate as to what...
+
+is the running time for
+computing w.
+
+I mean I see some matrix
+inverses going on here.
+
+Any ideas for what the running
+time is for this algorithm.
+
+For solving w?
+
+So once again,
+how do we get w?
+
+We take x,
+we multiply it by y,
+
+and then we multiply it by
+x transpose x inverse.
+
+That's going to give our w.
+
+In terms of n and m,
+any rough ideas as to what
+
+the running time is
+going to be?
+
+(silence)
+
+So...
+
+I mean from what I--
+
+I mean a very crude estimate
+for the running time is
+
+going to be something like
+order and cubed plus
+
+n times m squared.
+
+Okay?
+
+And this is sort of slow--
+I mean...
+
+the size of our-- we really
+like a linear time algorithm
+
+and x is m by n.
+
+So maybe we can hope for
+something that runs in time order,
+
+m times n.
+
+Instead here we have m cubed
+plus n times n squared.
+
+Okay so, it's a little bit
+annoying and
+
+what we'll soon see are
+faster algorithms for solving
+
+the linear regression problem,
+especially ones that are
+
+based on gradient descent.
+
+But that's looking ahead.
+
+I first wanted to show you
+just how we would
+
+actually solve for w.
+
+I think this particular proof
+is nice because we don't
+
+need to actually take
+any derivatives.
+
+So it's sort of magical in a way.
+

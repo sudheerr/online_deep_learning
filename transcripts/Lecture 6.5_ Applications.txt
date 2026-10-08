@@ -1,0 +1,291 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So thus far we've covered the transformer architecture.
+
+Um, we have looked at one simple example on how to use a transformer to do sentiment analysis.
+
+And in this example, what we did is we took our sentence that we wanted to do sentiment analysis on, uh,
+
+and then we added one additional token to this, uh, sentence, which we called the classification token.
+
+Then we fed this entire sequence through a transformer.
+
+And then in the end, we looked at the output at the single token, the single classification token,
+
+and use that output to classify if the sentiment is positive or negative.
+
+Right. And so what this special output token really did is it had attention to all other tokens in the entire sentence.
+
+And so at every single layer it could sort of attend to everything else.
+
+Do a little bit of computation by itself, uh, to figure out the sentiment is positive or negative in anywhere.
+
+In the very end, it build up a representation over an entire sentence or entire paragraph.
+
+And that representation is what we were able to read out in the classification token.
+
+But sentiment analysis is not the only thing we can do.
+
+It, um, would transform us. Um, another popular, uh, task that people do with Transformers is translation.
+
+Given a sentence in one language. We ask a transformer to produce a sentence in a different language.
+
+And for example, we could say, uh, we could translate.
+
+I love deep learning into what I send to QQ, um, which is the Chinese equivalent of it, or somebody pronounce it better.
+
+Uh, would be the Chinese equivalent of it. Right?
+
+Now, this is a very interesting problem, uh, because all of the sudden, our inputs and outputs no longer have the same length.
+
+They don't longer have to sort of the same structure, uh, like sort of chromatically.
+
+A sentence in Chinese looks very different from a sentence in English.
+
+And so there is no longer this 1 to 1 correspondence between sort of inputs and outputs of the transformer.
+
+And technically there's really two main issues.
+
+Issue number one is that the length of the input is not exactly the same as the length of the output,
+
+and so we cannot just use a fixed number of tokens, feed them in a transformer and an output.
+
+And then use sort of a fixed number of output tokens. We could do this if we padded the outputs a little bit.
+
+It's sort of an ugly solution. If we knew what the maximum length of a translated sentence is.
+
+Um, but it's not it's not a pretty solution.
+
+Now, the other issue, which is even even, uh, sort of more complex,
+
+is that it is actually quite hard to output a coherent English sentence all at once.
+
+So to output ten tokens and they should make up a coherent sentence that's quite hard.
+
+And that's also not how we humans do it. We write one word at a time where we say one word at a time.
+
+We're not forced to dump out an entire sentence all at once,
+
+because that would actually require quite a lot of, uh, like it would be quite a big cognitive load.
+
+And so doing it one at a time is much easier.
+
+And so if you want to phrase machine translation, uh, as a sort of a transformer as a problem that we can model with a transformer,
+
+the best way to do this is to use autoregressive prediction.
+
+And what autoregressive predicts does is it sort of predicts one token at a time.
+
+And so we're given a bunch of inputs.
+
+Here. And now we're going to predict the probability over the first word that we want to produce.
+
+This might be I. Now we're going to give the transformer.
+
+All the inputs, plus it's first output.
+
+So the transformer just got to produce its first output.
+
+It's a specific word will encode it and give it to the transformer again and ask it well after I.
+
+What word would you choose. Then maybe it's I love the word after deep learning.
+
+Right. Now, when do we know when to finish?
+
+Um, there is an additional token that we can produce.
+
+Uh, it's called an end of sentence token or iOS.
+
+That will tell us. Hey, we're done.
+
+Okay, so if you want to phrase translation or any sort of text generation in general as a problem that we model with a transformer,
+
+what we would do is we would start sort of building up this autoregressive probability of sort of one word after the other.
+
+But a really nice thing about, uh, modeling this in a transformer is that we can actually model all of these.
+
+Sort of predicting the first two, uh, uh, the, uh, sort of the nth word.
+
+We can predict all of these all at once. So one transformer can output all probabilities.
+
+For all next words conditioned on whatever came before.
+
+Now the vanilla transformer can do it, but it it cannot be trained.
+
+Um, and the reason for this is that if we model the problem as sort of this masked next word prediction,
+
+we can actually we have to force the transformer to only look at words that came before.
+
+And the vanilla transformer has attention over all inputs, and so it could easily cheat.
+
+It could easily sort of look at hey, what was the word up produced next?
+
+What is the word that actually was the input at this location. And just repeat repeat that.
+
+And so to prevent the transformer from cheating, uh, we need a very specific attention mechanism,
+
+which is known as masked attention, which only attends to words in the past.
+
+And so this is an attention mechanism that for let's say this output here would only attend to elements that came before it.
+
+Now, mathematically, the way this works is we add sort of a mask matrix, uh, to the attention operator.
+
+And what that mask matrix does is it simply just sets certain elements in the softmax to zero.
+
+And then attention will only go backwards in time.
+
+And so in many ways, this mask attention is actually what makes a lot of modern Transformers work the way they work.
+
+Eh, it makes training, uh, very, very efficient because we can now train all predictions all at once.
+
+And B it also makes inference a lot more efficient.
+
+So there is a lot of interesting sort of six ML tricks that people developed over the years on how to make and mask attention extremely efficient.
+
+So if you ever run a language model or transformer on your laptop, on your phone, um,
+
+this only works because internally they use masked attention and there is caching
+
+that mask attention allows you to do when you want to predict one word at a time.
+
+And so at, uh, test time, what we do is we really sort of produce one word at a time using this mask.
+
+Attention or masked transformer until we hit the end of sentence.
+
+Now, the issue with this is vanilla. Uh, if we do this sort of in a vanilla setup,
+
+it's very slow because we have to call our network over and over and over again for every single word that we're producing.
+
+This would also be extremely slow during training if you would do this.
+
+So if you would ask a transformer to sort of roll out and predict one word at a time during training,
+
+uh, you could not train any of these big language models. So what people do instead is they use something called teacher forcing.
+
+And what teacher forcing does is it conditions the transformer on ground truth sentences on specific written sentences.
+
+And then it just predicts the next word. Given the ground truth inputs.
+
+Okay. So instead of at training time, letting the transformer sort of produce one word and, uh, after the other, we're giving it ground truth inputs.
+
+We're telling it, hey, in this translation, when we go from Chinese to English, we'll give it.
+
+I love as a context, even though it wouldn't produce this at the highest as the highest possible output.
+
+Maybe we'll give it a laugh and then deep learning is steepest.
+
+The transformer needs to learn. And then we'll give it. I love deep and then the word learning is what it needs to learn.
+
+Now this creates a slight mismatch between training and testing.
+
+So during training we're always conditioning everything on ground truth and just predict one word.
+
+During testing we're sampling longer and longer sequences.
+
+Um, but in practice, this is fine. So in practice, this works just fine.
+
+There's slight adjustments we need to do to the sampling strategy which are beyond this class.
+
+But this conditioning on the ground truth to get extremely efficient training out of masked autoencoders that is just,
+
+uh, that that works just, uh, just fine in practice.
+
+The one thing we need to take to make sure is that we always train with an end of sentence token Indian.
+
+And so that way, sort of it means that we're done with the input sentence.
+
+And then the transformer nodes are now I can start to produce words for the translation of the sentence.
+
+Right. And so this is, uh, the way this would, uh, would sort of look is that we'll have a start of sentence token come in first.
+
+Now, the transformer is sort of guessing what might be the first word.
+
+And it doesn't actually need to guess, right? Um.
+
+Then it is given the Real World award. It has a guess overall, but and what might be the next word as an output?
+
+We'll give it the real next word. It gets to guess the word after and so on and so forth.
+
+And then at some point. It has to.
+
+It's given an end token. And then it has to produce the first word of the translation.
+
+Right. So that's how you would do machine translation.
+
+Uh, with just one transformer network. Not this kind of transformer, where translation is a phrase that sort of one sentence goes in,
+
+a special token comes, and then the transformer should just continue generating another sentence.
+
+These are called decoder only architectures. Um, they're just one kind of transformer architecture.
+
+Uh, they're by far the most popular transformer architecture.
+
+Uh, I've sort of highlighted, uh, tree of potential, um, uh, of all possible transformers here on the side.
+
+And the transformer only, um.
+
+The decoder. Only transformers. Um, they're sort of.
+
+They come from the TPT model, uh, family. Now, there is encoder decoder models.
+
+Uh, they have been more popularized by Google. Uh, these are T5 and and relatives part.
+
+Um, and they sort of have a specific network that just does encoding the similar that we similar to the model that we used for,
+
+uh, sentiment analysis. And that is then fed into a decoder, uh, in a, in a sort of in a way in which to architectures are merged.
+
+And then there is encoder only. These are models that cannot produce actual, uh, sentences outputs.
+
+But they're very good at understanding text. And they're usually used to sort of encode text into fixed vector representations.
+
+Uh, which you then could look to, uh, you could, could use to sort of search for text or search for certain certain, uh, sort of.
+
+Uh, certain information. Right now, in practice, uh, decoder only is by far the most popular because the most flexible.
+
+You can do anything with a decoder only architecture decode. You could do with an encoder, decoder or an encoder only.
+
+It's also one of the easiest one to sort of train, because all you need to do is you need to generate long sequences,
+
+doing training, and all the steps are exactly the same.
+
+You just predict the next token. Now.
+
+Transformers by now have moved way beyond just text tokens.
+
+Um, so originally they use just, uh, either character or subword tokens, uh, to understand, translate and, and reason about text.
+
+But by now we have transformers that can use, uh, visual inputs.
+
+And here these are usually in image patches, uh, that are sort of.
+
+Embedded and then sort of fed into, uh, a transformer using some sort of image tokenization.
+
+And they can both be discrete or continuous. So for images themselves, we can feed them in as sort of continuous tokens,
+
+where the transformer just learns to interpret sort of raw floating point values.
+
+Um, there's also discrete versions where we try to come up with a codebook of what, what the visual world looks like.
+
+And you can think of this almost like compression, where we compress each patch into sort of one fixed representation,
+
+and then the transformer or uh, argues or reason about reasons about these fixed representation.
+
+They're really. Transformers are extremely versatile. Um, they can deal with almost any language like operation.
+
+Uh, does autoregressive prediction of the next word or the next token is extremely powerful.
+
+And it's sort of it's coming in a lot of different flavors and in a lot of different fields, like generative image modeling,
+
+uh, has been expressed to surface autoregressive, um, prediction, not just language modeling.
+
+Um, people model sound using these autoregressive models.
+
+So there's really just sort of one architecture is slowly starting to emerge that sort of starts to dominate a lot of different, uh, areas.
+
+Um, transformers allow for highly efficient training, uh, through teacher forcing by essentially conditioning them onto the ground.
+
+Truth. We can train a lot of predictions all at once, and they come.
+
+Transformers come in many different forms, uh, many different potential tokens, many different kinds of architectures.
+
+Encoder only encoder decoder or decoder only. That's it.
+

@@ -1,0 +1,471 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So in order to understand deep learning, it helps to understand statistics.
+
+Uh, just because machine learning was born out of statistics and it took a, it took with it a lot of the notation of statistics.
+
+It changed it slightly. Uh, there's a lot of more abuse of notation in machine learning and deep learning than there is in statistics.
+
+And it just helps understand sort of the basic concepts that sort of we use to reason about our machine learning and deep learning models.
+
+Um, and so in this slide deck I'll introduce the basic notation and I'll just review the basic concepts.
+
+Um, this is by no means a complete guide to statistics.
+
+Uh, there's multiple classes that you can take that will teach you statistics in minute detail.
+
+This would really help you just as sort of a list of pointers on where you might
+
+want to look more and then standardize the notation that we use for this class.
+
+All right. So let's start with a very simple example. Let's say we have a coin.
+
+It has heads and tails. I flick it into the air and I ask you the question, well what side will it land on.
+
+So the short answer is we don't actually know what side it will end up, right?
+
+It will it will hit the ground. And then we'll see if it's heads or tails.
+
+And a long answer is a bit more complicated because sort of well, we sort of should know, uh, we know physics.
+
+We know what a coin is. We know the process of how the coin, uh, flips in the air.
+
+Why wouldn't we try it? Why wouldn't be able to infer it, right?
+
+Well, the reason why we're not able to infer it is because we cannot perfectly observe the world.
+
+We do not see sort of the exact weight of the coin.
+
+We don't know, and we do not see where my hand would touch the surface of the coin, how much force exerted onto the coin, and so on.
+
+And so, because we do not observe this. The coin toss looks random to us.
+
+And so to say this statistics gives us the language to describe things that look random to us.
+
+And in terms of the coin toss, if the coin is unbiased, if it's fair, you will have a roughly 5050 chance of landing on heads or tails.
+
+Now, a fun little detail is it's actually not quite 5050.
+
+Um, the side that is originally on top has a slightly higher chance to end up on the on top again,
+
+and that is because of sort of the physics of the coin toss,
+
+because the coin toss, the coin doesn't quite turn around the center or on an axis that's quite aligned with the horizon.
+
+Um, if you're more interested in this, there's a very nice, um, physics paper on this.
+
+And, uh, it has been large scale statistical experiments to actually show that the coin toss is not quite random, but almost random.
+
+Um, but nonetheless, it should serve as an interesting example.
+
+All right. So let's start with the basic notation how we would describe sort of an event like a coin toss.
+
+Um in the basic notation we have a random variable.
+
+This random variable is denoted as x uh and so this is sort of something can have that.
+
+It can have an outcome that we don't quite know. In our case this random variable would just be a coin toss.
+
+And then there is a specific value. Ahere.
+
+And that is the outcome itself. In our case, it would be heads or tails.
+
+Now the random variable taking a specific value.
+
+This is called an event. Um, and then this entire thing here is called the probability of a certain event.
+
+Now this was a little bit abstract. And we'll walk through it uh, a bit by bit for the coin toss.
+
+So the specific value here. For the coin toss is.
+
+Either hits. Or tails.
+
+Then the very, uh, the random variable here. Is the toss itself.
+
+The event is the outcome of the toss or the head event, and then the entire thing is the probability of the coin landing in on heads.
+
+All right. Now.
+
+Events and sort of, um, probabilities.
+
+In terms of the coin toss, these were very specific categories that we have.
+
+We could choose from. We either had heads or tails. Now there is a way to describe probabilities of events that are not sort of categorical,
+
+that don't fall into neat little categories like heads or tails. An example here is if we would want to reason about what angle the coin lands at.
+
+Um, on the ground. Now, that cannot be described with a simple sort of probabilistic event.
+
+It instead has to be described with a probability density.
+
+And the reason for this is that if you look at sort of what would be the probability of the coin landing at exactly an angle alpha,
+
+well, that probability is not defined. Uh, the reason why it's not defined is it's because it's zero.
+
+Almost always. Um, if I would ask you, well, what is the chance that if I, if I toss the coin into here, it will land at exactly a 45 degree angle?
+
+Well, you could always measure the angle at which the coin heads the ground and measure a bit bit more accurately, a bit more accurately.
+
+And at some point it will not be 45 degrees.
+
+And that's why the probability is almost always zero.
+
+Now there is a different way to think about probabilities of, of events that are, that are, uh, that don't fall into, uh,
+
+strict categories of events that are or that are continuous, and that is through the cumulative probability distribution.
+
+While we cannot describe, uh, if a coin will fall exactly at a 45 degree angle, we can describe if it will fall between 50 and 40 degrees.
+
+And that's something we can measure. And no matter how accurately we measure, that will always have a specific probability mass.
+
+And then what we can do is we can define the probability density of a coin landing in a specific angle.
+
+And the probability density is sort of the probability that the coin will fell roughly in a certain range divided by the length of this range.
+
+So that's the probability density.
+
+Now in the context of this class, we will not make a distinction between probability density of continuous events and probability.
+
+So actual probabilities of discrete events.
+
+So we will treat the two as more or less the same. Um x can either be a continuous variable or it can be a discrete variable.
+
+And we will not care about which which one it is. Um, we will use the symbol p of x for both of them.
+
+Now probabilities have a very, uh, have some very interesting properties.
+
+For example, they can never be negative. Uh, you can never have a negative probability of something happening.
+
+The worst thing that can happen is you can have a probability of zero of something happening, and then it will not happen.
+
+Um, in the discrete case, probabilities will sum up to one.
+
+In the continuous case they will integrate to one.
+
+And so.
+
+The one thing we haven't really talked about, uh, I talked about when we talked about probabilities is, well, what is actually this function P here.
+
+We've talked about. Random variables.
+
+We've talked about values, we've talked about events. But what is p?
+
+We know that P of an event is something, but P itself is actually a function two.
+
+So p is a function that maps sort of in the discrete case possible outcomes.
+
+These are discrete sort of classes to a value between 0 and 1.
+
+And in the continuous case it maps. A real value to your real value.
+
+That's non-negative. All right.
+
+And so this distribution is actually a very common tool that we'll use all throughout this class.
+
+Uh, we'll use a distribution to both sort of describe data. We'll this we'll use it to describe outcomes of specific, uh, outputs of specific models.
+
+We'll even use it to reason about sort of labels and sort of things that are attached to data.
+
+Now let's look at a few distributions just to get a feel for what a probability distribution is.
+
+Uh, one probability distribution, uh, is the visual world around you.
+
+So you can look at sort of different pictures. You'll see sort of various things around you and in your life probably you have a certain
+
+routine and a lot of things you see you're fairly used to and they're not quite there.
+
+They're not very surprising. Uh, every now and then you see something that you have never seen before.
+
+And so that would be sort of something that has a fairly low probability under the visual stimuli that you see all throughout the day.
+
+And so the visual world around you, you can think of this as a probability distribution that you sort of get to observe, uh, all throughout your day.
+
+Other distributions might be the temperature or the weather that you get to observe, uh, throughout your day.
+
+Um, and there's many, many more examples.
+
+Now, in general, when we look at distributions, we distinguish in and we distinguish in three different categories.
+
+Um the first category is the data generating distribution.
+
+So this is a distribution that lives in the real world. It's often governed by physical processes.
+
+And so for the weather data the data generating distribution would actually just be our climate.
+
+It would be our weather.
+
+The clouds that sort of get pushed around by wind in that generates sort of that distribution generates our weather measurements.
+
+You might have wind come from one direction and the weather is colder, might have a come a come from the other direction.
+
+It's warmer. Now the next set of distributions is an empirical distribution.
+
+And that is the distribution we get to observe. So these are the where the weather measurements.
+
+You rarely get to observe the data generating distribution directly but you get of samples from it which is the empirical distribution.
+
+And then finally if we fit a model to the empirical data,
+
+we'll have a distribution that is the model distribution, which is sort of what our model thinks.
+
+The distribution of it of events is like. In general, these three are never the same distribution.
+
+We can construct very simple examples where these three are the same,
+
+but in practice for a large amount of data and for a complicated enough process, these three are always going to be slightly different.
+
+All right, now we'll cover some, uh, some, uh, basic concepts of statistics that help us understand deep learning.
+
+Um, and we'll just go through these sort of in short order.
+
+There will be references to what you need to know, uh, on the course webpage, and we'll just introduce a notation and sort of help you understand,
+
+uh, this is an expectation or this is something else by the notation itself.
+
+And we'll start with expectations. So the expectation of uh function f of x.
+
+Under a distribution P is in the discrete case.
+
+It's sort of a weighted sum. So we'll go through all possible outcomes Paul.
+
+Possible um discrete events that are prior probability distribution measures.
+
+And then we'll multiply the probability of this event with the value of the function at this exact, uh, at this exact event.
+
+And then we'll return the weighted average of this. Now for continuous distributions, we simply just replace the sum with the integral here.
+
+And again since we unified annotation in both cases of this expectation under p of x.
+
+For discrete cases it means a sum, and for continuous it means the integral.
+
+Now we'll use various short forms of expectations throughout this class.
+
+Um, we might sort of drop. The variable x in the expectation under sort of in the subscript of the expectation.
+
+And then it's just implied that x sort of is this function argument here.
+
+We might even if it's clear what probability distribution we're talking about, we might even draw up the entire probability distribution here.
+
+Or we might alternatively drop the x here inside of the bracket.
+
+If it's only one function and we know what arguments that function takes.
+
+And then finally down here this is the shortest of uh of notations.
+
+We'll rarely use this this very short form. Now useful property of expectations is that they're linear.
+
+And so the expectation of a function f plus a function g is the expectation of f plus the expectation of g.
+
+We can also pull out constants from the expectation again by linearity.
+
+And so this will be used in certain, in certain, uh,
+
+in certain parts of the class to sort of understand concepts and understand that, understand certain things, uh, slightly better.
+
+Now, another thing we can do with expectations. We can compute means and variances.
+
+So the mean is the average value. That a certain distribution takes.
+
+And so for example, if we would look at sort of a Gaussian distribution.
+
+Here. This.
+
+Here. Here is. X. And the average value here is roughly the center of the Gaussian.
+
+Mhm. Now, the other concept to look at is variance, which is roughly how far spread out are values in a distribution.
+
+And so variance is sort of the spread. Of the values in a distribution.
+
+And this will help us understand a little bit, for example, on sort of how training,
+
+uh, or how sort of, um, a certain dynamics in deep networks, uh, work.
+
+Now, one word of caution when we talk about variances, uh, is that in the unified notation,
+
+the variance can actually have fairly different properties between discrete and continuous distributions.
+
+For discrete distributions the variance is always finite.
+
+Um, if all the values that we can take here are finite, the variance is always going to be finite.
+
+Um, for continuous distributions, it is possible to construct distributions that have an infinite variance.
+
+Um and so this is only important if we try to prove something.
+
+Uh, if you try to use this uniform, uh, unifying notation in some paper to prove something about deep learning,
+
+you just have to be aware of the fact that variances behave very differently between discrete and continuous distributions.
+
+The other thing to be aware of, uh, which we have already mentioned before,
+
+is that probabilities of discrete distributions are always going to be, uh, smaller or equal to one for continuous distributions.
+
+There's no such guarantee that this can actually be kind of a, uh,
+
+kind of a pitfall if you're if you're coding and you are assuming that P is always smaller than one,
+
+you plug in into a continuous distribution, you might get a nasty surprise.
+
+Um, because P can be larger than one, the probability density can be larger than one.
+
+All right. One very common thing that we do with distributions, we sample from them.
+
+Um, one sampling process we've already gone over is that if we have a data generating distribution like the weather system,
+
+we can collect data measurements. Um, a similar example is here we have, uh, dice.
+
+We could roll a dice. And so the process of rolling a dice and then recording.
+
+What is that. What what do we see on top of the dice that is sampling.
+
+So we take a distribution which in case of a fair dice, is sort of an even distribution over all possible outcomes.
+
+And then we're going to roll the dice and see what we got.
+
+And sort of one example is rolling dice. Another example is if you're typing on a keyboard.
+
+You can think of this as a sampling procedure as well. You're trying to hit a certain key on your keyboard, and every now and then you'll miss.
+
+And so that missing the key seems random.
+
+And so it's sort of a random process of you pressing a key on a keyboard.
+
+It's even worse on your phone. Uh, and so. The way you generate characters, uh,
+
+while typing is can be sort of sampling from a distribution that is conditioned on what do you actually want to do?
+
+Uh, another very fun sampling, uh, activity is sampling the visual world around you.
+
+So you can take a camera and you can take a picture. And that picture is sort of a snapshot of the world at this specific time.
+
+So it's a sample of the world at this specific time. And so if you look at photo collections online,
+
+these are just sort of a bunch of sort of samples from a distribution over all possible images that could have occurred,
+
+you could have taken in the real world. Um, one thing to to be aware of when you sample.
+
+Sampling or samples are always biased, and it doesn't mean that sampling is biased.
+
+Uh, the sampling process is biased, but the samples themselves are always biased.
+
+And what that means is that if you draw, if you have a certain distribution, let's say you have a distribution and you want to everyone,
+
+uh, flip some coins and you look at the probability of heads and probability of tails.
+
+If you draw a finite number of samples, you will never or you will unlikely get the exact, uh, the exact fair will exact distribution that you expect.
+
+So if the coin is fair, you can, uh, flip a coin sort of ten times the, uh, chance that you will get five and five is actually relatively small.
+
+And to chance that you will get five and five if you repeat this experiment over and over again is almost zero.
+
+And so that's, uh, what it means for samples to be biased.
+
+So sampling only represents the original distribution. If you if you draw an infinite number of samples from the distribution.
+
+And we'll look at this in a bit more detail in actually in, uh, in a practical exercise in a hands on segment in, in a bit.
+
+All right. So let's look at statistical models. Um, so statistical models are functions that map certain inputs to certain outputs.
+
+In the case of regression this is a function that is parameterized by a parameter theta.
+
+It maps real input values to real output values.
+
+And so that is sort of regression on this side. Here you see linear regression where the inputs are along the x axis.
+
+The outputs are plotted along the y axis. You see some data samples and then the blue line here.
+
+Is the linear model that was fit the linear regression model that was fit to explain the data best.
+
+And the second set of models or classification models. And so here, instead of mapping from a real world, a real valued input to a real valued output,
+
+we actually map to either directly to set of class outputs.
+
+Say this is class A versus class B, or we map to probabilities over class over possible classes.
+
+And so a classification model will map real values to probabilities over discrete events.
+
+And so that could be probability that you see a dog in an image could be a probability to see a cat in an image.
+
+You can compute any other sort of probability.
+
+And so that sort of set up allows us to still map real values to real values.
+
+But now they're be they're constrained to sort of be probability.
+
+So that means that are positive real values that sum up to one.
+
+And so in summary, a statistical model is a function f with parameters theta that map certain inputs to certain outputs.
+
+And so they're almost always going to be real values to real values or real values to probabilities of real values.
+
+And so in machine learning the goal is to find the parameters theta.
+
+So our main goal here is to sort of given some data trying to understand what is the model that explains this data based.
+
+Right. And. Sort of to understand sort of what we need to do to learn from data.
+
+We understand we need to understand a little bit what data actually is.
+
+And so one way, uh, I like to think about data is that data are actually samples sampled from some data generating distribution.
+
+If you look at the weather data. Weather data or samples collected from our world, that sort of is this infinitely complex and beautiful.
+
+Sort of. Physical process, and we get to measure it every now and then.
+
+We don't get a measure too often. We don't get to measure it everywhere.
+
+But every now and then we get to draw some samples. And these samples that we collect these, this this is our data.
+
+Now there's two kinds of data. There is data that is just sort of data by itself.
+
+And then there's data that has certain labels attached to it. And so uh, a good example of data, sort of just data by itself is the internet.
+
+There's just a wealth of sort of text and image data that's just out there.
+
+Nobody really tells you what what that data is.
+
+Uh, you have to read it and understand it and to figure out what it is.
+
+Um, another sort of source of data that could either be labeled or not labeled is your personal photo collection.
+
+So if you look at your personal photo collection and you just look at it as this big, uh, arrangement of images,
+
+that's unlabeled data, but as soon as you go in, maybe tag it and say, oh, these are the images I really like.
+
+It becomes labeled data because we now attach certain labels to the data that you have.
+
+And a machine learning algorithm could then go and figure out, well, which other pictures might you like.
+
+Another sort of set of data that, depending on how you look at it, could be labeled or unlabeled data as temperature.
+
+Um, you can think of these temperature distributions, uh, sort of all just a large collection of data,
+
+or you can look at it as sort of the date at which the temperature was collected as the data,
+
+and then the label that was attached to it is sort of the temperature measurement itself.
+
+Uh, again, it sort of depends on how you look at it.
+
+But for most of this class, we'll look at sort of data in a way that has always has labels attached to it.
+
+So we'll rarely look at data just as sort of this collection of just raw data that we don't know what to do with it.
+
+It's always going to be data with specific labels.
+
+And then our goal is to sort of learn a model that on new data would infer these labels, uh, that the new data would have.
+
+And so to summarize, uh, sort of basic statistics, uh,
+
+model A statistical model is a function that sort of from data learns to predict sort of, uh, value y from input data x.
+
+And that function is parameterized by a parameter theta expectations measure sort of the weighted average of our probabilities.
+
+And then we also have mean and variances that sort of measure uh center and the deviation from the uh,
+
+from the, from the sort of average of the distribution.
+
+These are sort of the basic concepts.
+
+If you, uh, don't know them, maybe you look them up again and we'll have links on the course web page for what to look at.
+
+And that's it.
+

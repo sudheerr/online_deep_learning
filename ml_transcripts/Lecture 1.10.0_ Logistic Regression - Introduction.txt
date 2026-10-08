@@ -1,0 +1,740 @@
+♪ (jazz music) ♪
+
+Hey everybody, welcome
+back to Machine Learning.
+
+Today's topic is logistic regression.
+
+Logistic regression is really interesting
+
+because it's going to
+combine two techniques
+
+that we've already studied
+fairly heavily in class.
+
+One is, classification by a half space.
+
+Remember we talked about
+the perceptron algorithm.
+
+And the other is, plain
+old linear regression.
+
+So, sometimes we like
+to do classification,
+
+but we'd also like some
+measure of confidence.
+
+Or we'd like to understand how confident
+
+we are in our prediction.
+
+And logistic regression is
+going to take that into account.
+
+So, it's going to be a nice
+combination of both techniques.
+
+I also know from talking
+to many people who work
+
+in industry, that for
+classification problems,
+
+logistic regression is
+often one of the most basic
+
+and simple tools that they try.
+
+And surprisingly, it usually
+works pretty well in practice.
+
+So, let's begin and find
+out what this technique is.
+
+So, as I mentioned, we've
+talked about classification
+
+and we've also talked about regression.
+
+And I want to make a few comments about
+
+the optimization problems
+that are involved
+
+when we're looking at
+classification and regression.
+
+So, let me remind you for
+regression, we ended up
+
+with an optimization problem.
+
+Min over W.
+
+One over M.
+
+Sum from i equals one to M,
+
+of W transpose Xi, minus Yi squared.
+
+So these Xi and Yis
+were in our training set
+
+and we had a training set of size M.
+
+And we were searching for this W.
+
+That's the min over W,
+
+to minimize this square loss objective.
+
+Okay.
+
+And we also discussed that,
+if we were in a scenario
+
+where we have these
+random variables Y and X,
+
+and we know that the
+conditional mean function
+
+is actually equal to Y,
+
+W in a product X.
+
+So, if we're in this nice
+scenario, where we know
+
+that our data is essentially
+a line plus noise,
+
+then we know that really, the
+optimal thing for us to do,
+
+is to perform linear
+regression and output the W
+
+that minimizes this
+least squared quantity.
+
+Okay.
+
+But one nice thing to notice is that,
+
+Let's call this star.
+
+Let's say that even if star does not hold,
+
+So, let's say that we have a training set,
+
+where the random variables
+that we are interested in
+
+don't necessarily satisfy
+this relationship.
+
+Okay fine.
+
+So maybe, a line is in the
+best thing that you can output
+
+but maybe finding a line still does okay.
+
+You know, we can still write down this
+
+optimization problem, min over W.
+
+We can run gradient descent, to optimize
+
+or minimize this loss.
+
+And we can output some line.
+
+Okay, the line may not be
+a great fit, but you know,
+
+maybe there is a line
+that has a reasonable fit.
+
+Regardless of the dataset that we have,
+
+we can always try and find
+the best fitting line.
+
+And we know how to do that efficiently,
+
+using gradient descent.
+
+Okay so, even if we,
+
+Even if star does not hold,
+even if this model is wrong,
+
+we can still find the best
+fitting linear function,
+
+with respect square loss
+for our training set.
+
+Now, let's look at the
+scenario for a classification.
+
+What is the loss, the loss
+function for classification?
+
+It's not square loss.
+
+So, the loss function for
+classification should output,
+
+Okay, so let me back up here.
+
+Just a second.
+
+So, let's say that our guess, for label Yi
+
+in say, minus one plus one,
+
+or, let's just use zero one.
+
+Doesn't matter.
+
+So, our guess for label Yi, is going to be
+
+the sign of W transpose
+X, for some vector W.
+
+And we should be penalized if the sign
+
+of W transpose X does not,
+
+Let's say, Xi.
+
+Does not equal Yi.
+
+So, if we get sign wrong, then we should,
+
+we should be penalized, and at the sign,
+
+W transpose i equals Yi, then
+there should be no penalty.
+
+Okay.
+
+So.
+
+Basically we could look,
+
+Let me log in here.
+
+Okay.
+
+We could look at the quantity
+Yi times W transpose Xi.
+
+So, we have this quantity.
+
+And if this quantity is positive,
+
+then there should be no penalty.
+
+And if this quantity is negative,
+
+then there should be some penalty.
+
+And we could define a loss function,
+
+call it the 0-1 loss.
+
+This is a function, Fi of Z.
+
+And it just outputs one, if Z
+is less than or equal to zero
+
+and zero, if Z is greater than zero.
+
+Okay.
+
+So, as opposed to square
+loss, which was looking
+
+at the label Yi, minus W transpose X.
+
+So, let me just write this.
+
+So, square loss if you
+recall, was W transpose Xi
+
+minus Yi quantity squared.
+
+This was for regression.
+
+For classification, we're
+going to look at this 0-1 loss.
+
+So, I'll call it 0-1.
+
+Fi of 0-1 of W,
+
+Let's say, Yi times W transpose Xi.
+
+Okay.
+
+So, we have two different types of losses.
+
+For regression, we had
+this least squares loss.
+
+Draw a circle right
+here, a rectangle around.
+
+And for classification, we have
+something more appropriate,
+
+'cause all we care about is whether or not
+
+we're getting the sign right.
+
+So, we have something called 0-1 loss,
+
+and that simply takes in the label Yi,
+
+multiplies it by W transpose Xi
+
+and it penalizes you by one,
+if you have the wrong sign,
+
+and zero otherwise.
+
+Okay, any questions about these loss,
+
+these two different loss
+functions or the two setups?
+
+Okay.
+
+No questions about that.
+
+So, good.
+
+So, let's look at the
+optimization problem,
+
+associated with classification.
+
+Okay.
+
+So here, we're going to
+have, let's say, one over M.
+
+So, we want a min, W.
+
+Just like in regression.
+
+One over M, sum from i equals to M.
+
+And this time, we're going to have Fi 0-1,
+
+of Yi times W transpose, Xi.
+
+Okay.
+
+So, this for classification,
+this is what we want to solve.
+
+And does this optimization
+problem make sense?
+
+Okay, so question for you.
+
+Under what conditions
+or when does perceptron
+
+find a W with small loss?
+
+Under what conditions do
+we know that if we run
+
+the perceptron algorithm,
+we're going to be able
+
+to solve this minimization
+problem, at least approximately
+
+we'll be able to find some
+W that does pretty well?
+
+Yes.
+
+>> You had this bound,
+
+where if you had it, it
+was one over row squared.
+
+Row was the distance between
+the edge of your half space.
+
+>> Right.
+
+So, what you're saying is
+that, we need some sort of
+
+margin that's separating
+all the data points from W.
+
+So, recall that perceptron,
+as someone online said,
+
+when there's a large
+margin between the positive
+
+and negative examples.
+
+So, recall that perceptron
+required the existence of a W,
+
+such that for all X, the
+label Y associated with X,
+
+so this quantity was always at least row.
+
+Okay, so if W transpose X,
+
+So there had to be a W,
+such that for every point X,
+
+if W transpose X is
+negative, then it's correct
+
+and it should be of
+magnitude, at least row.
+
+Remember Y here is either,
+
+Let's say Y here is plus.
+
+For right now, let's say
+Y is plus one, minus one.
+
+Okay.
+
+So, this type of margin
+condition where you have
+
+that W transpose X, times Y
+is at least row for all X.
+
+This implies convergence
+or a number of mistakes,
+
+at most one over row squared.
+
+Okay, so after this many
+mistakes, we could keep
+
+running the perceptron
+algorithm, over our training set
+
+and after this many
+mistakes, it's going to find
+
+a W that's consistent
+with our training set.
+
+Okay, any questions about that?
+
+So, good.
+
+So, perceptron will solve
+this optimization problem
+
+when you have a margin.
+
+What if there is no margin?
+
+In fact, the situation could be worse.
+
+Not only could there be no
+margin, there may not even
+
+be a half space W, or linear function W
+
+that's consistent with all the
+labels of our training set.
+
+So, there might not exist a W,
+
+such that sign of W transpose
+Xi equals Yi for all i.
+
+You may just have a training set
+
+that's not linearly separable.
+
+There may not be a half
+space that correctly
+
+classifies all of your points.
+
+It may be a very complicated training set.
+
+Even though we could be in this situation
+
+where there might not exist a
+W, that classifies all of my
+
+training points properly,
+this optimization problem
+
+that I wrote appear, still make sense.
+
+We could still try and
+find the best fitting W,
+
+with respect to the 0-1 loss.
+
+But does that mean?
+
+Intuitively, it means I
+want to find a half space
+
+with the sign of some linear
+function, that makes as few
+
+mistakes as possible on my training set.
+
+That's what it means to minimize over W,
+
+with respect to the 0-1 loss.
+
+Because, with respect to the 0-1 loss,
+
+you're penalized, one
+if you make a mistake
+
+and zero otherwise.
+
+So, minimizing this
+quantity, corresponds exactly
+
+to finding a half space that maximizes
+
+the number of correct examples it labels.
+
+Okay, so does everyone
+understand that this optimization
+
+problem still make sense to write down?
+
+So, we could ask, and I think
+a natural question to ask is,
+
+So let me write this.
+
+What is the computational complexity
+
+of this optimization problem?
+
+Any ideas?
+
+Any guesses?
+
+What makes this optimization
+problem look more intimidating
+
+than the optimization problem
+corresponding to square loss?
+
+Here was the optimization problem
+
+corresponding to square loss.
+
+It's min over W.
+
+Sum from i equals one to M.
+
+W transpose Xi, minus Yi quantity squared.
+
+What did we say about
+this type of optimization
+
+problem last time?
+
+Yes.
+
+>> Can't you actually calculate
+
+what the optimal W is?
+
+>> We could calculate the
+optimal W by using say,
+
+the normal equations.
+
+Yes.
+
+What else could we do?
+
+Yes.
+
+>> This function was
+convex and differentiable.
+
+>> Good, so this function is
+both convex and differentiable.
+
+Okay.
+
+That's a very,
+
+Those are very nice properties.
+
+And it means that when
+we run gradient descent,
+
+it's probably going to
+find a good solution.
+
+Now, if we look at this
+quantity, this 501,
+
+unfortunately, this
+quantity is neither convex
+
+nor is it differentiable.
+
+So, if you try to run
+gradient descent on it,
+
+all bets are off, as to
+what actually might happen.
+
+Okay, and so the bad news,
+
+So, this problem is NP-hard.
+
+If you don't know what NP
+hardness is, it's okay.
+
+It just means that,
+his problem is unlikely
+
+to admit a polynomial time solution.
+
+This is also,
+
+This problem sometimes is also
+referred to as agnostically
+
+learning a half space.
+
+And I won't get into it.
+
+But there is a model of learning.
+
+We talked about PAC learning.
+
+There's a model of learning
+called agnostic learning,
+
+that's a generalization of PAC learning,
+
+to a noisy scenario.
+
+So, if we knew that our training
+set were labeled perfectly
+
+by some unknown half space,
+then we could talk about
+
+PAC learning the half
+space, because we would know
+
+that every training point
+is perfectly labeled
+
+by some fixed half space.
+
+In agnostic learning,
+sort of all bets are off,
+
+with regards to the relationship between
+
+a half space and the training set.
+
+The training set may have
+no functional relationship
+
+with any half space, but
+you can still sort of
+
+ask for the best fitting have space.
+
+That's what happens in agnostic learning,
+
+and unfortunately the
+associated optimization
+
+problem is actually NP-hard.
+
+Okay.
+
+So, to summarize,
+
+regression corresponds to
+a convex loss function,
+
+classification, non-convex
+loss, namely the 0-1 loss.
+
+And so, this is good news.
+
+This is bad news.
+
+So, a natural thing to try,
+and we'll see why this leads
+
+to something called, logistic
+regression in a moment,
+
+is the following idea.
+
+Let's relax the 0-1 loss
+to a different, nicer loss.
+
+And so, these are often
+called, surrogate losses.
+
+And these surrogate losses
+are going to be related
+
+to 0-1 loss, but they'll be convex.
+
+Okay.
+
+So they're going to be nicer to optimize.
+
+Now, the hard part will, and
+we won't really get into this,
+
+You might say, well, if you
+solve an optimization problem,
+
+with respect to some surrogate loss,
+
+you get the same answer
+as to when you solve,
+
+if you were to solve it
+with the original 0-1 loss.
+
+No, as we said, the 0-1 loss is NP-hard.
+
+But you may get solutions that are close
+
+or are still fairly high quality.
+

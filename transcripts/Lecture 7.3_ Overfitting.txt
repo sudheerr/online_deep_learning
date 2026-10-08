@@ -1,0 +1,783 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+Make. So in this segment we'll talk about overfitting.
+
+And overfitting is really sort of one of the more so annoying parts of machine learning.
+
+If we didn't overfit, uh, our life would be super simple.
+
+Um, now you get to embrace it after a while.
+
+But that models will overfit, and that's part of life.
+
+Um, but it is something to be aware of. And there is, uh, sort of things that you can do to remedy this.
+
+And so what overfitting really is, is that you went through part one, so you collected your data, you normalized it,
+
+you set up your model, you really understand what's going on inside of your model and what the right model for your task is.
+
+You're trained on your data. Then you take whatever the model you trained.
+
+You apply to data that is not in your training set and it does not work.
+
+So that's usually sort of the curious characteristic of overfitting.
+
+And so you can achieve perfect training accuracy on your training set.
+
+But that does mean that means absolutely nothing like just being able to train your model means sort of yes.
+
+You have achieved? Sort of. You have a model that trains, but it actually is not a model that's useful.
+
+What really matters is that sort of you have a model that works in the real world.
+
+You don't care about the model that works on your training data.
+
+The model that works in a training data is really just a proxy for going out into the real world,
+
+taking sort of new images, new data from the real world, and applying the model there.
+
+Now, how do we get this model that works in the real world?
+
+How do we go from a model that works in our training data to a model that in that that sort of works in the real world?
+
+Well, the first step is recognizing that the model might not work in the real world.
+
+And one way to do this is to split your data set into three different parts.
+
+Part number one is your training set. This is what we have looked at all throughout this class.
+
+Now part number two is your validation set.
+
+And so you will never compute a single gradient on this validation set.
+
+This validation set is really just there to test your model periodically and to see how well you're doing.
+
+And so usually what you do on that validation set is you tune your hyperparameters so you will sit down,
+
+you tweak your model architecture, maybe you'll tweak your learning rate.
+
+You will tweak sort of sizes of layers. Uh, maybe you'll add norms, remove norms.
+
+And that you will all do on your validation set. Sort of.
+
+You'll train a model and then look at your validation set and see how well you on your validation set to train a certain hyperparameter.
+
+And then we'll have a third splitter for data set that you use to measure.
+
+What would this model, how well would this model do if we ran it on the real world?
+
+And in the purest form, you'll use this test set exactly once, because as soon as you use that, once you start to overfit,
+
+you will start to sort of contaminate your decisions with the data that is in the data in the test set.
+
+And so this should be used exactly once.
+
+When you're done training your model, you should look at this and say, oh,
+
+this is how well I expect this to work in the real world, because this is data I've never seen during training.
+
+I've never seen during validation. And this is predictive of what the real world would look like.
+
+Now the training say that the training set is usually makes up the bulk of your of your, uh, data.
+
+It's about 60 to 80% of your data is going to be in your training set.
+
+Um, and the reason for this is that it actually will be used to train most of your model.
+
+Most of the parameters of your model are going to be trained on the training set.
+
+Um, and so you should expect your model to work well on the training set like you will.
+
+If if training succeeded, your model will always work well on a training set.
+
+Now about 10 to 20% of the data.
+
+You should put aside into a validation set. And.
+
+This is sort of the first time you use the validation set. This is sort of a pure prediction of what the model that you trained for the first time.
+
+Would look like in the real world. How well would this perform in the real world?
+
+And most likely, that performance on the validation set is not going to be amazing.
+
+So most likely you are going to sort of not perform extremely well on the validation set after, uh, after you trained the model just once.
+
+And so what we what you will do is you will start to tune hyperparameters,
+
+you'll change your training set up and all of this to make the performance of the validation set go up.
+
+But as you do this, you're going to fit your model to the validation set.
+
+And so that's why we also have a test set that you'll lose exactly once it's again roughly the size of the validation set.
+
+And that will give you just one piece of information.
+
+How well with this model work in the real world on images, our data was collected, uh, similarly to the data set.
+
+And so you'll have these three, uh, three data sets. So how are we going to split them up?
+
+Well, the easiest way to do this is to just sample randomly.
+
+So we'll do random sampling with replace without replacement.
+
+And you just as randomly assign images to one out of these three.
+
+Sort of 70% is going to end up in the, uh, uh, training set.
+
+15% validation, 15% test. Now this works well for a lot of data sets.
+
+Um, but you have to be aware that some data sets have actual correlations.
+
+And this happens like it used to happen in computer vision, sort of ten years ago that data sets were not set up.
+
+Uh, very well. It doesn't happen that much anymore.
+
+Like people are very aware of this in machine learning and sort of related fields.
+
+It does happen more in application domains. That data that you have in your different data sets can still exhibit certain correlations.
+
+Um, and so for sort of this can be correlations in terms of labels.
+
+Maybe these are highly related to kinases of uh flowers.
+
+Uh, or it can be sort of temporally related data that you have different images of a video.
+
+Um, it also happens that if you use multiple different internet data sets,
+
+that they might have overlapping images or sort of images that are close in sequence.
+
+And so you need to sort of make sure that you duplicate the sort that all the duplicate data is only within training,
+
+and all the duplicate data is only within validation. And there's not going to be any.
+
+Sort of any influence from the training set into validation or test sets.
+
+Now it's correlated data. Always bad. Um, it's only bad if you want the model to generalize outside of your correlated data.
+
+Um, and this might sound sort of a bit odd, like why would we not want the data, the, the, the model to generalize.
+
+So there is a very good reason, uh, for why sometimes correlated data is actually quite good and that there is ways to automate automatically label,
+
+uh, parts of your data set by first training a classifier and a subset, applying it, and then correcting its labels.
+
+And so if you're doing this there sort of training and, and uh, test, uh,
+
+or training and whatever you're going to run it on later can actually be, uh, highly correlated.
+
+And that will just lead you to be much more efficient, that sort of automatically or semi automatically labeling, um, this data.
+
+This happens a lot in sort of data sets for autonomous driving.
+
+Uh, there's also other sort of internet scale data sets that are labeled with sort of an automated step in the middle.
+
+And so in that case, correlated data is good,
+
+but you will not get a signal on the onset of how well this would perform on any data beyond the correlated there.
+
+All right. So let's say we have these splits.
+
+Um, now, the reason why we split the data set into three parts is because we overfit, because we learn parameters that are good for the training set.
+
+We learn hyperparameters that are good for the validation set. And it's not clear that these parameters and hyperparameters for validation and test
+
+set for validation and training set are going to perform well on the test set.
+
+So. What you will see is if you have sort of a training and a validation set or um,
+
+you can track performance of these and so you can track performance both in terms of loss or some sort of accuracy measure.
+
+And almost always the loss on the training set will decrease more as the loss on the validation set.
+
+And at some point, the validation loss will sort of start to plateau.
+
+And the training loss can always go down. It will like if you set up your optimizer right and your network has enough capacity,
+
+you will almost always find the bottom of that set of, of that, of that loss curve.
+
+But what really matters is sort of where the validation performance is,
+
+because that's sort of an indicator and how well the model would do on data it hasn't seen.
+
+The same is true for sort of accuracy. What really matters is the validation accuracy.
+
+And so the the difference between this. Validation and training accuracies.
+
+Usually this is usually referred to as how much you overfit.
+
+And so if there is a difference you're overfitting. And then sort of the gap between the two is just how much you're overfitting.
+
+Now it's fairly easy to check for overfitting.
+
+Uh, what you do is you just plot both of these losses, and so you sort of look at the gap.
+
+And if there is a gap, uh, between validation and training, set this this will tell you how much you're overfitting in terms of the parameters.
+
+And then you can have one chance to check how much you're overfitting in terms of hyper parameters,
+
+which is sort of the difference between the test set and the validation numbers.
+
+All right. Now. Is overfitting always bad?
+
+Is the fact that there is sort of this gap between testing and validation.
+
+This is always bad. Um, not really.
+
+Um, it's part of training deep networks that you will always overfit.
+
+You'll always do better on your training data than you do on held out data.
+
+Um, and so that there is a gap. That's not bad.
+
+Overfitting is really only bad when it starts to sort of decrease your validation performance.
+
+Once you start sort of training more and more and your validation performance will go down,
+
+or, uh, at some point, maybe your test performance will go down.
+
+Um, that's when you know that this is sort of the bad kind of overfitting.
+
+If validation performance still goes up together with the loss, this is actually perfectly fine.
+
+This is just some something that that's sort of fairly natural to deep network training.
+
+Now why do we overfit? Why is this sort of why?
+
+Why is this gap between. Why does the gap between sort of validation and training set even exist?
+
+And why is this something that's absolutely natural to deep learning?
+
+The reason for this is that deep networks are extremely powerful classifiers and they will find patterns.
+
+In the training set that only exist in the training set.
+
+So they latch on to patterns that are not really part of the real world, and only exist in the training world to have seen.
+
+But they cannot tell the difference. And so that's sort of part of, uh, this is part of overfitting.
+
+Now, in practice, you actually mechanically, the way this works is that we'll have multiple epochs over our training set.
+
+If our training set is small enough, um, we'll do multiple epochs over and after the first epoch,
+
+you will see the same data for a second time, and that's when you will start to overfit to your training set.
+
+Uh, if you only go your over your training set once, uh, it's very unlikely that you will overfit,
+
+that you will overfit to the training set if it was selected sort of at random and representative of,
+
+uh, the broader population or the broader, um, data you're interested in.
+
+And so why is it that we're overfitting? Like. Like what's. What's wrong with deep networks that they're overfitting?
+
+Why do they find these patterns that only that, that sort of that only exists in a training set?
+
+Um, if you think of data as being fairly low dimensional.
+
+Then? Sort of. Training, test and validation sets, um, in low dimensions are going to be fairly hard to separate.
+
+Um, they're going to be nicely intermingled. And if I would want to sort of separate the green from the blue, uh, points here,
+
+I would have to come up with an extremely complicated curve that sort of separates them here.
+
+And I forgot one. And this is going to be actually quite hard, right?
+
+In higher dimensions, it's exceedingly simple to separate sort of points in higher dimensions just because there's just too many dimensions.
+
+Uh, and I can always pick one that separates sort of training from test.
+
+And so in higher dimensions, the training set and the validation set and the test set are actually not really mixed or intermingled.
+
+They're in different corners of and in an extremely high dimensional space.
+
+And so it's very easy to latch on to something that only exists in training.
+
+Just because the training set is very different from validation of test sets in high dimension.
+
+And so that's sort of the core reason why we overfit.
+
+Um, because in high dimensions and most deep networks deal with high dimension and high dimensions,
+
+sort of all the data sets look very, very different.
+
+And they're quite far like they can be quite far apart from one another.
+
+Now do we overfit with infinite data?
+
+Um, if your data set is infinitely large, no, uh, you will never train on the same instance, uh, same instance twice.
+
+And so that will not lead to any overfitting. And so that actually leads us to sort of ways to prevent overfitting.
+
+Um. The earliest, uh, the easiest and and also sort of one of the most popular ones,
+
+if you sort of want to first start out is just to measure how well you're doing during training, how well do you do during validation and just stop?
+
+You just stop when you start to overfit. So when validation starts to tank, you just say, okay, I'm done here.
+
+This is the model I'm going to choose. Now, do we have to stop?
+
+Sort of. Do you have to babysit that job and sort of figure out when exactly to hit the stop button?
+
+No. Um. What do you do? Is, Susan, every few epochs.
+
+Um, you will measure the validation accuracy, and then you save your model, and then after you're done,
+
+you'll just pick the model that you saved for the one that has the highest validation accuracy.
+
+And so you'll never have to have this manual stop button, even though it's called early stopping.
+
+You will just pick the best model after the fact. All right.
+
+Um, now, the other thing is we also mentioned that sort of we only overfit when we see the same data multiple times.
+
+And so one way to prevent overfitting is to just collect more data.
+
+Um, if you just added more data here, you could prolong the point at which you're going to which in which you go over kind to overfit.
+
+Um, this is actually practice done using in large language models.
+
+Nowadays, the large language models have enough data that they never need to see the same data twice during training.
+
+And so that's why they don't tend to sort of overfit as much.
+
+Um, so you cannot overfit to your training data if you have sort of less than one epoch
+
+that that does assume that the training data is reasonably is randomly sample,
+
+and it's reasonably representative of whatever downstream data that you're using.
+
+But if you only have if you have less than one epoch, you cannot overfit your training data.
+
+And so one way to prevent overfitting is to just either collect a really large data set,
+
+which is quite hard, or sort of we can pretend that we collected a larger data set.
+
+And so this is called data augmentation. And so what data augmentation does is it takes some input data.
+
+And now we're going to transform it randomly. We're going to add in images.
+
+We can crop, we can rescale. We can maybe rotate them light a little bit.
+
+We can flip images. And what this will do is it will create a new data element that's not quite the same as the original.
+
+But if we are careful enough with our, um, with our augmentations, the label will be the same.
+
+And so we can take data, we can randomly, uh, sort of change it and say, hey, yeah, we already have this labeled we didn't destroy the label.
+
+This is a slight different, a slightly different view of the same data.
+
+And the network will oftentimes be fooled for the first few times into thinking this is actually new data.
+
+And it doesn't overfit to this. Now for images.
+
+Um, the way these augmentations usually work is so that we can change the tint or hue of an image.
+
+We can change brightness, we can crop, rotate, scale, we can mess with saturations, we can make its grayscale and flip.
+
+Now, the ones that are the two by far most popular ones are three is flip, scale and crop and scale and crop is often combined into one operation.
+
+And so we randomly flip, scale and crop these images. And so that will create input data that sort of doesn't quite look the same.
+
+It looks similar but it has the same label.
+
+And so with data augmentation we can go over our uh, training set multiple times without massively overfitting.
+
+Now this is also a case where if you make your if you add enough data augmentation,
+
+you can actually end up in a place where your validation set will do better than your training set.
+
+Just because you augment that your, your, your image is too hard and you make the task harder.
+
+And so this is sort of a case where you can almost have sort of negative overfitting just because you made the task harder during training.
+
+Um, now the way this works is that you will sort of have a data loader.
+
+It also loads the label. And then in the first sort of either in the data loader or before you feed it into the network,
+
+you will have an augmentation function that is going to change your image.
+
+And so the network never sees the same thing exactly twice.
+
+And that's why we overfit slightly less.
+
+There's also a neat line of research that used data augment uses data augmentation to learn models without any labels.
+
+And the way we can do this is we can take, uh, an image, an augmented twice.
+
+And now all we're saying is, well, after two data augmentations, we know the label is the same.
+
+And so we just make sure that the output the network predicts is the same.
+
+It's consistent. And then we can have negative losses that say that like sort of uh, certain outputs uh, of different images should be different.
+
+There's a whole line of work on how to use this to train models without any labels.
+
+Uh, we'll not do this in this class.
+
+And this is sort of data to the extent in which we're we're actually covering this.
+
+Now what happens if you still don't have enough data? So let's say you you try data augmentation.
+
+Your data set is still too small, and you cannot make, uh, your model work on that smaller data set.
+
+Well, then you can resort to transfer learning, which is your first goal, to design your network.
+
+Or you have somebody else design your network. You have somebody else train your network on a big data set.
+
+If you don't want to train yourself, you're never going to big data set.
+
+You'll get a network that had enough training data that sort of didn't overfit on its training data.
+
+And now we're going to train it. We're going to take this network, and we're going to fine tune it with that of taking the network with its weights.
+
+And we just continue training on our new data set. So this is usually referred to as transfer learning.
+
+And transfer learning has a pre-training stage where we learn to model on a lot of data.
+
+And then it has a fine tuning stage where we continue learning on our smaller data.
+
+And so in computer vision this is often a sort of, uh, pre-training.
+
+Data sets are either sort of supervised, uh, which is uh, ImageNet and variance, sort of large scale image data sets.
+
+There's also unsupervised, unsupervised variance where we can do unsupervised pre-training similar to the
+
+contrastive pre-training we looked at where we use two data augmentations.
+
+Um, and so these models, these pre-trained models, they do exist uh online.
+
+You can just download them. Um, the same is true for natural language, uh, processing.
+
+There is models that were pre-trained on massive corpus, uh, on a massive corpus of data.
+
+And you can literally just download them. And so what would you do if you wanted to fine tune a model, um,
+
+on your own smaller data set is you first just download the pre-trained model and then run a few training iterations on your small data set.
+
+And that's transfer learning in a nutshell. Now why does transfer learning work?
+
+Um, there is two reasons for it.
+
+Um, eight oftentimes if you transfer from one domain to another, uh, inputs can be quite similar.
+
+So these domains can sort of shared either I can have shared text inputs, uh, and sort of maybe they even have shared labels that they reason about.
+
+And so the information from the pre-trained model can then be transferred to the fine tuned,
+
+uh, to the fine tuned model or to the model that you're going to use on your task.
+
+The other reason why it is a good idea to use transfer learning is that it can also just lead to a good initialization every network.
+
+It can lead to a network where sort of one layer is really good at communicating with this next layer,
+
+and it builds up this arbitrary, um, sort of almost arbitrary, uh, representation.
+
+And you can actually take sort of image pre-trained models and give it images off, not color,
+
+but like let's say give it images of depth or images of sort of surface normals that has nothing to do.
+
+It has absolutely nothing to do with colors. Uh, there is very little correlation, but you can fine tune these networks still from an image,
+
+sort of from a color image pre-trained, uh, checkpoint. And they will just learn better.
+
+They will just learn to adapt to this new input.
+
+Uh, and it's just because all the layers in a network are really just sort of there to build up this hierarchical representation.
+
+And so when should you use transfer learning?
+
+Um, the short answer is if you're not in the in the business of training big models, you should use transfer learning almost.
+
+Um, almost all the time. Uh, in early experiments you can get you a huge head start, uh, to getting good results.
+
+Um, and sort of large pre-trained models, like, they exist almost.
+
+Um, they're pretty abundant, and they usually get you a really good start on your, on, on, on whatever probably you want to solve.
+
+Um, these models sort of exist either on GitHub hugging face detector on two.
+
+Um, there's lots of different places where you can find them.
+
+Uh, there's libraries that are sort of standardized, lot of models.
+
+Um, hugging face is one of them. Uh, Tim is another one.
+
+Um, they standardize a lot of models, sort of for very specific tasks.
+
+All right. Now, one place where you shouldn't use transfer learning is this class.
+
+We do not allow it for, uh, for the homework. Um, but after this class, you can go and transfer, learn all you would wish.
+
+All right. So, uh, let's sort of.
+
+Look a little bit, uh. Sort of. Why do models overfit?
+
+And we already covered part of it. Um. Sort of.
+
+We looked at sort of models, exploit patterns that exist only in the training set.
+
+Uh, and they're not sort of representative of the test and validation set.
+
+Um, and sort of.
+
+One thing. That sort of one one theory or one sort of, uh, explanation,
+
+how this overfitting happens is that sort of the first layer will overfit first to the data because it's closest to the data,
+
+and now the first layer is overfit. Um, the second layer will rely on sort of these overfit activations after the first layer.
+
+And they will evil heavily rely on certain correlations of this overfit, uh, activations of this first layer.
+
+And so as we go through, uh, the network, a layer after layer, the model will overfit more and more and more.
+
+And so one way to prevent this is to add, uh, something called dropout in between.
+
+And dropout is a specific layer that will look at activations and just randomly remove them.
+
+It will randomly set certain activations to zero. And so this will help prevent overfitting,
+
+because now a second layer can no longer fully rely on the outputs of the first layer when it makes its decisions.
+
+And so that breaking that reliance will sort of help prevent overfitting and dropout is relatively simple to implement.
+
+Uh, during training, we just flip a coin and sort of with a probability alpha, we set the activation.
+
+Uh, of a certain layer to zero. Now this will, in effect, scale all activations down by a factor of one minus alpha.
+
+And so during evaluation, we just scale things up by one over, uh, by a sort of, um, one minus alpha.
+
+Now, in practice is actually not done this way. This is the way it is explained in practice.
+
+Um, we actually take the normalization during training and just multiply it by one over one minus alpha during training.
+
+And the reason for this is that during testing, we can then just, uh, remove the dropout layer.
+
+Now in practice, you simply just add another layer to the network.
+
+It's torch and then dropout. Um, and then sort of yeah, the scaling happens all during training, during testing.
+
+Dropout is is really just identity. Now one thing to.
+
+Pay attention to. If you use dropout, you need to call model dot eval to put your model into eval mode,
+
+which will then switch from using dropout to this identity operation.
+
+And equivalently, you should call model dot train to actually enable dropout.
+
+Now, where should you drop out? Well, dropout should be added after fully connected layers.
+
+So you should add, um, add it.
+
+Uh, so you should add it before fully connected layers or before sort of one cross one convolutions.
+
+Um, you cannot add it before general conclusions. And the reason for this is that convolutions have a certain receptive field.
+
+And in that receptive field there is enough correlation so that the convolution can actually undo dropout.
+
+And so oftentimes this is not very effective.
+
+Then um there's versions of dropout that could work with convolutions but they're not very popular.
+
+So most often you will see this in either right after one cross on convolutions or after or before, uh, fully connected layers,
+
+and is actually used inside of transformers, uh, before the multi-layer perceptron to make the multi-layer perceptron, not overfit.
+
+All right. Now, another explanation why, uh, we might overfit is that, well, models might become too complex,
+
+and they're just too large and sort of the standard machine learning,
+
+uh, explanation for this is larger model overfits more, um, turns out with,
+
+with the advent of deep learning, this larger model overfits more was a little bit of a lie.
+
+Um, that's something people made up in the 90s.
+
+Um, it doesn't actually hold for deep networks. Larger models don't always overfit more.
+
+Um, but it's, uh, it's still good to sort of follow this idea through.
+
+And so the idea is sort of that smaller models, at least in traditional deep learning, they overfit less.
+
+And so they should be better. Now the issue really is that smaller models also fit worse and the generalize worse.
+
+And so just scaling down your model, making it tiny, uh, and preventing it from overfitting is not an ideal solution.
+
+Now, a better solution is to actually scale up your model, uh, like,
+
+make it large so that you can fit the data very well and then just sort of mess with the weights a little bit,
+
+make sure that the weights cannot be arbitrarily complicated.
+
+Instead of making the instead of preventing the model from becoming arbitrary,
+
+complicated, and large, we just keep the model the weights relatively simple.
+
+And one way to do this is to keep the weights small, sort of to sort of half a penalty, to keep them all at the weights relatively small and compact.
+
+Um, and in practice, like keep the weight magnitudes small.
+
+Um, and so this is called weight decay.
+
+Um, and almost all optimizers in PyTorch have a version of weight decay enabled.
+
+So you don't need to implement this yourself. The way you would do this is you essentially just give it an optimizer, a weight decay parameter.
+
+And Adam W, which we have already seen, then sort of will take this and every single step.
+
+You will sort of shrink the weights a little bit.
+
+This is equivalent to just putting an L2 norm on your, on your uh, as a, as a sort of a penalty on the L2 norm of your weights into your loss.
+
+All right. So this is weight decay. Now in practice weight decay doesn't actually prevent overfitting.
+
+This was really just a story people cooked up and sort of bought initially.
+
+Um, it doesn't significantly help us prevent overfitting.
+
+Um, but what it does is it prevents us from blowing up our models.
+
+So weight decay is a really good idea, so you should use it whenever you're training your model.
+
+You should use this weight decay parameter, but not for the reason that you will overfit.
+
+It's for the reason that it will keep your your weights small and it will prevent sort
+
+of explosions of weights and explosions of sort of your network during training.
+
+So this is a solution to the exploding gradient problem rather than a solution to the actual overfitting problem.
+
+All right. So part two like overfitting because our.
+
+Our our models are sort of two big. That's actually usually not the case.
+
+Um and so you can have weight decay to.
+
+Encourage your model to be simpler. But all it will do is it will essentially make.
+
+Sure that the model doesn't explode because of exploding gradients.
+
+All right, so part three, uh, is.
+
+Well, maybe our models are too complex.
+
+Maybe there is sort of something about the model that that that sort of.
+
+That that makes it overfit and sort of like maybe we we gave it too much power.
+
+Um, now maybe scaling up the model, sort of.
+
+There, there might be something there. And so one way to sort of test this hypothesis is to sort of make your model smaller.
+
+But instead of training one, you train multiple ones and so you train the same.
+
+Size network. You just sort of or not the same size.
+
+And instead of training one large network,
+
+you can trains three smaller networks that have roughly the same parameters, or maybe even some more parameters.
+
+And then you average the output of these models. And so that's actually a true way to prevent overfitting,
+
+which is sort of it hasn't it has not that much to do with the actual raw complexity of the model.
+
+It has more to do with the fact that you fit multiple smaller models to the same data,
+
+and then you average the output of these smaller models, and that averaging has a very good effect.
+
+So even if each model that you trained overfits in its own way to the to the training data,
+
+each model that you picked flow found its own patterns that it's really latching on to.
+
+If you train three or 4 or 3 or more of them and average the output.
+
+What will survive is often sort of the true signal.
+
+And so. Averaging.
+
+The output of multiple models together is called ensembling, and so an ensemble,
+
+what it will do is it will essentially have each model overfit its in its own way.
+
+And then. Average the output, which will sort of average the true signal that's in the data.
+
+Um, that's the hope often and sort of wash out an average out all the different ways the different models that overfit.
+
+Um, now pre deep learning, you actually had to use different subsets of your data to, um,
+
+to sort of fit models to different, uh, to, to get models to overfit differently in deep learning.
+
+Um, you don't there's enough randomness, eh, in your data loader because you're loading data in a random order.
+
+Oftentimes there's enough randomness in the data augmentation.
+
+There's enough randomness in initialization such that each model will already sort of overfit in its own way.
+
+And so all of these models will end up in different local minima.
+
+They will be quite different, and averaging them together will give you a model that's more robust.
+
+Now why does averaging even work? Like why is it a good idea to take a bunch of models and average their outputs?
+
+Uh, one reason to, uh, to see why this works better is a well, it just works better in practice.
+
+Like it usually gives you a boost of about 1 to 3% in accuracy for ensemble.
+
+If you have to compute, uh, you just have to sort of you have to wait a bit longer for training.
+
+Um, another way to see this is that all our losses in deep learning are convex or close to convex.
+
+And so if you take the loss of three different models.
+
+And compare that to the loss of the.
+
+Three models averaged just because of sort of Jensen's inequality and the fact that the losses are convex.
+
+What will happen is that the loss of the ensemble will always be better than the
+
+average loss of each individual of of the three individual individual models.
+
+And so just because our losses are convex, averaging the outputs of models is actually a really good idea.
+
+It will give you a loss. It'll give you a model that fits the data better.
+
+And so when should you use ensembles? Well, if you have nearly infinite compute, uh, you should definitely use it.
+
+Um, sort of. It has often been used for sort of competitions.
+
+It's now fallen a little bit out of favor. Um, just because sort of it creates this very uneven playing field.
+
+Somebody has a lot more compute, will be able to just train their model ten times,
+
+average the output and get sort of a little bit ahead of other people.
+
+Um, and so you should do it when you need every little piece of accuracy and really sort of compute is not an issue.
+
+Um, by now, with the model sizes that we have nowadays, compute is an issue.
+
+Uh, and ensembles, they're still use somewhat, but they're not that popular anymore.
+
+All right. So this sort of concludes the segment off over on overfitting.
+
+So what should we do to prevent overflow fitting. First you need to detect it.
+
+So you need to split your data data into training validation and test sets.
+
+Then what are you going to do is you're going to measure the performance and
+
+the difference in performance between set of training and validation sets,
+
+and overfitting really is the gap between them.
+
+If there's a large gap, you're overfitting. If there is no gap, there is no overfitting.
+
+Now, to prevent overfitting, you can either use more data. You can use data augmentation, you can use pre-trained models.
+
+Um, and that's sort of on the data.
+
+And if you want to prevent overfitting with modeling you could use dropout.
+
+Weight decay doesn't really actually, uh, prevent overfitting.
+
+What it does is it just makes sure that your, your gradients not explode.
+
+Or you could use ensembles to help sort of overfitting with stuff by averaging outputs of multiple models that overfit slightly differently.
+
+That's it.
+

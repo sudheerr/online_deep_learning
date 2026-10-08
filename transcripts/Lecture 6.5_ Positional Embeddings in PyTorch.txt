@@ -1,0 +1,269 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+Think. All right.
+
+So in this hands on segment we'll look at positional embeddings.
+
+And we'll do this at a very a on a very fun example, we'll train an implicit function to sort of represent an image.
+
+And so what we're doing here is I loaded this image here of arrows.
+
+I resized it to 128 by 128. And then I trained a little network that sort of models and then an implicit function which says that I'm now going to go.
+
+Learn a function that maps my input x y to a color.
+
+And if I do this, I can learn a network that represents an entire image, just one single image.
+
+So my training set now is sort of x, y locations, two colors of the image,
+
+and now the weights of the network will learn to represent this image of arrows here.
+
+I'll walk through the network real quick. Um, so this is a little multi-layer perceptron.
+
+We start out with an encoder that takes the xy location as an input and encodes it.
+
+Now, the vanilla encoder that I used here is, uh, identity function.
+
+So we just reuse raw x y coordinates as our, uh, inputs.
+
+Later on, we'll implement some positional embeddings that will help us encode this x y input better.
+
+And then afterwards this is just a multi-layer perceptron where we have linear ReLU linear really linear ReLU.
+
+And then in the end we output three values which are the red, green and blue value after specific location that we're interested in.
+
+Our dataset that we train on has two values. One is it's the image of the rows here.
+
+And then the other part is coordinates.
+
+It's the same size as an image. But now we just have coordinate x y coordinates as inputs.
+
+And I'll put this on different lines so it's easier to see.
+
+Um so these are just x y coordinates from -1 to 1.
+
+And they're off shape. 128 by 128.
+
+Right. And so you can think of this position as our input and as rows tensor.
+
+This image is our data or our labels that we want to predict.
+
+I put all of these on the TPU and have a little training loop with Adam here that will start to optimize.
+
+The rows emerge or the network output to look like the rows tensor.
+
+And here we use the absolute value mean of it.
+
+So the mean absolute error. And every 100 operations I'll plot the loss.
+
+Now I've already trained this network. It takes about 20s to train this network, and I've plotted what the result of this network looks like.
+
+And so if you do this with x, y positions as inputs, um, you will learn a network that is able to capture part of the, uh, the image.
+
+You'll capture sort of the global structure, but it has a really, really hard time capturing any of the details.
+
+So this is the output of the network. This is the is the ground truth.
+
+It should have it.
+
+Now we can also look at the output of the network at a higher resolution by simply just giving it, uh, higher resolution positions as inputs.
+
+Here this is 124 by 124 inputs. And this is what the network learned.
+
+And you can see this is not very impressive. Uh, this is not a very good reconstruction of the Soros image here.
+
+And the main reason why this didn't work this well is because our positional encoding here is just identity.
+
+We really just use the raw x positions as inputs.
+
+And so what we'll do here is. We'll now go and code up a better positional encoding.
+
+Let's see what copilot would want to do.
+
+Uh. All right. It. Yeah.
+
+Didn't quite do what I wanted it to do. Uh, so I'll delete most of this.
+
+Um, the division term here is useful, and we'll do.
+
+An. Or embed dimension.
+
+All right. And so we'll do ultimately is we'll take the input x which is of size batch size times two.
+
+And we'll expand it using sine and cosine functions.
+
+Of specific frequencies. And so what we can do initially is now we can just compute these frequencies.
+
+And no, let's not make this a parameter. Not for now.
+
+We'll go from. Zero to the embedding dimension, and every single time we increase by two.
+
+This is sort of the base frequencies. We will also divide this by the embedding dimension.
+
+Right. So this will now go. The frequency will now go from zero to.
+
+Sort of one in increments of two. Okay.
+
+And now in here. We'll take our inputs.
+
+The input shape. Is some batch size times two.
+
+And now for each of the potential dimensions here we'll expand them using sines and cosines.
+
+And so. We'll take the frequencies and just multiply them the input x with these frequencies.
+
+And up here I did make a mistake. This should be, uh, the negative exponent of this.
+
+And. We'll multiply each input with the frequencies that we just learned.
+
+All right. And to debug.
+
+This will print out the shape here before we feed into sine and cosine, and then we'll figure out what to do with the shapes later.
+
+Right? For positional encodings. We'll just do 16 for now and then we'll do P.
+
+Of. A simple tensor.
+
+Well, just to. Have 1.10.
+
+The other one be zero one. And for now, we'll just print its shape.
+
+Okay. Just to make sure that sort of what we output in the end is correct.
+
+And so we feed in a tensor that's batch size two.
+
+Each has two dimensions. And what we actually would want as an output is for each of the two dimensions.
+
+We want an embedding after size 16 here.
+
+So this is not quite right yet. Um so we didn't quite multiply all the shapes correctly.
+
+And so let's see why. Okay.
+
+So the shape let's say it is ahead of time here. The shape of X is two by two.
+
+The shape of our frequencies is eight. And the shape of the output here is.
+
+Two by eight by two, which is what we want it. Now we have to sign and to cosign of this.
+
+We'll concatenate it along to the last dimension which will give us.
+
+Eight by four. And now we just need to remove the last dimension.
+
+All right. Perfect. Okay. So now this will blow up.
+
+Uh, if we feed in a positional embedding, uh, for two dimensions X and Y, this will blow up, uh, blow it up to two times 16, which is 32.
+
+If you feed in a positional embedding, uh, that would just be one dimensional.
+
+Feed it. One to.
+
+Three here. This will now load up to 16.
+
+Here we go. Right. We'll debug this real quick.
+
+We'll see what this positional embedding actually looks like. If we feed in sort of numbers from minus one to.
+
+One. Right.
+
+We can plot this. So we'll plot each one of these to see if we got the frequencies right.
+
+Well to. Here. We'll do four for now until I can just plot.
+
+Two by two. All right?
+
+And we'll always, uh, plot a pair of them. I actually will plot.
+
+We'll do this. All right. Now, the first one is.
+
+It's still more than 4 to 8. It's easier to see. So we didn't quite get the frequencies right.
+
+I'll have to fix this. Um, but right now we have two frequencies in the, uh, instead of.
+
+Number of embeddings. Um, so let's figure out what the frequencies did.
+
+So what we what what we expect here to see is we expect to see sort of more and more wavy sine and cosine functions.
+
+This is not happening yet. Um. Huh?
+
+How are we getting there? Okay, now we're getting to sort of more and more wavy cosine and sine functions.
+
+Uh, we haven't quite tuned to frequencies right yet. And probably just forget about this normalization here.
+
+This was a bit too much. Let's reduce this point to.
+
+Now you can see the positional embedding first. This is, uh.
+
+The first is the sine function. This is the cosine.
+
+And then we have a sine uh of a higher frequency of cosine of a higher frequency.
+
+And then the frequency of the two increases over and over and over again.
+
+Until we get to really high frequency inputs. This is exactly the positional embedding you would want.
+
+You would want sort of sine and cosine functions that increase in frequency as we go along.
+
+All right. This works.
+
+All that remains to be done here is we'll need to replace.
+
+Our embedding here, our input, uh, our identity function here with the positional embedding that we just learned that we just came up with.
+
+And it's 12. Should work. Since we have two dimensional inputs, this going to be 24.
+
+Two times 12. And we can hit the training put.
+
+Almost. Um. One of the shapes is off.
+
+Okay. We'll look at the shape of x and the encoded x and see what we did wrong here.
+
+Huh? Tensor on the same device. Uh, that's that's easy.
+
+Okay. So here we created as tensor, uh, for frequencies.
+
+Uh, we forgot to put those onto the, uh, onto Cuda.
+
+And so we. That's a little hack here. We could just put this.
+
+Over to Cuda every single time we load this.
+
+It's not very efficient. Um, but for now, it will do.
+
+Need to remove the print. Um, dropped us and train again.
+
+Now the loss function decreases much quicker than before.
+
+And the output here is a much sharper image than we had before.
+
+Just as a reference, this blurry mess is what we had before. Now we're almost perfectly able to reconstruct the image.
+
+And the only thing we had to change is we changed this positional embedding.
+
+So we changed the input instead of embedding the raw coordinates.
+
+We now are embedding this these raw coordinates just through a sine and cosine transformation.
+
+Now is a lot a lot more complicated positional embeddings especially for sort of relative positions.
+
+But this should hopefully already show you that the right positional embedding can make quite a difference.
+
+Now we can also look at how this generalizes. If we make this image higher resolution you can see the generalization.
+
+It's not terrible. It's not amazing either. Um and so you can see that there's lots of little artifacts here in this positional embedding.
+
+Just because the network completely overfit to reproducing this image at this resolution.
+
+Now there's other positional embeddings that are a lot better at reducing artifacts.
+
+If you're thinking of sort of using them to upload, uh, to upsample images.
+
+Right. But at a high level.
+
+What I really wanted to show you is that just changing the positional embedding here can make a huge difference.
+
+The network now can localize itself much better in the image itself, and memorize what color each pixel or each position has.
+
+Just because it gets to see these wavefronts and these sine and cosine transformations of the inputs.
+
+Right. That's it.
+

@@ -1,0 +1,729 @@
+♪ (jazz music) ♪
+
+Great. So, to find the W that
+has maximum likelihood,
+
+it suffices to minimize
+this logistic loss quantity.
+
+Any questions about that?
+
+So, now you sort of see where the logistic
+
+loss function came into play.
+
+We had this model that was sort of like
+
+a classification problem.
+
+We tried to find the maximum likelihood W.
+
+We took its log, and we ended
+up with a logistic loss.
+
+So, what we're going to want to do now,
+
+So now, our goal will be to minimize
+
+the logistic loss, L of W.
+
+How should we minimize logistic loss of W?
+
+What should our strategy be?
+
+Yes.
+
+>> Well the whole point of getting
+
+this logistic loss function,
+let's say you have a convex
+
+differentiable function.
+
+So, can't you just use gradient descent?
+
+>> Great.
+
+So, idea, run gradient
+descent on logistic loss.
+
+And this is the algorithm
+
+for performing logistic regression.
+
+Okay so, if you want to
+run logistic regression
+
+on your training set, then
+what essentially happens
+
+is you form this logistic loss function
+
+and you just run gradient descent,
+
+to try and find some particular W.
+
+Then, on future examples,
+
+So, for future examples,
+let's say we find W prime
+
+and for future examples,
+we label them plus one
+
+with probability, sigmoid
+of W prime transposed X.
+
+Okay.
+
+So that's how we're going
+to label future examples.
+
+So, since we're going
+to run gradient decent,
+
+we might as well,
+
+Let's compute the gradient
+of L of W, logistic loss.
+
+Okay.
+
+So, remember Fi logistic,
+Z is equal to log
+
+of one plus E to the minus Z.
+
+So, first question, what
+is Fi logistic Z prime?
+
+What is the derivative of
+the logistic loss at Z,
+
+What is the derivative of Fi
+logistic with respect to Z?
+
+Take a moment and try and
+see if you can compute it.
+
+Yes.
+
+>> It should be negative
+E to the negative Z
+
+over one plus E to the negative Z.
+
+>> Negative.
+
+Sorry, say that again.
+
+>> Negative E to the negative Z.
+
+>> Negative E to the negative Z,
+
+>> Over the original (faint speaking).
+
+>> Log of one plus E to the minus Z.
+
+>> No.
+
+The one plus E to the negative Z.
+
+>> Oh.
+
+One plus E to the negative Z.
+
+Yes.
+
+How did you get that?
+
+>> You apply the chain rule.
+
+So, you take to the
+derivative of the inside--
+
+>> Right so,
+>> of the log.
+
+>> Right.
+
+So, we know the derivative
+of log of Z, is one over Z.
+
+So, we have a one over
+one, plus E to the minus Z
+
+and then, we use a chain rule.
+
+We take the derivative of the inside
+
+and we get minus E to the minus Z.
+
+Okay now, one other sort
+of, nice thing to notice
+
+is that this is equal to minus one over,
+
+one plus E to the Z.
+
+So, this is equal to
+minus, logistic of minus Z.
+
+So, the derivative of Fi logistic at Z
+
+is just minus Fi logistic of minus Z.
+
+Okay.
+
+So then, let's actually
+compute Fi logistic of Y
+
+times W transpose X.
+
+So, let's compute this,
+with respect to WK.
+
+What would we get here?
+
+>> Is it Fi logistic or a sigmoid?
+
+The last Fi logistic.
+
+>> Oh, you're right.
+
+Sorry.
+
+This is,
+
+Thank you for pointing that out.
+
+This is sigmoid, minus G of minus Z.
+
+Thank you.
+
+You're correct.
+
+Okay, so what is the derivative,
+
+Let's you know, go one step further.
+
+We're going to be putting
+these Y times W, transpose Xs
+
+into our logistic loss.
+
+What is the derivative of logistic Y,
+
+times W transpose X, with respect to WK?
+
+You probably want to to use
+this fact that we just proved.
+
+How can we use this as our first step?
+
+Yes.
+
+>> We could just plug the numbers into
+
+the identity that we used earlier.
+
+>> Good.
+
+And then what?
+
+>> And then you could--
+
+>> We still have the chain rule.
+
+Yes.
+
+>> I ended up with, negative W transpose
+
+E to the Z, divided by one plus E,
+
+to the minus Z, all squared.
+
+>> I'm trying to,
+
+You could be right.
+
+I'm trying to use this fact
+here, and just keep everything
+
+in terms of the sigmoid
+function, rather than
+
+writing out all of the E.
+
+I think, you know, once
+we have this quantity
+
+and we need to apply the chain
+rule, then I think you're
+
+going to get Y times
+XK, from the chain rule.
+
+Okay, because this,
+
+Yeah.
+
+Yes.
+
+>> Don't you have the
+take out an extra negative
+
+because it's negative Y times,
+
+>> No, because this is just going to,
+
+Basically, we have the derivative here.
+
+This is our Z.
+
+So here, I have minus G of
+minus Z, and then I have to do
+
+times five, prime of Z.
+
+>> Okay.
+
+>> So I get,
+
+Sorry.
+
+I take the derivative of Z.
+
+It's partial Z with respect to WK.
+
+So, I just get Y times XK.
+
+Good question.
+
+>> I took the derivative G.
+
+That's what I did.
+
+>> Okay.
+
+Okay, so this is nice.
+
+It's a fairly simple expression
+for the partial derivative
+
+of the logistic loss, with respect to WK.
+
+And now that we have this formula,
+
+So, this directly tells
+you, we can directly
+
+apply gradient descent.
+
+Because we've said exactly,
+
+This indicates exactly
+how we should be updating
+
+the coordinates of W, and
+once we've computed this,
+
+this partial derivative,
+then we know how to compute
+
+the gradient and we can move the opposite
+
+direction of the gradient.
+
+We can just directly
+apply gradient descent.
+
+So, this tells us precisely,
+
+This precisely tells us, how
+to find the max likelihood, W.
+
+Whoops.
+
+Okay.
+
+And the other nice thing to notice,
+
+is that sometimes people
+like to think about
+
+logistic regression as a model where this
+
+is just true, this relationship.
+
+But, even if this
+relationship is not true,
+
+the associated log likelihood
+optimization problem,
+
+still makes sense.
+
+We can still write it down.
+
+It's still convex, and so we'll still
+
+be able to find some W.
+
+We won't have any real guarantees
+on how well W performs,
+
+but at least efficiently
+in polynomial time,
+
+we can find a W that
+will always minimize the,
+
+excuse me, maximize the log likelihood,
+
+via minimizing the logistic loss.
+
+Okay, so that's logistic regression.
+
+So, one question is,
+what happens if we have
+
+multiple labels for Y?
+
+For example, right now we had that Y
+
+was either in plus one,
+minus one or zero, one.
+
+But, what if Y could be between,
+let's just say, one and K.
+
+Let's say, why could take on K values.
+
+Then, there's something called,
+
+multinomial logistic regression.
+
+And we assume,
+
+The model is sort of,
+
+we assume that the probability,
+that Y equals some class,
+
+let's say J given X is going to be,
+
+Okay.
+
+So, in this case we're going to have,
+
+So, we're going to have W1,
+
+Oh, maybe I should use superscript.
+
+Instead of having one
+hidden weight vector,
+
+we're going to have K minus
+one, hidden weight vectors.
+
+And so, the probability that
+Y takes on the class value one
+
+given X, is going to be sigmoid of,
+
+Well, sorry.
+
+It's going to be,
+
+Say it this way.
+
+It's going to be E to the W1
+transpose X, divided by sum
+
+from i equals one, K minus one.
+
+Sorry.
+
+Let's see.
+
+E to the Wi, transpose X.
+
+And probability that Y
+equals J, given X is going to
+
+be equal to E to the WJ, transpose X over
+
+sum J equals one, two.
+
+So, K minus one.
+
+Well, let's do K.
+
+E to the WJ, transpose.
+
+This should always be,
+
+Hold on, I'm going to rewrite this.
+
+Sorry.
+
+This is too complicated.
+
+Okay.
+
+So, let's read it this way.
+
+The probability that Y equals
+one, is going to be proportional
+
+to E to the W1, transpose X.
+
+And the probability that Y equals J,
+
+is going to be proportional,
+
+E to the WJ, transpose X.
+
+And we only have K minus
+one weight vectors,
+
+because the probability that
+Y takes on the Kth value,
+
+is just going to be one minus the sum,
+
+the sum of the other probabilities.
+
+Okay so, what do I mean
+by proportional here?
+
+I mean that the probability
+that Y equals one,
+
+conditioned on X, is going to
+be E to the W1 transpose X,
+
+divided by some term
+that we use to make sure
+
+that all of the
+probabilities sum up to one.
+
+Okay so, when we were
+doing logistic regression,
+
+there was just one hidden weight vector.
+
+When we do multinomial the
+just a regression, we have,
+
+if there are K labels, we
+have K hidden weight vectors,
+
+and the probability that you
+take any particular value
+
+is going to be proportional to E to W
+
+of that weight vector, transpose X.
+
+Then the question is,
+what law should we use?
+
+And this is something called,
+the cross entropy loss.
+
+So, the cross entropy loss
+
+is a generalization of logistic loss.
+
+So, imagine that Y is a vector of length K
+
+with a one in the Jth position,
+if the correct label is J.
+
+This is called, a one hot
+encoding of your labels.
+
+And then, the cross entropy
+loss is going to be, let's say,
+
+our guess for the probability
+that Y has label i is Pi.
+
+So, this is going to be our guess.
+
+Previously, it was the sigmoid
+function of W transpose X.
+
+So, let's say our guess where
+the Ith label of Y is Pi.
+
+Then, we'll look at the sum from i equals
+
+one to K of Yi log of Pi.
+
+This is the cross entropy loss.
+
+So, basically if Yi,
+
+Let's say that an index i,
+
+or let's say an index
+three, there's a one.
+
+So, the correct label is three.
+
+Then in that case, we're
+hoping that P3 is very large.
+
+So, we've sort of said, oh
+well, we're fairly confident
+
+that your label is three.
+
+And if the label is in fact three,
+
+then that's very good for us.
+
+Guess is for the probabilities,
+if certain class labels
+
+are far off from the true labels,
+
+then we're going to suffer for this loss.
+
+So, I'm not spending too much
+time on the multiclass case
+
+because I think, given the
+logistic regression model
+
+and our discussion, you
+could sort of figure out
+
+based on this high-level
+overview, how the multiple
+
+class label scenario should work.
+
+I just wanted to mention that
+there is something called,
+
+softmax, which turns real
+values into probabilities.
+
+You know, we've seen a
+simple form of this today,
+
+when we transformed W transpose
+X, by the sigmoid function.
+
+So, W transpose X got mapped to a value
+
+between zero and one.
+
+So, this is how we
+transform, W transpose X
+
+into a probability.
+
+Okay.
+
+And if we have multiple classes,
+
+So, let's say that we have
+a vector with K coordinates
+
+of real values Z1 through
+ZK, and we want to transform
+
+this vector into probabilities,
+for what we think
+
+the correct label is, whether
+when we have K labels,
+
+then we can transform
+this into E to the Z1,
+
+E to the Z2, dot E to the ZK.
+
+And again, we'll normalize all of these
+
+and we'll let Z be the sum from i equals
+
+one to K of E to the Zi.
+
+So, once we do this, these K real values
+
+will get mapped to K probabilities,
+
+K values between zero and one,
+
+and because we divided by Z,
+the sum of all of these values
+
+are actually going to equal one.
+
+So, performing a softmax
+really corresponds to taking
+
+some K long vector of real
+values, and mapping them
+
+to probabilities between zero
+and one, that all sum to one.
+
+So, it sort of corresponds to
+taking some real valued scores
+
+and transforming them into
+probabilities that correspond
+
+to guesses for what the
+class label should be.
+
+Any questions about this?
+
+Okay so, one nice thing
+about logistic regression
+
+was that we were sort
+of learning a sigmoid.
+
+One sigmoid.
+
+We had this model where
+your data was classified,
+
+the probability that your label was one,
+
+corresponded to a value
+coming from a sigmoid.
+
+And this is going to
+lead us into a discussion
+
+about more complicated models for data,
+
+namely neural networks, where you may have
+
+many different types of
+nonlinear activations,
+
+such as sigmoids, but composed
+in very interesting ways.
+
+And algorithms for
+learning neural networks,
+
+tools for learning neural networks,
+
+have really transformed machine learning,
+
+artificial intelligence and data science.
+
+So, we'll see some of that next time.
+

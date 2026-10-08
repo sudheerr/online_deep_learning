@@ -1,0 +1,295 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So in this segment, we'll look at sort of one of the most magical workhorses of deep learning, which is stochastic gradient descent.
+
+Uh, it is the algorithm that make deep learning work as well as it does nowadays.
+
+Um, and we'll sort of ease in slowly.
+
+We'll start sort of recapping what data sets are.
+
+Um, and then we'll sort of slowly build up up to the algorithm of stochastic gradient descent.
+
+So data sets. Um, these for this class.
+
+These are collections of input images X or inputs in general X associated with labels y.
+
+Uh, we'll always use a sort of this pairing between uh labels and and inputs.
+
+Um some applications you might only have inputs, uh, you might derive the labels or a training signal from the input directly.
+
+Uh, for us, we'll always use pairs. All right.
+
+Then we have a model. Uh, we looked at sort of how to build up this deep network.
+
+Uh, it's just sort of this beautiful mix between linear and non-linear functions.
+
+It's sort of these layers of computation.
+
+What's important here is that the linear layers, and maybe sometimes some of the non-linear layers have parameters.
+
+And depending on what we set these parameters to, we can express almost any function you'd want.
+
+This entire thing is is expressed as this differentiable computation graph such
+
+that we can compute gradients of these of these parameters very efficiently.
+
+Then we have loss functions that sort of tie our inputs x.
+
+Two labels. Why? Now when we were looking at sort of setting up loss functions, we often zoom into the actual loss function here.
+
+We'll look at sort of what is the task we want to solve. How do we how do we pick the right function here.
+
+If you do optimization, we'll take a step back and we'll only look at the expected loss.
+
+Also it's just often times called loss which is a function of the model parameters theta and the data set.
+
+Now in practice the data set is fixed so we can ignore the data set. All we care about is that this is a function of the model parameters.
+
+And so for training our goal is. For a specific data set and a specific model we want to find.
+
+The parameters that minimize the loss. And so the loss functions often set up such that small lost means good and high loss means bad.
+
+And so we want to find the best possible model, which is the model that has the smallest possible loss.
+
+The network is a differentiable function that will give us gradients, uh, for specific set of losses here.
+
+And we already looked at sort of one algorithm that can optimize weights of deep networks.
+
+We've looked at gradient descent, which had a very simple update rule, which just said,
+
+well, we'll take our parameters here and we'll compute the gradient of all the parameters.
+
+Which is this term here. And then we'll just take a very small step in the direction of the gradient in terms of pseudocode.
+
+This is very simple. We initialize our network to something. It's oftentimes random values, small random values.
+
+And then we iterate. Over a step that computes gradients and then a step that updates the weights.
+
+The compute gradients. Update weights. Compute gradients. Update the weights.
+
+Now there is an issue with this though, which is gradient descent can be quite slow.
+
+Uh, imagine you have a large, large data set of all the data that you could ever collect.
+
+Let's say you would want to train a network on all the data that's on the internet in order to update the model, just one teeny tiny bit.
+
+You now need to loop over your entire data set and compute these little loss values for your entire data set.
+
+And once you're done with that, then finally, finally, you get to update your model just a little bit.
+
+Then we repeat. This will again sort of loop over the entire data set.
+
+And in the very end we'll get to update our prime parameters. Just a teeny little teeny little bit.
+
+Right. And so there's two sort of dimensions with which this algorithm gets really slow.
+
+A is if you have more data or if you have more parameters.
+
+So if our model gets bigger the gradient computation usually gets slower.
+
+And so this for loop here I had to get slow because the data set.
+
+Is large or. Because the gradient computation is large.
+
+And so gradient descent can just be way too inefficient to compute sort of enough updates to get to an interesting enough model.
+
+Now. Stochastic gradient descent. Solves this issue.
+
+And so I would like you to sort of focus real quick. On the, on on the sort of.
+
+Gradient descent formulation here, which is a for loop over epochs, a for loop over the data set, and some gradient is a computation here.
+
+And then finally we do the update step because what's the stochastic gradient descent does.
+
+It's almost an old it's like close to a two character difference which is it inserts two white spaces.
+
+In here. It indents this gradient update.
+
+It pulls it into the inner loop of the algorithm. And now instead of computing the gradient over our entire data set and taking a step,
+
+stochastic gradient descent takes a step every single time you compute the gradient.
+
+Now, if you think about this for a moment, it's like the first time I've learned about this.
+
+This seems like a crazy idea. Like, we know gradient descent is nice because it computes the gradient, takes a step in the right direction.
+
+And now what we're saying is like, well, no, let's not do that.
+
+Let's actually take a step every single time we compute a gradient.
+
+So we're starting to sort of sometimes we walk in the wrong direction because the
+
+gradient of of one one data element might be completely pointing in the wrong direction.
+
+Other times will walk in the right direction, because sort of a lot of gradients might agree in what the, the right loss, uh, value is.
+
+Right. And so.
+
+Stochastic rain isn't does this weird thing where we iterate over all the epochs?
+
+But then we also iterate over all the data. And every single time we compute the gradient, we just take a step.
+
+We just step just steps, just it. All right.
+
+And so that's sort of the biggest difference between the two algorithms.
+
+And so you can think of if gradient descent was really slow because we had to compute this
+
+gradient first before you could take a step gradient to stochastic gradient descent.
+
+It's going to be super fast because every single time we compute this little tiny gradient in here,
+
+we just take a step after we're just going this direction and continue continue updating.
+
+So if you have a large data set, you will now be continuously walking and updating your parameters on any new data element you get.
+
+Now, why would this ever converge? Right?
+
+Why would it ever get into sort of. Why would it ever work?
+
+Um, and so in practice.
+
+So if you look at how it works in practice, gradient descent.
+
+Well, sort of slowly and steadily. Improve.
+
+Your set of parameters. Stochastic stochastic gradient descent goes all over the place.
+
+It's sort of sometimes your loss will go down, sometimes it will go up, sometimes it will be absolutely crazy.
+
+Right. And so. In the end, though, it will sort of converge to a good solution.
+
+And so. There's two reasons why it is learning rate to avoid this curve actually fluctuates.
+
+Um, reason number one is stochastic gradient descent.
+
+When you evaluate the function, you will always evaluate on an individual's data sample.
+
+And so the loss for individual elements might be very different.
+
+And so that's what you see here in green. So stochastic gradient descent sort of jumps around all over the place.
+
+That's simply just because the loss value for all different elements that we evaluate in this inner loop here, the loss value here.
+
+It's going to be very different and it's very jumpy.
+
+And so you wouldn't even have to take a gradient step in stochastic gradient descent if you just plot your your loss value,
+
+if you removed the if you made epsilon the learning rate zero,
+
+you will see still see this crazy jumping around just because you're jumping from example to example two example two example to sort of try to.
+
+Optimizer got gradients and then quickly sort of move on to the next example.
+
+Now, the other reason why it fluctuates is because not every single example in your data set is actually going to give you a good gradient.
+
+Um, either the data might be bad, or it might only give you a gradient that is good for this individual data element.
+
+And so sometimes you take gradient steps that do not help the overall training.
+
+Uh, and so that's sort of a property of gradient descent.
+
+A stochastic gradient descent will just have to accept every now and then we'll take gradient steps.
+
+And these gradient steps will be in the wrong direction. Um and.
+
+Often, oftentimes. More often than not, this is not the case. So more often than not, we'll take gradient steps in the right direction.
+
+There is some really beautiful proofs and convergence of stochastic gradient descent showing that sort of.
+
+For convex functions, this will always converge.
+
+It will always converge to a small value. For non-convex functions.
+
+In practice it does too. And so let's take an example of sort of what stochastic gradient descent does.
+
+Excuse me. And so gradient descent to recall it starts out at a certain value here.
+
+Let's start sort of over here.
+
+It will compute the gradient over the entire function, compute a gradient over the entire function, and slowly and steadily.
+
+It will find the minimum. Now, what stochastic gradient descent does is it will create uh, it will compute the gradient of one of the functions.
+
+Let's say we'll start out with the red function here. We'll take a gradient step.
+
+Now we'll switch over to the next data element. Let's say it's this screen element here.
+
+We'll take another gradient step. All right.
+
+We got closer to minima. Now we'll switch over to the purple function here.
+
+We'll compute the next gradient step. Again we got closer to the minima.
+
+Let's say we now switch over to the blue function we have not visited.
+
+Oh, we're slightly unlucky. We got a bit further away from the minima, but let's not give up.
+
+We can go back to the read function. You can go back to sort of the green function.
+
+We can go back to the purple function and eventually.
+
+This fun little mess of hopping from sort of little function to little function,
+
+of little data element to little data element will actually converge to a proper local minimum.
+
+Um, now the question really is how fast will it converge?
+
+Um. Empirically, stochastic gradient descent will almost always converge.
+
+Uh, you have to initialize a network in a really poor condition for it to not converge.
+
+Um, and in these conditions, also gradient descent will not converge.
+
+Um, the question really is how much faster is it then gradient descent.
+
+And so we look at two cases here.
+
+Case number one um, we'll look at what happens if all the gradients of all the sort of data elements align well with each other.
+
+So if all the gradients of all the different data elements are more or less the same, well,
+
+stochastic gradient descent and gradient descent are going to converge exactly the same,
+
+except for stochastic gradient descent takes to get to take n times more steps where n is the size of your data set.
+
+So in this case it's just much faster. It's exactly the same thing, but much faster.
+
+Now, if we look at a case where t's are not the same.
+
+So if the gradients of all individual data elements do not agree, which is often which is almost always the case in reality,
+
+then the convergence speed of stochastic gradient descent depends on the variance of the gradient estimate,
+
+and so the variance of the gradient estimate is the difference between the gradient estimate of
+
+one individual data sample versus sort of the gradient that gradient descent would have taken,
+
+which is the gradient over the entire data set. So we'll look at this difference.
+
+So if the gradient estimates are almost all the same the variance is small.
+
+Convergence is fast. If gradients on different data samples wildly disagree with each other, then convergence is relatively slow.
+
+And so that's one way to measure how well does stochastic gradient descent converge.
+
+In later parts of this class. We'll look at this variance again and we'll see.
+
+We'll look at tricks on making this variance here this variance term smaller.
+
+So a lot of deep learning is sort of a lot of optimization.
+
+And deep learning is all about controlling this variance.
+
+Um, and trying to make sure that stochastic gradient descent has a small enough variance that it will converge quickly.
+
+Now, in summary, uh, stochastic gradient descent is really it's the workhorse of deep learning.
+
+There's variants of it we'll look at much later in this class. Uh, but that basic algorithm is what makes deep learning work.
+
+Uh, and in general, the thing you need to remember is sarcastic reinforcement runs much faster than gradient descent.
+
+But. The conversion speed does depend on the variance of the gradient estimates.
+
+That's it.
+

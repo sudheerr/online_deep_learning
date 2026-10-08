@@ -1,0 +1,201 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+All right. So let's look at how we code up residual networks in PyTorch.
+
+Um we'll sort of show we'll start out with the layer norm network that we had before.
+
+And then we'll sort of slowly move towards the network that has residual connections in it.
+
+So here you can see this is the layer norm network that we have previously built.
+
+Um it sort of just goes through a bunch of layers.
+
+That's layer norm linear ReLU. Layer norm linear ReLU.
+
+This is the version that had layer norm.
+
+Before linear will now work with a version that has it after the linear before the value.
+
+Now. Residual networks are not sequential anymore.
+
+So the residual networks have skip connections in them that sort of skip a bunch of sequential layers.
+
+And so the easiest way to implement is is to group linear layer norm and rally together in a layer and then add the skip connections around.
+
+We'll do this. In a block.
+
+So block is another module. And.
+
+This copilot jumped the gun a little bit.
+
+We'll do in channels our channels. We're not going to do convolutions so we're going to skip this.
+
+And so in this block we'll have a convolution and normalization a ReLU.
+
+And that's pretty much it. And now what this block does is right now convolution or earlier convolution normally earlier.
+
+And so we can replace. Our original network with blocks.
+
+So we can just replace this linear norm ReLU with.
+
+Our new block. And a block will go from input channels to output channels.
+
+It calls self-taught block. And now this is exactly the same network.
+
+It's just we used a lot more code to write exactly the same thing.
+
+We can run this again. Still runs.
+
+Still produces some output here. Now, if you want to change this network that is built out of sort of blocks of.
+
+Linear norm ratio and we should not call this. This is called linear.
+
+If we have these blocks of linear norm.
+
+You. We can now add a skip connection to one of these blocks.
+
+The easiest way to do this is just to add x. And so adding this x changes this model from just this layer.
+
+Normalize a normalized network to a residual network.
+
+I'm going to run this and you will see in a moment this is actually going to fail.
+
+Uh, then we'll look at wide field. So we get this gigantic error message initially in the error message,
+
+it just goes through a bunch of PyTorch code that is constructed in the backward in the background.
+
+It now at some point tells us that model self model X failed, which is this call here.
+
+Model is our sequential. That's this sequential thing of blocks.
+
+Now it goes through a bunch more PyTorch code in the background.
+
+Then it ends up at sort of line ten, which is our block here.
+
+Just this up here. It fails here because it says size of tensor 512 must match size of tensor B, which is much, much larger.
+
+So what's going on here? Well, what is this number? So this here is 128 by 128 by three.
+
+So this must have happened in the very first layer.
+
+In the very first layer. What's happening is that X is our input.
+
+That's 128 by one, 28 by three. That's just by construction.
+
+That's how we said, uh, our input is used to be the flower data set that we resized.
+
+That's one image from the flower data set. We fed it to the linear layer to norm to ReLU.
+
+And the very first linear layer to block in the first linear layer what it did.
+
+It took this input and made it 512.
+
+And now we cannot add this original tensor to it.
+
+So for the very first layer, we can not have to skip connection.
+
+Right. But there is a very easy fix.
+
+And then there is a somewhat easy fix. And so the very easy fix for this is.
+
+To just check. It's called a SWI. And so if x shape equals y shape.
+
+Then we'll return x plus y, and otherwise we'll just return to return x.
+
+So we'll only add the residual connection when it's convenient. All right.
+
+So this is one way to fix this. This is not the way this is commonly fixed.
+
+The way this is commonly fixed is when we create this block, we actually check if the input and output channels of this block are the same.
+
+And if they're not. If they are not the same, we'll add a skip connection and a skip connection.
+
+For convenience is just a linear layer. And so instead of having this ugly hack down here.
+
+We'll return. The skip connection of X.
+
+And why? And.
+
+If the two are the same, the channels are the same. Then the skip connection is just identity.
+
+So Skip either does nothing to X, in which it's an oracle in which it's, uh, regular residual connection,
+
+or we'll feed it through a linear layer that will just change the number of channels.
+
+So that's the proper way of constructing a block in a residual network.
+
+We can run this again. And it.
+
+I misspelled Skip somewhere. Skip.
+
+And so now it sort of chooses between the first layer where we change two channels.
+
+That one is going to get the linear layer in parallel, and then everything else after it's going to get just this identity skip connection.
+
+Now, one more thing you should change when you build a, uh, residual network.
+
+Is that the first layer here oftentimes is not, uh, block.
+
+You'll always start with one layer. It's often either a convolution.
+
+Um, it's actually almost always a convolution in the very first layer with images or some sort of embedding layer.
+
+If you have language that sort of transforms your input.
+
+Uh, and this is just a linear layer that goes from your input size to some fixed size.
+
+And then you start with blocks of residual connections. So we could do this.
+
+So you'll often in residual networks, you'll see that you have to first layer be an embedding,
+
+um, either of convolutions for image patches or an embedding of language tokens.
+
+The other thing to note is that we can make residual, uh, connections sort of skip more than one layer.
+
+That's another common thing that you'll see in residual networks is that you might actually have sort of.
+
+Two. Sort of sets of linear norm.
+
+Really neat linear norm really in there. And then we'll add the skip connection.
+
+So this would look. Like this.
+
+Input. Here's why. Now, if we're going to make this, if we would make this even more sort of, uh,
+
+complex, what we could do here is we could call this rez or let's call this model.
+
+And to make this a bit nicer, we make this sequential.
+
+And will add. All of these layers to the sequential.
+
+Which will make it slightly easier to read. So now we have a network.
+
+That parameterize as sort of the main computation. Then we have to skip connection here.
+
+And in the end, all we do down here is we'll.
+
+And self-taught skip of X and self-taught model of X.
+
+And this is probably the cleanest implementation of a residual network.
+
+So we have blocks where we have a model and a skip connection.
+
+If the channels don't match. And later on if you have convolutions, it's other parameters that can that might not match.
+
+Um, if they don't match we'll have to change the input.
+
+We'll use a linear layer or a convolution uh, later on to change this.
+
+If they match, we can just use entity. And then I'll just add up the skip connection and the main model that does most of the computation.
+
+This forms our block. And then in the network itself, we'll have a linear layer first and then have blocks of residual connections.
+
+Uh, we all have these residual blocks, block after block after block that make up the bulk of our network.
+
+And then in the end, we'll see that I can have a linear, uh, a linear layer.
+
+That linear layer just does classification in case of the flowers data set, it just outputs, uh, 102 different values for multi-class classification.
+
+That's pretty much all there is to know about building residual networks.
+
+That's a.
+

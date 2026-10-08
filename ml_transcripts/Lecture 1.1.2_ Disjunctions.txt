@@ -1,0 +1,210 @@
+♪ (smooth jazz music) ♪
+
+Okay, so should we move
+on to a more interesting
+
+class of functions?
+
+Slightly more interesting
+class of functions?
+
+Okay, so instead of disjunctions,
+monotone disjunctions,
+
+let's just look at disjunctions.
+
+So now we're in the case
+were f might equal x one
+
+or x two bar, or x seven,
+
+or x nine bar.
+
+So now we could have negations
+sitting in our disjunction.
+
+Doesn't necessarily have to be monotone.
+
+So here's an interesting question:
+
+How can we use
+
+the algorithm for monotone disjunctions
+
+to learn disjunctions?
+
+So remember, we have an
+algorithm that will learn
+
+monotone disjunctions,
+and I want you to use it
+
+as a black box to learn
+regular disjunctions.
+
+Okay, I'm actually,
+
+actually received the correct answer on
+
+one of the student questions here.
+
+So kaser-One, whoever that is,
+
+has exactly the right idea.
+
+So what I'm going to do is
+I'm going to take an input,
+
+x one through xn,
+
+remember, this is a string
+of bits of length n,
+
+and I'm going to do something
+that I like to call
+
+feature expansion.
+
+This will come up in future lectures.
+
+So we're going to map the
+string, x one through xn,
+
+to a new string, x one,
+
+again, we'll have x one through xn.
+
+And then we'll have new
+bits, y one through yn.
+
+So if this was a string of length n,
+
+this is going to be a
+string of length two n.
+
+And each y-i
+
+is going to equal the negation of x-i.
+
+So just as an example, if the learner
+
+is presented with the string 0110,
+
+in this case, n equals four,
+
+the first thing that's going to happen
+
+is the learner's going
+to map this to a string
+
+of length eight, 0110,
+
+and then will negate all the bits,
+
+so 1001.
+
+So every time we get an
+input string of length n,
+
+I'm going to map it to an
+input string of length two n.
+
+And remember, if I have a function f
+
+of x one through xn,
+
+and it equals some,
+let's say, disjunction,
+
+x two or x four bar or x seven,
+
+now I can rewrite this
+function as a new function
+
+on input variables x one through xn,
+
+comma, y one through yn.
+
+And it's equal to x two, or y four,
+
+or x seven.
+
+These two functions are going
+to have the same behavior.
+
+So notice the unknown that
+we were looking for, f,
+
+was a disjunction that
+had negated variables.
+
+Here we've mapped it to a
+function f on two n variables
+
+that has no negated variables anymore.
+
+It's just a function over
+the x-i's and the y-i's.
+
+So using the algorithm for
+learning monotone disjunctions,
+
+we have a new algorithm
+
+with mistake bound
+
+at most two n,
+
+because now we have these
+monotone disjunctions
+
+over two n literals.
+
+So the learner can literally
+take these examples,
+
+these strings, x one through xn,
+
+and it can map them to new strings,
+
+x one through xn, y one through yn,
+
+and then it can apply
+
+the monotone disjunction
+
+algorithm on these challenges.
+
+So if you think about
+it, its internal state
+
+will start off with x one
+or x two, dot-dot-dot,
+
+through xn, and then or at y one or y two,
+
+dot-dot-dot, or yn.
+
+So that will be its internal state,
+
+and it will execute the
+same algorithm as before
+
+but on these expanded features.
+
+Since we have two n
+variables, the mistake bound
+
+is going to be at most two n.
+
+So in a pretty seamless way,
+we've taken an algorithm
+
+with a mistake bound for
+monotone disjunctions
+
+and we've converted it
+to one that will work
+
+for arbitrary disjunctions.
+

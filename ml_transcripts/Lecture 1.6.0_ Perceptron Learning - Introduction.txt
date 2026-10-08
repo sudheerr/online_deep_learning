@@ -1,0 +1,384 @@
+♪ (jazz music) ♪
+
+Hey everybody.
+
+Welcome back to machine learning.
+
+Today I'm going to tell you
+about a super exciting algorithm
+
+called the perceptron algorithm.
+
+It's an algorithm for
+learning half spaces.
+
+It has provable guarantees.
+
+Interestingly, it was
+developed in the late 50s
+
+by a neuroscientist but since then,
+
+it's found applications
+primarily in computer science
+
+and even today, if you want
+to use certain packages
+
+in your machine learning software,
+
+you'll see many of them rely on
+
+a perceptron type update rule.
+
+So let's get started with
+the perceptron algorithm.
+
+Let me first remind
+you, the function class
+
+that we're actually going to be learning.
+
+So, I'll call it script C as usual.
+
+And it's be the class of half spaces.
+
+Just so we're all on the same page,
+
+a half space
+
+is equal to the sign
+
+of some linear function.
+
+This is some threshold.
+
+Some scaler threshold.
+
+And the vector W
+
+is unknown.
+
+We'll assume that f of x
+
+for right now outputs values
+in minus one plus one.
+
+Although the xi's
+
+are going to take values in the reels.
+
+So f of x is really just
+evaluating a linear function
+
+on some unknown weight vector W.
+
+And then it's going to take it's sign.
+
+Now a complicated way,
+
+and by complicated I mean,
+
+well you'll see relative to
+the perceptron algorithm,
+
+but I'll put complicated in quotes
+
+because it's still inefficient
+polynomial time algorithm.
+
+Is to notice that if we have examples x
+
+plus one, let's say we have a
+training set x one plus one.
+
+We have another element of our
+training set x two minus one.
+
+This is going to correspond
+to the linear inequality w one,
+
+x one,
+
+plus w n
+
+x n
+
+is greater than or equal to theta.
+
+And this is going to
+correspond to a linear inequality
+
+less than theta.
+
+We have a plus one here as our label
+
+and so we're going to have greater
+than or equal to theta here.
+
+And we have minus one as our label
+
+and we'll have less than
+theta correspondingly.
+
+And we'll get all these inequalities
+
+if we have m points in our training set
+
+then we'll get m inequalities.
+
+And we can use
+
+LP, or linear programming
+
+solvers
+
+to find
+
+a weight vector, W
+
+consistent
+
+with our training set.
+
+These linear programming solvers
+
+are highly nontrivial algorithm
+
+but they are known to
+run in polynomial time.
+
+So that means we can
+find a weight vector W,
+
+it's consistent with
+all of our inequalities
+
+in polynomial time and as we know from
+
+previous lectures in class,
+
+once you have an algorithm that can find
+
+a relatively simple hypothesis
+
+that's consistent with your training set,
+
+you're in good shape.
+
+You can probably prove
+that that hypothesis
+
+is going to generalize well
+
+and have low true error.
+
+And that is the case here.
+
+So we could stop here and say,
+
+well the case for learning half
+spaces is completely closed.
+
+On the other hand, as I mentioned,
+
+these LP solvers, well,
+they're very expensive
+
+and complicated to run,
+they take a long time.
+
+So what I'd like to do is
+show you a simpler algorithm
+
+for learning in half space.
+
+It will require an
+assumption on half space
+
+so that's sort of the trade off
+
+but it is very simple.
+
+And as I mentioned, it's
+the perceptron algorithm.
+
+So we're going to move back
+to the mistake bounded model.
+
+I know we're all familiar
+with this model at this point.
+
+So we're back, we'll be in
+the mistake bounded model
+
+and I'm going to prove guarantees
+for this perceptron algorithm
+
+in the mistake bounded model.
+
+First I guess I should just
+tell you with the algorithm is.
+
+So initially,
+
+we'll have some
+
+guess for our weight vector.
+
+And we could initially chose
+
+this weight vector,
+
+could call it W zero,
+
+we could initially choose
+it to be all zeroes vector
+
+or we could initially choose
+
+the vector to be a unit vector.
+
+It's not really going to matter.
+
+So our learner,
+
+has W
+
+as it's state.
+
+And it's guess,
+
+so then as we know,
+
+the teacher will present a challenge.
+
+Let's call it x
+
+and R n,
+
+and the learner will respond with
+
+sign
+
+of w inner product x.
+
+So really, the learner
+is just going to use
+
+his current state
+
+as it's guess to what
+the true half space is
+
+and just reply with sign of w dot x.
+
+So,
+
+oops, oh no.
+
+Sorry about that.
+
+So what happens, so of
+course if no mistake is made,
+
+then the learner will
+not update his state.
+
+If a mistake is made,
+
+there'll be two cases.
+
+Case one,
+
+x
+
+was truly
+
+a negative
+
+example.
+
+So we said positive but x
+was truly a negative example.
+
+Then the update is going to be w new,
+
+our new state
+
+will be the old state
+
+minus x.
+
+And case two,
+
+x was truly a positive example.
+
+Then w new
+
+will be w old
+
+plus x.
+
+And that's it.
+
+It's a very simple additive update rule.
+
+So every time we make a mistake,
+
+if it was a negative example,
+
+we'll subtract x from
+our current hypothesis
+
+and if x was truly a positive example,
+
+then we'll just add x to
+our current hypothesis
+
+and we'll continue on like that.
+
+Are there any questions about
+the perceptron algorithm?
+
+Does the update rule make sense?
+
+Okay, great.
+
+So here's an equivalent way
+to view the update rule.
+
+Every time we make a mistake,
+
+w new
+
+will be set to w old
+
+plus
+
+y times x.
+
+And remember, y is the label.
+
+So for example,
+
+if x was a negative example,
+then y will be negative one
+
+so we'll end up subtracting x
+from our current hypothesis.
+
+If x was a positive example,
+
+the y will be plus one
+
+and so we'll add x to
+our current hypothesis.
+
+So we can just view the update rule
+
+as simply adding y times x
+to our current hypothesis
+
+every time we make a mistake.
+

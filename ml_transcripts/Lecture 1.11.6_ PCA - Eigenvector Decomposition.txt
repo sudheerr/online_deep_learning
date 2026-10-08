@@ -1,0 +1,181 @@
+♪ (jazz music) ♪
+
+Okay, so to recap,
+
+PCA is one,
+
+subtract the mean
+
+from your data.
+
+Normalize the columns
+
+of your data.
+
+And then compute the eigenvalue,
+
+eigenvector decomposition
+
+of your matrix
+
+Q D Q transpose.
+
+And the first K rows
+
+of Q transpose
+
+are the k eigenvectors
+
+you're looking for.
+
+These are the k, top k,
+
+principal components.
+
+So I guess we should,
+does this make sense?
+
+I guess we should prove
+
+that the ith row of Q transpose
+
+is an eigenvector of A.
+
+How do we prove that,
+
+it's a little hard to read,
+
+how do we prove that the ith
+row of Q transpose is actually,
+
+we should just formally prove that,
+
+the eigenvectors can just be read off
+
+this eigenvector decomposition.
+
+How do we prove that the
+ith row of Q transpose
+
+are eigenvectors of A?
+
+Yes?
+
+>> I think the idea is that,
+
+when you take the ith row,
+
+and you multiply it by
+the diagonal matrix,
+
+which contains all the eigenvalues of A,
+
+then that vector will only
+be scaled by the specific,
+
+will only be scaled by the ith column,
+
+which corresponds to the ith eigenvalue,
+
+which means that it's an
+eigenvector by definition.
+
+>> Right, so I'm just going to write
+
+algebraically what you said.
+
+Okay, so the ith row
+
+of Q transpose is equal to Q times ei.
+
+So let's just multiply A times Q times ei.
+
+This is equal to Q D Q transpose Q ei.
+
+This is equal to Q D ei,
+
+because Q transpose Q
+is the identity matrix,
+
+and this is equal to, since
+D is a diagonal matrix,
+
+this is equal to lambda i,
+
+times Q, times ei.
+
+Okay, so we showed that A times Q ei
+
+is actually equal to lambda i times Q ei.
+
+This proves that Q times
+ei is an eigenvector of A,
+
+and so once you have
+this nice decomposition,
+
+you can just read off the,
+
+the principal components of your matrix.
+
+Okay, so how do we compute
+
+this decomposition?
+
+What algorithm should we use
+
+to actually find this
+eigenvector/eigenvalue decomposition?
+
+Well, it turns out that,
+
+there's another problem.
+
+And we'll talk about it a little bit later
+
+called the singular value decomposition,
+
+or SVD.
+
+So there's another problem called
+
+the singular value
+decomposition of a matrix,
+
+and if you can compute the singular value
+
+decomposition of a matrix,
+
+then you will get the eigenvector,
+
+eigenvalue decomposition of your matrix.
+
+However, so it's known,
+
+there are polynomial time algorithms
+
+for computing the SVD.
+
+But typically in practice,
+
+these are very expensive algorithms.
+
+They sort of require a
+lot of matrix operations,
+
+and we'd rather avoid
+that for large data sets.
+
+So typically, you wouldn't use
+
+a polynomial time algorithm
+for computing the SVD
+
+to actually compute the
+eigenvector decomposition.
+
+There's another method
+that's used in practice,
+
+called the power method.
+

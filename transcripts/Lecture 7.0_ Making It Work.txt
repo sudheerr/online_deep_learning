@@ -1,0 +1,107 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So in this section we're going to look at how to make deep learning work in practice.
+
+Now you know all the basics. You know sort of how to design models.
+
+You know how optimization works. Um, and sort of in homeworks, you already sort of looked at sort of how do you train these models,
+
+uh, and apply these optimizers to actually get sort of models that fit well.
+
+And if you want to apply this to a new problem, sort of the intuitive way.
+
+Uh, and especially if you sort of come from a software engineering background,
+
+an intuitive way to do this is sort of, well, you figure out what problem you want to solve.
+
+You sort of this is the thing I want to build. Now, what do you need to do to the machine to make machine learning work?
+
+Well, you need data. So let's go collect some data. Maybe we'll look at the data.
+
+It's always a good idea to look at the data. We'll build our model, will train our model, and we're done.
+
+Right. That's sort of that's how software engineering works in in in sort of a.
+
+To some approximation. Instead of you set up your goals, your specs.
+
+You start coding, you build up this, this, the the infrastructure, and at some point you're done.
+
+Yeah, you have unit tests and you make sure it doesn't regress over time as you build other things.
+
+But machine learning is at least very different from this.
+
+This sort of stream of.
+
+Let's make this work. Sort of from collecting data, looking at your data, designing model, training the model and applying into the real world.
+
+Well, do you think this is this is like, when will this work? And the answer is it will almost never work.
+
+I can guarantee you. Like, okay, maybe there is some simple problems where this will work.
+
+Where are you? Sort of super lucky. And the first time you do this, everything is just going to work out fine.
+
+But in practice, this entire design of your network is going to be an iterative process.
+
+And so making deep learning work in practice is really going to sort of involve a lot of iterations.
+
+A you're going to iterate a lot on sort of your data and just building your base model.
+
+Like your first model that you design is most likely not going to work well,
+
+and you have to sort of continuously iterate on making your model better and better and better.
+
+Now. Training might also not work very well and training not working well really has sort of two parts to it.
+
+Um, you might not be able to fit the data that you have set up,
+
+and you might not be able to train the model there might just like your optimizer might not be able to come up with good parameters for your model.
+
+That's sort of what we cover in the second part of this segment.
+
+And the third thing is like maybe training actually seems to work well, but it doesn't yield a model that works well in practice.
+
+Uh, and this is often referred to as overfitting.
+
+And so the process of making a model work in practice really is sort of has a lot to do with sort of collecting your data.
+
+Right. Designing your network properly, also understanding what's inside of the network.
+
+Then making sure training works and sort.
+
+So you have an optimizer and sort of, uh, sort of, I guess, the right network structure to actually fit your data.
+
+And once you're able to fit your data, you'll want to make sure that you do not overfit,
+
+meaning that you have a model that generalizes to data it has not seen.
+
+Now for this class. Uh, a lot of this can be done relatively ad hoc.
+
+Uh, we'll teach you sort of the basic principles. If you ever going to apply this in a larger project in industry.
+
+It is extremely important that you set this up using sort of standardized metrics that you'll sort of measure how well you're training,
+
+uh, that you measure sort of how well you're fitting your data.
+
+And you make this extremely like you make this comparable between all possible different, uh, knobs that you like, did your turning.
+
+And it's important that you sort of get in a mindset that I'm not going to be able to solve this problem just in one go.
+
+And so I need to set up infrastructure. I need to set up sort of metrics to measure how well I'm doing, and then I'm just turning these cranks.
+
+I'm turning the crank on set of the data collection and model design.
+
+I'm turning the crank on training, and I'm currently turning the crank on to trying to get better and better generalization.
+
+And as you're turning these cranks, you need metrics to tell you if you're making progress towards getting a good model or not.
+
+Right. So again, for this class, we'll not focus heavily on metrics.
+
+Um, but we'll sort of teach you the basics on what you need to do to sort of get the model ready, get the data ready.
+
+What do you need to do to sort of get training to work very well?
+
+And then finally, what do you need to do to prevent overfitting?
+
+And we'll go do through this instead of one segment at a time.
+
+Right. That's it.
+

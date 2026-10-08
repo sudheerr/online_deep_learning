@@ -1,0 +1,247 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+So in this segment to a look at attention, attention is the basic building blocks of the transformer architecture.
+
+It is you can think of this is similar to convolution. It's just sort of a less structured.
+
+It's a less fixed size uh, operation. Uh, and we'll look at how it works internally now and we'll sort of see how this is a good,
+
+uh, way to sort of parse unstructured, less structured inputs.
+
+We'll start by sort of looking at what inputs were actually considered.
+
+So we're looking at language inputs right now. And language is relatively messy.
+
+Um, we can construct something like a syntax tree, which is sort of it groups together, uh,
+
+different words that might have sort of a joint and what might make up a joint meaning.
+
+But these syntax trees are actually not universal. And building that is quite hard.
+
+And so relying on having such a syntax tree and then building a model on top is not an ideal solution.
+
+And so what we do instead is we'll find a flexible enough operation.
+
+They can just look at sentences as this flat sequence of either characters words or something in between characters and words,
+
+and we'll feed that to a network that will then sort of process this entire sequence over and over and over again,
+
+the same way we processed images with convolutions over and over again. The only thing that we need to do is we need to define what is this operation?
+
+What is this? This unit? Uh, just this sort of basic operation that we apply to sort of sequences of inputs.
+
+And so this basic operation is a tension. So tension is a set operator that takes as an input a set of feature vectors.
+
+And so you can think of like we can have each word can be associated with a specific feature vector, uh, feature vectors a bunch of numbers.
+
+And what attention does is it sort of reasons over this set of vectors.
+
+And what it then will do once it reasons over the set of vectors is it will sort of exchange information between them.
+
+And then make up a more powerful representation in the next layer.
+
+Right. And so the way this works is we have we split our inputs into three different kinds of inputs.
+
+We'll have values. Sure.
+
+Denoted as v here for each value. We have a key associated with it.
+
+And so you can think of each word has a value which is sort of the meaning of the word.
+
+And then it has a key which again is sort of a different projection of the meaning of the word.
+
+Uh, for now you can just think of keys and values could be the same. Uh, they will be later.
+
+Different later. Right. And so these are the keys and values.
+
+And now we have something that's equivalent to, uh, two keys, which we'll call queries.
+
+And so what this query does is it allows us to exchange information from keys with associated values to this query.
+
+Um.
+
+One way to think of this is sort of this methodology comes, uh, comes from sort of from databases where you can have a database with keys and values.
+
+And so what we'll do is we'll retrieve a bunch of keys that are close by, and we'll give you the values of these keys.
+
+And so you can think of this is this here is the mathematical or sort of the deep learning equivalent of this concept.
+
+And so we'll do is we'll start with a query Q.
+
+Now this query will measure the distance from itself.
+
+To all the keys. So we'll go.
+
+Key after key after key until computer will compute the cosine distance, which is the dot product between the two vectors.
+
+We'll normalize this by the length of the vector. This is just sort of a trick that people found out to work well.
+
+We'll exponentiate this and we'll normalize this.
+
+And so for those of you who sort of remember what, uh, how we parametrized probabilities, you might notice that this is actually the softmax operator.
+
+So we're computing a softmax between a single query and its distance to all the keys.
+
+So this will give us a set of weights. Alpha I.
+
+Or alpha one to alpha N. These weights are always positive and they will sum up to one.
+
+And so what we do is we'll just compute the weighted average of the values.
+
+And the weight here is if a key is close by its value will have a high weight.
+
+If a key is very far away, if the dot product is close to, uh, close to zero or even negative,
+
+um, then it will have almost no impact into on this on this weighted sum.
+
+Right. So that's the attention. Operator. So we'll have.
+
+A query. It will look at keys, see what's close by, and then retrieve a weighted average of everything that's close by.
+
+And it will retrieve a weighted average of the values of elements that are close by.
+
+Now most often will actually write attention as a matrix operator where we don't just have one query, we have a set of M queries.
+
+We'll now compute distances between all queries and all keys.
+
+Just to note it here will again normalize this. Then we'll compute the softmax.
+
+And so the softmax for each query. It will normalize the weights to be to sum up to one.
+
+And then we'll retrieve the weighted average of the values.
+
+Using the output of the softmax as weights.
+
+And so in this operation we'll have values and keys be matrices.
+
+And these matrices are really sort of number of elements times channel.
+
+And then we have queries. That also matrix and the output of this entire operator is going to be another
+
+matrix where we have m elements and m comes from the number of queries here.
+
+And then we have C outputs here. And C comes from the dimensionality of the value.
+
+Now in theory you can make the number of channels between values and keys different.
+
+Uh and then you would have uh, sort of the number of channels of the values as an output.
+
+Uh, in practice we actually keep them all the same, just because it's easier to think about it this way.
+
+But it is possible to make this here C2. And then you will get a C2 down here.
+
+All right. So now we have an operator that takes in a set of values.
+
+It takes in. It associates keys to all of these values. And then we have a set of queries that can attend to these keys.
+
+Now, this is a very general operator. Um, and it can really sort of model arbitrary interactions between sequences.
+
+You can think of what we can do now is we can take our language task.
+
+And we'll split our input sentences into parts.
+
+We can start out by sort of splitting into characters that will just make it a very long sequence.
+
+But each element only has 256 possible values.
+
+We can split the sequence into words, which makes it a lot more compact,
+
+but depending on what language you use, you can actually have a lot of different potential words.
+
+And so you would have a lot of options for your for your sort of.
+
+For each of the elements here. Or you can use something in between, which is often called tokenization,
+
+which is you can use parts of words and split the sequence into parts of words.
+
+And almost always, uh, you will see language models use tokenized inputs.
+
+Right. And so we'll start out with this. So we'll split our sentence into sort of elementary units of sort of parts of sentences.
+
+The sequence can have an arbitrary length. Uh, for long second sentence, it's going to be longer for a short sentence is going to be shorter.
+
+Now we'll take each part and we'll embedded.
+
+Now, what an embedding is, is it's just we associate a certain set of feature vectors with a specific input.
+
+So let's say we tokenized according to to words.
+
+What the embedding would do it will associate. Some feature.
+
+Lets say we'll have 101. To the word my.
+
+And then if we look at the word kid. We'll have some arbitrary other embedding, let's say.
+
+050. And so on.
+
+And if you repeated Molly again, you would have exactly the same embedding again.
+
+So this is really just sort of representing each input with a feature vector.
+
+Right. And so this will allow us to look at the sentence and then translate it into something that network understands.
+
+All right. And now the last step is we can take this embedded feature and just feed it through the attention mechanism by just making queries,
+
+keys and values all equal to this embedding.
+
+Right.
+
+So this will allow us to use a sentence to take a sentence, convert it into sort of a bunch of numbers that have a certain meaning to the network.
+
+And then feed it through a layer that can learn to relate these numbers with one another.
+
+Right. So this is sort of the basic setup on how we use attention to pass inputs.
+
+We look at inputs, we embed them and then we feed it through attention.
+
+And attention will sort of learn to mix these values.
+
+Now there's two different kinds of, uh, attention mechanisms that we commonly use in deep learning.
+
+One is called self-attention, which is what I just explained to you,
+
+which is where we said keys, queries and values all to the same, back to the same input.
+
+So we use a certain input x for keys, queries and values.
+
+And then there's cross attention which actually uses two different inputs.
+
+Let's call them x and z. We'll.
+
+Have one input, let's say x form the keys and the values, and then we'll have the second input form the queries.
+
+And so this will allow us to have attention. Look at values from a different set.
+
+Retrieve them. And now for each input in in Z we will get an output.
+
+Just down here. Right. So both are used pretty heavily.
+
+Self-attention is used uh, in in in natural language modeling a lot,
+
+and the cross attention is used a lot in advanced computer vision applications where sort of we want either a language model to attend to some,
+
+uh, visual inputs, or we would want some abstract, um, abstract sort of set of tokens or queries to attend to sort of an image.
+
+Uh, and so this is often done in object detection where cross attention is used to sort of transform.
+
+Image features into actual detections or actual boxes of objects.
+
+Now, both are fairly commonly used and the only difference between them is is the input the same?
+
+If the input is the same, then it's self-attention. If the input is not the same, then it's cross attention.
+
+And so for self-attention q k and we all have the same number of elements for cross attention k and we have the same number of elements.
+
+And q can have a different number of elements. All right.
+
+And so that's it for the basics. Uh attention operator.
+
+Attention is a software set operator. Um, which allows us to sort of reason over sets of elements.
+
+It attention doesn't care how big this set is. It will just relate individual elements in this set with one another.
+
+Attention takes three inputs queries, keys and values.
+
+And depending if the queries come from the same set, uh, keys and values, then it's self-attention.
+
+If it comes from a different set, it's cross attention. If that's it.
+

@@ -1,0 +1,311 @@
+♪ (jazz music) ♪
+
+Okay, so let's look at
+some different losses.
+
+Let's introduce a few losses.
+
+I think the losses that we'll look at,
+
+will be something called
+the logistic loss,
+
+which as you know doubt may have guessed,
+
+has something to do with
+logistic regression.
+
+I'll also mention, hinge
+loss is a commonly used loss
+
+in many machine learning packages,
+
+and I'll mention the exponential loss.
+
+Okay, so let's look at the logistic loss.
+
+It takes an input Z and it
+outputs log of one plus,
+
+E to the minus Z.
+
+Okay, so one thing you'll notice,
+
+let's imagine that we put in logistic of Y
+
+times W transpose Yi, W transpose Xi.
+
+So, this will be equal to log
+of one plus, E to the minus
+
+Wi times W transpose Xi.
+
+What can you say about this loss?
+
+When will this loss be small
+and when will this loss
+
+be large, for a given point Xi, Yi?
+
+Yes.
+
+>> Will the loss be max
+
+or like, very large when
+our Z term is negative?
+
+So, if we get an incorrect answer,
+
+and also will be small if
+our answer is positive,
+
+so that E goes to a negative power.
+
+>> Good.
+
+So, if this quantity Yi, W transpose Xi
+
+and this is often referred to as margin.
+
+So, if this quantity is negative,
+
+let's say it's much less than zero,
+
+that means, that W transpose Xi,
+
+has a different sign than Yi.
+
+So, your current guess for
+the right linear function W,
+
+if it's very, very negative,
+it means is very, very
+
+wrong on this point, Yi.
+
+And this implies via logistic, is large.
+
+Because if it's very
+negative, it will cancel out
+
+this negation here.
+
+And likewise, it is very positive,
+
+it implies that via logistic,
+is small, moving to zero.
+
+Okay.
+
+So, those are good properties
+
+that we want in a loss function.
+
+It's outputting large values when your W
+
+is making a mistake, and
+small values otherwise.
+
+Okay, great.
+
+Hinge loss.
+
+This is equal to the max
+of one minus Z, and zero.
+
+Okay.
+
+So, let's look at Fi
+hinge of W transpose Xi.
+
+Whoops.
+
+Okay.
+
+When will this be small and
+when will this be large?
+
+And why?
+
+Yes.
+
+>> It can be very large
+when Z is negative,
+
+first of all, because you're
+subtracting a negative
+
+thing from one which is a
+very large positive number.
+
+>> Right.
+
+That's right.
+
+(student speaks faintly)
+
+Hold on.
+
+So, it's going to be large,
+when W transpose Xi is negative
+
+because then, you have one
+minus a very negative value,
+
+so it's going to be very large.
+
+That's good.
+
+And small.
+
+What were you saying?
+
+Sorry to interrupt you.
+
+>> I was going to say, if X is,
+
+Sorry.
+
+If Z is a very large positive
+number, it will be zero
+
+because the other term will be negative.
+
+Just barely positive, you get something
+
+that's barely positive.
+
+>> Good.
+
+So, it's if Wi,
+
+Sorry.
+
+Excuse me.
+
+If Yi times W, transpose
+Xi is very positive,
+
+intuitively, that means
+that our margin is large,
+
+that we're classifying
+the point correctly,
+
+then we're going to get one,
+minus something positive,
+
+we'll get something negative,
+and so our loss will be zero.
+
+Now, there is a chance for example,
+
+if this quantity is positive.
+
+But say, one half, then we are going
+
+to still absorb some loss.
+
+A loss would be one half in that case,
+
+even though the sign is correct.
+
+So, you notice a difference already there,
+
+from the 0-1 loss, to
+something like hinge loss.
+
+Even when the sign is correct, hinge loss
+
+is still going to have some penalty.
+
+It's still going to be positive.
+
+As I said, we have to have some sort of
+
+relaxation of the 0-1 loss.
+
+So, this is a natural way to go.
+
+Okay.
+
+And then, we also have
+the exponential loss.
+
+Is equal to E the minus Z.
+
+And it also has similar, nice properties.
+
+I guess we could try and
+graph some of these losses.
+
+Whoops.
+
+So, let's use different colors.
+
+So, logistic loss.
+
+Let's see if I can draw this correctly.
+
+So, this is logistic.
+
+And on our x-axis here, we have Z equals Y
+
+times W transpose X.
+
+So, x-axis.
+
+And then we could draw
+the exponential loss.
+
+Something like that.
+
+Sorry for my poor handwriting.
+
+Does anyone want to try
+and tell me what the,
+
+hinge loss look like?
+
+What's the general shape of hinge loss?
+
+Yes.
+
+>> From minus infinity to one,
+
+is going to have a line like this,
+
+and from one to infinity, it's zero.
+
+>> Right.
+
+So, it's going to be a straight line,
+
+because it's one minus Z,
+and then it'll be zero.
+
+So, this is my artist interpretation.
+
+I should've used this.
+
+Okay.
+
+So, let me,
+
+Sorry, let me write this in.
+
+There's hinge loss.
+
+There's X loss.
+
+Okay.
+
+So, we have a bunch of different losses.
+
+As I said, we're doing
+logistic regression.
+
+So, no surprise.
+
+We're going to focus on the logistic loss.
+

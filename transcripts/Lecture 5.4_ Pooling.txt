@@ -1,0 +1,157 @@
+[Auto-generated transcript. Edits may have been applied for clarity.]
+Think. All right.
+
+So we've just looked at convolution, which is this operator, uh, where we slide sort of a window over an image or an image like input.
+
+And every single time we apply a linear operator, sort of a linear transformation to that image.
+
+We sort of looked at the this linear operator is usually called like sliding a kernel over the image.
+
+That's the sort of the linear aspect of it.
+
+Um, that we have a kernel size and sort of as we do this, we get sort of an output that still has some spatial structure.
+
+We've looked at sort of all the parameters that we can give this, this convolution, all the hyper parameters that we can give.
+
+This convolution can have a certain stride, a kernel size, uh, output channels,
+
+groups and padding, which are usually just sort of tied to the first two stride and kernel size.
+
+And sort of we have looked at this from the lens of sort of just taking patches and processing patches.
+
+Now, if you look at this mathematically, what this actually does is it's an operator that extracts a patch out of an image.
+
+It's a patch of size H by W, which is our kernel size.
+
+It flattens this flattens it out. And then we apply a linear transformation to this sort of patch that is flattened out into just a vector of values.
+
+Now. There's really no good reason why linear operators, linear operations should be the only thing we are allowed to apply to these patches.
+
+It should be, uh, should be possible to actually apply any function the same way.
+
+Apply convolution. We could have any function that applies to this flattened sort of patch that we extract from the image.
+
+And then we'll put the output of that function back in some spatial location.
+
+And so. It should be possible to take convolution, remove all the linear transformations, and just replace it with a function f.
+
+Now if we wanted to model convolution that way and f would just be so w x plus b, which is a linear transformation.
+
+Um, but we should be able to put arbitrary arbitrary functions in there.
+
+And that is known as pooling. Um, sort of taking patches out of an image and applying functions other than linear transformations to it.
+
+Now for pulling. Uh, we still have some parameters. We have a stride, we have a kernel size, and we have padding.
+
+We no longer have the parameter for grouping. We no longer have a parameter for output channels,
+
+because these were specific operations that we applied to the specific parameters that we had for the linear operation.
+
+So the easiest possible pooling operator for an operator is max pooling,
+
+where we just take the function f to be a channel wise max over sort of the input patches.
+
+So for each channel, we'll now select the maximum, um, sort of value within a certain window.
+
+And here you can see max pooling if the window size is.
+
+Or the kernel size is two by two. And if the kernel size is three by three, this would be sort of the output of max pooling.
+
+The max pooling also allows for for padding. We can again pad with sort of a value of zero.
+
+Uh or we can pad with a value of sort of close to negative infinity.
+
+And that way the max will never be padding, will never, never be chosen in the max itself.
+
+Now a fun fact about the max. It's a non-linear operator. Um, and so sort of.
+
+We'll look at this a bit later,
+
+but it is possible to just have maxpooling and convolutions in a network and then build this deep network that just does max and and and convolution.
+
+Um, that's because max is a non-linear operation. Another popular choice of pooling is average pooling,
+
+where sort of the function that we slide over the image is the mean function or the average function, where we compute the average of all the pixels.
+
+Uh, this could in theory be uh, expressed uh, stepwise convolution,
+
+where the weight is really just sort of one over the uh, width and the height sort of in this, in this kernel.
+
+That's just us averaging. This is a linear operation.
+
+Um. It is still often implemented as sort of a separate pooling operation.
+
+Now that is pooling. When we go look at sort of slide functions over windows and uh, in an image or image like input.
+
+Um, there is also a different form of pooling that is sort of very related, uh, but shouldn't be confused, which is global pooling.
+
+Um, and in global pooling we essentially flatten out the entire input and then apply this function f to this flattened input.
+
+Um, you can think of this. This is the same as this windowed pooling, uh,
+
+or this regular pooling where the width and the height of the kernel or the operation that we apply is just the entire image.
+
+Uh, in this case, for global pooling, there is no striding, no kernel size, no padding.
+
+Um, it's just sort of one global operation. Here we apply.
+
+And what this will do is it will take sort of inputs that are spatial, like an image,
+
+and it will compress it down into just one single output that no longer has a spatial dimension.
+
+Now pooling. It used to be very popular to pull in convolutional networks, uh, or in deep networks.
+
+Overall, it has become less and less popular, uh, as sort of networks became simpler and they became sort of other structures, uh, started to emerge.
+
+So regular pooling is almost never used anymore.
+
+Um, it has been historically historically used inside max pooling has historically been used, has been used inside of networks, uh, sort of.
+
+Initially. To just reduce the size of the image.
+
+So early deep networks or early convolutional networks didn't never stride convolutions.
+
+They always stride at the max pool to reduce dimensionality.
+
+Um, that is no longer used. Now we just stride convolutions and have non-linearities in there.
+
+Not max pool, but just regular non-linearities that are point or element wise.
+
+Um, sort of. One of the coolest experiments is that, um, it is actually possible to,
+
+to build deep networks without rectified linear units with just convolutions and max pooling.
+
+And they work. They work reasonably well. Um, they work sort of close to the state of the art about eight years ago, uh,
+
+sort of where you just sort of alternate between max pooling, convolution, max pooling, convolution.
+
+Um. Again. Nowadays this is no longer used.
+
+You might still see it in some networks that sort of were designed a while ago.
+
+Global pooling is still used, um, and is used to remove spatial dimensions.
+
+Um, and it has two uses. It's either sort of for averaging outputs of a convolutional network at the very, very, very end.
+
+Sort of. Let's say we feed an image through a convolutional network.
+
+The output will still be some little tiny image of different channels or different predictions.
+
+And global average pooling in the end, is just used to get this down to just a single prediction if you want to classify the image.
+
+Um, it also has a use, uh, this, uh,
+
+global max pooling has a use in point cloud processing where we have variable size inputs and max pooling allows
+
+us to sort of condense variable size inputs into just a single value that we can go and process further.
+
+And so these global pooling operations, uh, still have sort of a use, um,
+
+even though like overall the use cases for pooling are shrinking, uh, more and more.
+
+And so in summary pooling, it's sort of a convolution like operator that allows you to put arbitrary functions inside of this sliding window operator.
+
+Um, it's no longer that popular. Um, and sort of it looks like convolutions with regular linear operators are used more, way more often.
+
+That's it.
+
