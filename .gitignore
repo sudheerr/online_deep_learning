@@ -1,4 +1,17 @@
-/homework2/classification_data
-/homework2/__MACOSX
+# data and course material
+classification_data/
+__MACOSX/
 /notes
 
+# python
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+
+# training outputs
+logs/
+*.zip
+
+# tools
+.idea/
+.claude/

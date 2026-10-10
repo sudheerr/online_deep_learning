@@ -7,7 +7,7 @@ import torch
 import torch.utils.tensorboard as tb
 
 from .models import ClassificationLoss, load_model, save_model
-from .utils import load_data
+from .utils import load_data, compute_accuracy
 
 
 def train(
@@ -40,12 +40,14 @@ def train(
     model = model.to(device)
     model.train()
 
-    train_data = load_data("classification_data/train", shuffle=True, batch_size=batch_size, num_workers=2)
+    train_data = load_data("classification_data/train", shuffle=True, batch_size=batch_size, num_workers=0)
     val_data = load_data("classification_data/val", shuffle=False)
 
     # create loss function and optimizer
     loss_func = ClassificationLoss()
-    # optimizer = ...
+    optimizer = torch.optim.SGD(model.parameters(), lr=lr)
+
+    # return
 
     global_step = 0
     metrics = {"train_acc": [], "val_acc": []}
@@ -57,30 +59,50 @@ def train(
             metrics[key].clear()
 
         model.train()
+        correct_predictions = 0
+        total_samples = 0
 
         for img, label in train_data:
             img, label = img.to(device), label.to(device)
 
-            # TODO: implement training step
-            raise NotImplementedError("Training step not implemented")
+            optimizer.zero_grad()
+            outputs = model(img)
+            loss = loss_func(outputs, label)
+            loss.backward()
+            optimizer.step()
+            logger.add_scalar('train_loss', loss.item(), global_step)
+
+            acc = compute_accuracy(outputs, label)
+            metrics['train_acc'].append(acc.item())
+            # # TODO: implement training step
+            # raise NotImplementedError("Training step not implemented")
 
             global_step += 1
+
 
         # disable gradient computation and switch to evaluation mode
         with torch.inference_mode():
             model.eval()
 
+            correct_predictions = 0
+            total_samples = 0
             for img, label in val_data:
                 img, label = img.to(device), label.to(device)
+                outputs = model(img)
+                # loss = loss_func(outputs, label)
+                acc = compute_accuracy(outputs, label)
+                metrics['val_acc'].append(acc.item())
 
-                # TODO: compute validation accuracy
-                raise NotImplementedError("Validation accuracy not implemented")
+                # # TODO: compute validation accuracy
+                # raise NotImplementedError("Validation accuracy not implemented")
 
         # log average train and val accuracy to tensorboard
         epoch_train_acc = torch.as_tensor(metrics["train_acc"]).mean()
         epoch_val_acc = torch.as_tensor(metrics["val_acc"]).mean()
+        logger.add_scalar('train_acc', epoch_train_acc, global_step)
+        logger.add_scalar('val_acc', epoch_val_acc, global_step)
 
-        raise NotImplementedError("Logging not implemented")
+        # raise NotImplementedError("Logging not implemented")
 
         # print on first, last, every 10th epoch
         if epoch == 0 or epoch == num_epoch - 1 or (epoch + 1) % 10 == 0:
